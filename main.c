@@ -262,9 +262,8 @@ int main(void) {
                 riddle("What has a head, a tail, and no body?", "coin", &searchPoints, "Health Elixer");
                 break;
             case 5:
-                chest("Verdent Key", "Diamond Sword ( + 4 damage )", "Verdent", GREEN);
+                chest("Verdent Key", "Diamond Sword ( + 4 damage )", "Verdent", GREEN, searchPoints);
                 maxTurnDamage = 9; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
-                searchPoints++;
                 break;
             default:
                 loreTablet("Spare no thought for those above.\n Through their grace we are evolved.\n Through their plights we are destroyed.");

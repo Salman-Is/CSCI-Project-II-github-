@@ -313,7 +313,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 if (correct == patternLength)
                 {
                     printf("%sPERFECT COUNTER!%s\n", BLUE, NORMAL);
-                    damageToEnemy *= 1.5;
+                    damageToEnemy *= 1.25;
                 }
 
                 // again, this might never happen but I don't want to math it out lol

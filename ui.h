@@ -8,6 +8,6 @@ void statsPage();
 void loreTablet(char text[]);
 void genericLoreResponse();
 void riddle(char message[], char correct[], int *iterate, char reward[]);
-void chest(char key[], char item[], char chestType[], char chestColor[]);
+void chest(char key[], char item[], char chestType[], char chestColor[], int search);
 
 #endif 

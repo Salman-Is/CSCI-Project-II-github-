@@ -298,7 +298,7 @@ void riddle(char message[], char correct[], int *iterate, char reward[]) {
     }
 }
 
-void chest(char key[], char item[], char chestType[], char chestColor[]) {
+void chest(char key[], char item[], char chestType[], char chestColor[], int search) {
     printf("╔══════════════════╗\n");
     printf("╠═════╠══════║═════╣\n");
     printf("║                  ║\n");
@@ -320,6 +320,7 @@ void chest(char key[], char item[], char chestType[], char chestColor[]) {
     {
         printf("You use your %s%s%s to open the chest...\n\n", chestColor, key, NORMAL);
         addItem(item, 0);
+        search++;
     }
     else {
         printf("Find a %s%s%s to open the chest.\n\n", chestColor, key, NORMAL);
