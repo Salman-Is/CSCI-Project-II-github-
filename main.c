@@ -40,6 +40,7 @@ void codeLookup();
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
 int storyProgress = 1;
+int maxStoryProgress = 50;
 int location = 1; // 1=forest, 2=plains, 3=lake 
 
 int battleStart = 0;
@@ -116,9 +117,13 @@ Monster test[] = {
     - Switch case returns the choice
 */
 int options() {
-    printf("\nWhat would you like to do?\n");
-    printf("  [1]    [2]        [3]         [4]       [5]      [6]  \n");
-    printf("[WALK] [SEARCH] [ENCOUNTER] [INVENTORY] [TRAVEL] [STATS]\n");
+    printf("[ Location: %s ] [ Progress: %d / %d ] [ Karma: %d / 100 ]\n", currentLoc, storyProgress, maxStoryProgress, karma);
+    printf("╔═════════════════════════════════════════════════════════════╗\n");
+    printf("║                  What would you like to do?                 ║\n");
+    printf("║                                                             ║\n");
+    printf("║     [1]    [2]        [3]         [4]       [5]      [6]    ║\n");
+    printf("║   [WALK] [SEARCH] [ENCOUNTER] [INVENTORY] [TRAVEL] [STATS]  ║\n");
+    printf("╚═════════════════════════════════════════════════════════════╝\n");
 
     char choice;
     printf("> ");

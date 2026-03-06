@@ -13,20 +13,24 @@
 
 char* areaColor();
 
-char currentLoc[32] = "";
+char currentLoc[32] = "Forest";
 
 /* ================= UI FUNCTIONS ================= */
 void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, char* playerName,int playerHP,int playerMaxHP)
 {
     char* locColor = areaColor();
     printf("It's the %s%s%s's turn...\n\n", RED, enemyName, NORMAL);
-    printf("======================================================================\n\n");
-    printf("[ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
-    printf("Health: [ %d/%d ] Damage: [ %d ] Drop: [ %s%s%s ]\n\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
-    printf("======================================================================\n\n");
-    printf("[ %s%s%s ]\n",BLUE, playerName, NORMAL);
-    printf("Health: [ %d/%d ] Arrow: [ %d ] Sword: [ %d ]\n\n", playerHP, playerMaxHP, maxPlayerTurnDamage, maxTurnDamage);
-    printf("======================================================================\n");
+    printf("╔════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                                                                    ║\n");
+    printf("║ [ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
+    printf("║ Health: [ %d/%d ] Damage: [ %d ] Drop: [ %s%s%s ]\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
+    printf("║                                                                    ║\n");
+    printf("╠════════════════════════════════════════════════════════════════════╣\n");
+    printf("║                                                                    ║\n");
+    printf("║ [ %s%s%s ]\n",BLUE, playerName, NORMAL);
+    printf("║ Health: [ %d/%d ] Arrow: [ %d ] Sword: [ %d ]\n", playerHP, playerMaxHP, maxPlayerTurnDamage, maxTurnDamage);
+    printf("║                                                                    ║\n");
+    printf("╚════════════════════════════════════════════════════════════════════╝\n");
 }
 
 void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, char* playerName,int playerHP,int playerMaxHP)
@@ -43,15 +47,19 @@ void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, ch
     else if (battleStart == 1){
         printf("Its your turn...\n\n");
     }
-    printf("======================================================================\n\n");
-    printf("[ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
-    printf("Health: [ %d/%d ] Damage: [ %d ] Drop: [ %s%s%s ]\n\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
-    printf("======================================================================\n\n");
-    printf("[ %s%s%s ]\n",BLUE, playerName, NORMAL);
-    printf("Health: [ %d/%d ] Arrow: [ %d ] Sword: [ %d ]\n\n", playerHP, playerMaxHP, maxPlayerTurnDamage, maxTurnDamage);
-    printf("======================================================================\n");
-    printf("[ 1 | FIRE ARROW ]     [ 2 | USE ITEM ]     [ 3 | SPARE CREATURE ]\n");
-    printf("======================================================================\n");
+    printf("╔════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                                                                    ║\n");
+    printf("║ [ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
+    printf("║ Health: [ %d/%d ] Damage: [ %d ] Drop: [ %s%s%s ]\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
+    printf("║                                                                    ║\n");
+    printf("╠════════════════════════════════════════════════════════════════════╣\n");
+    printf("║                                                                    ║\n");
+    printf("║ [ %s%s%s ]\n",BLUE, playerName, NORMAL);
+    printf("║ Health: [ %d/%d ] Arrow: [ %d ] Sword: [ %d ]\n", playerHP, playerMaxHP, maxPlayerTurnDamage, maxTurnDamage);
+    printf("║                                                                    ║\n");
+    printf("╠════════════════════════════════════════════════════════════════════╣\n");
+    printf("║ [ 1 | FIRE ARROW ]     [ 2 | USE ITEM ]     [ 3 | SPARE CREATURE ] ║\n");
+    printf("╚════════════════════════════════════════════════════════════════════╝\n");
 }
 
 void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2 inventorys, use 1 for both battle and overworld
