@@ -20,15 +20,13 @@ void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, char* pl
 {
     char* locColor = areaColor();
     printf("It's the %s%s%s's turn...\n\n", RED, enemyName, NORMAL);
+    printf("══════════════════════════════════════════════════════════════════════\n\n");
+    printf("  [ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
+    printf("  Health: [ %02d/%d ] Damage: [ %02d ] Drop: [ %s%s%s ]\n\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
-    printf("║ [ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
-    printf("║ Health: [ %d/%d ] Damage: [ %d ] Drop: [ %s%s%s ]\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
-    printf("║                                                                    ║\n");
-    printf("╠════════════════════════════════════════════════════════════════════╣\n");
-    printf("║                                                                    ║\n");
-    printf("║ [ %s%s%s ]\n",BLUE, playerName, NORMAL);
-    printf("║ Health: [ %d/%d ] Arrow: [ %d ] Sword: [ %d ]\n", playerHP, playerMaxHP, maxPlayerTurnDamage, maxTurnDamage);
+    printf("║ [ %s%s%s ]                                                    ║\n",BLUE, playerName, NORMAL);
+    printf("║ Health: [ %02d/%d ] Arrow: [ %02d ] Sword: [ %02d ]                      ║\n", playerHP, playerMaxHP, maxPlayerTurnDamage, maxTurnDamage);
     printf("║                                                                    ║\n");
     printf("╚════════════════════════════════════════════════════════════════════╝\n");
 }
@@ -47,15 +45,13 @@ void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, ch
     else if (battleStart == 1){
         printf("Its your turn...\n\n");
     }
+    printf("══════════════════════════════════════════════════════════════════════\n\n");
+    printf("  [ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
+    printf("  Health: [ %02d/%d ] Damage: [ %02d ] Drop: [ %s%s%s ]\n\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
-    printf("║ [ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
-    printf("║ Health: [ %d/%d ] Damage: [ %d ] Drop: [ %s%s%s ]\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
-    printf("║                                                                    ║\n");
-    printf("╠════════════════════════════════════════════════════════════════════╣\n");
-    printf("║                                                                    ║\n");
-    printf("║ [ %s%s%s ]\n",BLUE, playerName, NORMAL);
-    printf("║ Health: [ %d/%d ] Arrow: [ %d ] Sword: [ %d ]\n", playerHP, playerMaxHP, maxPlayerTurnDamage, maxTurnDamage);
+    printf("║ [ %s%s%s ]                                                    ║\n",BLUE, playerName, NORMAL);
+    printf("║ Health: [ %02d/%d ] Arrow: [ %02d ] Sword: [ %02d ]                      ║\n", playerHP, playerMaxHP, maxPlayerTurnDamage, maxTurnDamage);
     printf("║                                                                    ║\n");
     printf("╠════════════════════════════════════════════════════════════════════╣\n");
     printf("║ [ 1 | FIRE ARROW ]     [ 2 | USE ITEM ]     [ 3 | SPARE CREATURE ] ║\n");
@@ -67,16 +63,17 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2
     system("cls");
     if (battleStart == 1)
     {
-        printf("+-------------------------------------------+\n");
-        printf("[#] | AVAILABLE ITEMS\n");
-        printf("+-------------------------------------------+\n");
+        printf("╔═════════════════════════════════════╗\n");
+        printf("[#] | INVENTORY                       ║\n");
+        printf("╚═════════════════════════════════════╝\n");
         for(int i = 0; i < inventoryCount; i++)
         {
             if (strcmp(inventory[i].name, "Health Potion") == 0) {
                 printf("[%d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
             } 
-        }                     				 
-        printf("+-------------------------------------------+\n");
+        }        
+        printf("╔═════════════════════════════════════╗\n");             				 
+        printf("╚═════════════════════════════════════╝\n");
         printf("Select item number to use (0 to exit): ");
 
         int choice;
@@ -112,14 +109,15 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2
         }
     }
     else {
-        printf("+-------------------------------------------+\n");
-        printf("[#] | INVENTORY\n");
-        printf("+-------------------------------------------+\n");
+        printf("╔═════════════════════════════════════╗\n");
+        printf("[#] | INVENTORY                       ║\n");
+        printf("╚═════════════════════════════════════╝\n");
         for(int i = 0; i < inventoryCount; i++)
         {
             printf("[%d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
         }                     				 
-        printf("+-------------------------------------------+\n");
+        printf("╔═════════════════════════════════════╗\n");             				 
+        printf("╚═════════════════════════════════════╝\n");
         printf("Select item number to use (0 to exit): ");
 
         int choice;
@@ -138,14 +136,15 @@ void statsPage() {
     else {
         karmaColor = NORMAL;
     }
-    printf("<===========================>\n");
-    printf("CHARACTER STATS\n");
-    printf("<===========================>\n");
+    printf("╔═══════════════════════════════════════════╗\n");
+    printf("║  CHARACTER STATS                          ║\n");
+    printf("╚═══════════════════════════════════════════╝\n");
     printf("Name:        %s%s%s\n", BLUE, playerName, NORMAL);
     printf("%sKarma:       %d%s\n", karmaColor, karma, NORMAL);
     printf("Coins:       %d\n", coins);
     printf("\n");
-    printf("<===========================>\n");
+    printf("╔═══════════════════════════════════════════╗\n");             				 
+    printf("╚═══════════════════════════════════════════╝\n");
     printf("\nPress ENTER to continue...");
     getchar();
     getchar();

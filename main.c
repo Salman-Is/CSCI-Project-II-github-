@@ -117,13 +117,14 @@ Monster test[] = {
     - Switch case returns the choice
 */
 int options() {
-    printf("[ Location: %s ] [ Progress: %d / %d ] [ Karma: %d / 100 ]\n", currentLoc, storyProgress, maxStoryProgress, karma);
-    printf("╔═════════════════════════════════════════════════════════════╗\n");
-    printf("║                  What would you like to do?                 ║\n");
-    printf("║                                                             ║\n");
-    printf("║     [1]    [2]        [3]         [4]       [5]      [6]    ║\n");
-    printf("║   [WALK] [SEARCH] [ENCOUNTER] [INVENTORY] [TRAVEL] [STATS]  ║\n");
-    printf("╚═════════════════════════════════════════════════════════════╝\n");
+    char* locColor = areaColor();
+    printf("[ Location: %s%s%s ] [ Progress: %d / %d ] [ Karma: %d / 100 ]\n", locColor, currentLoc, NORMAL, storyProgress, maxStoryProgress, karma);
+    printf("╔══════════════════════════════════════════════════════════════╗\n");
+    printf("║                  What would you like to do?                  ║\n");
+    printf("║                                                              ║\n");
+    printf("║     [1]    [2]        [3]         [4]       [5]      [6]     ║\n");
+    printf("║   [WALK] [SEARCH] [ENCOUNTER] [INVENTORY] [TRAVEL] [STATS]   ║\n");
+    printf("╚══════════════════════════════════════════════════════════════╝\n");
 
     char choice;
     printf("> ");
@@ -234,7 +235,7 @@ while (storyProgress == X) {
 */
 int main(void) {
     system("cls");
-    system("chcp 65001 > nul");
+    system("chcp 65001 > nul"); // < while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this doesnt count as A level work
     addItem("Health Potion", 1);
 
     srand(time(NULL));
