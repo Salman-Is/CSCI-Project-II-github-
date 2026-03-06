@@ -35,7 +35,7 @@
     - Better travelling system (only to area you alread went to)
     - (You guys can create new features if you're up for it)
 */
-
+void codeLookup();
 
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
@@ -175,6 +175,9 @@ int options() {
         maxPlayerTurnDamage = 10000;
         system("cls");
     }
+    else if (choice == '8'){
+        codeLookup();
+    }
     else {
         system("cls");
         printf("Invalid choice, choose a number.\n");
@@ -274,4 +277,20 @@ int main(void) {
     }
 
     return 0;
+}
+
+void codeLookup() {
+    //find ANSI codes
+    for (int i = 0; i < 99; i++)
+    {
+        // skiiiip
+        if (i == 54)
+        {
+            i = 88;
+        }
+        
+        printf("\x1b[%dm", i);
+        printf("[ %d ] Hello World\n", i);
+        printf(NORMAL);
+    }
 }
