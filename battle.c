@@ -36,7 +36,14 @@
     - (You guys can create new features if you're up for it)
 */
 
-// MAYBE we should move the UI fucntions and the item functions to their own script. 500 is already kind of crazy
+/*
+    >>>>>>>>>>>>>>>> TODO LIST <<<<<<<<<<<<<<<<<
+
+    - Take damage if you don't input pattern in time
+    - Weapon Upgrade function (checks if your damage would benifit from this new weapon before changing damage)
+    - Consequences of Karma (details on text page)
+    - (You guys can create new features if you're up for it)
+*/
 
 /* ================= PLAYER OPTIONS ================= */
 /*
@@ -127,6 +134,11 @@ void removeItem(char* itemName) {
         printf("Item not found in inventory.\n");
     }
 }
+
+void newWeapon(char weaponName[], int weaponDamage) {
+    // check if new weapon damage is more than maxTurnDamage/maxPlayerTurnDamage
+    // Only change maxTurnDamage/maxPlayerTurnDamage to weaponDamage IF its more than maxTurnDamage/maxPlayerTurnDamage
+}
 /* ================= ENCOUNTER FUNCTION ================= */
 void encounter(Monster area[], int count)
 {
@@ -151,7 +163,7 @@ void encounter(Monster area[], int count)
     {
         addItem(enemy.drop, 0);
         addCoins(5, "battle");
-        printf("You defeated the %s%s%s!\n", alignmentColor, enemy.name, NORMAL);
+        printf("You defeated the %s%s%s!\n\n", alignmentColor, enemy.name, NORMAL);
         if (enemy.alignment == GOOD) {
             printf("You killed a %sGOOD%s creature!\n", CYAN, NORMAL);
             grantKarma(0, 5, "An immense guilt weighs upon your soul...");

@@ -2,6 +2,15 @@
 #include "main.h"
 #include "ui.h"
 
+/*
+    >>>>>>>>>>>>>>>> TODO LIST <<<<<<<<<<<<<<<<<
+
+    - Finish STAT screen
+    - Add more events
+    - Better travelling system (only to area you alread went to)
+    - (You guys can create new features if you're up for it)
+*/
+
 /* ================= UI FUNCTIONS ================= */
 void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, char* playerName,int playerHP,int playerMaxHP)
 {
@@ -150,6 +159,11 @@ void statsPage() {
     Press ENTER to return...
     
     */
+}
+
+void healthBar(int enemyHP,int enemyMaxHP, int alignment,int playerHP,int playerMaxHP) {
+    // looks like this: HP: 20/25 [####################-----]
+    // idk maybe it's unecessary but it would be cool
 }
 
 /*================= EVENT FUNCTIONS ================= */
@@ -326,3 +340,4 @@ void chest(char key[], char item[], char chestType[], char chestColor[], int sea
         printf("Find a %s%s%s to open the chest.\n\n", chestColor, key, NORMAL);
     }
 }
+

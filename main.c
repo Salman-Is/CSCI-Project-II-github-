@@ -3,6 +3,7 @@
 # include <stdlib.h>
 # include <time.h>
 # include <ctype.h>
+
 #include "battle.h"
 #include "main.h"
 #include "ui.h"
@@ -66,29 +67,32 @@ int worldState = 1;
 //                                 vvvv                       vvvvv                    vvvvv
 char availableLocations[16][16] = {"Forest", "Plains", "Lake", "Caves", "Mountains", "Test"};
 
+// Name, difficulty, pattern size, HP, ATK, alignment, drop
+
 Monster forest[] = {
     {"Lumora", 1, 3, 10, 3, GOOD, "Lumora Wing"},       // Easy, 3-letter pattern 
-    {"Deer", 1, 5, 20, 3, GOOD, "Leather"},       // Easy, 5-letter pattern
+    {"Deer", 1, 5, 20, 4, GOOD, "Leather"},       // Easy, 5-letter pattern
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"},       // Easy, 5-letter pattern
-    {"Flagon", 2, 5, 25, 7, EVIL, "Ember Scale"}       // Medium, 5-letter pattern
+    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"}       // Medium, 5-letter pattern
 };
 
 // Plains monsters
 Monster plains[] = {
-    {"Snarlbeast", 2, 4, 30, 7, EVIL, "Beastly Tooth"},
+    {"Snarlbeast", 2, 6, 30, 7, EVIL, "Beastly Tooth"},
     {"Nimora", 1, 5, 10, 3, EVIL, "Nimora Wing"},
-    {"Grass Troll", 2, 4, 30, 5, EVIL, "Scrap Metal"},
-    {"Mossback", 1, 7, 50, 3, GOOD, "Fossilized Moss"}
+    {"Grass Troll", 2, 5, 30, 5, EVIL, "Scrap Metal"},
+    {"Mossback", 1, 8, 50, 3, GOOD, "Fossilized Moss"},
+    {"Great Stag", 3, 8, 35, 6, GOOD, "Antlers"}
 };
 
 // Lake monsters
 Monster lake[] = {
-    {"Turtle", 1, 3, 40, 5, GOOD, "Shell Shard"},
+    {"Turtle", 1, 5, 40, 5, GOOD, "Shell Shard"},
     {"Lake Serpent", 2, 5, 25, 10, EVIL, "Venom Vial"},
     {"Kraken", 3, 5, 35, 10, EVIL, "Calamari"},
-    {"Ripplet", 2, 4, 15, 5, GOOD, "Shiny Scale"},
-    {"Glowfin", 3, 3, 15, 7, EVIL, "Luminous Scale"},
-    {"Oozard", 4, 3, 15, 8, EVIL, "Gelatinous Mass"}
+    {"Ripplet", 2, 5, 15, 5, GOOD, "Shiny Scale"},
+    {"Glowfin", 3, 5, 15, 7, EVIL, "Luminous Scale"},
+    {"Oozard", 4, 5, 15, 8, EVIL, "Gelatinous Mass"}
 };
 
 // Cave monsters
@@ -258,7 +262,7 @@ int main(void) {
                 riddle("What has a head, a tail, and no body?", "coin", &searchPoints, "Health Elixer");
                 break;
             case 5:
-                chest("Verdent Key", "Diamond Sword ( + 4 damage )", "Verdent", GREEN, searchPoints);
+                chest("Verdent Key", "Forest Sword ( + 4 damage )", "Verdent", GREEN, searchPoints);
                 maxTurnDamage = 9; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
                 break;
             default:
@@ -271,4 +275,3 @@ int main(void) {
 
     return 0;
 }
-
