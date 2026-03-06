@@ -27,14 +27,10 @@
     >>>>>>>>>>>>>>>> TODO LIST <<<<<<<<<<<<<<<<<
 
     - Compress other switch cases (Prof Dan's feedback from submission 1)
-    - Take damage if you don't input pattern in time
-    - Weapon Upgrade function (checks if your damage would benifit from this new weapon before changing damage)
-    - Finish STAT screen
     - Story
     - More regular monsters
     - Boss monsters
     - Tutorial (and a way for the player to choose a name)
-    - Consequences of Karma (details on text page)
     - Better travelling system (only to area you alread went to)
     - (You guys can create new features if you're up for it)
 */
