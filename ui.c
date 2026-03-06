@@ -11,12 +11,17 @@
     - (You guys can create new features if you're up for it)
 */
 
+char* areaColor();
+
+char currentLoc[32] = "";
+
 /* ================= UI FUNCTIONS ================= */
 void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, char* playerName,int playerHP,int playerMaxHP)
 {
+    char* locColor = areaColor();
     printf("It's the %s%s%s's turn...\n\n", RED, enemyName, NORMAL);
     printf("======================================================================\n\n");
-    printf("[ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL);
+    printf("[ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
     printf("Health: [ %d/%d ] Damage: [ %d ] Drop: [ %s%s%s ]\n\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
     printf("======================================================================\n\n");
     printf("[ %s%s%s ]\n",BLUE, playerName, NORMAL);
@@ -26,6 +31,7 @@ void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, char* pl
 
 void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, char* playerName,int playerHP,int playerMaxHP)
 {
+    char* locColor = areaColor();
     if(battleStart == 0){
         char* alignmentText = (alignment == GOOD) ? "GOOD" : "EVIL";
         char* alignmentColor = (alignment == GOOD) ? CYAN : RED;
@@ -38,7 +44,7 @@ void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, ch
         printf("Its your turn...\n\n");
     }
     printf("======================================================================\n\n");
-    printf("[ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL);
+    printf("[ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
     printf("Health: [ %d/%d ] Damage: [ %d ] Drop: [ %s%s%s ]\n\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
     printf("======================================================================\n\n");
     printf("[ %s%s%s ]\n",BLUE, playerName, NORMAL);
@@ -164,6 +170,39 @@ void statsPage() {
 void healthBar(int enemyHP,int enemyMaxHP, int alignment,int playerHP,int playerMaxHP) {
     // looks like this: HP: 20/25 [####################-----]
     // idk maybe it's unecessary but it would be cool
+}
+
+char* areaColor() {
+    switch (location)
+    {
+    case 1:
+        strcpy(currentLoc, "Forest");
+        return GREEN;
+
+    case 2:
+        strcpy(currentLoc, "Plains");
+        return LIME;
+
+    case 3:
+        strcpy(currentLoc, "Lake");
+        return CYAN;
+
+    case 4:
+        strcpy(currentLoc, "Caves");
+        return DARKBLUE;
+
+    case 5:
+        strcpy(currentLoc, "Mountains");
+        return BLACK;
+
+    case 6:
+        strcpy(currentLoc, "Test");
+        return RED;
+
+    default:
+        strcpy(currentLoc, "Unknown");
+        return NORMAL;
+    }
 }
 
 /*================= EVENT FUNCTIONS ================= */

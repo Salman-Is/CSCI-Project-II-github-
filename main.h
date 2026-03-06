@@ -11,6 +11,12 @@
 #define WHITE "\x1b[37m"
 #define NORMAL "\x1b[m"
 
+// extended pallete
+// https://jakob-bagterp.github.io/colorist-for-python/ansi-escape-codes/extended-256-colors/#examples_2
+#define LIME "\x1b[38;5;40m"
+#define ORANGE "\x1b[38;5;202m"
+#define DARKBLUE "\x1b[38;5;17m"
+
 #define BOLD "\x1b[1m"
 #define UNBOLD "\x1b[22m"
 
