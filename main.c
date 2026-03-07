@@ -251,11 +251,21 @@ int main(void) {
             printf("Deep within the forest, you find a small village.\n");
             printf("Though it was quite humble, it looks as if its been damaged.\n");
             printf("You see a resident nearby, would you like to speak to them?\n");
-            if (questAlignment == 1){
+            char* quest1choice = questAlignment("Help the village", "Pillage them while they're weak");
+            if (strcmp(quest1choice, "GOOD") == 0){
                 printf("good path");
+                karma += 5;
+                // fight monsters to collect materials
+                // set location to 101
+            }
+            else if (strcmp(quest1choice, "EVIL") == 0){
+                printf("evil path");
+                karma -= 15;
+                // fight the guards
+                // set location to 102
             }
             else {
-                printf("evil path");
+                continue;
             }
         }
         else if (navigataionChoice == 2) // SEARCH

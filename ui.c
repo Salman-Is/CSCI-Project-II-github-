@@ -387,41 +387,39 @@ void chest(char key[], char item[], char chestType[], char chestColor[], int sea
     }
 }
 
-int questAlignment(char goodOption[], char evilOption[]) {
-    printf("As The Paladin, it is your job to decide the fate of this world.\n");
+char* questAlignment(char goodOption[], char evilOption[]) {
+    printf("\nAs The Paladin, it is your job to decide the fate of this world.\n");
     printf("In this moment, do you choose to be %sGOOD%s, or %sEVIL%s?\n\n", CYAN, NORMAL, RED, NORMAL);
     printf("[ GOOD | %s ]     [ EVIL | %s ]\n", goodOption, evilOption);
     printf("( Type GOOD or EVIL )\n");
     printf("> ");
 
     int chosen = 0;
+    char choice[32] = "";
+    scanf(" %s", choice);
 
-    while (chosen = 0){
-        char choice[32] = "";
-        scanf(" %c", &choice);
-        for(int i=0;i<(sizeof(choice)/sizeof(choice[0]));i++) {
-            choice[i]=toupper(choice[i]);
-        }
-
-        if (strcmp(choice, "GOOD") == 0)
-        {
-            printf("You have chosen the path of %sGOOD%s\n", CYAN, NORMAL);
-            int chosen = 1;
-            return 1;
-        }
-        else if (strcmp(choice, "EVIL") == 0)
-        {
-            printf("You have chosen the path of %sEVIL%s\n", RED, NORMAL);
-            int chosen = 1;
-            return 0;
-        }
-        else {
-            printf("The path you seek does not exist...\n");
-            printf("In this moment, do you choose to be %sGOOD%s, or %sEVIL%s?\n\n", CYAN, NORMAL, RED, NORMAL);
-        }
+    for(int i=0;i<(sizeof(choice)/sizeof(choice[0]));i++) {
+        choice[i]=toupper(choice[i]);
     }
-    
 
-    
-    
+    if (strcmp(choice, "GOOD") == 0)
+    {
+        system("cls");
+        printf("You have chosen the path of %sGOOD%s\n", CYAN, NORMAL);
+        int chosen = 1;
+        return "GOOD";
+    }
+    else if (strcmp(choice, "EVIL") == 0)
+    {
+        system("cls");
+        printf("You have chosen the path of %sEVIL%s\n", RED, NORMAL);
+        int chosen = 1;
+        return "EVIL";
+    }
+    else {
+        system("cls");
+        printf("The path you seek does not exist...\n");
+        return "bruh";
+    }
+
 }

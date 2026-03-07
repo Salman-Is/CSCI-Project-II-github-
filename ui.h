@@ -12,6 +12,6 @@ void genericLoreResponse();
 void riddle(char message[], char correct[], int *iterate, char reward[]);
 void chest(char key[], char item[], char chestType[], char chestColor[], int search);
 char* areaColor();
-int questAlignment(char goodOption[], char evilOption[]);
+char* questAlignment(char goodOption[], char evilOption[]);
 
 #endif 
