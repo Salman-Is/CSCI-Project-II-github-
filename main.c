@@ -118,7 +118,7 @@ Monster test[] = {
 */
 int options() {
     char* locColor = areaColor();
-    printf("[ Location: %s%s%s ] [ Progress: %d / %d ] [ Karma: %d / 100 ]\n", locColor, currentLoc, NORMAL, storyProgress, maxStoryProgress, karma);
+    printf("\n[ Location: %s%s%s ] [ Progress: %d / %d ] [ Karma: %d / 100 ]\n", locColor, currentLoc, NORMAL, storyProgress, maxStoryProgress, karma);
     printf("╔══════════════════════════════════════════════════════════════╗\n");
     printf("║                  What would you like to do?                  ║\n");
     printf("║                                                              ║\n");
@@ -250,6 +250,13 @@ int main(void) {
         {
             printf("Deep within the forest, you find a small village.\n");
             printf("Though it was quite humble, it looks as if its been damaged.\n");
+            printf("You see a resident nearby, would you like to speak to them?\n");
+            if (questAlignment == 1){
+                printf("good path");
+            }
+            else {
+                printf("evil path");
+            }
         }
         else if (navigataionChoice == 2) // SEARCH
         {
