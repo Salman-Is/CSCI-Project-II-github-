@@ -33,6 +33,7 @@ void addItem(char* itemName, int startingItems);
 void removeItem(char* itemName);
 void grantKarma(int addOrSubtract, int amount, char message[]);
 void encounter(Monster area[], int count);
+int questGauntlet(Monster area[], int count, char groupName[], char locationName[]);
 
 #define FOREST_COUNT sizeof(forest)/sizeof(forest[0])
 #define PLAINS_COUNT sizeof(plains)/sizeof(plains[0])

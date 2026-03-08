@@ -77,6 +77,20 @@ Monster forest[] = {
     {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"}       // Medium, 5-letter pattern
 };
 
+Monster quest1GOOD[] = {
+    {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"},
+    {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"}, 
+    {"Groblin Shaman", 3, 5, 40, 7, EVIL, "Groblin Staff"},   
+    {"Groblin Chief", 3, 5, 35, 10, EVIL, "Groblin Tusk"}
+};
+
+Monster quest1EVIL[] = {
+    {"Adventurer - 'Kalen'", 1, 5, 15, 5, GOOD, "Tunic"},
+    {"Guard - 'Eldric'", 3, 5, 20, 4, GOOD, "Scrap Metal"}, 
+    {"Guard - 'Kaelor'", 3, 5, 20, 4, GOOD, "Scrap Metal"},   
+    {"Knight - 'Halor'", 4, 6, 35, 10, GOOD, "Scrap Metal"}
+};
+
 // Plains monsters
 Monster plains[] = {
     {"Snarlbeast", 2, 6, 30, 7, EVIL, "Beastly Tooth"},
@@ -238,6 +252,12 @@ int main(void) {
     system("chcp 65001 > nul"); // < while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this doesnt count as A level work
     addItem("Health Potion", 1);
 
+    int quest1Flag = 0;
+    int quest2Flag = 0;
+    int quest3Flag = 0;
+    int quest4Flag = 0;
+    int quest5Flag = 0;
+
     srand(time(NULL));
     while (storyProgress == 0)
     {
@@ -251,21 +271,32 @@ int main(void) {
             printf("Deep within the forest, you find a small village.\n");
             printf("Though it was quite humble, it looks as if its been damaged.\n");
             printf("You see a resident nearby, would you like to speak to them?\n");
-            char* quest1choice = questAlignment("Help the village", "Pillage them while they're weak");
-            if (strcmp(quest1choice, "GOOD") == 0){
-                printf("good path");
-                karma += 5;
-                // fight monsters to collect materials
-                // set location to 101
-            }
-            else if (strcmp(quest1choice, "EVIL") == 0){
-                printf("evil path");
-                karma -= 15;
-                // fight the guards
-                // set location to 102
-            }
-            else {
-                continue;
+            if (quest1Flag == 0)
+            {
+                char* quest1choice = questAlignment("Help the village", "Pillage them while they're weak");
+                if (strcmp(quest1choice, "GOOD") == 0){
+                    if (questGauntlet(quest1GOOD, 4, "Groblin", "the Forest Village") == 1) {
+                        quest1Flag = 1;
+                    }
+                }
+                else if (strcmp(quest1choice, "EVIL") == 0){
+                    if (questGauntlet(quest1EVIL, 4, "Warrior", "the Forest Village") == 1) {
+                        quest1Flag = 1;
+                        printf("You defeated every remaining Warrior in the village...\n");
+                        printf("They curse you before they lose consiousness.\n");
+                        printf("You raid their treasure room and take their loot.\n");
+                        addItem("Golden Sword ( + 3 damage )", 0);
+                        addItem("Steel Armor ( + 2 health )", 0);
+                        addItem("Health Elixer", 0);
+                        addItem("Health Potion", 0);
+                        addItem("Health Potion", 0);
+                        addItem("Berzerker Potion", 0);
+                        addCoins(20, "battle");
+                    }
+                }
+                else {
+                    continue;
+                }
             }
         }
         else if (navigataionChoice == 2) // SEARCH

@@ -206,6 +206,78 @@ void encounter(Monster area[], int count)
     getchar();
 }
 
+int questGauntlet(Monster area[], int count, char groupName[], char locationName[]) {
+    time_t start_time, current_time;
+    printf("A quest gauntlet begins!\n");
+    printf("You must defeat every %s in %s...\n\n", groupName, locationName);
+
+    time(&start_time);
+    do {
+        time(&current_time);
+    } while (difftime(current_time, start_time) < 3);
+
+    for(int i = 0; i < count; i++)
+    {
+        Monster enemy = area[i];
+        
+        currentEnemyATK = enemy.atk;
+        currentEnemyHP = enemy.hp;
+        strcpy(currentEnemyDrop, enemy.drop);
+
+        // Determine alignment text (so sparing makes sense to the player)
+        char* alignmentText = (enemy.alignment == GOOD) ? "GOOD" : "EVIL";
+        char* alignmentColor = (enemy.alignment == GOOD) ? CYAN : RED;
+
+        currentEnemyALIGNMENT = enemy.alignment;
+        
+        printf("A %s [%s%s%s] appears before you!\n", enemy.name, alignmentColor, alignmentText, NORMAL);
+
+        int result = runBattle(enemy.name, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0);
+
+        if (result == 1)
+        {
+            addItem(enemy.drop, 0);
+            addCoins(5, "battle");
+            printf("You defeated the %s%s%s!\n\n", alignmentColor, enemy.name, NORMAL);
+            if (enemy.alignment == GOOD) {
+                printf("You killed a %sGOOD%s creature!\n", CYAN, NORMAL);
+                grantKarma(0, 5, "An immense guilt weighs upon your soul...");
+            }
+            else {
+                printf("You killed an %sEVIL%s creature!\n", RED, NORMAL);
+                grantKarma(1, 5, "Justice lifted a weight from your soul...");
+            }
+        } 
+        else if (result == 2) {
+            printf("You spared the %s%s%s!\n", alignmentColor, enemy.name, NORMAL);
+
+            printf("The enemies overrun you. Quest failed...\n\n");
+            return 2;
+        }
+        else 
+        {
+            printf("You were defeated by the %s...\n\n", enemy.name);
+            if (karma > 60)
+            {
+                grantKarma(0, 10, "This death angers your soul...");
+            }
+            else if (karma < 40)
+            {
+                grantKarma(1, 10, "This death makes you empathize with those who can't rise again...");
+            }
+            return 0;
+        }
+
+        printf("\nPrepare for the next enemy...\n");
+        printf("Press ENTER to continue...");
+        getchar();
+        getchar();
+        system("cls");
+    }
+
+    printf("You cleared the entire gauntlet!\n\n");
+    return 1;
+}
 /* ================= MAIN BATTLE FUNCTION ================= */
 
 /**
