@@ -70,7 +70,16 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2
         {
             if (strcmp(inventory[i].name, "Health Potion") == 0) {
                 printf("[%d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
-            } 
+            }
+            else if (strcmp(inventory[i].name, "Health Elixer") == 0) {
+                printf("[%d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
+            }
+            else if (strcmp(inventory[i].name, "Focus Charm") == 0) {
+                printf("[%d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
+            }
+            if (strcmp(inventory[i].name, "Berzerker Potion") == 0) {
+                printf("[%d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
+            }
         }        
         printf("╔═════════════════════════════════════╗\n");             				 
         printf("╚═════════════════════════════════════╝\n");
@@ -105,6 +114,22 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2
             if (*playerHP > playerMaxHP){
                 *playerHP = playerMaxHP;
             }
+            return;
+        }
+        if(strcmp(inventory[choice].name, "Focus Charm") == 0)
+        {
+            system("cls");
+            removeItem("Focus Charm");
+            printf("You used a Focus Charm!\n");
+            critDamage = 2;
+            return;
+        }
+        if(strcmp(inventory[choice].name, "Berzerker Potion") == 0)
+        {
+            system("cls");
+            removeItem("Berzerker Potion");
+            printf("You used a Berzerker Potion!\n");
+            attackBuff = 1.75;
             return;
         }
     }

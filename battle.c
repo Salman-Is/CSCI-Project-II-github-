@@ -45,11 +45,8 @@
     - (You guys can create new features if you're up for it)
 */
 
-/* ================= PLAYER OPTIONS ================= */
-/*
-    - User is prompted with what they want to do
-    - Switch case returns the choice
-*/
+int critDamage = 1.25;
+int attackBuff = 1;
 
 /* ================= ADD AN ITEM FUNCTION ================= */
 // "strcmp" will return: "0" if both variables are the same
@@ -293,6 +290,10 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
 
     int enemyMaxHP = currentEnemyHP;
 
+    // reset buffs
+    critDamage = 1.25;
+    attackBuff = 1;
+
     // 0 if not players turn
     int playerTurn = 1;
 
@@ -385,7 +386,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 }
                 // ----------------- Damage Calculation -----------------
                 // changed because of int division rounding bug
-                int damageToEnemy = (correct * maxTurnDamage) / patternLength;                 
+                int damageToEnemy = (correct * maxTurnDamage * attackBuff) / patternLength;                 
                 int damageToPlayer = ((patternLength - correct) * currentEnemyATK) / patternLength; 
 
                 // juuust in case (idk if this would matter but it might still round to 0)
@@ -397,7 +398,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 if (correct == patternLength)
                 {
                     printf("%sPERFECT COUNTER!%s\n", BLUE, NORMAL);
-                    damageToEnemy *= 1.25;
+                    damageToEnemy *= critDamage;
                 }
 
                 // again, this might never happen but I don't want to math it out lol

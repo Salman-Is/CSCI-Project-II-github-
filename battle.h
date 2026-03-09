@@ -6,7 +6,8 @@
 #include <time.h>
 #include <ctype.h>
 
-
+extern int critDamage;
+extern int attackBuff;
 
 int runBattle(char* enemyName, int difficultyLevel, int patternLength, int alignment, double sec_to_wait);
 void printUI(char* enemyName, int enemyHP, int enemyMaxHP, int alignment, char* playerName, int playerHP, int playerMaxHP);

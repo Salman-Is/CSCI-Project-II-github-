@@ -37,6 +37,7 @@
 */
 void codeLookup();
 void searchArea();
+int dialouge();
 
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
@@ -70,7 +71,8 @@ int worldState = 1;
 // Forest Village quest
 char* quest1RewardsGOOD[32] = {"Steel Armor ( 27 HP )", "Health Elixer", "Health Potion", "Health Potion", "Elderite Gemstone"};
 char* quest1RewardsEVIL[32] = {"Golden Sword ( 8 ATK )", "Health Elixer", "Health Potion", "Berzerker Potion"};
-char* quest2RewardsEVIL[32] = {"Knight Sword ( 9 ATK )", "Knight Armor ( 28 HP )", "Health Potion", "Berzerker Potion"};
+char* quest2RewardsGOOD[32] = {"Knight Armor ( 28 HP )", "Health Potion", "Focus Charm", "Verdent Plains Key"};
+char* quest2RewardsEVIL[32] = {"Knight Sword ( 9 ATK )", "Knight Armor ( 28 HP )", "Berzerker Potion", "Verdent Plains Key"};
 
 // If you guys are feeling creative you can edit the names of the areas here and it wont break anything
 //                                 vvvv                       vvvvv                    vvvvv
@@ -102,6 +104,13 @@ Monster quest1EVIL[] = {
     {"Guard 'Eldric'", 3, 5, 20, 4, GOOD, "Scrap Metal"}, 
     {"Guard 'Kaelor'", 3, 5, 20, 4, GOOD, "Scrap Metal"},   
     {"Knight 'Halor'", 4, 6, 35, 10, GOOD, "Scrap Metal"}
+};
+
+Monster quest2GOOD[] = {
+    {"Juvinile Flagon", 2, 5, 20, 6, EVIL, "Ember Scale"},
+    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"}, 
+    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"},   
+    {"Elder Flagon", 4, 6, 40, 10, EVIL, "Inferno Scale"}
 };
 
 Monster quest2EVIL[] = {
@@ -291,7 +300,13 @@ int main(void) {
     system("cls");
     system("chcp 65001 > nul"); // < while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this doesnt count as A level work
     addItem("Health Potion", 1);
-    
+    // --- Quest Variables ---
+    int startQuest1 = 0;
+    int startQuest2 = 0;
+    int startQuest3 = 0;
+    int startQuest4 = 0;
+    int startQuest5 = 0;
+    // --- Quest Flags ---
     char quest1Flag[16] = "";
     char quest2Flag[16] = "";
     char quest3Flag[16] = "";
@@ -309,35 +324,55 @@ int main(void) {
         {
             printf("Deep within the forest, you find a small village.\n");
             printf("Though it was quite humble, it looks as if its been damaged.\n");
-            printf("You see a resident nearby, would you like to speak to them?\n");
-            // choice to speak, dialouge/exposition
-            char* quest1choice = questAlignment("Help the village", "Pillage them while they're weak");
-            if (strcmp(quest1choice, "GOOD") == 0){
-                if (questGauntlet(quest1GOOD, 4, "Groblin", "the Forest Village") == 1) {
-                    printf("You defeated every remaining Groblin in the village...\n");
-                    printf("The villagers erupt in cheers for your victory!\n");
-                    printf("They shower you with their most valuable treasures...\n\n");
-                    questRewards(quest1RewardsGOOD, 5 ,30);
-                    strcpy(quest1Flag, "GOOD");
-                    storyProgress++;
+            printf("You see a resident nearby, would you like to speak to them?\n\n");
+            int speak = dialouge();
+            if (speak == 1){
+                system("cls");
+                printf("[ %sAdventurer Kalen%s ]\n", GREEN, NORMAL);
+                printf("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
+                printf("║ \"Ah, I can see you noticed that our village isn't in the best shape\"                                  ║\n");
+                printf("║ \"We've had a bit of a Groblin problem, they've been attacking us relentlessly.\"                       ║\n");
+                printf("║ \"Our resident Knight, Halor, sent for backup from the nearby Outpost, but they have yet to respond.\"  ║\n");
+                printf("║ \"It really would be nice to have some backup, our resources are dwindling.\"                           ║\n");
+                printf("║ \"We kept them at bay until now, but I'm not sure if we can hold out for much longer...\"               ║\n");
+                printf("╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
+                startQuest1++;
+            }
+            else if (speak == 2){
+                printf("The nearby resident see's you staring. She looks away uncomfortably...\n");
+            }
+            if (startQuest1 != 0)
+            {
+                char* quest1choice = questAlignment("Help the village", "Pillage them while they're weak");
+                if (strcmp(quest1choice, "GOOD") == 0){
+                    if (questGauntlet(quest1GOOD, 4, "Groblin", "the Forest Village") == 1) {
+                        printf("You defeated every remaining Groblin in the village...\n");
+                        printf("The villagers erupt in cheers for your victory!\n");
+                        printf("They shower you with their most valuable treasures...\n\n");
+                        questRewards(quest1RewardsGOOD, 5 ,30);
+                        strcpy(quest1Flag, "GOOD");
+                        storyProgress++;
+                    }
                 }
-            }
-            else if (strcmp(quest1choice, "EVIL") == 0){
-                if (questGauntlet(quest1EVIL, 4, "Warrior", "the Forest Village") == 1) {
-                    printf("You defeated every remaining Warrior in the village...\n");
-                    printf("They curse you before they lose consiousness.\n");
-                    printf("You raid their treasure room and take their loot...\n\n");
-                    questRewards(quest1RewardsEVIL, 4 ,20);
-                    strcpy(quest1Flag, "EVIL");
-                    storyProgress++;
+                else if (strcmp(quest1choice, "EVIL") == 0){
+                    if (questGauntlet(quest1EVIL, 4, "Warrior", "the Forest Village") == 1) {
+                        printf("You defeated every remaining Warrior in the village...\n");
+                        printf("They curse you before they lose consiousness.\n");
+                        printf("You raid their treasure room and take their loot...\n\n");
+                        questRewards(quest1RewardsEVIL, 4 ,20);
+                        strcpy(quest1Flag, "EVIL");
+                        storyProgress++;
+                    }
                 }
+                else {
+                    continue;
+                }
+                printf("\nPress ENTER to exit the village...");
+                getchar();
+                getchar();
             }
-            else {
-                continue;
-            }
-            printf("\nPress ENTER to exit the village...");
-            getchar();
-            getchar();
+            
+            
         }
     }
     while (storyProgress == 2) {
@@ -348,21 +383,48 @@ int main(void) {
             printf("Behind them is the gate to the %sVerdent Plains%s, a vibrant pasture filled with rare monsters...\n", LIME, NORMAL);
             printf("The Knights look at you as you walk up to one of them.\n");
             printf("Only a Knight can give someone access to the Verdent Plains. Would you like to speak to them?\n\n");
-            // choice to speak, dialouge/exposition
-            char* quest2choice = questAlignment("Speak to the Knights", "Fight them for the Key");
-            if (strcmp(quest2choice, "GOOD") == 0){
-                
+            int speak = dialouge();
+            if (speak == 1){
+                system("cls");
+                printf("[ %sKnight Marlo%s ]\n\n", GREEN, NORMAL);
+                printf("╔════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
+                printf("║ \"Passage into the Plains has been closed by the Kingdom.\"                                              ║\n");
+                printf("║ \"A number of monster attacks have been reported in the reigon, and we must ensure the Forest is safe\"  ║\n");
+                printf("║ \"Before escorting civilians. We havent even been able to mobilize to many of the nearby vill-\"         ║\n");
+                printf("║                                                                                                        ║\n");
+                printf("║ \"Ah, I see you have a sword. If you don't mind, we would appreciate it if you helped us clear out      ║\n");
+                printf("║ \"Some of these monsters. We'll pay you handsomely for you service...\"                                  ║\n");
+                printf("╚════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
+                startQuest2++;
             }
-            else if (strcmp(quest2choice, "EVIL") == 0){
-                if (questGauntlet(quest2EVIL, 4, "Knight", "the Outpost") == 1) {
-                    printf("You defeated every Knight in the Outpost...\n");
-                    printf("They were no match for you...\n");
-                    questRewards(quest2RewardsEVIL, 4 , 30);
+            else if (speak == 2){
+                printf("The Knight's stare at you with suspicion...\n");
+            }
+            if (startQuest2 != 0)
+            {
+                char* quest2choice = questAlignment("Assist the Knights", "Turn your sword on them for the Key");
+                if (strcmp(quest2choice, "GOOD") == 0){
+                    if (questGauntlet(quest2GOOD, 4, "Flagon", "the Outpost") == 1) {
+                        printf("You defeated every Flagon invading the Outpost...\n");
+                        printf("They were no match for you...\n");
+                        questRewards(quest2RewardsEVIL, 4 , 30);
+                    }
                 }
+                else if (strcmp(quest2choice, "EVIL") == 0){
+                    if (questGauntlet(quest2EVIL, 4, "Knight", "the Outpost") == 1) {
+                        printf("You defeated every Knight in the Outpost...\n");
+                        printf("They were no match for you...\n");
+                        questRewards(quest2RewardsEVIL, 4 , 30);
+                    }
+                }
+                else {
+                    continue;
+                }
+                printf("\nPress ENTER to exit the village...");
+                getchar();
+                getchar();
             }
-            else {
-                continue;
-            }
+             
         }
     }
     return 0;
@@ -426,6 +488,23 @@ void searchArea() {
         }
 }
 
+int dialouge() {
+    // return 1 if yes, return 2 if no
+    char speakChoice[32];
+    while(1) {
+        printf("[ 1 | Yes ]     [ 2 | No ]\n");
+        printf("> ");
+        scanf(" %s", speakChoice);
+        if (strcmp(speakChoice, "1") == 0 || strcmp(speakChoice, "yes") == 0){
+            return 1;
+        }
+        else if (strcmp(speakChoice, "2") == 0 || strcmp(speakChoice, "no") == 0) {
+            return 2;
+        }
+        printf("Invalid Choice. Please type 1/yes, or 2/no\n\n");
+    }
+    
+}
 /* ================= DEBUGGING ================= */
 
 void codeLookup() {
