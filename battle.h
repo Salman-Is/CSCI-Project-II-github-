@@ -41,6 +41,6 @@ int questGauntlet(Monster area[], int count, char groupName[], char locationName
 #define LAKE_COUNT sizeof(lake)/sizeof(lake[0])
 #define CAVES_COUNT sizeof(caves)/sizeof(caves[0])
 #define MOUNTAINS_COUNT sizeof(mountains)/sizeof(mountains[0])
-#define TEST sizeof(test)/sizeof(test[0])
+#define FINAL_COUNT sizeof(final)/sizeof(final[0])
 
-#endif 
+#endif

@@ -39,11 +39,15 @@ void codeLookup();
 void searchArea();
 int dialouge();
 
+
+/* ================= TRACK PLAYER ================= */
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
 int storyProgress = 1;
 int maxStoryProgress = 32;
 int location = 1; // 1=forest, 2=plains, 3=lake 
+int saveLocation = 1;
+int isTravelling = 0; // 1 when travelling, 0 when not
 
 int battleStart = 0;
 
@@ -149,12 +153,10 @@ Monster mountains[] = {
     {"Monster1", 1, 1, 5, 5, EVIL, "Something"},
 };
 
-Monster test[] = {
-    {"DRAGON", 5, 7, 50, 50, EVIL, "Dragon Scale"},
-    {"DRAGON", 5, 7, 50, 50, EVIL, "Dragon Scale"}
+Monster final[] = {
+    {"- Deity of JUSTICE - ", 6, 10, 500, 50, GOOD, "???"},
+    {"- Deity of MALICE - ", 6, 10, 500, 50, EVIL, "???"}
 };
-
-
 
 /* ================= PLAYER OPTIONS ================= */
 /*
@@ -176,8 +178,16 @@ int options() {
     scanf(" %c", &choice);
     
     if (choice == '1') { // WALK
-        system("cls");
-        return 1;
+        if (isTravelling != 0) {
+            system("cls");
+            printf("You walk around, but dont find much...\n");
+            printf("( Return to the story to progress )\n");
+        }
+        else {
+            system("cls");
+            return 1;
+        }
+        
     }
     else if (choice == '2') { // SEARCH
         system("cls");
@@ -192,7 +202,7 @@ int options() {
             case 3: encounter(lake, LAKE_COUNT); break;
             case 4: encounter(caves, CAVES_COUNT); break;
             case 5: encounter(mountains, MOUNTAINS_COUNT); break;
-            case 6: encounter(test, TEST); break;
+            case 6: encounter(final, FINAL_COUNT); break;
             default: printf("No monsters here.\n");
         }
         system("cls");
@@ -206,16 +216,30 @@ int options() {
     }
     else if (choice == '5') { // TRAVEL
         system("cls");
+        if (isTravelling == 0){
+            saveLocation = location;
+        }
+        
         int newLocation = 0;
         printf("LOCATIONS:\n\n");
         for(int i = 0; i < sizeof(availableLocations)/sizeof(availableLocations[0]); i++)
         {
             printf("[%d] %s\n",(i+1), availableLocations[i]);
         }
+        printf("\n[0] < Return to story\n\n");
         printf("> ");
         scanf(" %d", &newLocation);
-        location = newLocation;
-        printf("You travel to the %s.\n", availableLocations[newLocation-1]);
+        if (newLocation != 0 && newLocation <= sizeof(availableLocations)/sizeof(availableLocations[0])){
+            location = newLocation;
+            isTravelling = 1;
+            printf("You travel to the %s.\n", availableLocations[newLocation-1]);
+        }
+        else if (newLocation == 0){
+            location = saveLocation;
+            isTravelling = 0;
+            printf("You return to the %s.\n", progressKey[storyProgress-1]);
+        }
+        
         return 5;
     }
     else if (choice == '6') { // STATS
