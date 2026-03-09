@@ -80,6 +80,7 @@ char* quest2RewardsEVIL[32] = {"Knight Sword ( 9 ATK )", "Knight Armor ( 28 HP )
 
 // If you guys are feeling creative you can edit the names of the areas here and it wont break anything
 //                                 vvvv                       vvvvv                    vvvvv
+// but adding areas WILL require you to change the number of locations in the array
 char availableLocations[6][32] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", "The Crystal Caves", "The Celestial Mountains", "Acention"};
 char progressKey[32][32] = {"Forest Village", "Outpost", "Plains"};
 
@@ -95,29 +96,25 @@ Monster forest[] = {
     {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"},       // Medium, 5-letter pattern
     {"Key Golem", 1, 3, 30, 1, GOOD, "Verdent Key"}
 };
-
-Monster quest1GOOD[] = {
+Monster quest1GOOD[] = { // help village
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"},
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"}, 
     {"Groblin Shaman", 3, 5, 40, 7, EVIL, "Groblin Staff"},   
     {"Groblin Chief", 3, 5, 35, 10, EVIL, "Groblin Tusk"}
 };
-
-Monster quest1EVIL[] = {
+Monster quest1EVIL[] = { // pillage village
     {"Adventurer 'Kalen'", 1, 5, 15, 5, GOOD, "Tunic"},
     {"Guard 'Eldric'", 3, 5, 20, 4, GOOD, "Scrap Metal"}, 
     {"Guard 'Kaelor'", 3, 5, 20, 4, GOOD, "Scrap Metal"},   
     {"Knight 'Halor'", 4, 6, 35, 10, GOOD, "Scrap Metal"}
 };
-
-Monster quest2GOOD[] = {
+Monster quest2GOOD[] = { // assist knights
     {"Juvinile Flagon", 2, 5, 20, 6, EVIL, "Ember Scale"},
     {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"}, 
     {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"},   
     {"Elder Flagon", 4, 6, 40, 10, EVIL, "Inferno Scale"}
 };
-
-Monster quest2EVIL[] = {
+Monster quest2EVIL[] = { // attak knights
     {"Knight 'Marlo'", 4, 6, 35, 10, GOOD, "Scrap Metal"},
     {"Knight 'Lysa'", 4, 6, 35, 10, GOOD, "Scrap Metal"}, 
     {"Knight Captain 'Therin'", 4, 7, 35, 10, GOOD, "Refined Metal"},   
@@ -153,9 +150,11 @@ Monster mountains[] = {
     {"Monster1", 1, 1, 5, 5, EVIL, "Something"},
 };
 
-Monster final[] = {
-    {"- Deity of JUSTICE - ", 6, 10, 500, 50, GOOD, "???"},
-    {"- Deity of MALICE - ", 6, 10, 500, 50, EVIL, "???"}
+// Final area bosses
+Monster final[] = { // You will recive a really strong weapon before this guys dw
+    {"Astra, Deity of JUSTICE", 6, 10, 500, 50, GOOD, "A World of Evil"},
+    {"Krya, Deity of MALICE", 6, 10, 500, 50, EVIL, "A World of Good"},
+    {"???, Deity of CHAOS", 6, 11, 750, 50, EVIL, "???"}
 };
 
 /* ================= PLAYER OPTIONS ================= */
@@ -331,11 +330,11 @@ int main(void) {
     int startQuest4 = 0;
     int startQuest5 = 0;
     // --- Quest Flags ---
-    char quest1Flag[16] = "";
-    char quest2Flag[16] = "";
-    char quest3Flag[16] = "";
-    char quest4Flag[16] = "";
-    char quest5Flag[16] = "";
+    int quest1Action = 0;
+    int quest2Action = 0;
+    int quest3Action = 0;
+    int quest4Action = 0;
+    int quest5Action = 0;
 
     srand(time(NULL));
     while (storyProgress == 0)
@@ -351,7 +350,7 @@ int main(void) {
             printf("You see a resident nearby, would you like to speak to them?\n\n");
             int speak = dialouge();
             if (speak == 1){
-                system("cls");
+                system("cls"); // this character comes back stronger later if you choose evil
                 printf("[ %sAdventurer Kalen%s ]\n", GREEN, NORMAL);
                 printf("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
                 printf("║ \"Ah, I can see you noticed that our village isn't in the best shape\"                                  ║\n");
@@ -372,9 +371,10 @@ int main(void) {
                     if (questGauntlet(quest1GOOD, 4, "Groblin", "the Forest Village") == 1) {
                         printf("You defeated every remaining Groblin in the village...\n");
                         printf("The villagers erupt in cheers for your victory!\n");
+                        printf("'May the light of Astra guide your travels!'\n");
                         printf("They shower you with their most valuable treasures...\n\n");
-                        questRewards(quest1RewardsGOOD, 5 ,30);
-                        strcpy(quest1Flag, "GOOD");
+                        questRewards(quest1RewardsGOOD, 5, 30);
+                        quest1Action++;
                         storyProgress++;
                     }
                 }
@@ -383,8 +383,8 @@ int main(void) {
                         printf("You defeated every remaining Warrior in the village...\n");
                         printf("They curse you before they lose consiousness.\n");
                         printf("You raid their treasure room and take their loot...\n\n");
-                        questRewards(quest1RewardsEVIL, 4 ,20);
-                        strcpy(quest1Flag, "EVIL");
+                        questRewards(quest1RewardsEVIL, 4, 20);
+                        quest1Action--;
                         storyProgress++;
                     }
                 }
@@ -395,8 +395,6 @@ int main(void) {
                 getchar();
                 getchar();
             }
-            
-            
         }
     }
     while (storyProgress == 2) {
@@ -431,14 +429,16 @@ int main(void) {
                     if (questGauntlet(quest2GOOD, 4, "Flagon", "the Outpost") == 1) {
                         printf("You defeated every Flagon invading the Outpost...\n");
                         printf("They were no match for you...\n");
-                        questRewards(quest2RewardsEVIL, 4 , 30);
+                        questRewards(quest2RewardsGOOD, 4, 40);
+                        quest2Action++;
                     }
                 }
                 else if (strcmp(quest2choice, "EVIL") == 0){
                     if (questGauntlet(quest2EVIL, 4, "Knight", "the Outpost") == 1) {
                         printf("You defeated every Knight in the Outpost...\n");
                         printf("They were no match for you...\n");
-                        questRewards(quest2RewardsEVIL, 4 , 30);
+                        questRewards(quest2RewardsEVIL, 4, 50);
+                        quest2Action--;
                     }
                 }
                 else {

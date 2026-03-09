@@ -112,24 +112,24 @@ Checklist ====================================================================
 > Later Editions (we 100% can't add them all, choose the best/most feasable ones) 
 
     - Coins and shops 
+    - Item descriptions (to tell you what an item does)
     - Spells/Magic (equipping a spell gives you a specific buff) 
     - Crafting
     - Leveling Up (after exp hits certain level you can choose upgrade hp, damage or spell)
-    - Crit hits
     - Status effects (probably too hard but we can try)
     - Item rarity colors
     - More Karma consequences
         - Low Karma -> Guards attack you, more enemies spawn, enemies become stronger, shops get disabled BUT 
-                       access to stronger weapons, can enter Black Market shops, high crit chance
+                       access to stronger weapons, can enter Black Market shops, high crit damage
         - High Karma -> less enemies, NPCs give you gifts, shops get discounts, nearby GOOD monsters can help you BUT
-                        only low damage weapons available, low crit chance 
+                        only low damage weapons available, low crit damage 
         - Neutral Karma -> idk
-    - Random events when searching (shrines to trade hp and damage, puzzles, exclusive NPCs etc)
+    - More random events when searching (shrines to trade hp and damage, puzzles, exclusive NPCs etc)
     - Combo hits (3 perfect patterns -> next is x3 damage)
     - More consequences for dying 
         - state of the world changes
         - 1 death --> ghosts spawn
-        - 2 deaths --> something else etc idk 
+        - 2 deaths --> something else etc idk
     - 
 
 Gear List ===================================================================== 
