@@ -214,7 +214,7 @@ char* areaColor() {
 
 /*================= EVENT FUNCTIONS ================= */
 
-// In game events found by searching
+// In game events found by searching, quests, etc.
 // The ascii art for these were made by chatgpt by the way
 void loreTablet(char text[]) {
     printf("┌───────────────────┐\n");
@@ -250,7 +250,7 @@ void genericLoreResponse() {
     printf("%s\n", messages[messagesIndex]);
 }
 
-void riddle(char message[], char correct[], int *iterate, char reward[]) {
+void riddle(char message[], char correct[], int *search, char reward[]) {
     printf("          ╔════════════╗\n");
     printf("         ╔══════════════╗\n");
     printf("       ╔══════════════════╗\n");
@@ -350,7 +350,7 @@ void riddle(char message[], char correct[], int *iterate, char reward[]) {
     {
         printf("The Shrine accepts your answer...\n");
         printf("It rewarded you with a %s%s%s\n\n", YELLOW, reward, NORMAL);
-        (*iterate)++;
+        (*search)++;
         addItem(reward, 1);
     }
     else {
@@ -358,7 +358,7 @@ void riddle(char message[], char correct[], int *iterate, char reward[]) {
     }
 }
 
-void chest(char key[], char item[], char chestType[], char chestColor[], int search) {
+void chest(char key[], char item[], char chestType[], char chestColor[], int *search) {
     printf("╔══════════════════╗\n");
     printf("╠═════╠══════║═════╣\n");
     printf("║                  ║\n");
@@ -368,8 +368,9 @@ void chest(char key[], char item[], char chestType[], char chestColor[], int sea
     printf("You find a %s%s%s chest.\n", chestColor, chestType, NORMAL);
     
     for(int i = 0; i < inventoryCount; i++) {
-        if(strcmp(inventory[i].name, key) == 0 && inventory[i].quantity > 0) {
+        if(strcmp(inventory[i].name, key) == 0) {
             hasFoundKey = 1;
+            break;
         }
         else {
             hasFoundKey = 0;
@@ -379,8 +380,8 @@ void chest(char key[], char item[], char chestType[], char chestColor[], int sea
     if (hasFoundKey == 1)
     {
         printf("You use your %s%s%s to open the chest...\n\n", chestColor, key, NORMAL);
+        (*search)++;
         addItem(item, 0);
-        search++;
     }
     else {
         printf("Find a %s%s%s to open the chest.\n\n", chestColor, key, NORMAL);
@@ -422,4 +423,12 @@ char* questAlignment(char goodOption[], char evilOption[]) {
         return "bruh";
     }
 
+}
+
+void questRewards(char* rewards[], int count, int money) {
+    for(int i = 0; i < count; i++)
+    {
+        addItem(rewards[i], 0);
+    }
+    addCoins(money, "battle");
 }

@@ -9,9 +9,10 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP);
 void statsPage();
 void loreTablet(char text[]);
 void genericLoreResponse();
-void riddle(char message[], char correct[], int *iterate, char reward[]);
-void chest(char key[], char item[], char chestType[], char chestColor[], int search);
+void riddle(char message[], char correct[], int *search, char reward[]);
+void chest(char key[], char item[], char chestType[], char chestColor[], int *search);
 char* areaColor();
 char* questAlignment(char goodOption[], char evilOption[]);
+void questRewards(char* rewards[], int count, int money);
 
 #endif 

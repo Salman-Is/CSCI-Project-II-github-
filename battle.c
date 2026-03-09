@@ -511,11 +511,11 @@ void grantKarma(int addOrSubtract, int amount, char message[]) { //subtract = 0,
 void addCoins(int amount, char message[]) {
     if (strcmp(message, "battle") == 0)
     {
-        printf("You obtained %d %sCoins%s!\n", amount, YELLOW, NORMAL);
+        printf("You obtained %d %sCoins%s!\n", amount, NEONYELLOW, NORMAL);
         coins += amount;
     }
     else {
-        printf("You found %d %sCoins%s!\n", amount, YELLOW, NORMAL);
+        printf("You found %d %sCoins%s!\n", amount, NEONYELLOW, NORMAL);
         coins += amount;
     }
 }

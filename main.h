@@ -4,7 +4,8 @@
 #define RED "\x1b[31m"
 #define BLACK "\x1b[30m"
 #define GREEN "\x1b[32m"
-#define YELLOW "\x1b[33m"
+#define YELLOW "\x1b[38;5;220m"
+#define NEONYELLOW "\x1b[33m"
 #define BLUE "\x1b[34m"
 #define MAGENTA "\x1b[35m"
 #define CYAN "\x1b[36m"
@@ -22,7 +23,6 @@
 
 #define GOOD  1
 #define EVIL  -1
-
 
 typedef struct {
     char name[30];

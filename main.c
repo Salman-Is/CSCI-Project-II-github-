@@ -36,6 +36,7 @@
     - (You guys can create new features if you're up for it)
 */
 void codeLookup();
+void searchArea();
 
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
@@ -64,17 +65,28 @@ int inventoryCount = 0;
 
 int worldState = 1;
 
+/* ================= QUEST REWARDS ================= */
+
+// Forest Village quest
+char* quest1RewardsGOOD[32] = {"Steel Armor ( 27 HP )", "Health Elixer", "Health Potion", "Health Potion", "Elderite Gemstone"};
+char* quest1RewardsEVIL[32] = {"Golden Sword ( 8 ATK )", "Health Elixer", "Health Potion", "Berzerker Potion"};
+char* quest2RewardsEVIL[32] = {"Knight Sword ( 9 ATK )", "Knight Armor ( 28 HP )", "Health Potion", "Berzerker Potion"};
+
 // If you guys are feeling creative you can edit the names of the areas here and it wont break anything
 //                                 vvvv                       vvvvv                    vvvvv
 char availableLocations[16][16] = {"Forest", "Plains", "Lake", "Caves", "Mountains", "Test"};
 
+/* ================= MONSTERS/ENEMIES ================= */
+
 // Name, difficulty, pattern size, HP, ATK, alignment, drop
 
+// Forest enemy groups
 Monster forest[] = {
     {"Lumora", 1, 3, 10, 3, GOOD, "Lumora Wing"},       // Easy, 3-letter pattern 
     {"Deer", 1, 5, 20, 4, GOOD, "Leather"},       // Easy, 5-letter pattern
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"},       // Easy, 5-letter pattern
-    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"}       // Medium, 5-letter pattern
+    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"},       // Medium, 5-letter pattern
+    {"Key Golem", 1, 3, 30, 1, GOOD, "Verdent Key"}
 };
 
 Monster quest1GOOD[] = {
@@ -85,13 +97,20 @@ Monster quest1GOOD[] = {
 };
 
 Monster quest1EVIL[] = {
-    {"Adventurer - 'Kalen'", 1, 5, 15, 5, GOOD, "Tunic"},
-    {"Guard - 'Eldric'", 3, 5, 20, 4, GOOD, "Scrap Metal"}, 
-    {"Guard - 'Kaelor'", 3, 5, 20, 4, GOOD, "Scrap Metal"},   
-    {"Knight - 'Halor'", 4, 6, 35, 10, GOOD, "Scrap Metal"}
+    {"Adventurer 'Kalen'", 1, 5, 15, 5, GOOD, "Tunic"},
+    {"Guard 'Eldric'", 3, 5, 20, 4, GOOD, "Scrap Metal"}, 
+    {"Guard 'Kaelor'", 3, 5, 20, 4, GOOD, "Scrap Metal"},   
+    {"Knight 'Halor'", 4, 6, 35, 10, GOOD, "Scrap Metal"}
 };
 
-// Plains monsters
+Monster quest2EVIL[] = {
+    {"Knight 'Marlo'", 4, 6, 35, 10, GOOD, "Scrap Metal"},
+    {"Knight 'Lysa'", 4, 6, 35, 10, GOOD, "Scrap Metal"}, 
+    {"Knight Captain 'Therin'", 4, 7, 35, 10, GOOD, "Refined Metal"},   
+    {"Royal Knight 'Fenric'", 4, 8, 35, 10, GOOD, "Scrap Metal"}
+};
+
+// Plains enemy groups
 Monster plains[] = {
     {"Snarlbeast", 2, 6, 30, 7, EVIL, "Beastly Tooth"},
     {"Nimora", 1, 5, 10, 3, EVIL, "Nimora Wing"},
@@ -100,7 +119,7 @@ Monster plains[] = {
     {"Great Stag", 3, 8, 35, 6, GOOD, "Antlers"}
 };
 
-// Lake monsters
+// Lake enemy groups
 Monster lake[] = {
     {"Turtle", 1, 5, 40, 5, GOOD, "Shell Shard"},
     {"Lake Serpent", 2, 5, 25, 10, EVIL, "Venom Vial"},
@@ -110,12 +129,12 @@ Monster lake[] = {
     {"Oozard", 4, 5, 15, 8, EVIL, "Gelatinous Mass"}
 };
 
-// Cave monsters
+// Cave enemy groups
 Monster caves[] = {
     {"Monster1", 1, 1, 5, 5, GOOD, "Something"},
 };
 
-// Mountain monsters
+// Mountain enemy groups
 Monster mountains[] = {
     {"Monster1", 1, 1, 5, 5, EVIL, "Something"},
 };
@@ -124,6 +143,8 @@ Monster test[] = {
     {"DRAGON", 5, 7, 50, 50, EVIL, "Dragon Scale"},
     {"DRAGON", 5, 7, 50, 50, EVIL, "Dragon Scale"}
 };
+
+
 
 /* ================= PLAYER OPTIONS ================= */
 /*
@@ -150,6 +171,8 @@ int options() {
     }
     else if (choice == '2') { // SEARCH
         system("cls");
+        printf("You search the area...\n");
+        void searchArea();
         return 2;
     }
     else if (choice == '3') { // ENCOUNTER
@@ -194,6 +217,7 @@ int options() {
         maxTurnDamage = 10000;
         maxPlayerTurnDamage = 10000;
         system("cls");
+        printf("ONE SHOT mode\n");
     }
     else if (choice == '8'){
         codeLookup();
@@ -252,11 +276,11 @@ int main(void) {
     system("chcp 65001 > nul"); // < while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this doesnt count as A level work
     addItem("Health Potion", 1);
 
-    int quest1Flag = 0;
-    int quest2Flag = 0;
-    int quest3Flag = 0;
-    int quest4Flag = 0;
-    int quest5Flag = 0;
+    char quest1Flag[16] = "";
+    char quest2Flag[16] = "";
+    char quest3Flag[16] = "";
+    char quest4Flag[16] = "";
+    char quest5Flag[16] = "";
 
     srand(time(NULL));
     while (storyProgress == 0)
@@ -264,62 +288,97 @@ int main(void) {
         /* TUTORIAL */
     }
     while (storyProgress == 1) {
-        static int searchPoints = 1;
         int navigataionChoice = options();
         if (navigataionChoice == 1) // WALK
         {
             printf("Deep within the forest, you find a small village.\n");
             printf("Though it was quite humble, it looks as if its been damaged.\n");
             printf("You see a resident nearby, would you like to speak to them?\n");
-            if (quest1Flag == 0)
-            {
-                char* quest1choice = questAlignment("Help the village", "Pillage them while they're weak");
-                if (strcmp(quest1choice, "GOOD") == 0){
-                    if (questGauntlet(quest1GOOD, 4, "Groblin", "the Forest Village") == 1) {
-                        quest1Flag = 1;
-                    }
+            // choice to speak, dialouge/exposition
+            char* quest1choice = questAlignment("Help the village", "Pillage them while they're weak");
+            if (strcmp(quest1choice, "GOOD") == 0){
+                if (questGauntlet(quest1GOOD, 4, "Groblin", "the Forest Village") == 1) {
+                    printf("You defeated every remaining Groblin in the village...\n");
+                    printf("The villagers erupt in cheers for your victory!\n");
+                    printf("They shower you with their most valuable treasures...\n\n");
+                    questRewards(quest1RewardsGOOD, sizeof(quest1RewardsGOOD)/sizeof(quest1RewardsGOOD[0]) ,30);
+                    storyProgress += 1;
+                    strcpy(quest1Flag, "GOOD");
+                    printf("\nPress ENTER to exit the village...");
+                    getchar();
+                    getchar();
                 }
-                else if (strcmp(quest1choice, "EVIL") == 0){
-                    if (questGauntlet(quest1EVIL, 4, "Warrior", "the Forest Village") == 1) {
-                        quest1Flag = 1;
-                        printf("You defeated every remaining Warrior in the village...\n");
-                        printf("They curse you before they lose consiousness.\n");
-                        printf("You raid their treasure room and take their loot.\n");
-                        addItem("Golden Sword ( + 3 damage )", 0);
-                        addItem("Steel Armor ( + 2 health )", 0);
-                        addItem("Health Elixer", 0);
-                        addItem("Health Potion", 0);
-                        addItem("Health Potion", 0);
-                        addItem("Berzerker Potion", 0);
-                        addCoins(20, "battle");
-                    }
-                }
-                else {
+            }
+            else if (strcmp(quest1choice, "EVIL") == 0){
+                if (questGauntlet(quest1EVIL, 4, "Warrior", "the Forest Village") == 1) {
+                    printf("You defeated every remaining Warrior in the village...\n");
+                    printf("They curse you before they lose consiousness.\n");
+                    printf("You raid their treasure room and take their loot...\n\n");
+                    questRewards(quest1RewardsEVIL, sizeof(quest1RewardsEVIL)/sizeof(quest1RewardsEVIL[0]) ,20);
+                    storyProgress +=1;
+                    strcpy(quest1Flag, "EVIL");
                     continue;
                 }
             }
+            else {
+                continue;
+            }
+            printf("\nPress ENTER to exit the village...");
+            getchar();
+            getchar();
         }
-        else if (navigataionChoice == 2) // SEARCH
+    }
+    while (storyProgress == 2) {
+        int navigataionChoice = options();
+        if (navigataionChoice == 1) // WALK
         {
-            switch (searchPoints){
+            printf("After walking through the forest, you stumble upon a Knight's Outpost...\n");
+            printf("Behind them is the gate to the Blue Lake, a stunning pool of water home to hundreds of unknown treasures...\n");
+            printf("The Knights look at you as you walk up to one of them.\n");
+            printf("Only a Knight can give someone access to the Blue Lake. Would you like to speak to them?\n\n");
+            // choice to speak, dialouge/exposition
+            char* quest2choice = questAlignment("Speak to the Knights", "Fight them for the Key");
+            if (strcmp(quest2choice, "GOOD") == 0){
+                
+            }
+            else if (strcmp(quest2choice, "EVIL") == 0){
+                if (questGauntlet(quest2EVIL, 4, "Knight", "the Outpost") == 1) {
+                    printf("You defeated every Knight in the Outpost...\n");
+                    printf("They were no match for you...\n");
+                    questRewards(quest2RewardsEVIL, sizeof(quest2RewardsEVIL)/sizeof(quest2RewardsEVIL[0]) , 30);
+                }
+            }
+            else {
+                continue;
+            }
+        }
+    }
+    return 0;
+}
+
+void searchArea() {
+    if (location == 1) // SEARCH
+        {
+            static int searchPoints1 = 1; // wont get reset every time the function is called
+            switch (searchPoints1){
             case 1: // First thing you can find
                 addItem("Health Potion", 0);
-                searchPoints++;
+                searchPoints1++;
                 break;
             case 2: // second thing
                 addCoins(10, "no");
-                searchPoints++;
+                searchPoints1++;
                 break;
             case 3: // third etc.
-                addItem("Steel Sword ( + 1 damage )", 0);
+                addItem("Steel Sword ( 6 ATK )", 0);
                 maxTurnDamage = 6; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
-                searchPoints++;
+                searchPoints1++;
                 break;
             case 4: 
-                riddle("What has a head, a tail, and no body?", "coin", &searchPoints, "Health Elixer");
+                riddle("What has a head, a tail, and no body?", "coin", &searchPoints1, "Health Elixer");
                 break;
             case 5:
-                chest("Verdent Key", "Forest Sword ( + 4 damage )", "Verdent", GREEN, searchPoints);
+                chest("Verdent Key", "Forest Sword ( 9 ATK )", "Verdent", GREEN, &searchPoints1);
                 maxTurnDamage = 9; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
                 break;
             default:
@@ -328,22 +387,15 @@ int main(void) {
                 break;
             }
         }
-    }
-
-    return 0;
 }
 
 void codeLookup() {
-    //find ANSI codes
-    for (int i = 0; i < 99; i++)
+    //find ANSI codes (so i dont have to look it up every time i want a new color)
+
+    for (int i = 0; i < 250; i++)
     {
-        // skiiiip
-        if (i == 54)
-        {
-            i = 88;
-        }
         
-        printf("\x1b[%dm", i);
+        printf("\x1b[38;5;%dm", i);
         printf("[ %d ] Hello World\n", i);
         printf(NORMAL);
     }
