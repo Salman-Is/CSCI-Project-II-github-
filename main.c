@@ -171,8 +171,7 @@ int options() {
     }
     else if (choice == '2') { // SEARCH
         system("cls");
-        printf("You search the area...\n");
-        void searchArea();
+        searchArea();
         return 2;
     }
     else if (choice == '3') { // ENCOUNTER
