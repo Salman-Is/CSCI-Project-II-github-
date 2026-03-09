@@ -203,8 +203,8 @@ char* areaColor() {
         return BLACK;
 
     case 6:
-        strcpy(currentLoc, "Test");
-        return RED;
+        strcpy(currentLoc, "Acention");
+        return LILAC;
 
     default:
         strcpy(currentLoc, "Unknown");

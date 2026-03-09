@@ -41,7 +41,7 @@ void searchArea();
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
 int storyProgress = 1;
-int maxStoryProgress = 50;
+int maxStoryProgress = 32;
 int location = 1; // 1=forest, 2=plains, 3=lake 
 
 int battleStart = 0;
@@ -74,7 +74,8 @@ char* quest2RewardsEVIL[32] = {"Knight Sword ( 9 ATK )", "Knight Armor ( 28 HP )
 
 // If you guys are feeling creative you can edit the names of the areas here and it wont break anything
 //                                 vvvv                       vvvvv                    vvvvv
-char availableLocations[16][16] = {"Forest", "Plains", "Lake", "Caves", "Mountains", "Test"};
+char availableLocations[6][32] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", "The Crystal Caves", "The Celestial Mountains", "Acention"};
+char progressKey[32][32] = {"Forest Village", "Outpost", "Plains"};
 
 /* ================= MONSTERS/ENEMIES ================= */
 
@@ -171,6 +172,7 @@ int options() {
     }
     else if (choice == '2') { // SEARCH
         system("cls");
+        printf("You search the area...\n");
         searchArea();
         return 2;
     }
@@ -197,7 +199,7 @@ int options() {
         system("cls");
         int newLocation = 0;
         printf("LOCATIONS:\n\n");
-        for(int i = 0; i < 6; i++)
+        for(int i = 0; i < sizeof(availableLocations)/sizeof(availableLocations[0]); i++)
         {
             printf("[%d] %s\n",(i+1), availableLocations[i]);
         }
@@ -212,7 +214,8 @@ int options() {
         statsPage();
         return 6;
     }
-    else if (choice == '7') { // Debugging
+    // === SUPER SECRET DEBUGGING OPTIONS (shhhh)===
+    else if (choice == '7') { 
         maxTurnDamage = 10000;
         maxPlayerTurnDamage = 10000;
         system("cls");
@@ -220,6 +223,20 @@ int options() {
     }
     else if (choice == '8'){
         codeLookup();
+    }
+    else if (choice == '9'){
+        system("cls");
+        int newProgress = 0;
+        printf("PROGRESS:\n\n");
+        for(int i = 0; i < (sizeof(progressKey)/sizeof(progressKey[0])); i++)
+        {
+            printf("[%d] %s\n",(i+1), progressKey[i]);
+        }
+        printf("> ");
+        scanf(" %d", &newProgress);
+        storyProgress = newProgress;
+        printf("Your story progress is [ %s ].\n", progressKey[newProgress-1]);
+        return 5;
     }
     else {
         system("cls");
@@ -274,7 +291,7 @@ int main(void) {
     system("cls");
     system("chcp 65001 > nul"); // < while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this doesnt count as A level work
     addItem("Health Potion", 1);
-
+    
     char quest1Flag[16] = "";
     char quest2Flag[16] = "";
     char quest3Flag[16] = "";
@@ -300,12 +317,9 @@ int main(void) {
                     printf("You defeated every remaining Groblin in the village...\n");
                     printf("The villagers erupt in cheers for your victory!\n");
                     printf("They shower you with their most valuable treasures...\n\n");
-                    questRewards(quest1RewardsGOOD, sizeof(quest1RewardsGOOD)/sizeof(quest1RewardsGOOD[0]) ,30);
-                    storyProgress += 1;
+                    questRewards(quest1RewardsGOOD, 5 ,30);
                     strcpy(quest1Flag, "GOOD");
-                    printf("\nPress ENTER to exit the village...");
-                    getchar();
-                    getchar();
+                    storyProgress++;
                 }
             }
             else if (strcmp(quest1choice, "EVIL") == 0){
@@ -313,10 +327,9 @@ int main(void) {
                     printf("You defeated every remaining Warrior in the village...\n");
                     printf("They curse you before they lose consiousness.\n");
                     printf("You raid their treasure room and take their loot...\n\n");
-                    questRewards(quest1RewardsEVIL, sizeof(quest1RewardsEVIL)/sizeof(quest1RewardsEVIL[0]) ,20);
-                    storyProgress +=1;
+                    questRewards(quest1RewardsEVIL, 4 ,20);
                     strcpy(quest1Flag, "EVIL");
-                    continue;
+                    storyProgress++;
                 }
             }
             else {
@@ -332,9 +345,9 @@ int main(void) {
         if (navigataionChoice == 1) // WALK
         {
             printf("After walking through the forest, you stumble upon a Knight's Outpost...\n");
-            printf("Behind them is the gate to the Blue Lake, a stunning pool of water home to hundreds of unknown treasures...\n");
+            printf("Behind them is the gate to the %sVerdent Plains%s, a vibrant pasture filled with rare monsters...\n", LIME, NORMAL);
             printf("The Knights look at you as you walk up to one of them.\n");
-            printf("Only a Knight can give someone access to the Blue Lake. Would you like to speak to them?\n\n");
+            printf("Only a Knight can give someone access to the Verdent Plains. Would you like to speak to them?\n\n");
             // choice to speak, dialouge/exposition
             char* quest2choice = questAlignment("Speak to the Knights", "Fight them for the Key");
             if (strcmp(quest2choice, "GOOD") == 0){
@@ -344,7 +357,7 @@ int main(void) {
                 if (questGauntlet(quest2EVIL, 4, "Knight", "the Outpost") == 1) {
                     printf("You defeated every Knight in the Outpost...\n");
                     printf("They were no match for you...\n");
-                    questRewards(quest2RewardsEVIL, sizeof(quest2RewardsEVIL)/sizeof(quest2RewardsEVIL[0]) , 30);
+                    questRewards(quest2RewardsEVIL, 4 , 30);
                 }
             }
             else {
@@ -356,7 +369,7 @@ int main(void) {
 }
 
 void searchArea() {
-    if (location == 1) // SEARCH
+    if (location == 1) // Area One
         {
             static int searchPoints1 = 1; // wont get reset every time the function is called
             switch (searchPoints1){
@@ -380,13 +393,40 @@ void searchArea() {
                 chest("Verdent Key", "Forest Sword ( 9 ATK )", "Verdent", GREEN, &searchPoints1);
                 maxTurnDamage = 9; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
                 break;
+            case 6:
+                addItem("Steel Bow ( 5 ATK )", 0);
+                maxPlayerTurnDamage = 5; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
+                searchPoints1++;
+                break;
             default:
                 loreTablet("Spare no thought for those above.\n Through their grace we are evolved.\n Through their plights we are destroyed.");
                 genericLoreResponse();
                 break;
             }
         }
+        else if (location == 2) // Area Two
+        {
+            static int searchPoints2 = 1; // wont get reset every time the function is called
+            switch (searchPoints2){
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4: 
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            default:
+                break;
+            }
+        }
 }
+
+/* ================= DEBUGGING ================= */
 
 void codeLookup() {
     //find ANSI codes (so i dont have to look it up every time i want a new color)
