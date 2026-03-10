@@ -18,6 +18,7 @@
 #define ORANGE "\x1b[38;5;202m"
 #define DARKBLUE "\x1b[38;5;17m"
 #define LILAC "\x1b[38;5;225m"
+#define GRAY "\x1b[38;5;235m"
 
 #define BOLD "\x1b[1m"
 #define UNBOLD "\x1b[22m"

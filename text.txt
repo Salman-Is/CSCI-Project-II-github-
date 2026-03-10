@@ -111,7 +111,11 @@ Checklist ====================================================================
 
 > Later Editions (we 100% can't add them all, choose the best/most feasable ones) 
 
+    - New areas (3 cities, 2 'biomes')
     - Coins and shops 
+    - Dice game / blackjack in cities
+    - Lore Codex (reread past lore tablets)
+    - Quest Log (shows what you chose in previous quests)
     - Item descriptions (to tell you what an item does)
     - Spells/Magic (equipping a spell gives you a specific buff) 
     - Crafting

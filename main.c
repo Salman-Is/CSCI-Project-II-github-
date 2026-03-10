@@ -4,14 +4,11 @@
 # include <time.h>
 # include <ctype.h>
 
-#include "battle.h"
-#include "main.h"
-#include "ui.h"
+# include "battle.h"
+# include "main.h"
+# include "ui.h"
 
-
-/*
-    MAIN script from which the entire game will be run
-*/
+//MAIN script from which the entire game will be run
 
 /*
     Refactored battle system from memory game
@@ -38,8 +35,6 @@
 void codeLookup();
 void searchArea();
 int dialouge();
-
-
 /* ================= TRACK PLAYER ================= */
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
@@ -75,11 +70,10 @@ int worldState = 1;
 // Forest Village quest
 char* quest1RewardsGOOD[32] = {"Steel Armor ( 27 HP )", "Health Elixer", "Health Potion", "Health Potion", "Elderite Gemstone"};
 char* quest1RewardsEVIL[32] = {"Golden Sword ( 8 ATK )", "Health Elixer", "Health Potion", "Berzerker Potion"};
-char* quest2RewardsGOOD[32] = {"Knight Armor ( 28 HP )", "Health Potion", "Focus Charm", "Verdent Plains Key"};
+char* quest2RewardsGOOD[32] = {"Knight Armor ( 28 HP )", "Knight Bow ( 6 ATK )", "Health Potion", "Focus Charm", "Verdent Plains Key"};
 char* quest2RewardsEVIL[32] = {"Knight Sword ( 9 ATK )", "Knight Armor ( 28 HP )", "Berzerker Potion", "Verdent Plains Key"};
 
 // If you guys are feeling creative you can edit the names of the areas here and it wont break anything
-//                                 vvvv                       vvvvv                    vvvvv
 // but adding areas WILL require you to change the number of locations in the array
 char availableLocations[6][32] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", "The Crystal Caves", "The Celestial Mountains", "Acention"};
 char progressKey[32][32] = {"Forest Village", "Outpost", "Plains"};
@@ -164,13 +158,20 @@ Monster final[] = { // You will recive a really strong weapon before this guys d
 */
 int options() {
     char* locColor = areaColor();
+    printf("                   What would you like to do?\n\n");
     printf("\n[ Location: %s%s%s ] [ Progress: %d / %d ] [ Karma: %d / 100 ]\n", locColor, currentLoc, NORMAL, storyProgress, maxStoryProgress, karma);
     printf("╔══════════════════════════════════════════════════════════════╗\n");
-    printf("║                  What would you like to do?                  ║\n");
+    printf("║                            EXPLORE                           ║\n");
     printf("║                                                              ║\n");
     printf("║     [1]    [2]        [3]         [4]       [5]      [6]     ║\n");
     printf("║   [WALK] [SEARCH] [ENCOUNTER] [INVENTORY] [TRAVEL] [STATS]   ║\n");
     printf("╚══════════════════════════════════════════════════════════════╝\n");
+    // printf("╔══════════════════════════════╗╔══════════════════════════════╗\n");
+    // printf("║            INSPECT           ║║             BUILD            ║\n");
+    // printf("║                              ║║                              ║\n");
+    // printf("║     [A]      [B]    [C]      ║║       [D]     [E]   [F]      ║\n");
+    // printf("║   [STATS] [QUESTS] [LOG]     ║║     [CRAFT] [BREW] [RUNE]    ║\n");
+    // printf("╚══════════════════════════════╝╚══════════════════════════════╝\n");
 
     char choice;
     printf("> ");
@@ -246,17 +247,48 @@ int options() {
         statsPage();
         return 6;
     }
+    else if (choice == 'a' || choice == 'A') {
+        system("cls");
+        printf("This feature has not been added yet...\n");
+        return 7;
+    }
+    else if (choice == 'b' || choice == 'B') {
+        system("cls");
+        printf("This feature has not been added yet...\n");
+        return 8;
+    }
+    else if (choice == 'c' || choice == 'C') {
+        system("cls");
+        printf("This feature has not been added yet...\n");
+        return 9;
+    }
+    else if (choice == 'd' || choice == 'D') {
+        system("cls");
+        printf("This feature has not been added yet...\n");
+        return 10;
+    }
+    else if (choice == 'e' || choice == 'E') {
+        system("cls");
+        printf("This feature has not been added yet...\n");
+        return 11;
+    }
+    else if (choice == 'f' || choice == 'F') {
+        system("cls");
+        printf("This feature has not been added yet...\n");
+        return 12;
+    }
     // === SUPER SECRET DEBUGGING OPTIONS (shhhh)===
-    else if (choice == '7') { 
+    else if (choice == 'w') { 
         maxTurnDamage = 10000;
         maxPlayerTurnDamage = 10000;
         system("cls");
         printf("ONE SHOT mode\n");
     }
-    else if (choice == '8'){
+    else if (choice == 'x'){
+        system("cls");
         codeLookup();
     }
-    else if (choice == '9'){
+    else if (choice == 'y'){
         system("cls");
         int newProgress = 0;
         printf("PROGRESS:\n\n");
@@ -268,16 +300,15 @@ int options() {
         scanf(" %d", &newProgress);
         storyProgress = newProgress;
         printf("Your story progress is [ %s ].\n", progressKey[newProgress-1]);
-        return 5;
     }
     else {
         system("cls");
         printf("Invalid choice, choose a number.\n");
         return options();
     }
+    
 }
-
-/* ==================================== MAIN GAME LOOP ==================================== */
+/* ================= MAIN STORY ================= */
 /**
  * This is where the story takes place
  * The players current place in the story is tracked by storyProgress
@@ -429,8 +460,9 @@ int main(void) {
                     if (questGauntlet(quest2GOOD, 4, "Flagon", "the Outpost") == 1) {
                         printf("You defeated every Flagon invading the Outpost...\n");
                         printf("They were no match for you...\n");
-                        questRewards(quest2RewardsGOOD, 4, 40);
+                        questRewards(quest2RewardsGOOD, 5, 40);
                         quest2Action++;
+                        storyProgress++;
                     }
                 }
                 else if (strcmp(quest2choice, "EVIL") == 0){
@@ -439,6 +471,7 @@ int main(void) {
                         printf("They were no match for you...\n");
                         questRewards(quest2RewardsEVIL, 4, 50);
                         quest2Action--;
+                        storyProgress++;
                     }
                 }
                 else {
@@ -530,7 +563,6 @@ int dialouge() {
     
 }
 /* ================= DEBUGGING ================= */
-
 void codeLookup() {
     //find ANSI codes (so i dont have to look it up every time i want a new color)
 
