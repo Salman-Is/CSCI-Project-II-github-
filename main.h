@@ -22,6 +22,8 @@
 
 #define BOLD "\x1b[1m"
 #define UNBOLD "\x1b[22m"
+#define ITALIC "\033[3m"
+#define UNTALIC "\033[23m"
 
 #define GOOD  1
 #define EVIL  -1

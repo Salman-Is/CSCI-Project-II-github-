@@ -98,38 +98,31 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2
         if(strcmp(inventory[choice].name, "Health Potion") == 0)
         {
             system("cls");
-            removeItem("Health Potion");
             *playerHP += 5;
             if (*playerHP > playerMaxHP){
                 *playerHP = playerMaxHP;
             }
             return;
         }
-        if(strcmp(inventory[choice].name, "Health Elixer") == 0)
-        {
+        if(strcmp(inventory[choice].name, "Health Elixer") == 0){
             system("cls");
             removeItem("Health Elixer");
-            printf("You used a Health Elixer!\n");
             *playerHP += 10;
             if (*playerHP > playerMaxHP){
                 *playerHP = playerMaxHP;
             }
             return;
         }
-        if(strcmp(inventory[choice].name, "Focus Charm") == 0)
-        {
+        if(strcmp(inventory[choice].name, "Focus Charm") == 0){
             system("cls");
             removeItem("Focus Charm");
-            printf("You used a Focus Charm!\n");
             critDamage = 2;
             return;
         }
-        if(strcmp(inventory[choice].name, "Berzerker Potion") == 0)
-        {
+        if(strcmp(inventory[choice].name, "Berzerker Potion") == 0){
             system("cls");
             removeItem("Berzerker Potion");
-            printf("You used a Berzerker Potion!\n");
-            attackBuff = 1.75;
+            attackBuff = 2;
             return;
         }
     }
@@ -240,25 +233,23 @@ char* areaColor() {
 /*================= EVENT FUNCTIONS ================= */
 
 // In game events found by searching, quests, etc.
-// The ascii art for these were made by chatgpt by the way
+// The ascii art for these were made by chatgpt by the way (except the chest & dice)
 void loreTablet(char text[]) {
-    printf("┌───────────────────┐\n");
-    printf("│  ┌─────────────┐  │\n");
-    printf("│  │             │  │\n");
-    printf("│  │  --  -----  │  │\n");
-    printf("│  │  ---------  │  │\n");
-    printf("│  │  -- ------  │  │\n");
-    printf("│  │             │  │\n");
-    printf("│  │  - -------  │  │\n");
-    printf("│  │  ---  ----  │  │\n");
-    printf("│  │  -- ------  │  │\n");
-    printf("│  │             │  │\n");
-    printf("│  └─────────────┘  │\n");
-    printf("└───────────────────┘\n");
+    printf("╔══════════════╗\n");
+    printf("║              ║\n");
+    printf("║   ═ ══ ═══   ║\n");
+    printf("║   ═══ ════   ║\n");
+    printf("║   ═══  ═══   ║\n");
+    printf("║   ════════   ║\n");
+    printf("║   ═══  ═══   ║\n");
+    printf("║   ══ ═════   ║\n");
+    printf("║              ║\n");
+    printf("╠══════════════╣\n");
+    printf("╚══════════════╝\n\n");
     printf("You found a stone tablet!\n");
     printf("Its words are thus...\n\n");
 
-    printf("'%s'\n", text);
+    printf("\"%s%s%s\"\n", ITALIC, text, UNTALIC);
 }
 // Some lore tablets have specific replies, but most don't
 // This is to save time so I dont have to type responses ever time theres a new tablet
@@ -293,14 +284,10 @@ void riddle(char message[], char correct[], int *search, char reward[]) {
     printf("What is your answer?\n> ");
     char answer[99];
     fgets(answer, 99, stdin);
-
-    // remove newline
-    if (fgets(answer, 99, stdin))
-    {
-        int len = strlen(answer);
-        if ((len > 0) && (answer[len-1] == '\n'))
-            answer[len-1] = '\0';
-    }
+    fgets(answer, 99, stdin);
+    // doing fgets twice made it work for some reason????
+    // it had some strange behavior where it sent previous inputs as the answer automatically
+    // no idea why this works
 
     for (int i = 0; answer[i] != '\0'; i++) {
         answer[i] = tolower(answer[i]);
@@ -315,11 +302,11 @@ void riddle(char message[], char correct[], int *search, char reward[]) {
         printf("          ╔════════════╗\n");
         printf("         ╔══════════════╗\n");
         printf("       ╔══════════════════╗\n");
-        printf("   ·   ║      ╔════╗      ║   ·\n");
-        printf("  ·  · ║      ║    ║      ║ ·  ·\n");
-        printf("    ·  ║    ╔═╩════╩═╗    ║  ·\n");
-        printf("     · ║    ║        ║    ║   ·\n");
-        printf("  ·    ║    ║        ║    ║    ·\n");
+        printf("   o   ║      ╔════╗      ║   o\n");
+        printf("  o  · ║      ║    ║      ║ ·  ·\n");
+        printf("    ·  ║    ╔═╩════╩═╗    ║  o\n");
+        printf("     o ║    ║        ║    ║   ·\n");
+        printf("  ·  . ║    ║        ║    ║    o\n");
         printf("       ╠════╩════════╩════╣\n");
         printf("       ║                  ║\n");
         printf("       ╚══════════════════╝\n\n");
@@ -335,12 +322,12 @@ void riddle(char message[], char correct[], int *search, char reward[]) {
 
         printf("          ╔════════════╗\n");
         printf("         ╔══════════════╗\n");
-        printf("       ╔══════════════════╗\n");
-        printf(" ·     ║      ╔════╗      ║     ·\n");
-        printf("    ·  ║      ║    ║      ║  ·\n");
-        printf(" ·     ║    ╔═╩════╩═╗    ║    ·\n");
-        printf("   ·   ║    ║        ║    ║ ·\n");
-        printf("      ·║    ║        ║    ║   ·\n");
+        printf("    o  ╔══════════════════╗\n");
+        printf(" ·     ║      ╔════╗      ║ .    ·\n");
+        printf("    ·  ║      ║    ║      ║  o\n");
+        printf(" o     ║    ╔═╩════╩═╗    ║    ·\n");
+        printf("   ·   ║    ║        ║    ║ o\n");
+        printf("  .  o ║    ║        ║    ║   ·\n");
         printf("       ╠════╩════════╩════╣\n");
         printf("       ║                  ║\n");
         printf("       ╚══════════════════╝\n\n");
@@ -411,6 +398,26 @@ void chest(char key[], char item[], char chestType[], char chestColor[], int *se
     else {
         printf("Find a %s%s%s to open the chest.\n\n", chestColor, key, NORMAL);
     }
+}
+
+int dice()
+{
+    int roll = rand() % 6 + 1;
+    
+    // I know it looks strange, but this is an array of dice
+    char faces[6][200] = {
+        "           ╔═════════╗\n           ║         ║\n           ║    ○    ║\n           ║         ║\n           ╚═════════╝",
+        "           ╔═════════╗\n           ║       ● ║\n           ║         ║\n           ║ ●       ║\n           ╚═════════╝",
+        "           ╔═════════╗\n           ║       ● ║\n           ║    ○    ║\n           ║ ●       ║\n           ╚═════════╝",
+        "           ╔═════════╗\n           ║ ●     ● ║\n           ║         ║\n           ║ ●     ● ║\n           ╚═════════╝",
+        "           ╔═════════╗\n           ║ ●     ● ║\n           ║    ○    ║\n           ║ ●     ● ║\n           ╚═════════╝",
+        "           ╔═════════╗\n           ║ ●     ● ║\n           ║ ●     ● ║\n           ║ ●     ● ║\n           ╚═════════╝"
+    };
+
+    system("cls");
+    printf("%s\n", faces[roll-1]);
+
+    return roll;
 }
 
 char* questAlignment(char goodOption[], char evilOption[]) {

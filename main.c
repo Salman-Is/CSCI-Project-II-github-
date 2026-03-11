@@ -3,6 +3,8 @@
 # include <stdlib.h>
 # include <time.h>
 # include <ctype.h>
+# include <unistd.h>
+# include <windows.h>
 
 # include "battle.h"
 # include "main.h"
@@ -33,7 +35,9 @@
     - (You guys can create new features if you're up for it)
 */
 void codeLookup();
+void fastForward();
 void searchArea();
+void giveItem();
 int dialouge();
 /* ================= TRACK PLAYER ================= */
 // the storyProgress variable tracks where the player is in the story
@@ -88,7 +92,6 @@ Monster forest[] = {
     {"Deer", 1, 5, 20, 4, GOOD, "Leather"},       // Easy, 5-letter pattern
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"},       // Easy, 5-letter pattern
     {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"},       // Medium, 5-letter pattern
-    {"Key Golem", 1, 3, 30, 1, GOOD, "Verdent Key"}
 };
 Monster quest1GOOD[] = { // help village
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"},
@@ -152,18 +155,22 @@ Monster final[] = { // You will recive a really strong weapon before this guys d
 };
 
 /* ================= PLAYER OPTIONS ================= */
-/*
-    - User is prompted with what they want to do
-    - Switch case returns the choice
-*/
+/**
+ * User is prompted with what they want to do 
+ * There are 6 options right now, and the player can chose from those 6
+ * The function checks for your input and returns a value based on that
+ * 
+ * I sort of changed it around a bit, so now the onyl return statement that matters
+ * is return 1, but I left the others there just in case we need them again
+ */
 int options() {
     char* locColor = areaColor();
-    printf("                   What would you like to do?\n\n");
+    printf("\n%sWhat would you like to do?%s\n", BOLD, UNBOLD);
     printf("\n[ Location: %s%s%s ] [ Progress: %d / %d ] [ Karma: %d / 100 ]\n", locColor, currentLoc, NORMAL, storyProgress, maxStoryProgress, karma);
     printf("╔══════════════════════════════════════════════════════════════╗\n");
     printf("║                            EXPLORE                           ║\n");
     printf("║                                                              ║\n");
-    printf("║     [1]    [2]        [3]         [4]       [5]      [6]     ║\n");
+    printf("║     [1]    [2]        [3]         [4]       [5]      [6]     ║\n"); // STATS will be changed to "shop" in project 3
     printf("║   [WALK] [SEARCH] [ENCOUNTER] [INVENTORY] [TRAVEL] [STATS]   ║\n");
     printf("╚══════════════════════════════════════════════════════════════╝\n");
     // printf("╔══════════════════════════════╗╔══════════════════════════════╗\n");
@@ -219,7 +226,6 @@ int options() {
         if (isTravelling == 0){
             saveLocation = location;
         }
-        
         int newLocation = 0;
         printf("LOCATIONS:\n\n");
         for(int i = 0; i < sizeof(availableLocations)/sizeof(availableLocations[0]); i++)
@@ -230,11 +236,13 @@ int options() {
         printf("> ");
         scanf(" %d", &newLocation);
         if (newLocation != 0 && newLocation <= sizeof(availableLocations)/sizeof(availableLocations[0])){
+            system("cls");
             location = newLocation;
             isTravelling = 1;
             printf("You travel to the %s.\n", availableLocations[newLocation-1]);
         }
         else if (newLocation == 0){
+            system("cls");
             location = saveLocation;
             isTravelling = 0;
             printf("You return to the %s.\n", progressKey[storyProgress-1]);
@@ -290,16 +298,11 @@ int options() {
     }
     else if (choice == 'y'){
         system("cls");
-        int newProgress = 0;
-        printf("PROGRESS:\n\n");
-        for(int i = 0; i < (sizeof(progressKey)/sizeof(progressKey[0])); i++)
-        {
-            printf("[%d] %s\n",(i+1), progressKey[i]);
-        }
-        printf("> ");
-        scanf(" %d", &newProgress);
-        storyProgress = newProgress;
-        printf("Your story progress is [ %s ].\n", progressKey[newProgress-1]);
+        fastForward();
+    }
+    else if (choice == 'z') {
+        system("cls");
+        giveItem();
     }
     else {
         system("cls");
@@ -311,45 +314,12 @@ int options() {
 /* ================= MAIN STORY ================= */
 /**
  * This is where the story takes place
+ * The game asks the player what they want to do every chance it gets
+ * if options() returns 1, it progresses the story 
  * The players current place in the story is tracked by storyProgress
- * storyProgress is incremented whenever the player makes significant progress
- * This includes starting a quest, finishing a quest, or returning to a previous area.
+ * storyProgress is incremented whenever the player finishes a quest
+ * 
  */
-/*
-BASIC TEMPLATE (can change depending on area):
-
-while (storyProgress == X) {
-    static int searchPoints = 1;                        <- this is how we track how many times the player found an item
-    int navigataionChoice = options();                  <- this is how we track the players input
-    if (navigataionChoice == 1) // WALK                 <- this is where the content of the story goes (dialouge, starting quests etc)
-    {
-        printf("story story story blah blah blah.\n");
-        printf("wow look this is a cool area fr story story.\n");
-        printf("wanna talk to that dude?");
-    }
-    else if (navigataionChoice == 2) // SEARCH          <- this is the where we handle trasure hunting and stuff
-    {
-        switch (searchPoints){                          <- this switch case tracks how many times the player searched (as I foreshadowed before with seachpoints)
-        case 1: // First thing you can find             <- case 1 means you find an item, then you can NEVER search for that item here again (no infinite item farming)
-            addItem("THING");                           <- addItem function (simplifies things a lot)
-            searchPoints++;                             <- don't forget to increment!
-        case 2: // second thing
-            printf("You found %s10%s Coins!", YELLOW, NORMAL);
-            coins+=10;
-            searchPoints++;
-            break;
-        case 3: // third etc.
-            addItem("THING 2"); 
-            searchPoints++;
-            break;
-        default:
-            loreTablet("CRAZY lore stuff here bro");
-            genericLoreResponse();
-            break;
-        }
-    }
-}
-*/
 int main(void) {
     system("cls");
     system("chcp 65001 > nul"); // < while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this doesnt count as A level work
@@ -486,65 +456,108 @@ int main(void) {
     }
     return 0;
 }
-
+/**
+ * This function holds all the search results for every area
+ * It's not pretty, and we will think of a better solution for project 3
+ * Basically, an if statement checks what area you are in
+ * Then, a switch case determines which item you are "on" using the static int searchPoints
+ * Its a static int so it won't get reassigned to 1 when the function is called again
+ * When you find/complete the search event, it increments searchPoints
+ * This way, you can only find something once after you complete whatever it is
+ * Except for lore tablets, which are the default in the switch case
+ * 
+ * Later on, we should make a system where theres a "pool" of possible search events
+ * and theres a random chance to get each one, so we don't need this huge switch case function
+ * Probably using structs
+ */
 void searchArea() {
-    if (location == 1) // Area One
-        {
-            static int searchPoints1 = 1; // wont get reset every time the function is called
-            switch (searchPoints1){
-            case 1: // First thing you can find
-                addItem("Health Potion", 0);
-                searchPoints1++;
-                break;
-            case 2: // second thing
-                addCoins(10, "no");
-                searchPoints1++;
-                break;
-            case 3: // third etc.
-                addItem("Steel Sword ( 6 ATK )", 0);
-                maxTurnDamage = 6; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
-                searchPoints1++;
-                break;
-            case 4: 
-                riddle("What has a head, a tail, and no body?", "coin", &searchPoints1, "Health Elixer");
-                break;
-            case 5:
-                chest("Verdent Key", "Forest Sword ( 9 ATK )", "Verdent", GREEN, &searchPoints1);
-                maxTurnDamage = 9; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
-                break;
-            case 6:
-                addItem("Steel Bow ( 5 ATK )", 0);
-                maxPlayerTurnDamage = 5; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
-                searchPoints1++;
-                break;
-            default:
-                loreTablet("Spare no thought for those above.\n Through their grace we are evolved.\n Through their plights we are destroyed.");
-                genericLoreResponse();
-                break;
-            }
+    switch (location){ // Apparently the scope of a variable created in 1 case is the entire switch case
+    case 1:
+        static int searchPoints1 = 1; // wont get reset every time the function is called
+        switch (searchPoints1){
+        case 1: // First thing you can find
+            addItem("Health Potion", 0);
+            searchPoints1++;
+            break;
+        case 2: // second thing
+            addCoins(10, "no");
+            searchPoints1++;
+            break;
+        case 3: // third etc.
+            addItem("Steel Sword ( 6 ATK )", 0);
+            maxTurnDamage = 6; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
+            searchPoints1++;
+            break;
+        case 4: 
+            riddle("What has a head, a tail, and no body?", "coin", &searchPoints1, "Ancient Coin");
+            break;
+        case 5:
+            chest("Verdent Key", "Grass Blade ( 10 ATK )", "Verdent", LIME, &searchPoints1);
+            maxTurnDamage = 10; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
+            break;
+        case 6:
+            addItem("Steel Bow ( 5 ATK )", 0);
+            maxPlayerTurnDamage = 5; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
+            searchPoints1++;
+            break;
+        default:
+            loreTablet("Spare no thought for those above.\n Through their grace we are evolved.\n Through their plights we are destroyed.");
+            genericLoreResponse();
+            break;
         }
-        else if (location == 2) // Area Two
-        {
-            static int searchPoints2 = 1; // wont get reset every time the function is called
-            switch (searchPoints2){
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4: 
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            default:
-                break;
-            }
+        break;
+    case 2:
+        static int searchPoints2 = 1; 
+        switch (searchPoints2){
+        case 1:
+            addItem("Verdent Key", 0);
+            searchPoints2++;
+            break;
+        case 2:
+            riddle("What grows without life, and consumes air with no breath?", "fire", &searchPoints2, "Flame Bow ( 7 ATK )");
+            searchPoints2++;
+            break;
+        case 3:
+            addItem("Leaf Bow(er) ( 7 ATK )", 0);
+            maxTurnDamage = 7; 
+            searchPoints2++;
+            break;
+        case 4: 
+            addCoins(25,"no");
+            searchPoints2++;
+            break;
+        case 5:
+            chest("Frost Key", "Ancient Sword ( 19 ATK )", "Frost", CYAN, &searchPoints2);
+            maxTurnDamage = 9;
+            break;
+        case 6:
+            addItem("Ancient Bow ( 14 ATK )", 0);
+            maxPlayerTurnDamage = 5;
+            searchPoints2++;
+            break;
+        default:
+            loreTablet("Creation, Paladin.\n You will know the state of the world.\n Our planet will be one.");
+            printf("This ancient message is addressed to you...");
+            break;
         }
-}
+        break;
+    case 3:
+        break;
+    case 4:
+        break;
+    case 5:
+        break;
+    case 6:
+        break;
+    default:
+        break;
+    }
 
+}
+/**
+ * Very simple function for dialouge, just checks what the player chooses
+ * and returns 1 or 0, just used to save lines of code
+ */
 int dialouge() {
     // return 1 if yes, return 2 if no
     char speakChoice[32];
@@ -553,9 +566,11 @@ int dialouge() {
         printf("> ");
         scanf(" %s", speakChoice);
         if (strcmp(speakChoice, "1") == 0 || strcmp(speakChoice, "yes") == 0){
+            system("cls");
             return 1;
         }
         else if (strcmp(speakChoice, "2") == 0 || strcmp(speakChoice, "no") == 0) {
+            system("cls");
             return 2;
         }
         printf("Invalid Choice. Please type 1/yes, or 2/no\n\n");
@@ -563,9 +578,11 @@ int dialouge() {
     
 }
 /* ================= DEBUGGING ================= */
+/**
+ * function to find ANSI codes 
+ * (so i dont have to look it up every time i want a new color)
+ */
 void codeLookup() {
-    //find ANSI codes (so i dont have to look it up every time i want a new color)
-
     for (int i = 0; i < 250; i++)
     {
         
@@ -573,4 +590,34 @@ void codeLookup() {
         printf("[ %d ] Hello World\n", i);
         printf(NORMAL);
     }
+}
+/**
+ * Functio for skipping ahead in the story so we can test it
+ * Saves time debugging if theres a new feature later in the story
+ */
+void fastForward() {
+    int newProgress = 0;
+    printf("PROGRESS:\n\n");
+    for(int i = 0; i < (sizeof(progressKey)/sizeof(progressKey[0])); i++)
+    {
+        printf("[%d] %s\n",(i+1), progressKey[i]);
+    }
+    printf("> ");
+    scanf(" %d", &newProgress);
+    storyProgress = newProgress;
+    printf("Your story progress is [ %s ].\n", progressKey[newProgress-1]);
+}
+/**
+ * Used to hack in an item into your inventory wherever you are
+ * Speeds up development
+ */
+void giveItem() {
+    printf("What item do you want to add to your inventory?\n");
+    printf("> ");
+    char item[64];
+    fgets(item, 64, stdin);
+    fgets(item, 64, stdin);
+    item[strcspn(item, "\n")] = '\0';
+    addItem(item, 1);
+    printf("You have added a [ %s%s%s ] to your inventory\n", CYAN, item, NORMAL);
 }

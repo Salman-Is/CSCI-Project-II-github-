@@ -41,15 +41,13 @@
 
     - Take damage if you don't input pattern in time
     - Weapon Upgrade function (checks if your damage would benifit from this new weapon before changing damage)
-    - Consequences of Karma (details on text page)
     - (You guys can create new features if you're up for it)
 */
 
 int critDamage = 1.25;
 int attackBuff = 1;
 
-/* ================= ADD AN ITEM FUNCTION ================= */
-// "strcmp" will return: "0" if both variables are the same
+/* ================= ITEM FUNCTIONS ================= */
 // addItem("ITEM NAME", X); X = 1 if its starting inventory, X = 0 if not
 void addItem(char* itemName, int startingItems) {
     // loop cycles through inventory 
@@ -291,7 +289,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
     int enemyMaxHP = currentEnemyHP;
 
     // reset buffs
-    critDamage = 1.25;
+    critDamage = 1.5;
     attackBuff = 1;
 
     // 0 if not players turn
@@ -398,7 +396,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 if (correct == patternLength)
                 {
                     printf("%sPERFECT COUNTER!%s\n", BLUE, NORMAL);
-                    damageToEnemy *= critDamage;
+                    damageToEnemy = (damageToEnemy*critDamage) + 2;
                 }
 
                 // again, this might never happen but I don't want to math it out lol
