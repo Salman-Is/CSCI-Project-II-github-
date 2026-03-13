@@ -60,9 +60,12 @@ char currentEnemyDrop[32] = "";
 int karma = 50;
 int maxTurnDamage = 5;  // Sword Damage (counterattacks) <-- from correct pattern
 int maxPlayerTurnDamage = 4; // Arrow Damage (direct attacks) <-- from choosing to fire arrow
-char playerName[] = "The Paladin";
 int playerMaxHP = 25;
 int coins = 0;
+
+char currentSword[] = "Iron Sword";
+char currentBow[] = "Wooden Bow";
+char currentArmor[] = "Chain Armor";
 
 Inventory inventory[100];
 int inventoryCount = 0;
@@ -101,7 +104,7 @@ Monster quest1GOOD[] = { // help village
     {"Groblin Chief", 3, 5, 35, 10, EVIL, "Groblin Tusk"}
 };
 Monster quest1EVIL[] = { // pillage village
-    {"Adventurer 'Kalen'", 1, 5, 15, 5, GOOD, "Tunic"},
+    {"Adventurer 'Kalen'", 1, 5, 15, 5, GOOD, "Leather"},
     {"Guard 'Eldric'", 3, 5, 20, 4, GOOD, "Scrap Metal"}, 
     {"Guard 'Kaelor'", 3, 5, 20, 4, GOOD, "Scrap Metal"},   
     {"Knight 'Halor'", 4, 6, 35, 10, GOOD, "Scrap Metal"}
@@ -150,9 +153,9 @@ Monster mountains[] = {
 
 // Final area bosses
 Monster final[] = { // You will recive a really strong weapon before this guys dw
-    {"Astra, Deity of JUSTICE", 6, 10, 500, 50, GOOD, "A World of Evil"},
-    {"Krya, Deity of MALICE", 6, 10, 500, 50, EVIL, "A World of Good"},
-    {"???, Deity of CHAOS", 6, 11, 750, 50, EVIL, "???"}
+    {"Astra, Deity of JUSTICE", 5, 8, 500, 30, GOOD, "A World of Evil"},
+    {"Krya, Deity of MALICE", 5, 8, 500, 30, EVIL, "A World of Good"},
+    {"???, Deity of CHAOS", 7, 9, 750, 40, EVIL, "???"}
 };
 
 /* ================= PLAYER OPTIONS ================= */
@@ -287,18 +290,22 @@ int options() {
         return 12;
     }
     // === SUPER SECRET DEBUGGING OPTIONS (shhhh)===
-    else if (choice == 'w') { // DAMAGE
-        maxTurnDamage = 10000;
-        maxPlayerTurnDamage = 10000;
+    else if (choice == 'v') { // HEALTH
+        playerMaxHP = 999;
         system("cls");
-        printf("ONE SHOT mode\n");
+        printf("Infinite health\n");
+    }
+    else if (choice == 'w') { // DAMAGE
+        maxTurnDamage = 999;
+        maxPlayerTurnDamage = 999;
+        system("cls");
+        printf("Infinte damage\n");
     }
     else if (choice == 'x'){ // FIND COLORS
         system("cls");
         codeLookup();
     }
     else if (choice == 'y'){ // SKIP TO LATER STORY
-        system("cls");
         fastForward();
     }
     else if (choice == 'z') { // ADD ITEM TO INVENTORY
@@ -366,16 +373,18 @@ int main(void) {
             exit(0);
         }
         else if (start == 3){
-            printf("SKIIIP");
-            storyProgress = 1;
+            fastForward();
         }
     
     }
     while (storyProgress == 0) {
-        printf("You wake up in the middle of a forest. It's dark, and you're alone.\n");
-        printf("You didn't exist until now, and yet you are filled with purpose. You know what you must do.\n");
-        printf("You were created for a single purpose. You must make it to the Celestial Mountains to reach Acention...\n\n");
-        printf("There, YOU, will decide the fate of this world.\n");
+        system("cls");
+        printf("══════════════════════════════════════════════════════════════════════════════════════════════════════════════\n");
+        printf("                     You wake up in the middle of a cave. It's dark, and you're alone.                        \n");
+        printf("          You didn't exist until now, and yet you are filled with purpose. You know what you must do.         \n");
+        printf("     You were created for a single purpose. You must make it to the Celestial Mountains to reach Acention...\n\n");
+        printf("                           There, YOU, will decide the fate of this world.                                    \n");
+        printf("══════════════════════════════════════════════════════════════════════════════════════════════════════════════\n");
         printf("\nPress ENTER to continue...");
         getchar();
         getchar();
@@ -387,7 +396,11 @@ int main(void) {
             time(&current_time);
         } while (difftime(current_time, start_time) < 3);
         encounter(tutorial, 1, 1);
-        printf("You leave the clearing you woke up in and start heading towards the smoke in the distance..\n");
+        system("cls");
+        printf("You look to your right and find a record of some kind...\n");
+        loreTablet("Your creators welcome you to the Kingdom of Celestia, Paladin.\n\n - Astra.            - Kyra.");
+        printf("Those names resonate with something within you...\n");
+        printf("\nYou leave the cave you woke up in and start heading towards the smoke in the distance...\n");
         printf("\nPress ENTER to continue...");
         getchar();
         getchar();
@@ -405,13 +418,15 @@ int main(void) {
             if (speak == 1){
                 system("cls"); // this character comes back stronger later if you choose evil
                 printf("[ %sAdventurer Kalen%s ]\n", GREEN, NORMAL);
-                printf("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
-                printf("║ \"Ah, I can see you noticed that our village isn't in the best shape\"                                  ║\n");
-                printf("║ \"We've had a bit of a Groblin problem, they've been attacking us relentlessly.\"                       ║\n");
-                printf("║ \"Our resident Knight, Halor, sent for backup from the nearby Outpost, but they have yet to respond.\"  ║\n");
-                printf("║ \"It really would be nice to have some backup, our resources are dwindling.\"                           ║\n");
-                printf("║ \"We kept them at bay until now, but I'm not sure if we can hold out for much longer...\"               ║\n");
-                printf("╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
+                printf("╔════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
+                printf("║                                                                                                        ║\n");
+                printf("║  \"Ah, I can see you noticed that our village isn't in the best shape\"                                  ║\n");
+                printf("║  \"We've had a bit of a Groblin problem, they've been attacking us relentlessly.\"                       ║\n");
+                printf("║  \"Our resident Knight, Halor, sent for backup from the nearby Outpost, but they have yet to respond.\"  ║\n");
+                printf("║  \"It really would be nice to have some backup, our resources are dwindling.\"                           ║\n");
+                printf("║  \"We kept them at bay until now, but I'm not sure if we can hold out for much longer...\"               ║\n");
+                printf("║                                                                                                        ║\n");
+                printf("╚════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
                 startQuest1++;
             }
             else if (speak == 2){
@@ -462,14 +477,16 @@ int main(void) {
             if (speak == 1){
                 system("cls");
                 printf("[ %sKnight Marlo%s ]\n\n", GREEN, NORMAL);
-                printf("╔════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
-                printf("║ \"Passage into the Plains has been closed by the Kingdom.\"                                              ║\n");
-                printf("║ \"A number of monster attacks have been reported in the reigon, and we must ensure the Forest is safe\"  ║\n");
-                printf("║ \"Before escorting civilians. We havent even been able to mobilize to many of the nearby vill-\"         ║\n");
+                printf("╔═════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
                 printf("║                                                                                                        ║\n");
-                printf("║ \"Ah, I see you have a sword. If you don't mind, we would appreciate it if you helped us clear out      ║\n");
-                printf("║ \"Some of these monsters. We'll pay you handsomely for you service...\"                                  ║\n");
-                printf("╚════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
+                printf("║  \"Passage into the Plains has been closed by the Kingdom.\"                                              ║\n");
+                printf("║  \"A number of monster attacks have been reported in the reigon, and we must ensure the Forest is safe\"  ║\n");
+                printf("║  \"Before escorting civilians. We havent even been able to mobilize to many of the nearby vill-\"         ║\n");
+                printf("║                                                                                                         ║\n");
+                printf("║  \"Ah, I see you have a sword. If you don't mind, we would appreciate it if you helped us clear out      ║\n");
+                printf("║  \"Some of these monsters. We'll pay you handsomely for you service...\"                                  ║\n");
+                printf("║                                                                                                         ║\n");
+                printf("╚═════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
                 startQuest2++;
             }
             else if (speak == 2){
@@ -608,13 +625,31 @@ void searchArea() {
         case 6:
             break;
         default:
-            loreTablet("Creation, Paladin.\n You will know the state of the world.\n Our planet will be one.");
+            loreTablet("Creation, Paladin.\n You will relay the state of the world.\n Our planet will be one.");
             printf("This ancient message is addressed to you...");
             break;
         }
         break;
-        break;
     case 4:
+        static int searchPoints4 = 1; 
+        switch (searchPoints4){
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4: 
+            break;
+        case 5:
+            break;
+        case 6:
+            break;
+        default:
+            loreTablet("Creation, Paladin.\n You will relay the state of the world.\n Our planet will be one.");
+            printf("This ancient message is addressed to you...");
+            break;
+        }
         break;
     case 5:
         break;
@@ -646,7 +681,6 @@ int dialouge() {
         }
         printf("Invalid Choice. Please type 1/yes, or 2/no\n\n");
     }
-    
 }
 /* ================= DEBUGGING ================= */
 /**
@@ -668,6 +702,7 @@ void codeLookup() {
  */
 void fastForward() {
     int newProgress = 0;
+    system("cls");
     printf("PROGRESS:\n\n");
     for(int i = 0; i < (sizeof(progressKey)/sizeof(progressKey[0])); i++)
     {

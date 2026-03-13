@@ -292,7 +292,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
 {
     char pattern[10];       // Enemy's attack pattern
     char user_pat[20];     // Player input
-    char letters[10] = {'X','O','A','B','C','D','E','F','G','H'}; // Possible letters for patterns
+    char letters[14] = {'X','O','A','B','C','D','E','F','G','H', 'I', 'W', 'Y', 'Z'}; // Possible letters for patterns
 
     int enemyMaxHP = currentEnemyHP;
 
@@ -341,17 +341,20 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 pattern[patternLength]='\0';
 
                 if (tutorial == 1){
-                    printf("Enemies will attack you in specific patterns, represented by letters.\n");
-                    printf("In order to use your Sword to counter the attack,\n");
-                    printf("you must replicate the pattern after it disappears\n\n");
+                    printf("═════════════════════════════════════════════════════════════════════════════════════\n");
+                    printf("         Enemies will attack you in specific patterns, represented by letters.       \n");
+                    printf("                 In order to use your Sword to counter the attack,                   \n");
+                    printf("                you must replicate the pattern after it disappears                   \n");
+                    printf("═════════════════════════════════════════════════════════════════════════════════════\n");
                     tutorial = 0;
                     printf("Press ENTER to continue...");
                     getchar();
                     getchar();
+                    system("cls");
                 }
 
                 // ----------------- UI -----------------
-                printUI(enemyName, enemyHP, enemyMaxHP, alignment, playerName, playerHP, playerMaxHP);
+                printUI(enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
 
                 time(&start_time);
                 do {
@@ -377,7 +380,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 } while (difftime(current_time, start_time) < 3);
 
                 system("cls");
-                printUI(enemyName, enemyHP, enemyMaxHP, alignment, playerName, playerHP, playerMaxHP);
+                printUI(enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
 
                 // ----------------- Player Counter Input -----------------
                 printf("\nEnter counter sequence: ");
@@ -428,18 +431,20 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
             }
             else if (playerTurn == 1){
                 if (tutorial == 1){
-                    printf("On your turn, you are given 3 choices.\n\n");
-                    printf("1. Firing an arrow deals damage based on your current Bow ATK\n");
-                    printf("2. Using an item will give you acess to healing, potions, and artifacts to help you\n");
-                    printf("3. Sparing a creature will let the creature go, but it doesn't always work on an %sEVIL%s creature...\n\n", RED, NORMAL);
-                    printf("Killing or Sparing monsters will have consequences depending on the creatures ALIGNMENT...\n");
-                    printf("Be sure your KARMA stays where you want it to be...\n\n");
-                    tutorial = 0;
+                    printf("════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n");
+                    printf("                                 On your turn, you are given 3 choices.                                       \n\n");
+                    printf("                      1. Firing an arrow deals damage based on your current Bow ATK                             \n");
+                    printf("             2. Using an item will give you acess to healing, potions, and artifacts to help you                \n");
+                    printf("      3. Sparing a creature will let the creature go, but it doesn't always work on an %sEVIL%s creature...   \n\n", RED, NORMAL);
+                    printf("           Killing or Sparing monsters will have consequences depending on the creatures ALIGNMENT...           \n");
+                    printf("                            Be sure your KARMA stays where you want it to be...                                 \n");
+                    printf("════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n\n");
                     printf("Press ENTER to continue...");
                     getchar();
                     getchar();
+                    system("cls");
                 }
-                printPlayerUI(enemyName, enemyHP, enemyMaxHP, alignment, playerName, playerHP, playerMaxHP);
+                printPlayerUI(enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
                 printf("Fire an arrow to deal damage, use an item, or spare the creature?\n");
                 printf("> ");
                 // 1 = fire arrow, 2 = use item 3 = spare
@@ -489,7 +494,6 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
         battleStart=0;
         return 2;
     }
-
     if(playerHP > 0){
         battleStart=0; 
         return 1;

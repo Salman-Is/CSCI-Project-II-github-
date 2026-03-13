@@ -16,7 +16,7 @@ char* areaColor();
 char currentLoc[32] = "Forest";
 
 /* ================= UI FUNCTIONS ================= */
-void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, char* playerName,int playerHP,int playerMaxHP)
+void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playerHP,int playerMaxHP)
 {
     char* locColor = areaColor();
     printf("It's the %s%s%s's turn...\n\n", RED, enemyName, NORMAL);
@@ -25,13 +25,13 @@ void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, char* pl
     printf("  Health: [ %02d/%d ] Damage: [ %02d ] Drop: [ %s%s%s ]\n\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
-    printf("║ [ %s%s%s ]                                                    ║\n",BLUE, playerName, NORMAL);
+    printf("║ [ %sThe Paladin%s ]                                                    ║\n",BLUE, NORMAL);
     printf("║ Health: [ %02d/%d ] Arrow: [ %02d ] Sword: [ %02d ]                      ║\n", playerHP, playerMaxHP, maxPlayerTurnDamage, maxTurnDamage);
     printf("║                                                                    ║\n");
     printf("╚════════════════════════════════════════════════════════════════════╝\n");
 }
 
-void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, char* playerName,int playerHP,int playerMaxHP)
+void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playerHP,int playerMaxHP)
 {
     char* locColor = areaColor();
     if(battleStart == 0){
@@ -50,7 +50,7 @@ void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment, ch
     printf("  Health: [ %02d/%d ] Damage: [ %02d ] Drop: [ %s%s%s ]\n\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
-    printf("║ [ %s%s%s ]                                                    ║\n",BLUE, playerName, NORMAL);
+    printf("║ [ %sThe Paladin%s ]                                                    ║\n",BLUE, NORMAL);
     printf("║ Health: [ %02d/%d ] Arrow: [ %02d ] Sword: [ %02d ]                      ║\n", playerHP, playerMaxHP, maxPlayerTurnDamage, maxTurnDamage);
     printf("║                                                                    ║\n");
     printf("╠════════════════════════════════════════════════════════════════════╣\n");
@@ -157,9 +157,13 @@ void statsPage() {
     printf("╔═══════════════════════════════════════════╗\n");
     printf("║  CHARACTER STATS                          ║\n");
     printf("╚═══════════════════════════════════════════╝\n");
-    printf("Name:        %s%s%s\n", BLUE, playerName, NORMAL);
+    printf("Name:        %sThe Paladin%s\n", BLUE, NORMAL);
     printf("%sKarma:       %d%s\n", karmaColor, karma, NORMAL);
     printf("Coins:       %d\n", coins);
+    printf("\n");
+    printf("Sword:       %s\n", currentSword);
+    printf("Bow:         %s\n", currentBow);
+    printf("Armor:       %s\n", currentArmor);
     printf("\n");
     printf("╔═══════════════════════════════════════════╗\n");             				 
     printf("╚═══════════════════════════════════════════╝\n");

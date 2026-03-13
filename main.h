@@ -50,9 +50,12 @@ extern char currentEnemyDrop[32];
 extern int karma;
 extern int maxTurnDamage;  // Sword Damage (counterattacks) <-- from correct pattern
 extern int maxPlayerTurnDamage; // Arrow Damage (direct attacks) <-- from choosing to fire arrow
-extern char playerName[];
 extern int playerMaxHP;
 extern int coins;
+
+extern char currentSword[];
+extern char currentBow[];
+extern char currentArmor[];
 
 extern Inventory inventory[100];
 extern int inventoryCount;
