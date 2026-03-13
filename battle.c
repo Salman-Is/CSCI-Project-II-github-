@@ -44,7 +44,7 @@
     - (You guys can create new features if you're up for it)
 */
 
-int critDamage = 1.25;
+int critDamage = 1.5;
 int attackBuff = 1;
 
 /* ================= ITEM FUNCTIONS ================= */
@@ -135,10 +135,11 @@ void newWeapon(char weaponName[], int weaponDamage) {
     // Only change maxTurnDamage/maxPlayerTurnDamage to weaponDamage IF its more than maxTurnDamage/maxPlayerTurnDamage
 }
 /* ================= ENCOUNTER FUNCTION ================= */
-void encounter(Monster area[], int count)
+void encounter(Monster area[], int count, int tutorial)
 {
+    // tutorial = 1
     Monster enemy = area[rand() % count];
-
+    
     currentEnemyATK = enemy.atk;
     currentEnemyHP = enemy.hp;
     strcpy(currentEnemyDrop, enemy.drop);
@@ -274,7 +275,6 @@ int questGauntlet(Monster area[], int count, char groupName[], char locationName
     return 1;
 }
 /* ================= MAIN BATTLE FUNCTION ================= */
-
 /**
  * Function for battle logic
  * @param enemyName -> tracks the current enemy
@@ -297,33 +297,23 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
 
     int playerHP = playerMaxHP;
     int enemyHP  = enemyMaxHP;
-          
     int enemyDamagePerLetter = currentEnemyATK / patternLength;
-
     time_t start_time, current_time;
-
     int spare = 0;
-
     system("cls");
 
     /* =================== BATTLE LOOP =================== */
-
-    while (playerHP > 0 && enemyHP > 0 && spare == 0)
-    {
-        if (spare == 0)
-        {
-            if (playerTurn == 0)
-            {
+    while (playerHP > 0 && enemyHP > 0 && spare == 0){
+        if (spare == 0){
+            if (playerTurn == 0){
                 // RAGE mechanic (EVIL exclusive ability)
-                if((enemyHP < enemyMaxHP / 2) && currentEnemyALIGNMENT == EVIL)
-                {
+                if((enemyHP < enemyMaxHP / 2) && currentEnemyALIGNMENT == EVIL){
                     printf("\nThe enemy is filled with %sRage%s...\n", RED, NORMAL);
                     enemyDamagePerLetter += 1;
                     printf("Enemy damage + 1\n\n");
                 }
                 // BLESSING mechanic (GOOD exclusive ability)
-                if((enemyHP < enemyMaxHP / 2) && currentEnemyALIGNMENT == GOOD)
-                {
+                if((enemyHP < enemyMaxHP / 2) && currentEnemyALIGNMENT == GOOD){
                     int blessingChance = (rand() % 100 + 1);
                     // 50% for the it to work, 50% for it to fail
                     if (blessingChance >= 50) {
@@ -393,8 +383,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 }
 
                 // perfect counter system
-                if (correct == patternLength)
-                {
+                if (correct == patternLength){
                     printf("%sPERFECT COUNTER!%s\n", BLUE, NORMAL);
                     damageToEnemy = (damageToEnemy*critDamage) + 2;
                 }
@@ -418,8 +407,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 system("cls");
                 playerTurn = 1;
             }
-            else if (playerTurn == 1)
-            {
+            else if (playerTurn == 1){
                 printPlayerUI(enemyName, enemyHP, enemyMaxHP, alignment, playerName, playerHP, playerMaxHP);
                 printf("Fire an arrow to deal damage, use an item, or spare the creature?\n");
                 printf("> ");
@@ -441,8 +429,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 }
                 else if (turnChoice == '3'){
                     system("cls");
-                    if (currentEnemyALIGNMENT == EVIL)
-                    {
+                    if (currentEnemyALIGNMENT == EVIL){
                         int randomValue = (rand() % 100 + 1);
                         // 40% for the run to work, 60% for it to fail
                         if (randomValue >= 60) {

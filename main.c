@@ -85,7 +85,7 @@ char progressKey[32][32] = {"Forest Village", "Outpost", "Plains"};
 /* ================= MONSTERS/ENEMIES ================= */
 
 // Name, difficulty, pattern size, HP, ATK, alignment, drop
-
+Monster tutorial[] = {{"Groblin Juvinile", 1, 5, 25, 0, GOOD, "Groblin Tooth"}};
 // Forest enemy groups
 Monster forest[] = {
     {"Lumora", 1, 3, 10, 3, GOOD, "Lumora Wing"},       // Easy, 3-letter pattern 
@@ -204,12 +204,12 @@ int options() {
     }
     else if (choice == '3') { // ENCOUNTER
         switch(location){
-            case 1: encounter(forest, FOREST_COUNT); break;
-            case 2: encounter(plains, PLAINS_COUNT); break;
-            case 3: encounter(lake, LAKE_COUNT); break;
-            case 4: encounter(caves, CAVES_COUNT); break;
-            case 5: encounter(mountains, MOUNTAINS_COUNT); break;
-            case 6: encounter(final, FINAL_COUNT); break;
+            case 1: encounter(forest, FOREST_COUNT, 0); break;
+            case 2: encounter(plains, PLAINS_COUNT, 0); break;
+            case 3: encounter(lake, LAKE_COUNT, 0); break;
+            case 4: encounter(caves, CAVES_COUNT, 0); break;
+            case 5: encounter(mountains, MOUNTAINS_COUNT, 0); break;
+            case 6: encounter(final, FINAL_COUNT, 0); break;
             default: printf("No monsters here.\n");
         }
         system("cls");
@@ -339,35 +339,48 @@ int main(void) {
 
     srand(time(NULL));
     while (storyProgress == -1) {
-    int start = 0;
-    printf("      _____ _            ____       _           _ _       \n");
-    printf("     |_   _| |__   ___  |  _ \\ __ _| | __ _  __| (_)_ __  \n");
-    printf("       | | | '_ \\ / _ \\ | |_) / _` | |/ _` |/ _` | | '_ \\ \n");
-    printf("       | | | | | |  __/ |  __/ (_| | | (_| | (_| | | | | |\n");
-    printf("       |_| |_| |_|\\___| |_|   \\__,_|_|\\__,_|\\__,_|_|_| |_|\n\n");
-    printf("          [ 1 ] START GAME                 [ 2 ] EXIT\n");
-    printf("╔══════════════════════════════════════════════════════════════╗\n");
-    printf("║                                                              ║\n");
-    printf("║                  Press a number to begin...                  ║\n");
-    printf("║                                                              ║\n");
-    printf("║                     Version 1.0  |  2026                     ║\n");
-    printf("║                                                              ║\n");
-    printf("╚══════════════════════════════════════════════════════════════╝\n\n");
-    printf("> ");
-    scanf(" %d", &start);
-    if (start == 1){
-        printf("Your journey begins... Paladin.");
-        storyProgress = 1; // make this 0 when tutorial is done
-    }
-    else if (start == 2){
-        printf("Abandoning your journey before it begins... interesting...");
-        exit(0);
-    }
-    
+        int start = 0;
+        printf("      _____ _            ____       _           _ _       \n");
+        printf("     |_   _| |__   ___  |  _ \\ __ _| | __ _  __| (_)_ __  \n");
+        printf("       | | | '_ \\ / _ \\ | |_) / _` | |/ _` |/ _` | | '_ \\ \n");
+        printf("       | | | | | |  __/ |  __/ (_| | | (_| | (_| | | | | |\n");
+        printf("       |_| |_| |_|\\___| |_|   \\__,_|_|\\__,_|\\__,_|_|_| |_|\n\n");
+        printf("          [ 1 ] START GAME                 [ 2 ] EXIT\n");
+        printf("╔══════════════════════════════════════════════════════════════╗\n");
+        printf("║                                                              ║\n");
+        printf("║                  Press a number to begin...                  ║\n");
+        printf("║                                                              ║\n");
+        printf("║                     Version 1.0  |  2026                     ║\n");
+        printf("║                                                              ║\n");
+        printf("╚══════════════════════════════════════════════════════════════╝\n\n");
+        printf("> ");
+        scanf(" %d", &start);
+        if (start == 1){
+            printf("Your journey begins...");
+            storyProgress = 1; // make this 0 when tutorial is done
+        }
+        else if (start == 2){
+            printf("Abandoning your journey before it begins... interesting...");
+            exit(0);
+        }
     
     }
     while (storyProgress == 0) {
-        /* TUTORIAL */
+        printf("You wake up in the middle of a forest. It's dark, and you're alone.\n");
+        printf("You didn't exist until now, and yet you are filled with purpose. You know what you must do.\n");
+        printf("You were created for a single purpose. You must make it to the Celestial Mountains to reach Acention...\n\n");
+        printf("There, YOU, will decide the fate of this world.\n");
+        printf("\nPress ENTER to continue...");
+        getchar();
+        getchar();
+        system("cls");
+        printf("Your solitude is interupted by a passing monster. Prepare youself...\n");
+        time_t start_time, current_time;
+        time(&start_time);
+        do {
+            time(&current_time);
+        } while (difftime(current_time, start_time) < 3);
+        encounter(tutorial, 1, 0);
     }
     while (storyProgress == 1) {
         int navigataionChoice = options();
@@ -568,6 +581,26 @@ void searchArea() {
         }
         break;
     case 3:
+        static int searchPoints3 = 1; 
+        switch (searchPoints3){
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4: 
+            break;
+        case 5:
+            break;
+        case 6:
+            break;
+        default:
+            loreTablet("Creation, Paladin.\n You will know the state of the world.\n Our planet will be one.");
+            printf("This ancient message is addressed to you...");
+            break;
+        }
+        break;
         break;
     case 4:
         break;
