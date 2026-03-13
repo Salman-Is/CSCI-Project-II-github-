@@ -85,10 +85,11 @@ char progressKey[32][32] = {"Forest Village", "Outpost", "Plains"};
 /* ================= MONSTERS/ENEMIES ================= */
 
 // Name, difficulty, pattern size, HP, ATK, alignment, drop
-Monster tutorial[] = {{"Groblin Juvinile", 1, 5, 25, 0, GOOD, "Groblin Tooth"}};
+Monster tutorial[] = {{"Ooz", 1, 5, 20, 2, EVIL, "Gel"}};
 // Forest enemy groups
 Monster forest[] = {
     {"Lumora", 1, 3, 10, 3, GOOD, "Lumora Wing"},       // Easy, 3-letter pattern 
+    {"Ooz", 1, 5, 20, 2, EVIL, "Gel"},
     {"Deer", 1, 5, 20, 4, GOOD, "Leather"},       // Easy, 5-letter pattern
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"},       // Easy, 5-letter pattern
     {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"},       // Medium, 5-letter pattern
@@ -286,21 +287,21 @@ int options() {
         return 12;
     }
     // === SUPER SECRET DEBUGGING OPTIONS (shhhh)===
-    else if (choice == 'w') { 
+    else if (choice == 'w') { // DAMAGE
         maxTurnDamage = 10000;
         maxPlayerTurnDamage = 10000;
         system("cls");
         printf("ONE SHOT mode\n");
     }
-    else if (choice == 'x'){
+    else if (choice == 'x'){ // FIND COLORS
         system("cls");
         codeLookup();
     }
-    else if (choice == 'y'){
+    else if (choice == 'y'){ // SKIP TO LATER STORY
         system("cls");
         fastForward();
     }
-    else if (choice == 'z') {
+    else if (choice == 'z') { // ADD ITEM TO INVENTORY
         system("cls");
         giveItem();
     }
@@ -345,7 +346,8 @@ int main(void) {
         printf("       | | | '_ \\ / _ \\ | |_) / _` | |/ _` |/ _` | | '_ \\ \n");
         printf("       | | | | | |  __/ |  __/ (_| | | (_| | (_| | | | | |\n");
         printf("       |_| |_| |_|\\___| |_|   \\__,_|_|\\__,_|\\__,_|_|_| |_|\n\n");
-        printf("          [ 1 ] START GAME                 [ 2 ] EXIT\n");
+
+        printf("        [ 1 ] START GAME                      [ 2 ] EXIT        \n");
         printf("╔══════════════════════════════════════════════════════════════╗\n");
         printf("║                                                              ║\n");
         printf("║                  Press a number to begin...                  ║\n");
@@ -356,12 +358,16 @@ int main(void) {
         printf("> ");
         scanf(" %d", &start);
         if (start == 1){
-            printf("Your journey begins...");
-            storyProgress = 1; // make this 0 when tutorial is done
+            printf("Your journey begins...\n\n");
+            storyProgress = 0; 
         }
-        else if (start == 2){
+        else if (start == 2) {
             printf("Abandoning your journey before it begins... interesting...");
             exit(0);
+        }
+        else if (start == 3){
+            printf("SKIIIP");
+            storyProgress = 1;
         }
     
     }
@@ -380,7 +386,13 @@ int main(void) {
         do {
             time(&current_time);
         } while (difftime(current_time, start_time) < 3);
-        encounter(tutorial, 1, 0);
+        encounter(tutorial, 1, 1);
+        printf("You leave the clearing you woke up in and start heading towards the smoke in the distance..\n");
+        printf("\nPress ENTER to continue...");
+        getchar();
+        getchar();
+        system("cls");
+        storyProgress = 1;
     }
     while (storyProgress == 1) {
         int navigataionChoice = options();
@@ -664,6 +676,7 @@ void fastForward() {
     printf("> ");
     scanf(" %d", &newProgress);
     storyProgress = newProgress;
+    system("cls");
     printf("Your story progress is [ %s ].\n", progressKey[newProgress-1]);
 }
 /**

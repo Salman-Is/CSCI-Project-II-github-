@@ -131,6 +131,7 @@ Checklist ====================================================================
 > Later Editions Optional (we 100% can't add them all, choose the best/most feasable ones) 
 
     - Stamina system (so you can't spam attacks)
+    - Bounties
     - More gamemodes (Hard mode (stronger enemies), Hardcore mode (one life), etc)
     - Titles/Achivements to collect
     - Side quests

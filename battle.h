@@ -9,7 +9,7 @@
 extern int critDamage;
 extern int attackBuff;
 
-int runBattle(char* enemyName, int difficultyLevel, int patternLength, int alignment, double sec_to_wait);
+int runBattle(char* enemyName, int difficultyLevel, int patternLength, int alignment, double sec_to_wait, int tutorial);
 void printUI(char* enemyName, int enemyHP, int enemyMaxHP, int alignment, char* playerName, int playerHP, int playerMaxHP);
 void printPlayerUI(char* enemyName, int enemyHP, int enemyMaxHP, int alignment, char* playerName, int playerHP, int playerMaxHP);
 void openInventory(int inBattle, int *playerHP, int playerMaxHP);

@@ -151,8 +151,16 @@ void encounter(Monster area[], int count, int tutorial)
     currentEnemyALIGNMENT = enemy.alignment;
     
     printf("A %s [%s%s%s] appears before you!\n", enemy.name, alignmentColor, alignmentText, NORMAL);
-
-    int result = runBattle(enemy.name, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0);
+    int result;
+    if (tutorial != 1)
+    {
+        result = runBattle(enemy.name, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0, 0);
+    }
+    else if (tutorial == 1) {
+        result = runBattle(enemy.name, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0, 1);
+    }
+    
+    
     // check if battle won --> check alignment --> check karma -->
     // max karma is 100, min karma is 0
     if (result == 1)
@@ -228,7 +236,7 @@ int questGauntlet(Monster area[], int count, char groupName[], char locationName
         
         printf("A %s [%s%s%s] appears before you!\n", enemy.name, alignmentColor, alignmentText, NORMAL);
 
-        int result = runBattle(enemy.name, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0);
+        int result = runBattle(enemy.name, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0, 0);
 
         if (result == 1)
         {
@@ -280,7 +288,7 @@ int questGauntlet(Monster area[], int count, char groupName[], char locationName
  * @param enemyName -> tracks the current enemy
  * @param difficultyLevel -> 
  */
-int runBattle(char* enemyName, int difficultyLevel, int patternLength, int alignment, double sec_to_wait)
+int runBattle(char* enemyName, int difficultyLevel, int patternLength, int alignment, double sec_to_wait, int tutorial)
 {
     char pattern[10];       // Enemy's attack pattern
     char user_pat[20];     // Player input
@@ -332,6 +340,16 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 }
                 pattern[patternLength]='\0';
 
+                if (tutorial == 1){
+                    printf("Enemies will attack you in specific patterns, represented by letters.\n");
+                    printf("In order to use your Sword to counter the attack,\n");
+                    printf("you must replicate the pattern after it disappears\n\n");
+                    tutorial = 0;
+                    printf("Press ENTER to continue...");
+                    getchar();
+                    getchar();
+                }
+
                 // ----------------- UI -----------------
                 printUI(enemyName, enemyHP, enemyMaxHP, alignment, playerName, playerHP, playerMaxHP);
 
@@ -339,6 +357,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 do {
                     time(&current_time);
                 } while (difftime(current_time, start_time) < 3);
+                
 
                 printf("\nEnemy prepares an attack!\n");
                 printf("Counter this pattern:\n[ ");
@@ -408,6 +427,18 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 playerTurn = 1;
             }
             else if (playerTurn == 1){
+                if (tutorial == 1){
+                    printf("On your turn, you are given 3 choices.\n\n");
+                    printf("1. Firing an arrow deals damage based on your current Bow ATK\n");
+                    printf("2. Using an item will give you acess to healing, potions, and artifacts to help you\n");
+                    printf("3. Sparing a creature will let the creature go, but it doesn't always work on an %sEVIL%s creature...\n\n", RED, NORMAL);
+                    printf("Killing or Sparing monsters will have consequences depending on the creatures ALIGNMENT...\n");
+                    printf("Be sure your KARMA stays where you want it to be...\n\n");
+                    tutorial = 0;
+                    printf("Press ENTER to continue...");
+                    getchar();
+                    getchar();
+                }
                 printPlayerUI(enemyName, enemyHP, enemyMaxHP, alignment, playerName, playerHP, playerMaxHP);
                 printf("Fire an arrow to deal damage, use an item, or spare the creature?\n");
                 printf("> ");
