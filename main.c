@@ -42,7 +42,7 @@ int dialouge();
 /* ================= TRACK PLAYER ================= */
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
-int storyProgress = 1;
+int storyProgress = -1;
 int maxStoryProgress = 32;
 int location = 1; // 1=forest, 2=plains, 3=lake 
 int saveLocation = 1;
@@ -338,8 +338,35 @@ int main(void) {
     int quest5Action = 0;
 
     srand(time(NULL));
-    while (storyProgress == 0)
-    {
+    while (storyProgress == -1) {
+    int start = 0;
+    printf("      _____ _            ____       _           _ _       \n");
+    printf("     |_   _| |__   ___  |  _ \\ __ _| | __ _  __| (_)_ __  \n");
+    printf("       | | | '_ \\ / _ \\ | |_) / _` | |/ _` |/ _` | | '_ \\ \n");
+    printf("       | | | | | |  __/ |  __/ (_| | | (_| | (_| | | | | |\n");
+    printf("       |_| |_| |_|\\___| |_|   \\__,_|_|\\__,_|\\__,_|_|_| |_|\n\n");
+    printf("          [ 1 ] START GAME                 [ 2 ] EXIT\n");
+    printf("╔══════════════════════════════════════════════════════════════╗\n");
+    printf("║                                                              ║\n");
+    printf("║                  Press a number to begin...                  ║\n");
+    printf("║                                                              ║\n");
+    printf("║                     Version 1.0  |  2026                     ║\n");
+    printf("║                                                              ║\n");
+    printf("╚══════════════════════════════════════════════════════════════╝\n\n");
+    printf("> ");
+    scanf(" %d", &start);
+    if (start == 1){
+        printf("Your journey begins... Paladin.");
+        storyProgress = 1; // make this 0 when tutorial is done
+    }
+    else if (start == 2){
+        printf("Abandoning your journey before it begins... interesting...");
+        exit(0);
+    }
+    
+    
+    }
+    while (storyProgress == 0) {
         /* TUTORIAL */
     }
     while (storyProgress == 1) {
@@ -515,10 +542,9 @@ void searchArea() {
             break;
         case 2:
             riddle("What grows without life, and consumes air with no breath?", "fire", &searchPoints2, "Flame Bow ( 7 ATK )");
-            searchPoints2++;
             break;
         case 3:
-            addItem("Leaf Bow(er) ( 7 ATK )", 0);
+            addItem("Rimegrass Bow ( 6 ATK )", 0);
             maxTurnDamage = 7; 
             searchPoints2++;
             break;
