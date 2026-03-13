@@ -178,7 +178,7 @@ int options() {
     // printf("║            INSPECT           ║║             BUILD            ║\n");
     // printf("║                              ║║                              ║\n");
     // printf("║     [A]      [B]    [C]      ║║       [D]     [E]   [F]      ║\n");
-    // printf("║   [STATS] [QUESTS] [LOG]     ║║     [CRAFT] [BREW] [RUNE]    ║\n");
+    // printf("║   [STATS]  [CHAT]  [LOG]     ║║     [CRAFT] [BREW] [RUNE]    ║\n");
     // printf("╚══════════════════════════════╝╚══════════════════════════════╝\n");
 
     char choice;
