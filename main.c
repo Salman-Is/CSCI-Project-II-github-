@@ -37,9 +37,8 @@
 */
 void codeLookup();
 void fastForward();
-void searchArea();
 void giveItem();
-int dialouge();
+
 /* ================= TRACK PLAYER ================= */
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
@@ -81,8 +80,7 @@ char* quest1RewardsEVIL[32] = {"Golden Sword ( 8 ATK )", "Health Elixer", "Healt
 char* quest2RewardsGOOD[32] = {"Knight Armor ( 28 HP )", "Knight Bow ( 6 ATK )", "Health Potion", "Focus Charm", "Verdent Plains Key"};
 char* quest2RewardsEVIL[32] = {"Knight Sword ( 9 ATK )", "Knight Armor ( 28 HP )", "Berzerker Potion", "Verdent Plains Key"};
 
-// If you guys are feeling creative you can edit the names of the areas here and it wont break anything
-// but adding areas WILL require you to change the number of locations in the array
+/* ================= AREA/LOCATION NAMES ================= */
 char availableLocations[6][32] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", "The Crystal Caves", "The Celestial Mountains", "Acention"};
 char progressKey[32][32] = {"Forest Village", "Outpost", "Plains"};
 
@@ -540,149 +538,7 @@ int main(void) {
  * and theres a random chance to get each one, so we don't need this huge switch case function
  * Probably using structs
  */
-void searchArea() {
-    switch (location){ // Apparently the scope of a variable created in 1 case is the entire switch case
-    case 1:
-        static int searchPoints1 = 1; // wont get reset every time the function is called
-        switch (searchPoints1){
-        case 1: // First thing you can find
-            addItem("Health Potion", 0);
-            searchPoints1++;
-            break;
-        case 2: // second thing
-            addCoins(10, "no");
-            searchPoints1++;
-            break;
-        case 3: // third etc.
-            addItem("Steel Sword ( 6 ATK )", 0);
-            maxTurnDamage = 6; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
-            searchPoints1++;
-            break;
-        case 4: 
-            riddle("What has a head, a tail, and no body?", "coin", &searchPoints1, "Ancient Coin");
-            break;
-        case 5:
-            chest("Verdent Key", "Grass Blade ( 10 ATK )", "Verdent", LIME, &searchPoints1);
-            maxTurnDamage = 10; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
-            break;
-        case 6:
-            addItem("Steel Bow ( 5 ATK )", 0);
-            maxPlayerTurnDamage = 5; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
-            searchPoints1++;
-            break;
-        default:
-            loreTablet("Spare no thought for those above.\n Through their grace we are evolved.\n Through their plights we are destroyed.");
-            genericLoreResponse();
-            break;
-        }
-        break;
-    case 2:
-        static int searchPoints2 = 1; 
-        switch (searchPoints2){
-        case 1:
-            addItem("Verdent Key", 0);
-            searchPoints2++;
-            break;
-        case 2:
-            riddle("What grows without life, and consumes air with no breath?", "fire", &searchPoints2, "Flame Bow ( 7 ATK )");
-            break;
-        case 3:
-            addItem("Rimegrass Bow ( 6 ATK )", 0);
-            maxTurnDamage = 7; 
-            searchPoints2++;
-            break;
-        case 4: 
-            addCoins(25,"no");
-            searchPoints2++;
-            break;
-        case 5:
-            chest("Frost Key", "Ancient Sword ( 19 ATK )", "Frost", CYAN, &searchPoints2);
-            maxTurnDamage = 9;
-            break;
-        case 6:
-            addItem("Ancient Bow ( 14 ATK )", 0);
-            maxPlayerTurnDamage = 5;
-            searchPoints2++;
-            break;
-        default:
-            loreTablet("Creation, Paladin.\n You will know the state of the world.\n Our planet will be one.");
-            printf("This ancient message is addressed to you...");
-            break;
-        }
-        break;
-    case 3:
-        static int searchPoints3 = 1; 
-        switch (searchPoints3){
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4: 
-            break;
-        case 5:
-            break;
-        case 6:
-            break;
-        default:
-            loreTablet("Creation, Paladin.\n You will relay the state of the world.\n Our planet will be one.");
-            printf("This ancient message is addressed to you...");
-            break;
-        }
-        break;
-    case 4:
-        static int searchPoints4 = 1; 
-        switch (searchPoints4){
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4: 
-            break;
-        case 5:
-            break;
-        case 6:
-            break;
-        default:
-            loreTablet("Creation, Paladin.\n You will relay the state of the world.\n Our planet will be one.");
-            printf("This ancient message is addressed to you...");
-            break;
-        }
-        break;
-    case 5:
-        break;
-    case 6:
-        break;
-    default:
-        break;
-    }
 
-}
-/**
- * Very simple function for dialouge, just checks what the player chooses
- * and returns 1 or 0, just used to save lines of code
- */
-int dialouge() {
-    // return 1 if yes, return 2 if no
-    char speakChoice[32];
-    while(1) {
-        printf("[ 1 | Yes ]     [ 2 | No ]\n");
-        printf("> ");
-        scanf(" %s", speakChoice);
-        if (strcmp(speakChoice, "1") == 0 || strcmp(speakChoice, "yes") == 0){
-            system("cls");
-            return 1;
-        }
-        else if (strcmp(speakChoice, "2") == 0 || strcmp(speakChoice, "no") == 0) {
-            system("cls");
-            return 2;
-        }
-        printf("Invalid Choice. Please type 1/yes, or 2/no\n\n");
-    }
-}
 /* ================= DEBUGGING ================= */
 /**
  * function to find ANSI codes 
