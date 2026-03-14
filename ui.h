@@ -7,6 +7,7 @@ void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playe
 void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playerHP,int playerMaxHP);
 void openInventory(int inBattle, int *playerHP, int playerMaxHP);
 void statsPage();
+void healthBar(int currentHP, int maxHP);
 char* areaColor();
 
 #endif 

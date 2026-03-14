@@ -39,10 +39,10 @@ void codeLookup();
 void fastForward();
 void giveItem();
 
-/* ================= TRACK PLAYER ================= */
+/* ================= TRACK PLAYER ================= */ // STORY POGRESS -1
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
-int storyProgress = -1;
+int storyProgress = 1;
 int maxStoryProgress = 32;
 int location = 1; // 1=forest, 2=plains, 3=lake 
 int saveLocation = 1;

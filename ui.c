@@ -23,11 +23,15 @@ void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playe
     printf("It's the %s%s%s's turn...\n\n", RED, enemyName, NORMAL);
     printf("══════════════════════════════════════════════════════════════════════\n\n");
     printf("  [ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
-    printf("  Health: [ %02d/%d ] Damage: [ %02d ] Drop: [ %s%s%s ]\n\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
+    printf("  Health: ");
+    healthBar(enemyHP, enemyMaxHP);
+    printf(" Damage: [ %02d ] Drop: [ %s%s%s ]\n\n", currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
     printf("║ [ %sThe Paladin%s ]                                                    ║\n",BLUE, NORMAL);
-    printf("║ Health: [ %02d/%d ] Arrow: [ %02d ] Sword: [ %02d ]                      ║\n", playerHP, playerMaxHP, maxPlayerTurnDamage, maxTurnDamage);
+    printf("║ Health: [ %02d/%d ] ", playerHP, playerMaxHP);
+    healthBar(playerHP, playerMaxHP);
+    printf(" Arrow: [ %02d ] Sword: [ %02d ]       ║\n", maxPlayerTurnDamage, maxTurnDamage);
     printf("║                                                                    ║\n");
     printf("╚════════════════════════════════════════════════════════════════════╝\n");
 }
@@ -48,11 +52,15 @@ void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int
     }
     printf("══════════════════════════════════════════════════════════════════════\n\n");
     printf("  [ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
-    printf("  Health: [ %02d/%d ] Damage: [ %02d ] Drop: [ %s%s%s ]\n\n", enemyHP, enemyMaxHP, currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
+    printf("  Health: ");
+    healthBar(enemyHP, enemyMaxHP);
+    printf(" Damage: [ %02d ] Drop: [ %s%s%s ]\n\n", currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
     printf("║ [ %sThe Paladin%s ]                                                    ║\n",BLUE, NORMAL);
-    printf("║ Health: [ %02d/%d ] Arrow: [ %02d ] Sword: [ %02d ]                      ║\n", playerHP, playerMaxHP, maxPlayerTurnDamage, maxTurnDamage);
+    printf("║ Health: [ %02d/%d ] ", playerHP, playerMaxHP);
+    healthBar(playerHP, playerMaxHP);
+    printf(" Arrow: [ %02d ] Sword: [ %02d ]       ║\n", maxPlayerTurnDamage, maxTurnDamage);
     printf("║                                                                    ║\n");
     printf("╠════════════════════════════════════════════════════════════════════╣\n");
     printf("║ [ 1 | FIRE ARROW ]     [ 2 | USE ITEM ]     [ 3 | SPARE CREATURE ] ║\n");
@@ -197,11 +205,6 @@ void statsPage() {
     */
 }
 
-void healthBar(int enemyHP,int enemyMaxHP, int alignment,int playerHP,int playerMaxHP) {
-    // looks like this: HP: 20/25 [####################-----]
-    // idk maybe it's unecessary but it would be cool
-}
-
 char* areaColor() {
     switch (location)
     {
@@ -235,4 +238,23 @@ char* areaColor() {
     }
 }
 
+/*
+This function creates an hp bar compatible with the player and enemy
+It runs an equation
+x/10 = currentHP/maxHP to find a sutible ratio to represent the current HP of whatever
+we put in the parameters of the function. x is basically the amount of filled bars 
+that should be printed, aka currentBars.
+*/
+void healthBar(int currentHP, int maxHP) {
+    int maxBars = 10;
+    int cuurentBars = (currentHP * maxBars) / maxHP;
 
+    printf("[ ");
+    for (int i = 0; i < maxBars; i++) {
+        if (i <= cuurentBars)
+            printf("■");  
+        else
+            printf("%s■%s", BLACK, NORMAL);
+    }
+    printf(" ]");
+}

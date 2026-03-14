@@ -111,7 +111,6 @@ Checklist ====================================================================
 
 > FOR SURE Later Editions
 
-    - Health bars 
     - Better dialouge system 
     - New areas (3 cities, 2 'biomes')
     - Coins and shops 
