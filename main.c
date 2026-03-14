@@ -6,9 +6,10 @@
 # include <unistd.h>
 # include <windows.h>
 
-# include "battle.h"
-# include "main.h"
-# include "ui.h"
+#include "battle.h"
+#include "main.h"
+#include "ui.h"
+#include "events.h"
 
 //MAIN script from which the entire game will be run
 
