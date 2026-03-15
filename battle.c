@@ -72,7 +72,7 @@ void addItem(char* itemName, int startingItems) {
     {
         inventory[found].quantity++;
         if (startingItems == 0) {
-            printf("You obtained another %s%s%s!\n", YELLOW, itemName, NORMAL);
+            printf("You obtained another %s%s%s!\n", GOLD, itemName, NORMAL);
         }
     }
     // if not found, create new stack
@@ -82,7 +82,7 @@ void addItem(char* itemName, int startingItems) {
         inventoryCount++;
         if (startingItems == 0)
         {
-            printf("You obtained: %s%s%s!\n", YELLOW, itemName, NORMAL);
+            printf("You obtained: %s%s%s!\n", GOLD, itemName, NORMAL);
         }
     }
     else
@@ -166,9 +166,10 @@ void encounter(Monster area[], int count, int tutorial)
     // max karma is 100, min karma is 0
     if (result == 1)
     {
+        printf("You defeated the %s%s%s!\n\n", alignmentColor, enemy.name, NORMAL);
         addItem(enemy.drop, 0);
         addCoins(5, "battle");
-        printf("You defeated the %s%s%s!\n\n", alignmentColor, enemy.name, NORMAL);
+        printf("\n");
         if (enemy.alignment == GOOD) {
             printf("You killed a %sGOOD%s creature!\n", CYAN, NORMAL);
             grantKarma(0, 5, "An immense guilt weighs upon your soul...");
@@ -533,11 +534,11 @@ void grantKarma(int addOrSubtract, int amount, char message[]) { //subtract = 0,
 void addCoins(int amount, char message[]) {
     if (strcmp(message, "battle") == 0)
     {
-        printf("You obtained %d %sCoins%s!\n", amount, NEONYELLOW, NORMAL);
+        printf("You obtained %d %sCoins%s!\n", amount, YELLOW, NORMAL);
         coins += amount;
     }
     else {
-        printf("You found %d %sCoins%s!\n", amount, NEONYELLOW, NORMAL);
+        printf("You found %d %sCoins%s!\n", amount, YELLOW, NORMAL);
         coins += amount;
     }
 }

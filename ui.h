@@ -10,4 +10,10 @@ void statsPage();
 void healthBar(int currentHP, int maxHP);
 char* areaColor();
 
+typedef struct {
+    char name[64];
+    char description[500];
+    char color[16]; // WHITE, GREEN, BLUE, PURPLE, GOLD, YELLOW
+} Item;
+
 #endif 

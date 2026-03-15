@@ -252,7 +252,7 @@ void healthBar(int currentHP, int maxHP) {
     printf("[ ");
     for (int i = 0; i < maxBars; i++) {
         if (i <= cuurentBars)
-            printf("■");  
+            printf("%s■%s", WHITE, NORMAL);  
         else
             printf("%s■%s", BLACK, NORMAL);
     }

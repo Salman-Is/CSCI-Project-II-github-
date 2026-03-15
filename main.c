@@ -42,7 +42,7 @@ void giveItem();
 /* ================= TRACK PLAYER ================= */ // STORY POGRESS -1
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
-int storyProgress = 1;
+int storyProgress = -1;
 int maxStoryProgress = 32;
 int location = 1; // 1=forest, 2=plains, 3=lake 
 int saveLocation = 1;
@@ -230,12 +230,16 @@ int options() {
             saveLocation = location;
         }
         int newLocation = 0;
-        printf("LOCATIONS:\n\n");
+        printf("╔═════════════════════════════════════╗\n");
+        printf("[#] | LOCATIONS                       ║\n");
+        printf("╚═════════════════════════════════════╝\n");
         for(int i = 0; i < sizeof(availableLocations)/sizeof(availableLocations[0]); i++)
         {
             printf("[%d] %s\n",(i+1), availableLocations[i]);
         }
-        printf("\n[0] < Return to story\n\n");
+        printf("╔═════════════════════════════════════╗\n");  
+        printf("[0] | < Return to story               ║\n");           				 
+        printf("╚═════════════════════════════════════╝\n\n");
         printf("> ");
         scanf(" %d", &newLocation);
         if (newLocation != 0 && newLocation <= sizeof(availableLocations)/sizeof(availableLocations[0])){
@@ -347,16 +351,16 @@ int main(void) {
     srand(time(NULL));
     while (storyProgress == -1) {
         int start = 0;
-        printf("      _____ _            ____       _           _ _       \n");
+        printf("%s      _____ _            ____       _           _ _       \n", BOLD);
         printf("     |_   _| |__   ___  |  _ \\ __ _| | __ _  __| (_)_ __  \n");
         printf("       | | | '_ \\ / _ \\ | |_) / _` | |/ _` |/ _` | | '_ \\ \n");
         printf("       | | | | | |  __/ |  __/ (_| | | (_| | (_| | | | | |\n");
-        printf("       |_| |_| |_|\\___| |_|   \\__,_|_|\\__,_|\\__,_|_|_| |_|\n\n");
+        printf("       |_| |_| |_|\\___| |_|   \\__,_|_|\\__,_|\\__,_|_|_| |_|%s\n\n", UNBOLD);
 
         printf("        [ 1 ] START GAME                      [ 2 ] EXIT        \n");
         printf("╔══════════════════════════════════════════════════════════════╗\n");
         printf("║                                                              ║\n");
-        printf("║                  Press a number to begin...                  ║\n");
+        printf("║                  Enter a number to begin...                  ║\n");
         printf("║                                                              ║\n");
         printf("║                     Version 1.0  |  2026                     ║\n");
         printf("║                                                              ║\n");
@@ -397,8 +401,8 @@ int main(void) {
         encounter(tutorial, 1, 1);
         system("cls");
         printf("You look to your right and find a record of some kind...\n");
-        loreTablet("Your creators welcome you to the Kingdom of Celestia, Paladin.\n\n - Astra.            - Kyra.");
-        printf("Those names resonate with something within you...\n");
+        loreTablet("Your creators welcome you to the Kingdom of Celestia, Paladin.\n\n- Astra.                                                 - Kyra.");
+        printf("\nThose names resonate with something within you...\n");
         printf("\nYou leave the cave you woke up in and start heading towards the smoke in the distance...\n");
         printf("\nPress ENTER to continue...");
         getchar();
