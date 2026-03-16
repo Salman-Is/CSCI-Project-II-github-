@@ -13,7 +13,12 @@ char* areaColor();
 typedef struct {
     char name[64];
     char description[500];
+    char itemCatagorey[16]; // weapon, armor, potion etc
+    char itemType[16]; // sword, bow, healing etc
     char color[16]; // WHITE, GREEN, BLUE, PURPLE, GOLD, YELLOW
+    int value; // defense, healing, damage etc. 
 } Item;
+
+
 
 #endif 

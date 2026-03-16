@@ -383,3 +383,26 @@ int dialouge() {
         printf("Invalid Choice. Please type 1/yes, or 2/no\n\n");
     }
 }
+
+// don't know if I can do this lol
+char** dungeon() {
+    char empty[3] = "[ ]";
+    char none[3] = "   ";
+    char player[3] = "[P]";
+    char tresure[3] = "[X]";
+    char monster[3] = "[M]";
+
+    char point[3][25] = "";
+
+    char map[32][256] = {point[0], point[1], point[2], point[3], point[4], "\n",
+                         point[5], point[6], point[7], point[8], point[9], "\n",
+                         point[10], point[11], point[12], point[13], point[14], "\n",
+                         point[15], point[16], point[17], point[18], point[19], "\n",
+                         point[20], point[21], point[22], point[23], point[24], "\n"};
+    
+    for (int i = 0; i < 24; i++)
+    {
+        strcpy(point[0],)
+    }
+    
+}

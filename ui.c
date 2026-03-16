@@ -15,6 +15,41 @@
 char* areaColor();
 
 char currentLoc[32] = "Forest";
+/* ================= ITEM DEFINITIONS ================= */
+
+// currently not implimented into the game at all
+
+// Swords ---------------------------------------------
+Item ironSword[] = {"Iron Sword ( 5 )", "A basic, chipped sword found in a cave.", "Weapon", "Sword", WHITE, 5};
+Item steelSword[] = {"Steel Sword ( 6 )", "A sturdy bow forged with iron and carbon.", "Weapon", "Sword", WHITE, 6};
+Item goldSword[] = {"Gold Sword ( 8 )", "A heavy, oriental sword unfit for battle, though it still works.", "Weapon", "Sword", GREEN, 8};
+Item grassBlade[] = {"Grass Blade ( 10 )", "A strange sword enchanted with natural magic.", "Weapon", "Sword", GREEN, 10};
+
+// Bows ---------------------------------------------
+Item woodenBow[] = {"Wooden Bow ( 4 )", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4};
+Item steelBow[] = {"Steel Bow ( 5 )", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5};
+Item knightBow[] = {"Knight Bow ( 6 )", "The offical bow used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Bow", GREEN, 6};
+Item rimegrassBow[] = {"Rimegrass Bow ( 6 )", "A strange bow enchanted with natural magic.", "Weapon", "Bow", GREEN, 6};
+Item flameBow[] = {"Flame Bow ( 7 )", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7};
+Item ancientBow[] = {"Ancient Bow ( 14 )", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14};
+
+// Armor ---------------------------------------------
+// hp starts at 25, the number next to the name is how much it adds to your health, and the int at the end is your health after addition
+Item chainArmor[] = {"Chain Armor ( 5 )", "A flimsy set of armor found in a cave.", "Armor", "Armor", WHITE, 25};
+Item steelArmor[] = {"Steel Armor ( 7 )", "A set of armor forged with iron and carbon.", "Armor", "Armor", WHITE, 27};
+Item knightArmor[] = {"Knight Armor ( 9 )", "The offical set of armor used by Knights of NAMEOFTHEKINGDOM.", "Armor", "Armor", GREEN, 29};
+
+// Drops ---------------------------------------------
+
+// Special ---------------------------------------------
+Item verdentKey[] = {"Verdent Key", "An emerald key found in the Plains. It has to open something...", "Item", "Key", GREEN, 0};
+Item frostKey[] = {"Frost Key", "A saffire key found in the Caves. It has to open something...", "Item", "Key", CYAN, 0};
+
+// Potions/Charms ---------------------------------------------
+Item healthPotion[] = {"Health Potion", "A potion that will heal most injuries.", "Potion", "Healing", WHITE, 5};
+Item healthElixer[] = {"Health Potion", "A magical potion made with the blessing of Astra.", "Potion", "Healing", GREEN, 10};
+Item berzerkerPotion[] = {"Berzerker Potion", "An unstable potion that draws out your deep power.", "Potion", "Attack+", GREEN, 2};
+Item focusCharm[] = {"Focus Charm", "An artifact that brings with it a calming force.", "Charm", "Crit+", CYAN, 2};
 
 /* ================= UI FUNCTIONS ================= */
 void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playerHP,int playerMaxHP)

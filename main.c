@@ -401,7 +401,7 @@ int main(void) {
         encounter(tutorial, 1, 1);
         system("cls");
         printf("You look to your right and find a record of some kind...\n");
-        loreTablet("Your creators welcome you to the Kingdom of Celestia, Paladin.\n\n- Astra.                                                 - Kyra.");
+        loreTablet("Your creators welcome you to the Kingdom of idk, Paladin.\n\n- Astra.                                                 - Kyra.");
         printf("\nThose names resonate with something within you...\n");
         printf("\nYou leave the cave you woke up in and start heading towards the smoke in the distance...\n");
         printf("\nPress ENTER to continue...");
