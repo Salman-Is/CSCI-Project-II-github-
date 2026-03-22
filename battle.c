@@ -50,6 +50,10 @@ int attackBuff = 1;
 
 /* ================= ITEM FUNCTIONS ================= */
 // addItem("ITEM NAME", X); X = 1 if its starting inventory, X = 0 if not
+void newAddItem(Item item, int startingItems) {
+
+}
+
 void addItem(char* itemName, int startingItems) {
     // loop cycles through inventory 
     // if the new item has the same name as an item thats already in the
@@ -541,4 +545,9 @@ void addCoins(int amount, char message[]) {
         printf("You found %d %sCoins%s!\n", amount, YELLOW, NORMAL);
         coins += amount;
     }
+}
+
+int fireArrow() {
+    system("cls");
+    printf("You draw your %s...\n", currentBow);
 }

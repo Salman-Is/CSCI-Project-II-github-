@@ -3,14 +3,6 @@
 #include "ui.h"
 #include "events.h"
 
-/*
-    >>>>>>>>>>>>>>>> TODO LIST <<<<<<<<<<<<<<<<<
-
-    - Finish STAT screen
-    - Add more events
-    - Better travelling system (only to area you alread went to)
-    - (You guys can create new features if you're up for it)
-*/
 
 char* areaColor();
 
@@ -19,13 +11,13 @@ char currentLoc[32] = "Forest";
 
 // currently not implimented into the game at all
 
-// Swords ---------------------------------------------
+// Swords ------------------------------------------------------------------
 Item ironSword[] = {"Iron Sword ( 5 )", "A basic, chipped sword found in a cave.", "Weapon", "Sword", WHITE, 5};
 Item steelSword[] = {"Steel Sword ( 6 )", "A sturdy bow forged with iron and carbon.", "Weapon", "Sword", WHITE, 6};
 Item goldSword[] = {"Gold Sword ( 8 )", "A heavy, oriental sword unfit for battle, though it still works.", "Weapon", "Sword", GREEN, 8};
 Item grassBlade[] = {"Grass Blade ( 10 )", "A strange sword enchanted with natural magic.", "Weapon", "Sword", GREEN, 10};
 
-// Bows ---------------------------------------------
+// Bows ------------------------------------------------------------------
 Item woodenBow[] = {"Wooden Bow ( 4 )", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4};
 Item steelBow[] = {"Steel Bow ( 5 )", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5};
 Item knightBow[] = {"Knight Bow ( 6 )", "The offical bow used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Bow", GREEN, 6};
@@ -33,19 +25,36 @@ Item rimegrassBow[] = {"Rimegrass Bow ( 6 )", "A strange bow enchanted with natu
 Item flameBow[] = {"Flame Bow ( 7 )", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7};
 Item ancientBow[] = {"Ancient Bow ( 14 )", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14};
 
-// Armor ---------------------------------------------
+// Armor ------------------------------------------------------------------
 // hp starts at 25, the number next to the name is how much it adds to your health, and the int at the end is your health after addition
 Item chainArmor[] = {"Chain Armor ( 5 )", "A flimsy set of armor found in a cave.", "Armor", "Armor", WHITE, 25};
 Item steelArmor[] = {"Steel Armor ( 7 )", "A set of armor forged with iron and carbon.", "Armor", "Armor", WHITE, 27};
 Item knightArmor[] = {"Knight Armor ( 9 )", "The offical set of armor used by Knights of NAMEOFTHEKINGDOM.", "Armor", "Armor", GREEN, 29};
 
-// Drops ---------------------------------------------
+// Drops ------------------------------------------------------------------
+Item gel[] = {"Gel", "An oozing mass with little use", "Drop", "NULL", WHITE, 0};
+Item lumoraWing[] = {"Lumora Wing", "The fragile wing of a Lumora", "Drop", "NULL", WHITE, 0};
+Item leather[] = {"Leather", "A supple material useful for crafting", "Drop", "NULL", WHITE, 0};
+Item groblinTooth[] = {"Groblin Tooth", "A blunt tooth used for crushing prey", "Drop", "NULL", WHITE, 0};
+Item emberScale[] = {"Ember Scale", "A firey scale with magical properties", "Drop", "NULL", GREEN, 0};
 
-// Special ---------------------------------------------
+Item beastlyTooth[] = {"Beastly Tooth", "A sharp, serated tooth that causes infection", "Drop", "NULL", WHITE, 0};
+Item nimoraWing[] = {"Nimora Wing", "The fragile wing of a Lumora", "Drop", "NULL", WHITE, 0};
+Item trollLeather[] = {"Troll Leather", "Leather that has been hardened by Troll engineering", "Drop", "NULL", WHITE, 0};
+Item fossilizedMoss[] = {"Fossilized Moss", "Hardened moss from the back of an ancient creature", "Drop", "NULL", GREEN, 0};
+Item greatAntlers[] = {"Great Antlers", "Proof you took down a Great Stag", "Drop", "NULL", WHITE, 0};
+
+Item shellShard[] = {"Shell Shard", "A sturdy shard of a Mega Turtle that is the base of Tide Armor", "Drop", "NULL", WHITE, 0};
+Item venomVial[] = {"Venom Vial", "A drop of venom collected from a Lake Serpent", "Drop", "NULL", WHITE, 0};
+Item krakenTentacle[] = {"Kraken Tentacle", "The arm of a Kraken useful for potions", "Drop", "NULL", WHITE, 0};
+Item shinyScale[] = {"Shiny Scale", "A gleaming scale that can be used to craft charms", "Drop", "NULL", WHITE, 0};
+Item gelatinousMass[] = {"Gelatinous Mass", "A large, oozing mass with little use", "Drop", "NULL", WHITE, 0};
+
+// Special ------------------------------------------------------------------
 Item verdentKey[] = {"Verdent Key", "An emerald key found in the Plains. It has to open something...", "Item", "Key", GREEN, 0};
 Item frostKey[] = {"Frost Key", "A saffire key found in the Caves. It has to open something...", "Item", "Key", CYAN, 0};
 
-// Potions/Charms ---------------------------------------------
+// Potions/Charms --------------------------------------------------------------
 Item healthPotion[] = {"Health Potion", "A potion that will heal most injuries.", "Potion", "Healing", WHITE, 5};
 Item healthElixer[] = {"Health Potion", "A magical potion made with the blessing of Astra.", "Potion", "Healing", GREEN, 10};
 Item berzerkerPotion[] = {"Berzerker Potion", "An unstable potion that draws out your deep power.", "Potion", "Attack+", GREEN, 2};
@@ -61,6 +70,7 @@ void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playe
     printf("  Health: ");
     healthBar(enemyHP, enemyMaxHP);
     printf(" Damage: [ %02d ] Drop: [ %s%s%s ]\n\n", currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
+    printf("══════════════════════════════════════════════════════════════════════\n");
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
     printf("║ [ %sThe Paladin%s ]                                                    ║\n",BLUE, NORMAL);
@@ -90,6 +100,7 @@ void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int
     printf("  Health: ");
     healthBar(enemyHP, enemyMaxHP);
     printf(" Damage: [ %02d ] Drop: [ %s%s%s ]\n\n", currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
+    printf("══════════════════════════════════════════════════════════════════════\n");
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
     printf("║ [ %sThe Paladin%s ]                                                    ║\n",BLUE, NORMAL);
@@ -214,6 +225,7 @@ void statsPage() {
     printf("\nPress ENTER to continue...");
     getchar();
     getchar();
+    system("cls");
     // Add other stats
     // Should look like this when done
     // Karma between 0-33 -> EVIL, 34-66 -> NEUTRAL, 67(lol)-100 -> GOOD;
@@ -226,6 +238,9 @@ void statsPage() {
     Location:    Forest
     Karma:       65
     Coins:       100
+
+    Title:       [Something Cool]
+    
 
     Armor: (name of armor) -> +X health 
     Sword: (name of sword) -> +X damage
@@ -273,12 +288,12 @@ char* areaColor() {
     }
 }
 
-/*
-This function creates an hp bar compatible with the player and enemy
-It runs an equation
-x/10 = currentHP/maxHP to find a sutible ratio to represent the current HP of whatever
-we put in the parameters of the function. x is basically the amount of filled bars 
-that should be printed, aka currentBars.
+/**
+* This function creates an hp bar compatible with the player and enemy
+* It runs an equation
+* x/10 = currentHP/maxHP to find a sutible ratio to represent the current HP of whatever
+* we put in the parameters of the function. x is basically the amount of filled bars 
+* that should be printed, aka currentBars.
 */
 void healthBar(int currentHP, int maxHP) {
     int maxBars = 10;
