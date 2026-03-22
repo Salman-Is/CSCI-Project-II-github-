@@ -422,7 +422,5 @@ void dialougeBox(char* name, char* color, char* dialougeText[]) {
             time(&current_time);
         } while (difftime(current_time, start_time) < 2);
     }
-    printf("\nPress ENTER to continue...");
-    getchar();
-    getchar();
+    pressEnter();
 }

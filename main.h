@@ -35,6 +35,9 @@ typedef struct {
     int quantity;
 } Inventory;
 
+void pressEnter();
+void playerAl();
+
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
 extern int storyProgress;
@@ -54,6 +57,8 @@ extern int maxTurnDamage;  // Sword Damage (counterattacks) <-- from correct pat
 extern int maxPlayerTurnDamage; // Arrow Damage (direct attacks) <-- from choosing to fire arrow
 extern int playerMaxHP;
 extern int coins;
+
+extern char playerAlignment[];
 
 extern char currentSword[];
 extern char currentBow[];

@@ -125,16 +125,16 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2
         for(int i = 0; i < inventoryCount; i++)
         {
             if (strcmp(inventory[i].name, "Health Potion") == 0) {
-                printf("[%d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
+                printf("[%02d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
             }
             else if (strcmp(inventory[i].name, "Health Elixer") == 0) {
-                printf("[%d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
+                printf("[%02d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
             }
             else if (strcmp(inventory[i].name, "Focus Charm") == 0) {
-                printf("[%d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
+                printf("[%02d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
             }
             if (strcmp(inventory[i].name, "Berzerker Potion") == 0) {
-                printf("[%d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
+                printf("[%02d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
             }
         }        
         printf("╔═════════════════════════════════════╗\n");             				 
@@ -188,7 +188,7 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2
         printf("╚═════════════════════════════════════╝\n");
         for(int i = 0; i < inventoryCount; i++)
         {
-            printf("[%d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
+            printf("[%02d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
         }                     				 
         printf("╔═════════════════════════════════════╗\n");             				 
         printf("╚═════════════════════════════════════╝\n");
@@ -219,13 +219,12 @@ void statsPage() {
     printf("\n");
     printf("Sword:       %s\n", currentSword);
     printf("Bow:         %s\n", currentBow);
-    printf("Armor:       %s\n", currentArmor);
+    printf("Armor:       %s\n\n", currentArmor);
+    printf("Alignment:   NEUTRAL\n");
     printf("\n");
     printf("╔═══════════════════════════════════════════╗\n");             				 
     printf("╚═══════════════════════════════════════════╝\n");
-    printf("\nPress ENTER to continue...");
-    getchar();
-    getchar();
+    pressEnter();
     system("cls");
     // Add other stats
     // Should look like this when done
@@ -260,23 +259,23 @@ char* areaColor() {
     switch (location)
     {
     case 1:
-        strcpy(currentLoc, "Forest");
+        strcpy(currentLoc, "Forest of Echoes");
         return GREEN;
 
     case 2:
-        strcpy(currentLoc, "Plains");
+        strcpy(currentLoc, "Verdent Plains");
         return LIME;
 
     case 3:
-        strcpy(currentLoc, "Lake");
+        strcpy(currentLoc, "Blue Lake");
         return CYAN;
 
     case 4:
-        strcpy(currentLoc, "Caves");
+        strcpy(currentLoc, "Crystal Caves");
         return DARKBLUE;
 
     case 5:
-        strcpy(currentLoc, "Mountains");
+        strcpy(currentLoc, "Celestial Mountains");
         return BLACK;
 
     case 6:

@@ -63,6 +63,8 @@ int maxPlayerTurnDamage = 4; // Arrow Damage (direct attacks) <-- from choosing 
 int playerMaxHP = 25;
 int coins = 0;
 
+char playerAlignment[] = "NEUTRAL";
+
 char currentSword[] = "Iron Sword";
 char currentBow[] = "Wooden Bow";
 char currentArmor[] = "Chain Armor";
@@ -170,6 +172,12 @@ char* marlo_1[500] = {"Passage into the Plains has been closed by the Kingdom.",
     "Before escorting civilians. We havent even been able to mobilize to many of the nearby vill-",
     "Ah, I see you have a sword. If you don't mind, we would appreciate it if you helped us clear out",
     "some of these monsters. We'll pay you handsomely for you service..."};
+char* lorel_1[500] = {"Oh, a fellow adventurer! Greetings sir, care to help us?", 
+    "We found this here map, but we can't really decipher it, do you know this language?",};
+char* sypha_1[500] = {"Oh come on, how could he know this language? Even I can't recognize it.", 
+    "We need to bring it to a real historian, not a random passerby"};
+char* lorel_2[500] = {"Gosh, it couldn't hurt to at least check Sypha.", 
+    "", "Sorry for the trouble sir, but DO you know this language?"};
 
 /* ================= PLAYER OPTIONS ================= */
 /**
@@ -182,8 +190,9 @@ char* marlo_1[500] = {"Passage into the Plains has been closed by the Kingdom.",
  */
 int options() {
     char* locColor = areaColor();
+    playerAl();
     printf("\n%sWhat would you like to do?%s\n", BOLD, UNBOLD);
-    printf("\n[ Location: %s%s%s ] [ Progress: %d / %d ] [ Karma: %d / 100 ]\n", locColor, currentLoc, NORMAL, storyProgress, maxStoryProgress, karma);
+    printf("\n[ Location: %s%s%s ] [ Progress: %d / %d ] [ %s ]\n", locColor, currentLoc, NORMAL, storyProgress, maxStoryProgress, playerAlignment);
     printf("╔══════════════════════════════════════════════════════════════╗\n");
     printf("║                            EXPLORE                           ║\n");
     printf("║                                                              ║\n");
@@ -379,20 +388,22 @@ int main(void) {
     srand(time(NULL));
     while (storyProgress == -1){ // Start Menu
         int start = 0;
-        printf("%s      _____ _            ____       _           _ _       \n", BOLD);
-        printf("     |_   _| |__   ___  |  _ \\ __ _| | __ _  __| (_)_ __  \n");
-        printf("       | | | '_ \\ / _ \\ | |_) / _` | |/ _` |/ _` | | '_ \\ \n");
-        printf("       | | | | | |  __/ |  __/ (_| | | (_| | (_| | | | | |\n");
-        printf("       |_| |_| |_|\\___| |_|   \\__,_|_|\\__,_|\\__,_|_|_| |_|%s\n\n", UNBOLD);
+        printf("%s%s", BOLD, CYAN);
+        printf("              _____ _            ____       _           _ _       \n");
+        printf("           / |_   _| |__   ___  |  _ \\ __ _| | __ _  __| (_)_ __  \n");
+        printf(" _________/>___| |_| '_ \\ / _ \\_| |_) / _  | |/ _  |/ _  | |  _ \\ ____________\n");
+        printf("|__________|___| |_| | | |  __/_|  __/ (_| | | (_| | (_| | | | | |____________/\n");
+        printf("          \\>   |_| |_| |_|\\___| |_|   \\____|_|\\____|\\____|_|_| |_|                           \n");
+        printf("           \\ %s%s\n\n", UNBOLD, NORMAL);
 
-        printf("        [ 1 ] START GAME                      [ 2 ] EXIT        \n");
-        printf("╔══════════════════════════════════════════════════════════════╗\n");
-        printf("║                                                              ║\n");
-        printf("║                  Enter a number to begin...                  ║\n");
-        printf("║                                                              ║\n");
-        printf("║                     Version 1.0  |  2026                     ║\n");
-        printf("║                                                              ║\n");
-        printf("╚══════════════════════════════════════════════════════════════╝\n\n");
+        printf("        [ 1 ] START GAME            [ 2 ] EXIT           [ 3 ] SKIP TUTORIAL     \n");
+        printf("╔════════════════════════════════════════════════════════════════════════════════╗\n");
+        printf("║                                                                                ║\n");
+        printf("║                           Enter a number to begin...                           ║\n");
+        printf("║                                                                                ║\n");
+        printf("║                              Version 1.0  |  2026                              ║\n");
+        printf("║                                                                                ║\n");
+        printf("╚════════════════════════════════════════════════════════════════════════════════╝\n\n");
         printf("> ");
         scanf(" %d", &start);
         if (start == 1){
@@ -417,9 +428,7 @@ int main(void) {
         printf("     You were created for a single purpose. You must make it to the Celestial Mountains to reach Acention...\n\n");
         printf("                           There, YOU, will decide the fate of this world.                                    \n");
         printf("══════════════════════════════════════════════════════════════════════════════════════════════════════════════\n");
-        printf("\nPress ENTER to continue...");
-        getchar();
-        getchar();
+        pressEnter();
         system("cls");
         printf("Your solitude is interupted by a passing monster. Prepare youself...\n");
         time_t start_time, current_time;
@@ -433,9 +442,7 @@ int main(void) {
         loreTablet("Your creators welcome you to the Kingdom of NAMEOFTHEKINGDOM, Paladin.\n\n- Astra.                                                 - Kyra.");
         printf("\nThose names resonate with something within you...\n");
         printf("\nYou leave the cave you woke up in and start heading towards the smoke in the distance...\n");
-        printf("\nPress ENTER to continue...");
-        getchar();
-        getchar();
+        pressEnter();
         system("cls");
         storyProgress = 1;
     }
@@ -480,9 +487,7 @@ int main(void) {
                 else {
                     continue;
                 }
-                printf("\nPress ENTER to continue...");
-                getchar();
-                getchar();
+                pressEnter();
             }
         }
     }
@@ -525,9 +530,8 @@ int main(void) {
                 else {
                     continue;
                 }
-                printf("\nPress ENTER to exit the %sForest%s...", GREEN, NORMAL);
-                getchar();
-                getchar();
+                location = 2;
+                pressEnter();
             }
              
         }
@@ -542,14 +546,18 @@ int main(void) {
             int speak = dialouge();
             if (speak == 1){
                 system("cls");
-
+                dialougeBox("Crusader Lorel", GOLD, lorel_1);
+                dialougeBox("Mage Sypha", LILAC, sypha_1);
+                dialougeBox("Crusader Lorel", GOLD, lorel_2);
                 startQuest3++;
             }
             else if (speak == 2){
-                printf("The Knight's stare at you with suspicion...\n");
+                printf("The group continues walking...\n");
             }
             if (startQuest3 != 0){
-                char* questhoice = questAlignment("Assist the Knights", "Turn your sword on them for the Key");
+                printf("You look at the map, and you recognize the language.\n");
+                printf("It's the same one as the record tablet you found in that cave...\n");
+                char* questhoice = questAlignment("Assist the adventurers", "Strike them down for the map");
                 if (strcmp(questhoice, "GOOD") == 0){
                     if (questGauntlet(quest2GOOD, 4, "Flagon", "the Outpost") == 1) {
                         printf("You defeated every Flagon invading the Outpost...\n");
@@ -571,14 +579,43 @@ int main(void) {
                 else {
                     continue;
                 }
-                printf("\nPress ENTER to exit the %sForest%s...", GREEN, NORMAL);
-                getchar();
-                getchar();
+                pressEnter();
             }
              
         }
     }
     return 0;
+}
+
+// Source - https://stackoverflow.com/a/1406437
+// Posted by Eric Petroelje, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-03-22, License - CC BY-SA 2.5
+
+// Technically I did change it up a bit but it's basically the same
+void pressEnter() {
+    int enter;
+    printf("\nPress Enter to continue...");
+    while ((enter = getchar()) != '\n');
+    getchar();
+}
+
+void playerAl() {
+    // Karma between 0-33 -> EVIL, 34-66 -> NEUTRAL, 67(lol)-100 -> GOOD;
+    if (karma < 33 && strcmp(playerAlignment, "EVIL") != 0){
+        strcpy(playerAlignment, "EVIL");
+        printf("%sYou stray further from the natural order...\n%s", RED, NORMAL);
+        printf("Even the shadows whisper your name in fear.\n\n");
+    }
+    else if (karma <= 66 && strcmp(playerAlignment, "NEUTRAL") != 0){
+        strcpy(playerAlignment, "NEUTRAL");
+        printf("%sYou walk the line of chaos and order.%s\n", WHITE, NORMAL);
+        printf("The world treats you with cautious respect.\n\n");
+    }
+    else if (karma > 66 && strcmp(playerAlignment, "GOOD") != 0){
+        strcpy(playerAlignment, "GOOD");
+        printf("%sYou feel a surge of righteousness fill your heart.%s\n", CYAN, NORMAL);
+        printf("The spirits sing your name with reversence.\n\n");
+    }
 }
 
 /* ================= DEBUGGING ================= */

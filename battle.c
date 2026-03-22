@@ -210,10 +210,7 @@ void encounter(Monster area[], int count, int tutorial)
     }
 
     printf("Current Karma: %d\n", karma);
-    printf("\nPress ENTER to continue...");
-    // https://stackoverflow.com/questions/18801483/press-any-key-to-continue-function-in-c
-    getchar(); 
-    getchar();
+    pressEnter();
 }
 
 int questGauntlet(Monster area[], int count, char groupName[], char locationName[]) {
@@ -279,9 +276,7 @@ int questGauntlet(Monster area[], int count, char groupName[], char locationName
         }
 
         printf("\nPrepare for the next enemy...\n");
-        printf("Press ENTER to continue...");
-        getchar();
-        getchar();
+        pressEnter();
         system("cls");
     }
 
@@ -353,9 +348,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                     printf("                you must replicate the pattern after it disappears                   \n");
                     printf("═════════════════════════════════════════════════════════════════════════════════════\n");
                     tutorial = 0;
-                    printf("Press ENTER to continue...");
-                    getchar();
-                    getchar();
+                    pressEnter();
                     system("cls");
                 }
 
@@ -445,9 +438,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                     printf("           Killing or Sparing monsters will have consequences depending on the creatures ALIGNMENT...           \n");
                     printf("                            Be sure your KARMA stays where you want it to be...                                 \n");
                     printf("════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n\n");
-                    printf("Press ENTER to continue...");
-                    getchar();
-                    getchar();
+                    pressEnter();
                     system("cls");
                 }
                 printPlayerUI(enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
