@@ -9,6 +9,7 @@ int dice();
 char* questAlignment(char goodOption[], char evilOption[]);
 void questRewards(char* rewards[], int count, int money);
 
+void dialougeBox(char* name, char* color, char* dialougeText[]);
 int dialouge();
 void searchArea();
 

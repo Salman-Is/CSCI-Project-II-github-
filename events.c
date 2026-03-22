@@ -398,3 +398,31 @@ int dialouge() {
         printf("Invalid Choice. Please type 1/yes, or 2/no\n\n");
     }
 }
+
+// https://www.reddit.com/r/C_Programming/comments/7p0deg/aligning_outputs_from_printf_make_the_output_look/
+// hours spent looking for a solution and some guy on reddit had the same problem 8 years ago
+void dialougeBox(char* name, char* color, char* dialougeText[]) {
+    int count = 0;
+    while (dialougeText[count] != NULL) {
+        count++;
+    }
+    time_t start_time, current_time;
+    int printed = 0;
+    for (int i = 0; i < count; i++)
+    {
+        system("cls");
+        printf("[ %s%s%s ]\n", color, name, NORMAL);
+        printf("╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
+        for (int j = 0; j <= i; j++) {
+            printf("║ %-112s ║\n", dialougeText[j]);
+        }
+        printf("╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
+        time(&start_time);
+        do {
+            time(&current_time);
+        } while (difftime(current_time, start_time) < 2);
+    }
+    printf("\nPress ENTER to continue...");
+    getchar();
+    getchar();
+}

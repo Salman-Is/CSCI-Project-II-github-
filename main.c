@@ -38,7 +38,6 @@
 void codeLookup();
 void fastForward();
 void giveItem();
-void dialougeBox(char* name, char* color, char* dialougeText[]);
 
 /* ================= TRACK PLAYER ================= */ // STORY POGRESS -1
 // the storyProgress variable tracks where the player is in the story
@@ -308,27 +307,41 @@ int options() {
         return 12;
     }
     // === SUPER SECRET DEBUGGING OPTIONS (shhhh)===
-    else if (choice == 'v') { // HEALTH
+    else if (choice == 'u') { // HEALTH
         playerMaxHP = 999;
         system("cls");
         printf("Infinite health\n");
     }
-    else if (choice == 'w') { // DAMAGE
+    else if (choice == 'v') { // DAMAGE
         maxTurnDamage = 999;
         maxPlayerTurnDamage = 999;
         system("cls");
         printf("Infinte damage\n");
     }
-    else if (choice == 'x'){ // FIND COLORS
+    else if (choice == 'w'){ // FIND COLORS
         system("cls");
         codeLookup();
+    }
+    else if (choice == 'x') { // ADD ITEM TO INVENTORY
+        system("cls");
+        giveItem();
     }
     else if (choice == 'y'){ // SKIP TO LATER STORY
         fastForward();
     }
-    else if (choice == 'z') { // ADD ITEM TO INVENTORY
+    else if (choice == 'z') { // Debug Help Menu
         system("cls");
-        giveItem();
+        printf("> DEBUG HELP MENU <\n");
+        printf("╔══════════════════════════════════╗\n");
+        printf("║                                  ║\n");
+        printf("║  [ u ] > Increase health to 999  ║\n");
+        printf("║  [ v ] > Increase damage to 999  ║\n");
+        printf("║  [ w ] > Find ANSI code colors   ║\n");
+        printf("║  [ x ] > Add item to inventory   ║\n");
+        printf("║  [ y ] > Skip to later quest     ║\n");
+        printf("║  [ z ] > Help Menu               ║\n");
+        printf("║                                  ║\n");
+        printf("╚══════════════════════════════════╝\n");
     }
     else {
         system("cls");
@@ -391,7 +404,8 @@ int main(void) {
             exit(0);
         }
         else if (start == 3){
-            fastForward();
+            system("cls");
+            storyProgress = 1;
         }
     
     }
@@ -466,7 +480,7 @@ int main(void) {
                 else {
                     continue;
                 }
-                printf("\nPress ENTER to exit the village...");
+                printf("\nPress ENTER to continue...");
                 getchar();
                 getchar();
             }
@@ -577,7 +591,7 @@ void codeLookup() {
     {
         
         printf("\x1b[38;5;%dm", i);
-        printf("[ %d ] Hello World\n", i);
+        printf("[ %d ] Hello World [■■■■■]\n", i);
         printf(NORMAL);
     }
 }
@@ -612,36 +626,4 @@ void giveItem() {
     item[strcspn(item, "\n")] = '\0';
     addItem(item, 1);
     printf("You have added a [ %s%s%s ] to your inventory\n", CYAN, item, NORMAL);
-}
-
-// https://www.reddit.com/r/C_Programming/comments/7p0deg/aligning_outputs_from_printf_make_the_output_look/
-// hours spent looking for a solution and some guy on reddit had the same problem 8 years ago
-void dialougeBox(char* name, char* color, char* dialougeText[]) {
-    int count = 0;
-    while (dialougeText[count] != NULL) {
-        count++;
-    }
-
-    time_t start_time, current_time;
-
-    int printed = 0;
-
-    for (int i = 0; i < count; i++)
-    {
-        system("cls");
-        printf("[ %s%s%s ]\n", color, name, NORMAL);
-        printf("╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
-        for (int j = 0; j <= i; j++) {
-            printf("║ %-112s ║\n", dialougeText[j]);
-        }
-        printf("╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
-        time(&start_time);
-        do {
-            time(&current_time);
-        } while (difftime(current_time, start_time) < 2);
-    }
-
-    printf("\nPress ENTER to continue...");
-    getchar();
-    getchar();
 }

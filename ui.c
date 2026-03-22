@@ -10,6 +10,7 @@ char currentLoc[32] = "Forest";
 /* ================= ITEM DEFINITIONS ================= */
 
 // currently not implimented into the game at all
+// probably gonna have to be a future addition lol
 
 // Swords ------------------------------------------------------------------
 Item ironSword[] = {"Iron Sword ( 5 )", "A basic, chipped sword found in a cave.", "Weapon", "Sword", WHITE, 5};
@@ -76,7 +77,7 @@ void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playe
     printf("║ [ %sThe Paladin%s ]                                                    ║\n",BLUE, NORMAL);
     printf("║ Health: [ %02d/%d ] ", playerHP, playerMaxHP);
     healthBar(playerHP, playerMaxHP);
-    printf(" Arrow: [ %02d ] Sword: [ %02d ]       ║\n", maxPlayerTurnDamage, maxTurnDamage);
+    printf(" Arrow: [ %02d ] Sword: [ %02d ]  ║\n", maxPlayerTurnDamage, maxTurnDamage);
     printf("║                                                                    ║\n");
     printf("╚════════════════════════════════════════════════════════════════════╝\n");
 }
@@ -106,7 +107,7 @@ void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int
     printf("║ [ %sThe Paladin%s ]                                                    ║\n",BLUE, NORMAL);
     printf("║ Health: [ %02d/%d ] ", playerHP, playerMaxHP);
     healthBar(playerHP, playerMaxHP);
-    printf(" Arrow: [ %02d ] Sword: [ %02d ]       ║\n", maxPlayerTurnDamage, maxTurnDamage);
+    printf(" Arrow: [ %02d ] Sword: [ %02d ]  ║\n", maxPlayerTurnDamage, maxTurnDamage);
     printf("║                                                                    ║\n");
     printf("╠════════════════════════════════════════════════════════════════════╣\n");
     printf("║ [ 1 | FIRE ARROW ]     [ 2 | USE ITEM ]     [ 3 | SPARE CREATURE ] ║\n");
@@ -296,15 +297,28 @@ char* areaColor() {
 * that should be printed, aka currentBars.
 */
 void healthBar(int currentHP, int maxHP) {
-    int maxBars = 10;
+    int maxBars = 15;
     int cuurentBars = (currentHP * maxBars) / maxHP;
+
+    char* currentColor;
+    if (cuurentBars >= 10){
+        currentColor = BLUE;
+    }
+    else if (cuurentBars >= 5) {
+        currentColor = GOLD;
+    }
+    else if (cuurentBars < 5){
+        currentColor = DEEPRED;
+    }
+    
+    
 
     printf("[ ");
     for (int i = 0; i < maxBars; i++) {
         if (i <= cuurentBars)
-            printf("%s■%s", WHITE, NORMAL);  
+            printf("%s■%s", currentColor, NORMAL);  
         else
-            printf("%s■%s", BLACK, NORMAL);
+            printf("%s■%s", GRAY, NORMAL);
     }
     printf(" ]");
 }

@@ -20,6 +20,7 @@
 #define GRAY "\x1b[38;5;235m"
 #define GOLD "\x1b[38;5;220m"
 #define PURPLE "\x1b[38;5;141m"
+#define DEEPRED "\x1b[38;5;9m"
 
 #define BOLD "\x1b[1m"
 #define UNBOLD "\x1b[22m"
