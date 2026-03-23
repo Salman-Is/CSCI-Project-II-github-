@@ -3,8 +3,6 @@
 #include "ui.h"
 #include "events.h"
 
-
-
 /*================= EVENT FUNCTIONS ================= */
 
 // In game events found by searching, quests, etc.

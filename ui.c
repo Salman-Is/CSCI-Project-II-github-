@@ -321,3 +321,4 @@ void healthBar(int currentHP, int maxHP) {
     }
     printf(" ]");
 }
+

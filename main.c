@@ -118,14 +118,12 @@ Monster quest2GOOD[] = { // assist knights
     {"Juvinile Flagon", 2, 5, 20, 6, EVIL, "Ember Scale"},
     {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"}, 
     {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"},   
-    {"Elder Flagon", 4, 6, 40, 10, EVIL, "Inferno Scale"}
-};
+    {"Elder Flagon", 4, 6, 40, 10, EVIL, "Inferno Scale"}};
 Monster quest2EVIL[] = { // attak knights
     {"Knight 'Marlo'", 4, 6, 35, 10, GOOD, "Scrap Metal"},
     {"Knight 'Lysa'", 4, 6, 35, 10, GOOD, "Scrap Metal"}, 
     {"Knight Captain 'Therin'", 4, 7, 35, 10, GOOD, "Refined Metal"},   
-    {"Royal Knight 'Fenric'", 4, 8, 35, 10, GOOD, "Scrap Metal"}
-};
+    {"Royal Knight 'Fenric'", 4, 8, 35, 10, GOOD, "Scrap Metal"}};
 
 // Plains enemy groups
 Monster plains[] = {
@@ -135,7 +133,10 @@ Monster plains[] = {
     {"Mossback", 1, 8, 50, 3, GOOD, "Fossilized Moss"},
     {"Great Stag", 3, 8, 35, 6, GOOD, "Antlers"}
 };
-
+Monster quest3EVIL[] = { // pillage village
+    {"Crusader 'Lorel'", 4, 6, 35, 10, GOOD, "Berzerker Potion"},
+    {"Rouge 'Reric'", 4, 5, 20, 35, GOOD, "Broken Dagger"}, 
+    {"Mage 'Sypha'", 5, 5, 25, 20, GOOD, "Fairy Dust"}};
 // Lake enemy groups
 Monster lake[] = {
     {"Mega Turtle", 1, 5, 40, 5, GOOD, "Shell Shard"},
@@ -143,8 +144,7 @@ Monster lake[] = {
     {"Kraken", 3, 5, 35, 10, EVIL, "Kraken Tentacle"},
     {"Ripplet", 2, 5, 15, 5, GOOD, "Shiny Scale"},
     {"Glowfin", 3, 5, 15, 7, EVIL, "Luminous Scale"},
-    {"Oozard", 4, 5, 15, 8, EVIL, "Gelatinous Mass"}
-};
+    {"Oozard", 4, 5, 15, 8, EVIL, "Gelatinous Mass"}};
 
 // Cave enemy groups
 Monster caves[] = {
@@ -176,10 +176,10 @@ char* marlo_1[500] = {"Passage into the Plains has been closed by the Kingdom.",
     "Ah, I see you have a sword. If you don't mind, we would appreciate it if you helped us clear out",
     "some of these monsters. We'll pay you handsomely for you service..."};
 char* lorel_1[500] = {"Oh, a fellow adventurer! Greetings sir, care to help us?", 
-    "We found this here map, but we can't really decipher it, do you know this language?",};
+    "We found this here map, but we can't really decipher it, do you know this language?"};
 char* sypha_1[500] = {"Oh come on, how could he know this language? Even I can't recognize it.", 
     "We need to bring it to a real historian, not a random passerby"};
-char* lorel_2[500] = {"Gosh, it couldn't hurt to at least check Sypha.", 
+char* lorel_2[500] = {"Gosh, it couldn't hurt to at least check, Sypha.", 
     "", "Sorry for the trouble sir, but DO you know this language?"};
 
 /* ================= PLAYER OPTIONS ================= */
@@ -373,7 +373,8 @@ int options() {
  */
 int main(void) {
     system("cls");
-    system("chcp 65001 > nul"); // < while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this doesnt count as A level work
+    // while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this SHOULD NOT count towards grade
+    system("chcp 65001 > nul");
     addItem("Health Potion", 1);
     // --- Quest Variables ---
     int startQuest1 = 0;
@@ -392,12 +393,12 @@ int main(void) {
     while (storyProgress == -1){ // Start Menu
         int start = 0;
         printf("%s%s", BOLD, CYAN);
-        printf("              _____ _            ____       _           _ _       \n");
-        printf("           / |_   _| |__   ___  |  _ \\ __ _| | __ _  __| (_)_ __  \n");
-        printf(" _________/>___| |_| '_ \\ / _ \\_| |_) / _  | |/ _  |/ _  | |  _ \\ ____________\n");
-        printf("|__________|___| |_| | | |  __/_|  __/ (_| | | (_| | (_| | | | | |____________/\n");
-        printf("          \\>   |_| |_| |_|\\___| |_|   \\____|_|\\____|\\____|_|_| |_|                           \n");
-        printf("           \\ %s%s\n\n", UNBOLD, NORMAL);
+        printf("               _____ _            ____       _           _ _       \n");
+        printf("            / |_   _| |__   ___  |  _ \\ __ _| | __ _  __| (_)_ __  \n");
+        printf("  _________/>___| |_| '_ \\ / _ \\_| |_) / _  | |/ _  |/ _  | |  _ \\ ____________\n");
+        printf(" |__________|___| |_| | | |  __/_|  __/ (_| | | (_| | (_| | | | | |____________/\n");
+        printf("           \\>   |_| |_| |_|\\___| |_|   \\____|_|\\____|\\____|_|_| |_|                           \n");
+        printf("            \\ %s%s\n\n", UNBOLD, NORMAL);
 
         printf("        [ 1 ] START GAME            [ 2 ] EXIT           [ 3 ] SKIP TUTORIAL     \n");
         printf("╔════════════════════════════════════════════════════════════════════════════════╗\n");
@@ -539,7 +540,7 @@ int main(void) {
              
         }
     }
-    while (storyProgress == 3) { // Plains Gate
+    while (storyProgress == 3) { // Plains Map
         int navigataionChoice = options();
         if (navigataionChoice == 1){
             printf("Walking through the gates to the %sVerdent Plains%s presents you with a glorious sight.\n", LIME, NORMAL);
