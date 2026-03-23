@@ -8,7 +8,7 @@ Guideline:
 - (unless you want to add a new global var to main.h)
 
 - compile like this:
-- gcc .\main.c .\main.h .\battle.c .\battle.h .\ui.c .\ui.h
+- gcc .\main.c .\main.h .\battle.c .\battle.h .\ui.c .\ui.h .\events.c .\events.h
 
 - for the github: (kind of a long process to get to this point tho)
 - git commit -am "initial commit"
