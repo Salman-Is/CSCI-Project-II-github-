@@ -258,6 +258,7 @@ void questRewards(char* rewards[], int count, int money) {
 void searchArea() {
     switch (location){ // Apparently the scope of a variable created in 1 case is the entire switch case
     case 1:
+        (void)0;    
         static int searchPoints1 = 1; // wont get reset every time the function is called
         switch (searchPoints1){
         case 1: // First thing you can find
@@ -292,6 +293,7 @@ void searchArea() {
         }
         break;
     case 2:
+        (void)0;    
         static int searchPoints2 = 1; 
         switch (searchPoints2){
         case 1:
@@ -326,6 +328,7 @@ void searchArea() {
         }
         break;
     case 3:
+        (void)0;    
         static int searchPoints3 = 1; 
         switch (searchPoints3){
         case 1:
@@ -347,6 +350,7 @@ void searchArea() {
         }
         break;
     case 4:
+        (void)0;    
         static int searchPoints4 = 1; 
         switch (searchPoints4){
         case 1:
