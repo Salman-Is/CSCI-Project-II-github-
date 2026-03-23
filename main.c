@@ -80,13 +80,16 @@ int worldState = 1;
 char* quest1RewardsGOOD[32] = {"Steel Armor ( 27 HP )", "Health Elixer", "Health Potion", "Health Potion", "Elderite Gemstone"};
 char* quest1RewardsEVIL[32] = {"Golden Sword ( 8 ATK )", "Health Elixer", "Health Potion", "Berzerker Potion"};
 // Knight Outpost quest
-char* quest2RewardsGOOD[32] = {"Knight Armor ( 28 HP )", "Knight Bow ( 6 ATK )", "Health Potion", "Focus Charm", "Verdent Plains Key"};
-char* quest2RewardsEVIL[32] = {"Knight Sword ( 9 ATK )", "Knight Armor ( 28 HP )", "Berzerker Potion", "Verdent Plains Key"};
+char* quest2RewardsGOOD[32] = {"Knight Armor ( 28 HP )", "Knight Bow ( 6 ATK )", "Health Potion", "Focus Charm", "Archival Tome"};
+char* quest2RewardsEVIL[32] = {"Knight Sword ( 9 ATK )", "Knight Armor ( 28 HP )", "Berzerker Potion", "Berzerker Potion"};
+// Plains Map quest
+char* quest3RewardsGOOD[32] = {"", "", "", "", ""};
+char* quest3RewardsEVIL[32] = {"", "", "", ""};
 
 /* ================= AREA/LOCATION NAMES ================= */
 char availableLocations[6][32] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", 
 "The Crystal Caves", "The Celestial Mountains", "Acention"};
-char progressKey[32][32] = {"Forest Village", "Outpost", "Plains"};
+char progressKey[32][32] = {"Forest Village", "Outpost", "Plains Map"};
 
 /* ================= MONSTERS/ENEMIES ================= */
 
@@ -230,12 +233,12 @@ int options() {
     }
     else if (choice == '3') { // ENCOUNTER
         switch(location){
-            case 1: encounter(forest, FOREST_COUNT, 0); break;
-            case 2: encounter(plains, PLAINS_COUNT, 0); break;
-            case 3: encounter(lake, LAKE_COUNT, 0); break;
-            case 4: encounter(caves, CAVES_COUNT, 0); break;
-            case 5: encounter(mountains, MOUNTAINS_COUNT, 0); break;
-            case 6: encounter(final, FINAL_COUNT, 0); break;
+            case 1: encounter(forest, FOREST_COUNT, 0, -1); break;
+            case 2: encounter(plains, PLAINS_COUNT, 0, -1); break;
+            case 3: encounter(lake, LAKE_COUNT, 0, -1); break;
+            case 4: encounter(caves, CAVES_COUNT, 0, -1); break;
+            case 5: encounter(mountains, MOUNTAINS_COUNT, 0, -1); break;
+            case 6: encounter(final, FINAL_COUNT, 0, -1); break;
             default: printf("No monsters here.\n");
         }
         system("cls");
@@ -436,7 +439,7 @@ int main(void) {
         do {
             time(&current_time);
         } while (difftime(current_time, start_time) < 3);
-        encounter(tutorial, 1, 1);
+        encounter(tutorial, 1, 1, -1);
         system("cls");
         printf("You look to your right and find a record of some kind...\n");
         loreTablet("Your creators welcome you to the Kingdom of NAMEOFTHEKINGDOM, Paladin.\n\n- Astra.                                                 - Kyra.");
@@ -594,7 +597,7 @@ int main(void) {
 // Technically I did change it up a bit but it's basically the same
 void pressEnter() {
     int enter;
-    printf("\nPress Enter to continue...");
+    printf("\n▷ Press Enter to Continue");
     while ((enter = getchar()) != '\n');
     getchar();
 }

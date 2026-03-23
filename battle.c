@@ -140,10 +140,17 @@ void newWeapon(char weaponName[], int weaponDamage) {
     // Only change maxTurnDamage/maxPlayerTurnDamage to weaponDamage IF its more than maxTurnDamage/maxPlayerTurnDamage
 }
 /* ================= ENCOUNTER FUNCTION ================= */
-void encounter(Monster area[], int count, int tutorial)
+void encounter(Monster area[], int count, int tutorial, int special)
 {
-    // tutorial = 1
-    Monster enemy = area[rand() % count];
+    // tutorial = 1, make special neg if rand, index of area if specific
+    Monster enemy;
+    if (special < 0)
+    {
+        enemy = area[rand() % count];
+    }
+    else {
+        enemy = area[special];
+    }
     
     currentEnemyATK = enemy.atk;
     currentEnemyHP = enemy.hp;

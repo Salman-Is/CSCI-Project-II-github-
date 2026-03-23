@@ -30,7 +30,7 @@ typedef struct {
 void addItem(char* itemName, int startingItems);
 void removeItem(char* itemName);
 void grantKarma(int addOrSubtract, int amount, char message[]);
-void encounter(Monster area[], int count, int tutorial);
+void encounter(Monster area[], int count, int tutorial, int special);
 int questGauntlet(Monster area[], int count, char groupName[], char locationName[]);
 
 #define FOREST_COUNT sizeof(forest)/sizeof(forest[0])
