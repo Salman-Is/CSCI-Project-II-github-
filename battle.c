@@ -507,7 +507,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
     }
 }
 
-void grantKarma(int addOrSubtract, int amount, char message[]) { //subtract = 0, add = anthing else
+void grantKarma(int addOrSubtract, int amount, char message[]) { //subtract = 0, add = anything else
     if (addOrSubtract == 0){
         karma -= amount;
         if (karma < 0)

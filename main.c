@@ -376,6 +376,14 @@ int main(void) {
     // while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this SHOULD NOT count towards grade
     system("chcp 65001 > nul");
     addItem("Health Potion", 1);
+    addItem("Health Ption", 1);
+    addItem("Health Ption", 1);
+    addItem("Health Poton", 1);
+    addItem("Healt Potion", 1);
+    addItem("Heath Potion", 1);
+    addItem("Heath Potion", 1);
+    addItem("Health Potion", 1);
+    addItem("Heath Ption", 1);
     // --- Quest Variables ---
     int startQuest1 = 0;
     int startQuest2 = 0;

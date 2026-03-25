@@ -183,15 +183,23 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2
         }
     }
     else {
-        printf("╔═════════════════════════════════════╗\n");
-        printf("[#] | INVENTORY                       ║\n");
-        printf("╚═════════════════════════════════════╝\n");
-        for(int i = 0; i < inventoryCount; i++)
-        {
-            printf("[%02d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
+        printf("╔══════════════════════════════════════════════════════════════════════════════════╗\n");
+        printf("[#] | INVENTORY                                                                    ║\n");
+        printf("╚══════════════════════════════════════════════════════════════════════════════════╝\n");
+        int lineMax = 1;
+        for(int i = 0; i < inventoryCount; i++){
+            if (lineMax != 4){
+                printf("[%02d] %s x%d  %4s", (i + 1), inventory[i].name, inventory[i].quantity, "");
+                lineMax++;
+            }
+            else {
+
+                printf("\n");
+                lineMax = 0;
+            }      
         }                     				 
-        printf("╔═════════════════════════════════════╗\n");             				 
-        printf("╚═════════════════════════════════════╝\n");
+        printf("\n╔══════════════════════════════════════════════════════════════════════════════════╗");             				 
+        printf("\n╚══════════════════════════════════════════════════════════════════════════════════╝\n");
         printf("Select item number to use (0 to exit): ");
 
         int choice;
@@ -309,9 +317,6 @@ void healthBar(int currentHP, int maxHP) {
     else if (cuurentBars < 5){
         currentColor = DEEPRED;
     }
-    
-    
-
     printf("[ ");
     for (int i = 0; i < maxBars; i++) {
         if (i <= cuurentBars)

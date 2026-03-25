@@ -231,7 +231,7 @@ char* questAlignment(char goodOption[], char evilOption[]) {
 }
 
 void questRewards(char* rewards[], int count, int money) {
-        for(int i = 0; i < count; i++)
+    for(int i = 0; i < count; i++)
     {
         addItem(rewards[i], 0);
     }
