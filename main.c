@@ -39,7 +39,7 @@ void codeLookup();
 void fastForward();
 void giveItem();
 
-/* ================= TRACK PLAYER ================= */ // STORY POGRESS -1
+/* ================= TRACK PLAYER ================= */ // STORY PROGRESS -1
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
 int storyProgress = -1;
@@ -456,7 +456,7 @@ int main(void) {
             printf("Deep within the forest, you find a small village.\n");
             printf("Though it was quite humble, it looks as if its been damaged.\n");
             printf("You see a resident nearby, would you like to speak to them?\n\n");
-            int speak = dialouge();
+            int speak = dialouge(); // < events.c
             if (speak == 1){
                 system("cls"); // this character comes back stronger later if you choose evil
                 dialougeBox("Adventurer Kalen", GREEN, kalen_1);

@@ -21,7 +21,6 @@
 
     - Compress other switch cases (Prof Dan's feedback from submission 1)
     - Take damage if you don't input pattern in time
-    - Item remove function
     - Real weapon system that upgrades when you find better weapons
     - Finish STAT screen
     - Story

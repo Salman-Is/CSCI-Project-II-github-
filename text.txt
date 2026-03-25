@@ -113,7 +113,6 @@ Checklist ====================================================================
 
 > FOR SURE Later Editions
 
-    - Better dialouge system 
     - New areas (3 cities, 2 'biomes')
     - Coins and shops 
     - Item structs
