@@ -189,7 +189,8 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2
         
         for(int i = 0; i < inventoryCount; i++){
             
-            printf("[%02d] %-15s x%-3d", (i + 1), inventory[i].name, inventory[i].quantity);
+            printf("[%02d] %-16s x%d   ", (i + 1), inventory[i].name, inventory[i].quantity);
+            
                 
             if ((i + 1) % 3 == 0) {
                 printf("\n");
