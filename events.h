@@ -12,5 +12,6 @@ void questRewards(char* rewards[], int count, int money);
 void dialougeBox(char* name, char* color, char* tag);
 int dialouge();
 void searchArea();
+void shop(char* items[], int prices[], int shop_count);
 
 #endif
