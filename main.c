@@ -148,39 +148,17 @@ Monster lake[] = {
 
 // Cave enemy groups
 Monster caves[] = {
-    {"Monster1", 1, 1, 5, 5, GOOD, "Something"},
-};
+    {"Monster1", 1, 1, 5, 5, GOOD, "Something"},};
 
 // Mountain enemy groups
 Monster mountains[] = {
-    {"Monster1", 1, 1, 5, 5, EVIL, "Something"},
-};
+    {"Monster1", 1, 1, 5, 5, EVIL, "Something"},};
 
 // Final area bosses
 Monster final[] = { // You will recive a really strong weapon before this guys dw
     {"Astra, Deity of JUSTICE", 5, 8, 500, 30, GOOD, "A World of Evil"},
     {"Krya, Deity of MALICE", 5, 8, 500, 30, EVIL, "A World of Good"},
-    {"???, Deity of CHAOS", 7, 9, 750, 40, EVIL, "???"}
-};
-
-/* ================= CHARACTER DIALOUGE ================= */
-
-char* kalen_1[500] = {"Ah, I can see you noticed that our village isn't in the best shape", 
-    "We've had a bit of a Groblin problem, they've been attacking us relentlessly.",
-    "Our resident Knight, Halor, sent for backup from the nearby Outpost, but they have yet to respond.",
-    "It really would be nice to have some backup, our resources are dwindling.",
-    "We kept them at bay until now, but I'm not sure if we can hold out for much longer..."};
-char* marlo_1[500] = {"Passage into the Plains has been closed by the Kingdom.", 
-    "A number of monster attacks have been reported in the reigon, and we must ensure the Forest is safe",
-    "Before escorting civilians. We havent even been able to mobilize to many of the nearby vill-",
-    "Ah, I see you have a sword. If you don't mind, we would appreciate it if you helped us clear out",
-    "some of these monsters. We'll pay you handsomely for you service..."};
-char* lorel_1[500] = {"Oh, a fellow adventurer! Greetings sir, care to help us?", 
-    "We found this here map, but we can't really decipher it, do you know this language?"};
-char* sypha_1[500] = {"Oh come on, how could he know this language? Even I can't recognize it.", 
-    "We need to bring it to a real historian, not a random passerby"};
-char* lorel_2[500] = {"Gosh, it couldn't hurt to at least check, Sypha.", 
-    "", "Sorry for the trouble sir, but DO you know this language?"};
+    {"???, Deity of CHAOS", 7, 9, 750, 40, EVIL, "???"}};
 
 /* ================= PLAYER OPTIONS ================= */
 /**
@@ -376,14 +354,18 @@ int main(void) {
     // while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this SHOULD NOT count towards grade
     system("chcp 65001 > nul");
     addItem("Health Potion", 1);
-    addItem("Health Ption", 1);
-    addItem("Health Ption", 1);
-    addItem("Health Poton", 1);
-    addItem("Healt Potion", 1);
-    addItem("Heath Potion", 1);
-    addItem("Heath Potion", 1);
-    addItem("Health Potion", 1);
-    addItem("Heath Ption", 1);
+    // For Testing ONLY
+    addItem("Item", 1);
+    addItem("Berzerker Potion", 1);
+    addItem("Diamond", 1);
+    addItem("Emerald", 1);
+    addItem("Master Sword", 1);
+    addItem("Saffire", 1);
+    addItem("Milk", 1);
+    addItem("Chocolate", 1);
+    addItem("Salt", 1); // < 16 chars is the max
+    addItem("Painting", 1);
+    addItem("Computer", 1);
     // --- Quest Variables ---
     int startQuest1 = 0;
     int startQuest2 = 0;
@@ -467,7 +449,7 @@ int main(void) {
             int speak = dialouge(); // < events.c
             if (speak == 1){
                 system("cls"); // this character comes back stronger later if you choose evil
-                dialougeBox("Adventurer Kalen", GREEN, kalen_1);
+                dialougeBox("Adventurer Kalen", GREEN, "KALEN_1");
                 startQuest1++;
             }
             else if (speak == 2){
@@ -513,7 +495,7 @@ int main(void) {
             int speak = dialouge();
             if (speak == 1){
                 system("cls");
-                dialougeBox("Knight Marlo", DARKBLUE, marlo_1);
+                dialougeBox("Knight Marlo", DARKBLUE, "MARLO_1");
                 startQuest2++;
             }
             else if (speak == 2){
@@ -558,9 +540,9 @@ int main(void) {
             int speak = dialouge();
             if (speak == 1){
                 system("cls");
-                dialougeBox("Crusader Lorel", GOLD, lorel_1);
-                dialougeBox("Mage Sypha", LILAC, sypha_1);
-                dialougeBox("Crusader Lorel", GOLD, lorel_2);
+                dialougeBox("Crusader Lorel", GOLD, "LOREL_1");
+                dialougeBox("Mage Sypha", LILAC, "SYPHA_1");
+                dialougeBox("Crusader Lorel", GOLD, "LOREL_2");
                 startQuest3++;
             }
             else if (speak == 2){

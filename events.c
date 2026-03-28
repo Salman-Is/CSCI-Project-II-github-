@@ -403,26 +403,83 @@ int dialouge() {
 
 // https://www.reddit.com/r/C_Programming/comments/7p0deg/aligning_outputs_from_printf_make_the_output_look/
 // hours spent looking for a solution and some guy on reddit had the same problem 8 years ago
-void dialougeBox(char* name, char* color, char* dialougeText[]) {
+void dialougeBox(char* name, char* color, char* tag)
+{
+    char fileName[] = "dialouge.txt";
+    FILE *file = fopen(fileName, "r");
+
+    if (!file) {
+        printf("Could not open %s\n", fileName);
+        return;
+    }
+
+    char line[256];
+    char lines[32][512];
     int count = 0;
-    while (dialougeText[count] != NULL) {
-        count++;
+    int found = 0;
+
+    // Store a tag string like "[KALEN_1]"
+    // Function looks for this tag to identify which lines t use
+    char target[64];
+    sprintf(target, "[%s]", tag);
+
+    /*
+        This basically looks through the entire file and adds every line 
+        under the tag into the string array "lines"
+    */
+    while (fgets(line, sizeof(line), file))
+    {
+        // this removes the new line at the end of fgets. 
+        // This newline character is the bane of my existence
+        line[strcspn(line, "\n")] = '\0';
+
+        /*
+        check if the line is the correct tag
+        tags always start with a '[' btw
+        
+        if the tag is wrong it stops.
+        */
+        if (line[0] == '[')
+        {
+            if (strcmp(line, target) == 0) {
+                found = 1;
+                continue;
+            }
+            else if (found) {
+                break; 
+            }
+        }
+        if (found) {
+            strcpy(lines[count], line);
+            count++;
+        }
+    }
+
+    fclose(file);
+
+    if (!found) {
+        printf("Dialogue tag [%s] not found.\n", tag);
+        return;
     }
     time_t start_time, current_time;
-    int printed = 0;
-    for (int i = 0; i < count; i++)
-    {
+
+    for (int i = 0; i < count; i++){
         system("cls");
+
         printf("[ %s%s%s ]\n", color, name, NORMAL);
         printf("╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
+
         for (int j = 0; j <= i; j++) {
-            printf("║ %-112s ║\n", dialougeText[j]);
+            printf("║ %-112s ║\n", lines[j]);
         }
+
         printf("╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
+
         time(&start_time);
         do {
             time(&current_time);
         } while (difftime(current_time, start_time) < 2);
     }
+
     pressEnter();
 }

@@ -1,0 +1,32 @@
+[KALEN_1]
+Ah, I can see you noticed that our village isn't in the best shape.
+We've had a bit of a Groblin problem, they've been attacking us relentlessly.
+Our resident Knight, Halor, sent for backup from the nearby Outpost, but they have yet to respond.
+It really would be nice to have some backup, our resources are dwindling.
+We kept them at bay until now, but I'm not sure if we can hold out for much longer...
+
+[MARLO_1]
+Passage into the Plains has been closed by the Kingdom.
+A number of monster attacks have been reported in the reigon, and we must ensure the Forest is safe
+Before escorting civilians. We havent even been able to mobilize to many of the nearby vill-
+Ah, I see you have a sword. If you don't mind, we would appreciate it if you helped us clear out
+some of these monsters. We'll pay you handsomely for you service...
+
+[LOREL_1]
+Oh, a fellow adventurer! Greetings sir, care to help us?
+We found this here map, but we can't really decipher it, do you know this language?
+
+[SYPHA_1]
+Oh come on, how could he know this language? Even I can't recognize it.
+We need to bring it to a real historian, not a random passerby.
+
+[LOREL_2]
+Gosh, it couldn't hurt to at least check, Sypha.
+
+Sorry for the trouble sir, but DO you know this language?
+
+[END OF THE FILE]
+This is the end of the file. We needed that tag there because otherwise it might not
+know when to stop. Maybe it wasn't necessary idk i never checked
+
+ALSO REMEMBER TO DELETE THE SPACES BETWEEN THE PARAGRAPHS BEFORE SUBMISSION
