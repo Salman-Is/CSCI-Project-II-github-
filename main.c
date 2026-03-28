@@ -268,7 +268,18 @@ int options() {
     }
     else if (choice == 'a' || choice == 'A') {
         system("cls");
-        printf("This feature has not been added yet...\n");
+        //printf("This feature has not been added yet...\n");   temp commented out. using this spot to test shop()
+        
+        char* shopItems[] = {
+        "Health Potion",
+        "Item A",
+        "Item B",
+        "Item C"
+        };
+
+        int shopPrices[] = {5, 10, 8, 8};
+        
+        shop(shopItems, shopPrices, 4); 
         return 7;
     }
     else if (choice == 'b' || choice == 'B') {
