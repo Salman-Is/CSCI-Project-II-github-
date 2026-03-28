@@ -1,3 +1,4 @@
+
 #include "battle.h"
 #include "main.h" 
 #include "ui.h"
@@ -269,7 +270,9 @@ void searchArea() {
             break;
         case 3: // third etc.
             addItem("Steel Sword ( 6 ATK )", 0);
-            maxTurnDamage = 6; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
+            if (6 > maxTurnDamage) {
+                maxTurnDamage = 6;
+            }  // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
             searchPoints1++;
             break;
         case 4: 
@@ -277,11 +280,15 @@ void searchArea() {
             break;
         case 5:
             chest("Verdent Key", "Grass Blade ( 10 ATK )", "Verdent", LIME, &searchPoints1);
-            maxTurnDamage = 10; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
+            if (10 > maxTurnDamage) {
+                maxTurnDamage = 10;
+            } // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
             break;
         case 6:
             addItem("Steel Bow ( 5 ATK )", 0);
-            maxPlayerTurnDamage = 5; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
+            if (maxPlayerTurnDamage < 5) {
+                maxPlayerTurnDamage = 5;
+            } // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
             searchPoints1++;
             break;
         default:
@@ -300,10 +307,15 @@ void searchArea() {
             break;
         case 2:
             riddle("What grows without life, and consumes air with no breath?", "fire", &searchPoints2, "Flame Bow ( 7 ATK )");
+            if (7 > maxPlayerTurnDamage) {
+                maxPlayerTurnDamage = 7;
+            }
             break;
         case 3:
             addItem("Rimegrass Bow ( 6 ATK )", 0);
-            maxTurnDamage = 7; 
+            if (6 > maxPlayerTurnDamage) {
+                maxPlayerTurnDamage = 6;
+            } 
             searchPoints2++;
             break;
         case 4: 
@@ -312,11 +324,15 @@ void searchArea() {
             break;
         case 5:
             chest("Frost Key", "Ancient Sword ( 19 ATK )", "Frost", CYAN, &searchPoints2);
-            maxTurnDamage = 9;
+            if (19 > maxTurnDamage) {
+                maxTurnDamage = 19;
+            } 
             break;
         case 6:
             addItem("Ancient Bow ( 14 ATK )", 0);
-            maxPlayerTurnDamage = 5;
+            if (14 > maxPlayerTurnDamage) {
+                maxPlayerTurnDamage = 14;
+            }
             searchPoints2++;
             break;
         default:
