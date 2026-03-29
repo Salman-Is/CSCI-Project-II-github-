@@ -329,6 +329,7 @@ void healthBar(int currentHP, int maxHP) {
 
 // i found out the sleep() function is better then the time() do while loop for the cpu. and its actually way simpler. 
 // also using millesecods can allow us to use partial seconds. ex 500 milleseconds is .5 seconds. 1000 milleseconds is 1 sec
+// https://www.geeksforgeeks.org/c/sleep-function-in-c/
 void timer(int milliseconds)  
 {
     Sleep(milliseconds);
