@@ -87,12 +87,9 @@ void riddle(char message[], char correct[], int *search, char reward[]) {
 
         printf("The stone tablet atop the Shrine pedestal vibrates...\n");
 
-        time(&start_time);
-        do {
-            time(&current_time);
-        } while (difftime(current_time, start_time) < .5);
-
-        printf(RESETCURSOR);
+        timer(500);
+        
+        system("cls");
 
         printf("          ╔════════════╗\n");
         printf("         ╔══════════════╗\n");
@@ -108,12 +105,9 @@ void riddle(char message[], char correct[], int *search, char reward[]) {
 
         printf("The stone tablet atop the Shrine pedestal vibrates...\n");
 
-        time(&start_time);
-        do {
-            time(&current_time);
-        } while (difftime(current_time, start_time) < .5);
-
-        printf(RESETCURSOR);
+        timer(500);
+        
+        system("cls");
     }
 
     system("cls");
@@ -449,10 +443,6 @@ void dialougeBox(char* name, char* color, char* tag)
         // This newline character is the bane of my existence
         line[strcspn(line, "\n")] = '\0';
 
-        // Skip empty lines
-        if (strlen(line) == 0) {
-            continue;
-        }
         /*
         check if the line is the correct tag
         tags always start with a '[' btw
@@ -482,9 +472,9 @@ void dialougeBox(char* name, char* color, char* tag)
         return;
     }
     time_t start_time, current_time;
-    system("cls");
+
     for (int i = 0; i < count; i++){
-        printf(RESETCURSOR);
+        system("cls");
 
         printf("[ %s%s%s ]\n", color, name, NORMAL);
         printf("╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
@@ -495,59 +485,62 @@ void dialougeBox(char* name, char* color, char* tag)
 
         printf("╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
 
-        time(&start_time);
-        do {
-            time(&current_time);
-        } while (difftime(current_time, start_time) < 1);
+        timer(2000);
     }
 
     pressEnter();
 }
 
 
-void shop(char* items[], int prices[], int shop_count){
+void shop(char* items[], int prices[], int shop_count)
+{
     int choice;
+
     while (1)
     {
         system("cls");
-        printf("╔══════════════════════════════════╗\n");
-        printf("║ [#] | SHOP                       ║\n");
-        printf("╚══════════════════════════════════╝\n\n");
-        printf("%sCOINS%s: %d\n\n", YELLOW, NORMAL, coins);
-        printf("╔══════════════════════════════════╗\n");
-        // display items
-        for (int i = 0; i < shop_count; i++){
-            printf("║ [%d] %-19s %2d Coins ║\n", i + 1, items[i], prices[i]);
-        }
-        printf("╚══════════════════════════════════╝\n\n");
-        printf("╔══════════════════════════════════╗\n");
-        printf("║ [0] | EXIT SHOP                  ║\n");
-        printf("╚══════════════════════════════════╝\n\n");
 
+        printf("╔══════════════════════════════╗\n");
+        printf("║            SHOP              ║\n");
+        printf("╚══════════════════════════════╝\n");
+        printf("Coins: %d\n\n", coins);
+
+        // display items
+        for (int i = 0; i < shop_count; i++)
+        {
+            printf("[%d] %-20s %3d Coins\n", i + 1, items[i], prices[i]);
+        }
+
+        printf("\n[0] Exit Shop\n");
         printf("> ");
         scanf("%d", &choice);
 
-        if (choice == 0){
+        if (choice == 0)
+        {
             system("cls");
             return;
         }
 
         choice--; // adjust index
 
-        if (choice < 0 || choice >= shop_count){
+        if (choice < 0 || choice >= shop_count)
+        {
             printf("Invalid choice. Try again.\n");
             pressEnter();
             continue;
         }
 
-        if (coins >= prices[choice]){
+        if (coins >= prices[choice])
+        {
             coins -= prices[choice];
+            addItem(items[choice], 0);
             printf("You bought %s!\n", items[choice]);
-            addItem(items[choice], 1);
         }
-        else{
+        else
+        {
             printf("Not enough coins!\n");
         }
+
         pressEnter();
     }
 }
