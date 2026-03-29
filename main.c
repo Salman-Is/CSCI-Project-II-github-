@@ -148,11 +148,21 @@ Monster lake[] = {
 
 // Cave enemy groups
 Monster caves[] = {
-    {"Monster1", 1, 1, 5, 5, GOOD, "Something"},};
+    {"Cursed Bat", 2, 5, 15, 5, EVIL, "Echo Location"},
+    {"Venom Snake", 2, 4, 25, 6, EVIL, "Poison Bomb"},
+    {"ShapeShifting Fox", 3, 5, 15, 5, EVIL, "Mirror Cloak"},
+    {"Stone Spider", 3, 5, 32, 6, EVIL, "Unbreakable Silk"},
+    {"Ancient Man", 4, 4, 45, 9, GOOD, "The Will Of The Strong"}
+};
 
 // Mountain enemy groups
 Monster mountains[] = {
-    {"Monster1", 1, 1, 5, 5, EVIL, "Something"},};
+    {"Peak Eagle", 2, 5, 25, 7, GOOD, "Soaring Wings"},
+    {"Ice Giant", 3, 4, 55, 11, EVIL, "Ice Armor"},
+    {"Mountain Goat", 2, 6, 26, 13, GOOD, "Antlers"},
+    {"Snow Leopard", 3, 4, 30, 10, GOOD, "Leather"},
+    {"Dark Dragon", 4, 5, 60, 10, EVIL, "Demonic Sword"}
+};
 
 // Final area bosses
 Monster final[] = { // You will recive a really strong weapon before this guys dw
