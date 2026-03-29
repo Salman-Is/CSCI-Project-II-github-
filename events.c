@@ -505,6 +505,7 @@ void dialougeBox(char* name, char* color, char* tag)
 }
 
 
+<<<<<<< HEAD
 void shop(char* items[], int prices[], int shop_count){
     int choice;
     while (1)
@@ -528,18 +529,51 @@ void shop(char* items[], int prices[], int shop_count){
         scanf("%d", &choice);
 
         if (choice == 0){
+=======
+void shop(char* items[], int prices[], int shop_count)
+{
+    int choice;
+
+    while (1)
+    {
+        system("cls");
+
+        printf("╔══════════════════════════════╗\n");
+        printf("║            SHOP              ║\n");
+        printf("╚══════════════════════════════╝\n");
+        printf("Coins: %d\n\n", coins);
+
+        // display items
+        for (int i = 0; i < shop_count; i++)
+        {
+            printf("[%d] %-20s %3d Coins\n", i + 1, items[i], prices[i]);
+        }
+
+        printf("\n[0] Exit Shop\n");
+        printf("> ");
+        scanf("%d", &choice);
+
+        if (choice == 0)
+        {
+>>>>>>> a820fbe78dc3308bbbb7c8969da1170c7024b0d5
             system("cls");
             return;
         }
 
         choice--; // adjust index
 
+<<<<<<< HEAD
         if (choice < 0 || choice >= shop_count){
+=======
+        if (choice < 0 || choice >= shop_count)
+        {
+>>>>>>> a820fbe78dc3308bbbb7c8969da1170c7024b0d5
             printf("Invalid choice. Try again.\n");
             pressEnter();
             continue;
         }
 
+<<<<<<< HEAD
         if (coins >= prices[choice]){
             coins -= prices[choice];
             printf("You bought %s!\n", items[choice]);
@@ -551,3 +585,19 @@ void shop(char* items[], int prices[], int shop_count){
         pressEnter();
     }
 }
+=======
+        if (coins >= prices[choice])
+        {
+            coins -= prices[choice];
+            addItem(items[choice], 0);
+            printf("You bought %s!\n", items[choice]);
+        }
+        else
+        {
+            printf("Not enough coins!\n");
+        }
+
+        pressEnter();
+    }
+}
+>>>>>>> a820fbe78dc3308bbbb7c8969da1170c7024b0d5

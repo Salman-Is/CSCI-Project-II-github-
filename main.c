@@ -277,7 +277,10 @@ int options() {
         int shopPrices[] = {5, 10, 8, 8};
         
         shop(shopItems, shopPrices, 4); 
+<<<<<<< HEAD
         return 7;
+=======
+>>>>>>> a820fbe78dc3308bbbb7c8969da1170c7024b0d5
         return 7;
     }
     else if (choice == 'b' || choice == 'B') {
