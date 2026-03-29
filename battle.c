@@ -134,7 +134,7 @@ void removeItem(char* itemName) {
     }
 }
 
-void newWeapon(char weaponName[], int weaponDamage) {
+void weaponUpgrade(char weaponName[], int weaponDamage) {
     // check if new weapon damage is more than maxTurnDamage/maxPlayerTurnDamage
     // Only change maxTurnDamage/maxPlayerTurnDamage to weaponDamage IF its more than maxTurnDamage/maxPlayerTurnDamage
 }
@@ -535,7 +535,10 @@ void grantKarma(int addOrSubtract, int amount, char message[]) { //subtract = 0,
 void addCoins(int amount, char message[]) {
     if (strcmp(message, "battle") == 0)
     {
-        printf("You obtained %d %sCoins%s!\n", amount, YELLOW, NORMAL);
+        printf("You earned %d %sCoins%s!\n", amount, YELLOW, NORMAL);
+        coins += amount;
+    }
+    else if (strcmp(message, "no") == 0) {
         coins += amount;
     }
     else {

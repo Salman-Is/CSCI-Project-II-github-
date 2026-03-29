@@ -9,21 +9,64 @@ We kept them at bay until now, but I'm not sure if we can hold out for much long
 Passage into the Plains has been closed by the Kingdom.
 A number of monster attacks have been reported in the reigon, and we must ensure the Forest is safe
 Before escorting civilians. We havent even been able to mobilize to many of the nearby vill-
+...
 Ah, I see you have a sword. If you don't mind, we would appreciate it if you helped us clear out
 some of these monsters. We'll pay you handsomely for you service...
 
 [LOREL_1]
-Oh, a fellow adventurer! Greetings sir, care to help us?
-We found this here map, but we can't really decipher it, do you know this language?
+Ah, a fellow wanderer! Well met, good sir. Might you lend us a hand?
+I am Lorel, and these are my team members, Sypha and Reric.
+We came upon this curious map, yet its markings elude our understanding.
+Is this language familiar to you?
 
 [SYPHA_1]
-Oh come on, how could he know this language? Even I can't recognize it.
-We need to bring it to a real historian, not a random passerby.
+You place too much hope in chance encounters, Lorel.
+Why should he know such a script? Even I cannot make sense of it.
+This is no common cipher, it looks to be from an age long forgotten.
+We should bring it to one who studies such things, if any still do.
+Its irresponsible to show such treasures to strangers.
 
 [LOREL_2]
-Gosh, it couldn't hurt to at least check, Sypha.
+...
+Perhaps.
+However, Sypha, there is no harm in asking.
+Sorry for the trouble, traveller, but if you could glean anything
+from this decrepit map, we would be willing to hear.
 
-Sorry for the trouble sir, but DO you know this language?
+[LOREL_3]
+Ahh... I knew it. Did you see that Sypha?
+I told you it was worth an ask.
+
+[SYPHA_2]
+Very well, very well. It's still strange...
+A relic this old shouldn't be so easily understood by common folk.
+His silence too draws some suspicion... 
+What do you think, Reric?
+
+[RERIC_1]
+...
+Hmm...
+Scripts written in words, forgotten are seldom meant to be found.
+For one to decipher them so easily eons after is...
+...
+Interesting.
+
+[LOREL_4]
+Your skepticisms will bring us no where. 
+If you wish to seek glory and treasure, you must take risks.
+We didn't get this far by turning away from potential danger.
+
+[SYPHA_3]
+You’re too willing to trust, Lorel.
+We have nothing but a stranger’s word and a map we cannot read.
+But your instincts have yet to fail us. I suppose I can trust for now.
+
+[RERIC_2]
+...You must place your faith carefully.
+Trust, when given too freely, leads to calamity.
+Still... Though he hasn't earned my trust, I will not oppose this.
+Not yet at least...
+
 
 [END OF THE FILE]
 This is the end of the file. We needed that tag there because otherwise it might not

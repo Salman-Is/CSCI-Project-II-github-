@@ -19,9 +19,6 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP);
 
 void addCoins(int amount, char message[]);
 
-/* ================= MONSTERS ================= */
-// Using structs to hold monsters and stats
-// https://www.youtube.com/watch?v=dqa0KMSMx2w
 typedef struct {
     char name[30];
     int difficultyLevel;
@@ -34,6 +31,8 @@ typedef struct {
 
 void addItem(char* itemName, int startingItems);
 void removeItem(char* itemName);
+void weaponUpgrade(char weaponName[], int weaponDamage)
+
 void grantKarma(int addOrSubtract, int amount, char message[]);
 void encounter(Monster area[], int count, int tutorial, int special);
 int questGauntlet(Monster area[], int count, char groupName[], char locationName[]);

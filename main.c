@@ -89,6 +89,7 @@ char* quest3RewardsEVIL[32] = {"", "", "", ""};
 /* ================= AREA/LOCATION NAMES ================= */
 char availableLocations[6][32] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", 
 "The Crystal Caves", "The Celestial Mountains", "Acention"};
+
 char progressKey[32][32] = {"Forest Village", "Outpost", "Plains Map"};
 
 /* ================= MONSTERS/ENEMIES ================= */
@@ -100,20 +101,17 @@ Monster forest[] = {
     {"Lumora", 1, 3, 10, 3, GOOD, "Lumora Wing"},       // Easy, 3-letter pattern 
     {"Deer", 1, 5, 20, 4, GOOD, "Leather"},       // Easy, 5-letter pattern
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"},       // Easy, 5-letter pattern
-    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"},       // Medium, 5-letter pattern
-};
+    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"}};       // Medium, 5-letter pattern
 Monster quest1GOOD[] = { // help village
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"},
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"}, 
     {"Groblin Shaman", 3, 5, 40, 7, EVIL, "Groblin Staff"},   
-    {"Groblin Chief", 3, 5, 35, 10, EVIL, "Groblin Tusk"}
-};
+    {"Groblin Chief", 3, 5, 35, 10, EVIL, "Groblin Tusk"}};
 Monster quest1EVIL[] = { // pillage village
     {"Adventurer 'Kalen'", 1, 5, 15, 5, GOOD, "Leather"},
     {"Guard 'Eldric'", 3, 5, 20, 4, GOOD, "Scrap Metal"}, 
     {"Guard 'Kaelor'", 3, 5, 20, 4, GOOD, "Scrap Metal"},   
-    {"Knight 'Halor'", 4, 6, 35, 10, GOOD, "Scrap Metal"}
-};
+    {"Knight 'Halor'", 4, 6, 35, 10, GOOD, "Scrap Metal"}};
 Monster quest2GOOD[] = { // assist knights
     {"Juvinile Flagon", 2, 5, 20, 6, EVIL, "Ember Scale"},
     {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"}, 
@@ -131,9 +129,8 @@ Monster plains[] = {
     {"Nimora", 1, 5, 10, 3, EVIL, "Nimora Wing"},
     {"Grass Troll", 2, 5, 30, 5, EVIL, "Troll Leather"},
     {"Mossback", 1, 8, 50, 3, GOOD, "Fossilized Moss"},
-    {"Great Stag", 3, 8, 35, 6, GOOD, "Antlers"}
-};
-Monster quest3EVIL[] = { // pillage village
+    {"Great Stag", 3, 8, 35, 6, GOOD, "Antlers"}};
+Monster quest3EVIL[] = { // steal map
     {"Crusader 'Lorel'", 4, 6, 35, 10, GOOD, "Berzerker Potion"},
     {"Rouge 'Reric'", 4, 5, 20, 35, GOOD, "Broken Dagger"}, 
     {"Mage 'Sypha'", 5, 5, 25, 20, GOOD, "Fairy Dust"}};
@@ -268,7 +265,19 @@ int options() {
     }
     else if (choice == 'a' || choice == 'A') {
         system("cls");
-        printf("This feature has not been added yet...\n");
+        //printf("This feature has not been added yet...\n");   temp commented out. using this spot to test shop()
+        
+        char* shopItems[] = {
+        "Health Potion",
+        "Item A",
+        "Item B",
+        "Item C"
+        };
+
+        int shopPrices[] = {5, 10, 8, 8};
+        
+        shop(shopItems, shopPrices, 4); 
+        return 7;
         return 7;
     }
     else if (choice == 'b' || choice == 'B') {
@@ -355,6 +364,7 @@ int main(void) {
     system("chcp 65001 > nul");
     addItem("Health Potion", 1);
     // For Testing ONLY
+    addCoins(999, "no");
     addItem("Item", 1);
     addItem("Berzerker Potion", 1);
     addItem("Diamond", 1);
@@ -382,7 +392,7 @@ int main(void) {
     srand(time(NULL));
     while (storyProgress == -1){ // Start Menu
         int start = 0;
-        printf("%s%s", BOLD, CYAN);
+        printf("%s%s", BOLD, GOLD);
         printf("               _____ _            ____       _           _ _       \n");
         printf("            / |_   _| |__   ___  |  _ \\ __ _| | __ _  __| (_)_ __  \n");
         printf("  _________/>___| |_| '_ \\ / _ \\_| |_) / _  | |/ _  |/ _  | |  _ \\ ____________\n");
@@ -553,18 +563,20 @@ int main(void) {
                 printf("It's the same one as the record tablet you found in that cave...\n");
                 char* questhoice = questAlignment("Assist the adventurers", "Strike them down for the map");
                 if (strcmp(questhoice, "GOOD") == 0){
-                    if (questGauntlet(quest2GOOD, 4, "Flagon", "the Outpost") == 1) {
-                        printf("You defeated every Flagon invading the Outpost...\n");
-                        printf("They were no match for you...\n");
-                        questRewards(quest2RewardsGOOD, 5, 40);
-                        quest2Action++;
-                        storyProgress++;
-                    }
+                    printf("You silently nod.\n");
+                    pressEnter();
+                    dialougeBox("Crusader Lorel", GOLD, "LOREL_3");
+                    dialougeBox("Mage Sypha", LILAC, "SYPHA_2");
+                    dialougeBox("Rouge Reric", ORANGE, "RERIC_1");
+                    dialougeBox("Crusader Lorel", GOLD, "LOREL_4");
+                    dialougeBox("Mage Sypha", LILAC, "SYPHA_3");
+                    dialougeBox("Rouge Reric", ORANGE, "RERIC_2");
                 }
                 else if (strcmp(questhoice, "EVIL") == 0){
-                    if (questGauntlet(quest2EVIL, 4, "Knight", "the Outpost") == 1) {
-                        printf("You defeated every Knight in the Outpost...\n");
-                        printf("They were no match for you...\n");
+                    if (questGauntlet(quest3EVIL, 4, "Adventurer", "the group") == 1) {
+                        printf("You defeated every adventurer...\n");
+                        printf("They were no match for you.\n");
+                        printf("You take their map and head off to find it's treasure.\n");
                         questRewards(quest2RewardsEVIL, 4, 50);
                         quest2Action--;
                         storyProgress++;

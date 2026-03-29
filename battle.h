@@ -29,6 +29,8 @@ typedef struct {
 
 void addItem(char* itemName, int startingItems);
 void removeItem(char* itemName);
+void weaponUpgrade(char weaponName[], int weaponDamage);
+
 void grantKarma(int addOrSubtract, int amount, char message[]);
 void encounter(Monster area[], int count, int tutorial, int special);
 int questGauntlet(Monster area[], int count, char groupName[], char locationName[]);

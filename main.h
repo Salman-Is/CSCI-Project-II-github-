@@ -22,10 +22,12 @@
 #define PURPLE "\x1b[38;5;141m"
 #define DEEPRED "\x1b[38;5;9m"
 
+// formatting
 #define BOLD "\x1b[1m"
 #define UNBOLD "\x1b[22m"
 #define ITALIC "\033[3m"
 #define UNTALIC "\033[23m"
+#define RESETCURSOR "\033[H"
 
 #define GOOD  1
 #define EVIL  -1

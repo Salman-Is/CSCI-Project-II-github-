@@ -1,3 +1,4 @@
+
 #include "battle.h"
 #include "main.h" 
 #include "ui.h"
@@ -91,7 +92,7 @@ void riddle(char message[], char correct[], int *search, char reward[]) {
             time(&current_time);
         } while (difftime(current_time, start_time) < .5);
 
-        system("cls");
+        printf(RESETCURSOR);
 
         printf("          ╔════════════╗\n");
         printf("         ╔══════════════╗\n");
@@ -112,7 +113,7 @@ void riddle(char message[], char correct[], int *search, char reward[]) {
             time(&current_time);
         } while (difftime(current_time, start_time) < .5);
 
-        system("cls");
+        printf(RESETCURSOR);
     }
 
     system("cls");
@@ -269,7 +270,9 @@ void searchArea() {
             break;
         case 3: // third etc.
             addItem("Steel Sword ( 6 ATK )", 0);
-            maxTurnDamage = 6; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
+            if (6 > maxTurnDamage) {
+                maxTurnDamage = 6;
+            }  // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
             searchPoints1++;
             break;
         case 4: 
@@ -277,11 +280,15 @@ void searchArea() {
             break;
         case 5:
             chest("Verdent Key", "Grass Blade ( 10 ATK )", "Verdent", LIME, &searchPoints1);
-            maxTurnDamage = 10; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
+            if (10 > maxTurnDamage) {
+                maxTurnDamage = 10;
+            } // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
             break;
         case 6:
             addItem("Steel Bow ( 5 ATK )", 0);
-            maxPlayerTurnDamage = 5; // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
+            if (maxPlayerTurnDamage < 5) {
+                maxPlayerTurnDamage = 5;
+            } // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
             searchPoints1++;
             break;
         default:
@@ -300,10 +307,15 @@ void searchArea() {
             break;
         case 2:
             riddle("What grows without life, and consumes air with no breath?", "fire", &searchPoints2, "Flame Bow ( 7 ATK )");
+            if (7 > maxPlayerTurnDamage) {
+                maxPlayerTurnDamage = 7;
+            }
             break;
         case 3:
             addItem("Rimegrass Bow ( 6 ATK )", 0);
-            maxTurnDamage = 7; 
+            if (6 > maxPlayerTurnDamage) {
+                maxPlayerTurnDamage = 6;
+            } 
             searchPoints2++;
             break;
         case 4: 
@@ -312,11 +324,15 @@ void searchArea() {
             break;
         case 5:
             chest("Frost Key", "Ancient Sword ( 19 ATK )", "Frost", CYAN, &searchPoints2);
-            maxTurnDamage = 9;
+            if (19 > maxTurnDamage) {
+                maxTurnDamage = 19;
+            } 
             break;
         case 6:
             addItem("Ancient Bow ( 14 ATK )", 0);
-            maxPlayerTurnDamage = 5;
+            if (14 > maxPlayerTurnDamage) {
+                maxPlayerTurnDamage = 14;
+            }
             searchPoints2++;
             break;
         default:
@@ -433,6 +449,10 @@ void dialougeBox(char* name, char* color, char* tag)
         // This newline character is the bane of my existence
         line[strcspn(line, "\n")] = '\0';
 
+        // Skip empty lines
+        if (strlen(line) == 0) {
+            continue;
+        }
         /*
         check if the line is the correct tag
         tags always start with a '[' btw
@@ -462,9 +482,9 @@ void dialougeBox(char* name, char* color, char* tag)
         return;
     }
     time_t start_time, current_time;
-
+    system("cls");
     for (int i = 0; i < count; i++){
-        system("cls");
+        printf(RESETCURSOR);
 
         printf("[ %s%s%s ]\n", color, name, NORMAL);
         printf("╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
@@ -478,8 +498,56 @@ void dialougeBox(char* name, char* color, char* tag)
         time(&start_time);
         do {
             time(&current_time);
-        } while (difftime(current_time, start_time) < 2);
+        } while (difftime(current_time, start_time) < 1);
     }
 
     pressEnter();
+}
+
+
+void shop(char* items[], int prices[], int shop_count){
+    int choice;
+    while (1)
+    {
+        system("cls");
+        printf("╔══════════════════════════════════╗\n");
+        printf("║ [#] | SHOP                       ║\n");
+        printf("╚══════════════════════════════════╝\n\n");
+        printf("%sCOINS%s: %d\n\n", YELLOW, NORMAL, coins);
+        printf("╔══════════════════════════════════╗\n");
+        // display items
+        for (int i = 0; i < shop_count; i++){
+            printf("║ [%d] %-19s %2d Coins ║\n", i + 1, items[i], prices[i]);
+        }
+        printf("╚══════════════════════════════════╝\n\n");
+        printf("╔══════════════════════════════════╗\n");
+        printf("║ [0] | EXIT SHOP                  ║\n");
+        printf("╚══════════════════════════════════╝\n\n");
+
+        printf("> ");
+        scanf("%d", &choice);
+
+        if (choice == 0){
+            system("cls");
+            return;
+        }
+
+        choice--; // adjust index
+
+        if (choice < 0 || choice >= shop_count){
+            printf("Invalid choice. Try again.\n");
+            pressEnter();
+            continue;
+        }
+
+        if (coins >= prices[choice]){
+            coins -= prices[choice];
+            printf("You bought %s!\n", items[choice]);
+            addItem(items[choice], 1);
+        }
+        else{
+            printf("Not enough coins!\n");
+        }
+        pressEnter();
+    }
 }
