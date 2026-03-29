@@ -134,7 +134,7 @@ void removeItem(char* itemName) {
     }
 }
 
-void weaponUpgrade(char weaponName[], int weaponDamage) {
+void newWeapon(char weaponName[], int weaponDamage) {
     // check if new weapon damage is more than maxTurnDamage/maxPlayerTurnDamage
     // Only change maxTurnDamage/maxPlayerTurnDamage to weaponDamage IF its more than maxTurnDamage/maxPlayerTurnDamage
 }
@@ -224,11 +224,8 @@ int questGauntlet(Monster area[], int count, char groupName[], char locationName
     printf("A quest gauntlet begins!\n");
     printf("You must defeat every %s in %s...\n\n", groupName, locationName);
 
-    time(&start_time);
-    do {
-        time(&current_time);
-    } while (difftime(current_time, start_time) < 3);
-
+    timer(3000);
+    
     for(int i = 0; i < count; i++)
     {
         Monster enemy = area[i];
@@ -361,10 +358,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 // ----------------- UI -----------------
                 printUI(enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
 
-                time(&start_time);
-                do {
-                    time(&current_time);
-                } while (difftime(current_time, start_time) < 3);
+                timer(3000);
                 
 
                 printf("\nEnemy prepares an attack!\n");
@@ -379,11 +373,8 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 printf("]\n");
 
                 // ----------------- Timer -----------------
-                time(&start_time);
-                do {
-                    time(&current_time);
-                } while (difftime(current_time, start_time) < 3);
-
+                timer(3000);
+                
                 system("cls");
                 printUI(enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
 
@@ -427,11 +418,9 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 printf("You took %d damage!\n", damageToPlayer);
 
                 // ----------------- Pause -----------------
+                timer(3000);
                 time(&start_time);
-                do {
-                    time(&current_time);
-                } while (difftime(current_time, start_time) < 3);  
-                system("cls");
+                 system("cls");
                 playerTurn = 1;
             }
             else if (playerTurn == 1){
@@ -535,10 +524,7 @@ void grantKarma(int addOrSubtract, int amount, char message[]) { //subtract = 0,
 void addCoins(int amount, char message[]) {
     if (strcmp(message, "battle") == 0)
     {
-        printf("You earned %d %sCoins%s!\n", amount, YELLOW, NORMAL);
-        coins += amount;
-    }
-    else if (strcmp(message, "no") == 0) {
+        printf("You obtained %d %sCoins%s!\n", amount, YELLOW, NORMAL);
         coins += amount;
     }
     else {
