@@ -1,5 +1,6 @@
 #ifndef UI_H
 #define UI_H
+#include <windows.h>
 
 extern char currentLoc[];
 
