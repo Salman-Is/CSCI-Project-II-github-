@@ -285,8 +285,7 @@ int options() {
         "Health Potion",
         "Item A",
         "Item B",
-        "Item C"
-        };
+        "Item C"};
 
         int shopPrices[] = {5, 10, 8, 8};
         
@@ -571,18 +570,20 @@ int main(void) {
                 printf("It's the same one as the record tablet you found in that cave...\n");
                 char* questhoice = questAlignment("Assist the adventurers", "Strike them down for the map");
                 if (strcmp(questhoice, "GOOD") == 0){
-                    if (questGauntlet(quest2GOOD, 4, "Flagon", "the Outpost") == 1) {
-                        printf("You defeated every Flagon invading the Outpost...\n");
-                        printf("They were no match for you...\n");
-                        questRewards(quest2RewardsGOOD, 5, 40);
-                        quest2Action++;
-                        storyProgress++;
-                    }
+                    printf("You silently nod.\n");
+                    pressEnter();
+                    dialougeBox("Crusader Lorel", GOLD, "LOREL_3");
+                    dialougeBox("Mage Sypha", LILAC, "SYPHA_2");
+                    dialougeBox("Rouge Reric", ORANGE, "RERIC_1");
+                    dialougeBox("Crusader Lorel", GOLD, "LOREL_4");
+                    dialougeBox("Mage Sypha", LILAC, "SYPHA_3");
+                    dialougeBox("Rouge Reric", ORANGE, "RERIC_2");
                 }
                 else if (strcmp(questhoice, "EVIL") == 0){
-                    if (questGauntlet(quest2EVIL, 4, "Knight", "the Outpost") == 1) {
-                        printf("You defeated every Knight in the Outpost...\n");
-                        printf("They were no match for you...\n");
+                    if (questGauntlet(quest3EVIL, 4, "Adventurer", "the group") == 1) {
+                        printf("You defeated every adventurer...\n");
+                        printf("They were no match for you.\n");
+                        printf("You take their map and head off to find it's treasure.\n");
                         questRewards(quest2RewardsEVIL, 4, 50);
                         quest2Action--;
                         storyProgress++;
