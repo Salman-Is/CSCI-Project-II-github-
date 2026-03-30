@@ -1,3 +1,4 @@
+
 #ifndef UI_H
 #define UI_H
 #include <windows.h>
@@ -11,7 +12,7 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP);
 void statsPage();
 void healthBar(int currentHP, int maxHP);
 char* areaColor();
-void timer(int milliseconds);
+
 
 typedef struct {
     char name[64];
