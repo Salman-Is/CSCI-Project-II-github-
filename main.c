@@ -145,11 +145,20 @@ Monster lake[] = {
 
 // Cave enemy groups
 Monster caves[] = {
-    {"Monster1", 1, 1, 5, 5, GOOD, "Something"},};
+    {"Cursed Bat", 2, 5, 15, 5, EVIL, "Echo Fang"},
+    {"Crystal Snake", 2, 4, 25, 6, EVIL, "Poison Vial"},
+    {"Shifter Fox", 3, 5, 15, 5, EVIL, "Mirror Cloak"},
+    {"Stone Spider", 3, 5, 35, 6, EVIL, "Unbreakable Silk"},
+    {"Ancient Man", 4, 4, 45, 9, GOOD, "Will of Strength"}};
 
 // Mountain enemy groups
 Monster mountains[] = {
-    {"Monster1", 1, 1, 5, 5, EVIL, "Something"},};
+    {"Peak Eagle", 2, 5, 25, 7, GOOD, "Soaring Feather"},
+    {"Ice Giant", 3, 4, 55, 10, EVIL, "Ionic Ice"},
+    {"Mountain Goat", 2, 6, 30, 16, GOOD, "Durable Horn"},
+    {"Snow Leopard", 3, 4, 30, 20, GOOD, "Gorgeous Leather"},
+    {"Dark Dragon", 4, 6, 65, 25, EVIL, "Demonic Scale"},
+    {"High Dragon", 4, 6, 65, 25, GOOD, "Golden Scale"}};
 
 // Final area bosses
 Monster final[] = { // You will recive a really strong weapon before this guys dw
@@ -168,6 +177,8 @@ Monster final[] = { // You will recive a really strong weapon before this guys d
  */
 int options() {
     char* locColor = areaColor();
+    StatusType playerStatus = NONE;
+    StatusType enemyStatus = NONE;
     playerAl();
     printf("\n%sWhat would you like to do?%s\n", BOLD, UNBOLD);
     printf("\n[ Location: %s%s%s ] [ Progress: %d / %d ] [ %s ]\n", locColor, currentLoc, NORMAL, storyProgress, maxStoryProgress, playerAlignment);
@@ -433,11 +444,7 @@ int main(void) {
         pressEnter();
         system("cls");
         printf("Your solitude is interupted by a passing monster. Prepare youself...\n");
-        time_t start_time, current_time;
-        time(&start_time);
-        do {
-            time(&current_time);
-        } while (difftime(current_time, start_time) < 3);
+        Sleep(3000);
         encounter(tutorial, 1, 1, -1);
         system("cls");
         printf("You look to your right and find a record of some kind...\n");

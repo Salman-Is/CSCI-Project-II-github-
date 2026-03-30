@@ -5,6 +5,9 @@
 
 
 char* areaColor();
+char* changeColor(StatusType status);
+StatusType enemyStatus = NONE;
+StatusType playerStatus = NONE;
 
 char currentLoc[32] = "Forest";
 /* ================= ITEM DEFINITIONS ================= */
@@ -62,19 +65,22 @@ Item berzerkerPotion[] = {"Berzerker Potion", "An unstable potion that draws out
 Item focusCharm[] = {"Focus Charm", "An artifact that brings with it a calming force.", "Charm", "Crit+", CYAN, 2};
 
 /* ================= UI FUNCTIONS ================= */
-void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playerHP,int playerMaxHP)
-{
+void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playerHP,int playerMaxHP){
+    char* enStatus = statusText(enemyStatus);
+    char* statusColor = changeColor(enemyStatus);
     char* locColor = areaColor();
     printf("It's the %s%s%s's turn...\n\n", RED, enemyName, NORMAL);
     printf("══════════════════════════════════════════════════════════════════════\n\n");
-    printf("  [ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
+    printf("  [ %s%s%s ] [ %s%s%s ] \n  [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL, YELLOW, currentEnemyDrop, NORMAL);
     printf("  Health: ");
     healthBar(enemyHP, enemyMaxHP);
-    printf(" Damage: [ %02d ] Drop: [ %s%s%s ]\n\n", currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
+    printf(" Damage: [ %02d ] Status: [ %s%s%s ]\n\n", currentEnemyATK, statusColor, enStatus, NORMAL);
     printf("══════════════════════════════════════════════════════════════════════\n");
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
-    printf("║ [ %sThe Paladin%s ]                                                    ║\n",BLUE, NORMAL);
+    printf("║ [ %sThe Paladin%s ] [ %s%s%s ]                                           ║\n", 
+        BLUE, NORMAL, (playerAlignment == "GOOD" ? CYAN : (playerAlignment == "EVIL" ? RED : NORMAL)) ,(playerAlignment == "GOOD" ? "GOOD" : (playerAlignment == "EVIL" ? "EVIL" : "NEUT")), NORMAL);
+    printf("║                                                                    ║\n");
     printf("║ Health: [ %02d/%d ] ", playerHP, playerMaxHP);
     healthBar(playerHP, playerMaxHP);
     printf(" Arrow: [ %02d ] Sword: [ %02d ]  ║\n", maxPlayerTurnDamage, maxTurnDamage);
@@ -82,8 +88,9 @@ void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playe
     printf("╚════════════════════════════════════════════════════════════════════╝\n");
 }
 
-void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playerHP,int playerMaxHP)
-{
+void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playerHP,int playerMaxHP){
+    char* enStatus = statusText(enemyStatus);
+    char* statusColor = changeColor(enemyStatus);
     char* locColor = areaColor();
     if(battleStart == 0){
         char* alignmentText = (alignment == GOOD) ? "GOOD" : "EVIL";
@@ -97,14 +104,16 @@ void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int
         printf("Its your turn...\n\n");
     }
     printf("══════════════════════════════════════════════════════════════════════\n\n");
-    printf("  [ %s%s%s ] [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL);
+    printf("  [ %s%s%s ] [ %s%s%s ] \n  [ %s%s%s ] [ %s%s%s ]\n\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL, YELLOW, currentEnemyDrop, NORMAL);
     printf("  Health: ");
     healthBar(enemyHP, enemyMaxHP);
-    printf(" Damage: [ %02d ] Drop: [ %s%s%s ]\n\n", currentEnemyATK, YELLOW, currentEnemyDrop, NORMAL);
+    printf(" Damage: [ %02d ] Status: [ %s%s%s ]\n\n", currentEnemyATK, statusColor, enStatus, NORMAL);
     printf("══════════════════════════════════════════════════════════════════════\n");
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
-    printf("║ [ %sThe Paladin%s ]                                                    ║\n",BLUE, NORMAL);
+    printf("║ [ %sThe Paladin%s ] [ %s%s%s ]                                           ║\n", 
+        BLUE, NORMAL, (playerAlignment == "GOOD" ? CYAN : (playerAlignment == "EVIL" ? RED : NORMAL)) ,(playerAlignment == "GOOD" ? "GOOD" : (playerAlignment == "EVIL" ? "EVIL" : "NEUT")), NORMAL);
+    printf("║                                                                    ║\n");
     printf("║ Health: [ %02d/%d ] ", playerHP, playerMaxHP);
     healthBar(playerHP, playerMaxHP);
     printf(" Arrow: [ %02d ] Sword: [ %02d ]  ║\n", maxPlayerTurnDamage, maxTurnDamage);
@@ -295,6 +304,23 @@ char* areaColor() {
     }
 }
 
+char* changeColor(StatusType status){
+    switch(status){
+        case POISON: 
+            return PURPLE;
+        case BURN: 
+            return ORANGE;
+        case FEAR: 
+            return DARKBLUE;
+        case FROZEN:
+            return CYAN; 
+        case BLEED: 
+            return RED;
+        default:
+            return NORMAL; 
+    }
+}
+
 /**
 * This function creates an hp bar compatible with the player and enemy
 * It runs an equation
@@ -325,3 +351,7 @@ void healthBar(int currentHP, int maxHP) {
     }
     printf(" ]");
 }
+
+// i found out the sleep() function is better then the time() do while loop for the cpu. and its actually way simpler. 
+// also using millesecods can allow us to use partial seconds. ex 500 milleseconds is .5 seconds. 1000 milleseconds is 1 sec
+// https://www.geeksforgeeks.org/c/sleep-function-in-c/

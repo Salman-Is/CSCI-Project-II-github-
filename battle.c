@@ -47,6 +47,8 @@
 int critDamage = 1.5;
 int attackBuff = 1;
 
+void randomEffect();
+
 /* ================= ITEM FUNCTIONS ================= */
 // addItem("ITEM NAME", X); X = 1 if its starting inventory, X = 0 if not
 void newAddItem(Item item, int startingItems) {
@@ -139,8 +141,7 @@ void weaponUpgrade(char weaponName[], int weaponDamage) {
     // Only change maxTurnDamage/maxPlayerTurnDamage to weaponDamage IF its more than maxTurnDamage/maxPlayerTurnDamage
 }
 /* ================= ENCOUNTER FUNCTION ================= */
-void encounter(Monster area[], int count, int tutorial, int special)
-{
+void encounter(Monster area[], int count, int tutorial, int special){
     // tutorial = 1, make special neg if rand, index of area if specific
     Monster enemy;
     if (special < 0)
@@ -220,14 +221,10 @@ void encounter(Monster area[], int count, int tutorial, int special)
 }
 
 int questGauntlet(Monster area[], int count, char groupName[], char locationName[]) {
-    time_t start_time, current_time;
     printf("A quest gauntlet begins!\n");
     printf("You must defeat every %s in %s...\n\n", groupName, locationName);
 
-    time(&start_time);
-    do {
-        time(&current_time);
-    } while (difftime(current_time, start_time) < 3);
+    Sleep(3000);
 
     for(int i = 0; i < count; i++)
     {
@@ -295,8 +292,7 @@ int questGauntlet(Monster area[], int count, char groupName[], char locationName
  * @param enemyName -> tracks the current enemy
  * @param difficultyLevel -> 
  */
-int runBattle(char* enemyName, int difficultyLevel, int patternLength, int alignment, double sec_to_wait, int tutorial)
-{
+int runBattle(char* enemyName, int difficultyLevel, int patternLength, int alignment, double sec_to_wait, int tutorial){
     char pattern[10];       // Enemy's attack pattern
     char user_pat[20];     // Player input
     char letters[14] = {'X','O','A','B','C','D','E','F','G','H', 'I', 'W', 'Y', 'Z'}; // Possible letters for patterns
@@ -313,13 +309,14 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
     int playerHP = playerMaxHP;
     int enemyHP  = enemyMaxHP;
     int enemyDamagePerLetter = currentEnemyATK / patternLength;
-    time_t start_time, current_time;
     int spare = 0;
     system("cls");
 
     /* =================== BATTLE LOOP =================== */
     while (playerHP > 0 && enemyHP > 0 && spare == 0){
         if (spare == 0){
+            // processStatus(playerStatus, &playerHP, playerMaxHP);
+            processStatus(enemyStatus, &enemyHP, enemyMaxHP);
             if (playerTurn == 0){
                 // RAGE mechanic (EVIL exclusive ability)
                 if((enemyHP < enemyMaxHP / 2) && currentEnemyALIGNMENT == EVIL){
@@ -359,14 +356,11 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 }
 
                 // ----------------- UI -----------------
+                randomEffect();
                 printUI(enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
 
-                time(&start_time);
-                do {
-                    time(&current_time);
-                } while (difftime(current_time, start_time) < 3);
-                
-
+                Sleep(3000);
+    
                 printf("\nEnemy prepares an attack!\n");
                 printf("Counter this pattern:\n[ ");
                 printf(RED);
@@ -379,10 +373,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 printf("]\n");
 
                 // ----------------- Timer -----------------
-                time(&start_time);
-                do {
-                    time(&current_time);
-                } while (difftime(current_time, start_time) < 3);
+                Sleep(3000);
 
                 system("cls");
                 printUI(enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
@@ -419,6 +410,8 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 if (correct == patternLength && damageToEnemy == 0) {
                     damageToEnemy = 2;
                 }
+
+                damageToPlayer = modifyDamage(damageToPlayer, playerStatus);
                     
                 enemyHP -= damageToEnemy;
                 playerHP -= damageToPlayer;
@@ -427,12 +420,15 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 printf("You took %d damage!\n", damageToPlayer);
 
                 // ----------------- Pause -----------------
-                time(&start_time);
-                do {
-                    time(&current_time);
-                } while (difftime(current_time, start_time) < 3);  
+                Sleep(3000);  
                 system("cls");
-                playerTurn = 1;
+                if (canAct(enemyStatus) == 1)
+                {
+                    playerTurn = 0;
+                }
+                else {
+                    playerTurn = 1;
+                }
             }
             else if (playerTurn == 1){
                 if (tutorial == 1){
@@ -456,15 +452,26 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 scanf(" %c", &turnChoice);
                 if (turnChoice == '1') {
                     system("cls");
+                    printf("You draw your %s...\n\n", currentBow);
                     printf("You shot an arrow!\n");
                     enemyHP -= maxPlayerTurnDamage;
-                    playerTurn = 0;
+                    if (canAct(enemyStatus) == 1){
+                        playerTurn = 0;
+                    }
+                    else {
+                        playerTurn = 1;
+                    }
                 }
                 else if (turnChoice == '2') {
                     system("cls");
                     printf("You chose to use an item!\n");
                     openInventory(0, &playerHP, playerMaxHP);
-                    playerTurn = 0;
+                    if (canAct(enemyStatus) == 1){
+                        playerTurn = 0;
+                    }
+                    else {
+                        playerTurn = 1;
+                    }
                 }
                 else if (turnChoice == '3'){
                     system("cls");
@@ -547,7 +554,139 @@ void addCoins(int amount, char message[]) {
     }
 }
 
-int fireArrow() {
-    system("cls");
-    printf("You draw your %s...\n", currentBow);
+int fireArrow(int *enemyHP, int playerTurn) {
+
+}
+
+// void randomEffect() {
+//     int random;
+//     printf("Which effect?\n");
+//     scanf(" %d", &random);
+//     printf("> ");
+//     switch (random){
+//     case 1:
+//         applyStatus(&enemyStatus, BURN);
+//         break;
+//     case 2:
+//         applyStatus(&enemyStatus, POISON);
+//         break;
+//     case 3:
+//         applyStatus(&enemyStatus, FROZEN);
+//         break;
+//     case 4:
+//         applyStatus(&enemyStatus, FEAR);
+//         break;
+//     case 5:
+//         applyStatus(&enemyStatus, BLEED);
+//         break;
+//     default:
+//         break;
+//     }
+//     return;
+// }
+
+/* ================= STATUS EFFECT FUNCTIONS ================= */
+
+// I made them work for the player as well, but let's keep it exclusive to enemies for now
+// It's a bit complex, but I made all the different kinds of effects int different functions
+// Just in case we want to add more later on
+
+void applyStatus(StatusType* status, StatusType newStatus){
+    *status = newStatus;
+}
+
+void processStatus(StatusType status, int* hp, int maxHP){
+    if (*hp <= 0){
+        return;
+    }
+    if (status == NONE) {
+        return;
+    }
+    int damage = 0;
+
+    switch (status){
+        case POISON:
+            damage = (int)(maxHP * 0.15);
+            if (damage < 1) damage = 1;
+            printf("The Poison eats away at the enemy... (-%d HP)\n", damage);
+            *hp -= damage;
+            break;
+
+        case BURN:
+            damage = 5;
+            printf("The Flames scorch the enemy... (-%d HP)\n", damage);
+            *hp -= damage;
+            break;
+
+        case BLEED:
+            damage = (int)(maxHP * 0.25);
+            if (damage < 1) damage = 1;
+            printf("The enemies Bleeding doesn't stop... (-%d HP)\n", damage);
+            *hp -= damage;
+            break;
+
+        case FEAR:
+            printf("Fear lingers in the heart of your enemy...\n");
+            break;
+
+        case FROZEN:
+            break;
+
+        case NONE:
+        default:
+            break;
+    }
+
+    // clamp HP
+    if (*hp < 0) *hp = 0;
+}
+
+int canAct(StatusType status){
+    if (status == FROZEN){
+        int chance = rand() % 100;
+        if (chance < 50){
+            printf("The enemy is Frozen...\n");
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int modifyDamage(int baseDamage, StatusType status){
+    switch (status)
+    {
+        case BURN:
+            baseDamage = (int)(baseDamage * 0.75);
+            break;
+
+        case FEAR:
+            baseDamage = baseDamage / 2;
+            break;
+
+        case BLEED:
+            baseDamage = (int)(baseDamage * 1.5);
+            break;
+
+        default:
+            break;
+    }
+
+    return baseDamage;
+}
+
+char* statusText(StatusType status){
+    switch(status){
+        case POISON: 
+            return "POIS";
+        case BURN: 
+            return "BURN";
+        case FEAR: 
+            return "FEAR";
+        case FROZEN:
+            return "FRZN";
+        case BLEED: 
+            return "BLED";
+        default:
+            return "NONE";
+    }
 }
