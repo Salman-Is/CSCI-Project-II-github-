@@ -422,6 +422,8 @@ void dialougeBox(char* name, char* color, char* tag)
         return;
     }
 
+    
+
     char line[256];
     char lines[32][512];
     int count = 0;
@@ -441,6 +443,11 @@ void dialougeBox(char* name, char* color, char* tag)
         // this removes the new line at the end of fgets. 
         // This newline character is the bane of my existence
         line[strcspn(line, "\n")] = '\0';
+
+        // skip empty lines
+        if (strlen(line) == 0) {
+            continue;
+        }
 
         /*
         check if the line is the correct tag
@@ -472,19 +479,13 @@ void dialougeBox(char* name, char* color, char* tag)
     }
     system("cls");
     for (int i = 0; i < count; i++){
-        system("cls");
+        printf(RESETCURSOR);
 
         printf("[ %s%s%s ]\n", color, name, NORMAL);
         printf("╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
 
         for (int j = 0; j <= i; j++) {
-            // ONE of these is right, don't know which
-            if (lines[j] != "\0" || lines[j] != "\n" || lines[j] != "" || lines[j] != NULL)
-            {
-                printf("║ %-112s ║\n", lines[j]);
-            }
-            
-            
+            printf("║ %-112s ║\n", lines[j]);   
         }
 
         printf("╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
