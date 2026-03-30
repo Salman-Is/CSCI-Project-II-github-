@@ -11,6 +11,7 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP);
 void statsPage();
 void healthBar(int currentHP, int maxHP);
 char* areaColor();
+void timer(int milliseconds);
 
 typedef struct {
     char name[64];
@@ -22,4 +23,10 @@ typedef struct {
     int amount;
 } Item;
 
+<<<<<<< HEAD
 #endif 
+=======
+
+
+#endif 
+>>>>>>> ff1ec958b1dc107bc1b7a743a372636add2a868d
