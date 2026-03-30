@@ -401,7 +401,7 @@ int main(void) {
     srand(time(NULL));
     while (storyProgress == -1){ // Start Menu
         int start = 0;
-        printf("%s%s", BOLD, GOLD);
+        printf("%s%s", BOLD, PALEYELL);
         printf("               _____ _            ____       _           _ _       \n");
         printf("            / |_   _| |__   ___  |  _ \\ __ _| | __ _  __| (_)_ __  \n");
         printf("  _________/>___| |_| '_ \\ / _ \\_| |_) / _  | |/ _  |/ _  | |  _ \\ ____________\n");

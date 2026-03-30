@@ -21,6 +21,7 @@
 #define GOLD "\x1b[38;5;220m"
 #define PURPLE "\x1b[38;5;141m"
 #define DEEPRED "\x1b[38;5;9m"
+#define PALEYELL "\x1b[38;5;181m"
 
 // formatting
 #define BOLD "\x1b[1m"

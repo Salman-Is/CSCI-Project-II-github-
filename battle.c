@@ -289,8 +289,8 @@ int questGauntlet(Monster area[], int count, char groupName[], char locationName
 /* ================= MAIN BATTLE FUNCTION ================= */
 /**
  * Function for battle logic
- * @param enemyName -> tracks the current enemy
- * @param difficultyLevel -> 
+ * 
+ * 
  */
 int runBattle(char* enemyName, int difficultyLevel, int patternLength, int alignment, double sec_to_wait, int tutorial){
     char pattern[10];       // Enemy's attack pattern
@@ -558,32 +558,33 @@ int fireArrow(int *enemyHP, int playerTurn) {
 
 }
 
-// void randomEffect() {
-//     int random;
-//     printf("Which effect?\n");
-//     scanf(" %d", &random);
-//     printf("> ");
-//     switch (random){
-//     case 1:
-//         applyStatus(&enemyStatus, BURN);
-//         break;
-//     case 2:
-//         applyStatus(&enemyStatus, POISON);
-//         break;
-//     case 3:
-//         applyStatus(&enemyStatus, FROZEN);
-//         break;
-//     case 4:
-//         applyStatus(&enemyStatus, FEAR);
-//         break;
-//     case 5:
-//         applyStatus(&enemyStatus, BLEED);
-//         break;
-//     default:
-//         break;
-//     }
-//     return;
-// }
+void randomEffect() {   //TEMPORARY
+    int random;
+    printf("Which effect? (this is temporary) (1-5)\n");
+    printf("1-Burn, 2-Poison, 3-Frozen, 4-Fear, 5-Bleed\n\n");
+    scanf(" %d", &random);
+    printf("> ");
+    switch (random){
+    case 1:
+        applyStatus(&enemyStatus, BURN);
+        break;
+    case 2:
+        applyStatus(&enemyStatus, POISON);
+        break;
+    case 3:
+        applyStatus(&enemyStatus, FROZEN);
+        break;
+    case 4:
+        applyStatus(&enemyStatus, FEAR);
+        break;
+    case 5:
+        applyStatus(&enemyStatus, BLEED);
+        break;
+    default:
+        break;
+    }
+    return;
+}
 
 /* ================= STATUS EFFECT FUNCTIONS ================= */
 
@@ -591,10 +592,15 @@ int fireArrow(int *enemyHP, int playerTurn) {
 // It's a bit complex, but I made all the different kinds of effects int different functions
 // Just in case we want to add more later on
 
+// changes chosen status to new status
 void applyStatus(StatusType* status, StatusType newStatus){
     *status = newStatus;
 }
 
+/*
+After checking that the enemy is still alive AND has a status, this function handles the effects
+for poison, and half the effect of bleed and burn. Basically, this handles the "damaging" effects
+*/
 void processStatus(StatusType status, int* hp, int maxHP){
     if (*hp <= 0){
         return;
@@ -641,6 +647,8 @@ void processStatus(StatusType status, int* hp, int maxHP){
     if (*hp < 0) *hp = 0;
 }
 
+// Right now, this is just for freeze, but maybe later we can add paralyze like Pokemon
+// 50/50 chance the enemy can't move 
 int canAct(StatusType status){
     if (status == FROZEN){
         int chance = rand() % 100;
@@ -652,6 +660,8 @@ int canAct(StatusType status){
     return 1;
 }
 
+// This handles the effect of fear, and the other half of bleed and burn.
+// This modifys the damage of the recipient
 int modifyDamage(int baseDamage, StatusType status){
     switch (status)
     {
