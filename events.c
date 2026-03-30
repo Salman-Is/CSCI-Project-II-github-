@@ -86,15 +86,9 @@ void riddle(char message[], char correct[], int *search, char reward[]) {
 
         printf("The stone tablet atop the Shrine pedestal vibrates...\n");
 
-<<<<<<< HEAD
         Sleep(350);
 
         printf(RESETCURSOR);
-=======
-        timer(500);
-        
-        system("cls");
->>>>>>> ff1ec958b1dc107bc1b7a743a372636add2a868d
 
         printf("          ╔════════════╗\n");
         printf("         ╔══════════════╗\n");
@@ -110,15 +104,9 @@ void riddle(char message[], char correct[], int *search, char reward[]) {
 
         printf("The stone tablet atop the Shrine pedestal vibrates...\n");
 
-<<<<<<< HEAD
         Sleep(350);
 
         printf(RESETCURSOR);
-=======
-        timer(500);
-        
-        system("cls");
->>>>>>> ff1ec958b1dc107bc1b7a743a372636add2a868d
     }
 
     system("cls");
@@ -482,12 +470,7 @@ void dialougeBox(char* name, char* color, char* tag)
         printf("Dialogue tag [%s] not found.\n", tag);
         return;
     }
-<<<<<<< HEAD
     system("cls");
-=======
-    time_t start_time, current_time;
-
->>>>>>> ff1ec958b1dc107bc1b7a743a372636add2a868d
     for (int i = 0; i < count; i++){
         system("cls");
 
@@ -500,11 +483,7 @@ void dialougeBox(char* name, char* color, char* tag)
 
         printf("╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
 
-<<<<<<< HEAD
         Sleep(1500);
-=======
-        timer(2000);
->>>>>>> ff1ec958b1dc107bc1b7a743a372636add2a868d
     }
 
     pressEnter();

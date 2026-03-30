@@ -23,10 +23,4 @@ typedef struct {
     int amount;
 } Item;
 
-<<<<<<< HEAD
 #endif 
-=======
-
-
-#endif 
->>>>>>> ff1ec958b1dc107bc1b7a743a372636add2a868d

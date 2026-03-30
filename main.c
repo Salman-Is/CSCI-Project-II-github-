@@ -404,11 +404,7 @@ int main(void) {
     srand(time(NULL));
     while (storyProgress == -1){ // Start Menu
         int start = 0;
-<<<<<<< HEAD
         printf("%s%s", BOLD, PALEYELL);
-=======
-        printf("%s%s", BOLD, CYAN);
->>>>>>> ff1ec958b1dc107bc1b7a743a372636add2a868d
         printf("               _____ _            ____       _           _ _       \n");
         printf("            / |_   _| |__   ___  |  _ \\ __ _| | __ _  __| (_)_ __  \n");
         printf("  _________/>___| |_| '_ \\ / _ \\_| |_) / _  | |/ _  |/ _  | |  _ \\ ____________\n");
@@ -451,12 +447,7 @@ int main(void) {
         pressEnter();
         system("cls");
         printf("Your solitude is interupted by a passing monster. Prepare youself...\n");
-<<<<<<< HEAD
         Sleep(3000);
-=======
-        time_t start_time, current_time;
-        timer(3000);
->>>>>>> ff1ec958b1dc107bc1b7a743a372636add2a868d
         encounter(tutorial, 1, 1, -1);
         system("cls");
         printf("You look to your right and find a record of some kind...\n");

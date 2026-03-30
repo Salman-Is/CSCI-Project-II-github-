@@ -224,13 +224,8 @@ int questGauntlet(Monster area[], int count, char groupName[], char locationName
     printf("A quest gauntlet begins!\n");
     printf("You must defeat every %s in %s...\n\n", groupName, locationName);
 
-<<<<<<< HEAD
     Sleep(3000);
 
-=======
-    timer(3000);
-    
->>>>>>> ff1ec958b1dc107bc1b7a743a372636add2a868d
     for(int i = 0; i < count; i++)
     {
         Monster enemy = area[i];
@@ -364,14 +359,8 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 randomEffect();
                 printUI(enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
 
-<<<<<<< HEAD
                 Sleep(3000);
     
-=======
-                timer(3000);
-                
-
->>>>>>> ff1ec958b1dc107bc1b7a743a372636add2a868d
                 printf("\nEnemy prepares an attack!\n");
                 printf("Counter this pattern:\n[ ");
                 printf(RED);
@@ -384,13 +373,8 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 printf("]\n");
 
                 // ----------------- Timer -----------------
-<<<<<<< HEAD
                 Sleep(3000);
 
-=======
-                timer(3000);
-                
->>>>>>> ff1ec958b1dc107bc1b7a743a372636add2a868d
                 system("cls");
                 printUI(enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
 
@@ -436,7 +420,6 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 printf("You took %d damage!\n", damageToPlayer);
 
                 // ----------------- Pause -----------------
-<<<<<<< HEAD
                 Sleep(3000);  
                 system("cls");
                 if (canAct(enemyStatus) == 1)
@@ -446,12 +429,6 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 else {
                     playerTurn = 1;
                 }
-=======
-                timer(3000);
-                time(&start_time);
-                 system("cls");
-                playerTurn = 1;
->>>>>>> ff1ec958b1dc107bc1b7a743a372636add2a868d
             }
             else if (playerTurn == 1){
                 if (tutorial == 1){
@@ -574,7 +551,6 @@ void addCoins(int amount, char message[]) {
     }
 }
 
-<<<<<<< HEAD
 int fireArrow(int *enemyHP, int playerTurn) {
 
 }
@@ -721,9 +697,3 @@ char* statusText(StatusType status){
             return "NONE";
     }
 }
-=======
-int fireArrow() {
-    system("cls");
-    printf("You draw your %s...\n", currentBow);
-}
->>>>>>> ff1ec958b1dc107bc1b7a743a372636add2a868d
