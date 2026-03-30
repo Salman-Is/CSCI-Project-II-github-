@@ -70,12 +70,12 @@ void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playe
     char* statusColor = changeColor(enemyStatus);
     char* locColor = areaColor();
     printf("It's the %s%s%s's turn...\n\n", RED, enemyName, NORMAL);
-    printf("══════════════════════════════════════════════════════════════════════\n\n");
+    printf("╔════════════════════════════════════════════════════════════════════╗\n\n");
     printf("  [ %s%s%s ] [ %s%s%s ] \n  [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL, YELLOW, currentEnemyDrop, NORMAL);
     printf("  Health: ");
     healthBar(enemyHP, enemyMaxHP);
     printf(" Damage: [ %02d ] Status: [ %s%s%s ]\n\n", currentEnemyATK, statusColor, enStatus, NORMAL);
-    printf("══════════════════════════════════════════════════════════════════════\n");
+    printf("╚════════════════════════════════════════════════════════════════════╝\n");
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
     printf("║ [ %sThe Paladin%s ] [ %s%s%s ]                                           ║\n", 
@@ -103,12 +103,12 @@ void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int
     else if (battleStart == 1){
         printf("Its your turn...\n\n");
     }
-    printf("══════════════════════════════════════════════════════════════════════\n\n");
+    printf("╔════════════════════════════════════════════════════════════════════╗\n\n");
     printf("  [ %s%s%s ] [ %s%s%s ] \n  [ %s%s%s ] [ %s%s%s ]\n\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL, YELLOW, currentEnemyDrop, NORMAL);
     printf("  Health: ");
     healthBar(enemyHP, enemyMaxHP);
     printf(" Damage: [ %02d ] Status: [ %s%s%s ]\n\n", currentEnemyATK, statusColor, enStatus, NORMAL);
-    printf("══════════════════════════════════════════════════════════════════════\n");
+    printf("╚════════════════════════════════════════════════════════════════════╝\n");
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
     printf("║ [ %sThe Paladin%s ] [ %s%s%s ]                                           ║\n", 
@@ -342,6 +342,7 @@ void healthBar(int currentHP, int maxHP) {
     else if (cuurentBars < 5){
         currentColor = DEEPRED;
     }
+    printf("HP: [ %d / %d ]", currentHP, maxHP);
     printf("[ ");
     for (int i = 0; i < maxBars; i++) {
         if (i <= cuurentBars)

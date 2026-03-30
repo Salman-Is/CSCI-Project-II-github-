@@ -148,20 +148,20 @@ Monster lake[] = {
 
 // Cave enemy groups
 Monster caves[] = {
-    {"Cursed Bat", 2, 5, 15, 5, EVIL, "Echo Fang"},
+    {"Cursed Bat", 2, 5, 25, 13, EVIL, "Echo Fang"},
     {"Crystal Snake", 2, 4, 25, 6, EVIL, "Poison Vial"},
-    {"Shifter Fox", 3, 5, 15, 5, EVIL, "Mirror Cloak"},
-    {"Stone Spider", 3, 5, 35, 6, EVIL, "Unbreakable Silk"},
-    {"Ancient Man", 4, 4, 45, 9, GOOD, "Will of Strength"}};
+    {"Shifter Fox", 3, 5, 35, 13, EVIL, "Mirror Cloak"},
+    {"Stone Spider", 3, 5, 35, 10, EVIL, "Unbreakable Silk"},
+    {"Ancient Man", 4, 4, 45, 20, GOOD, "Will of Strength"}};
 
 // Mountain enemy groups
 Monster mountains[] = {
-    {"Peak Eagle", 2, 5, 25, 7, GOOD, "Soaring Feather"},
-    {"Ice Giant", 3, 4, 55, 10, EVIL, "Ionic Ice"},
-    {"Mountain Goat", 2, 6, 30, 16, GOOD, "Durable Horn"},
-    {"Snow Leopard", 3, 4, 30, 20, GOOD, "Gorgeous Leather"},
-    {"Dark Dragon", 4, 6, 65, 25, EVIL, "Demonic Scale"},
-    {"High Dragon", 4, 6, 65, 25, GOOD, "Golden Scale"}};
+    {"Peak Eagle", 2, 5, 40, 12, GOOD, "Soaring Feather"},
+    {"Ice Giant", 3, 7, 65, 35, EVIL, "Ionic Ice"},
+    {"Mountain Goat", 2, 4, 40, 16, GOOD, "Durable Horn"},
+    {"Snow Leopard", 3, 5, 55, 20, GOOD, "Gorgeous Leather"},
+    {"Dark Dragon", 4, 6, 75, 25, EVIL, "Demonic Scale"},
+    {"High Dragon", 4, 6, 75, 25, GOOD, "Golden Scale"}};
 
 // Final area bosses
 Monster final[] = { // You will recive a really strong weapon before this guys dw
@@ -607,8 +607,8 @@ int main(void) {
 // Technically I did change it up a bit but it's basically the same
 void pressEnter() {
     int enter;
-    printf("\n▷ Press Enter to Continue");
     while ((enter = getchar()) != '\n');
+    printf("\n▷ Press Enter to Continue");
     getchar();
 }
 
