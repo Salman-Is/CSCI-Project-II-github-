@@ -21,6 +21,7 @@ typedef struct {
     char color[16]; // WHITE, GREEN, CYAN, PURPLE, GOLD, YELLOW
     int value; // defense, healing, damage etc. 
     int amount;
+    StatusType status; // additional effects
 } Item;
 
 #endif 
