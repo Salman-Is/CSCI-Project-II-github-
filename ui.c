@@ -23,11 +23,11 @@ Item grassBlade[] = {"Grass Blade ( 10 )", "A strange sword enchanted with natur
 
 // Bows ------------------------------------------------------------------
 Item woodenBow[] = {"Wooden Bow ( 4 )", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4};
-Item steelBow[] = {"Steel Bow ( 5 )", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5};
-Item knightBow[] = {"Knight Bow ( 6 )", "The offical bow used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Bow", GREEN, 6};
-Item rimegrassBow[] = {"Rimegrass Bow ( 6 )", "A strange bow enchanted with natural magic.", "Weapon", "Bow", GREEN, 6};
-Item flameBow[] = {"Flame Bow ( 7 )", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7};
-Item ancientBow[] = {"Ancient Bow ( 14 )", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14};
+Item steelBow[] = {"Steel Bow ( 5 )", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5, FEAR};
+Item knightBow[] = {"Knight Bow ( 6 )", "The offical bow used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Bow", GREEN, 6, BLEED};
+Item rimegrassBow[] = {"Rimegrass Bow ( 6 )", "A strange bow enchanted with natural magic.", "Weapon", "Bow", GREEN, 6, POISON};
+Item flameBow[] = {"Flame Bow ( 7 )", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7, BURN};
+Item ancientBow[] = {"Ancient Bow ( 14 )", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14, FROZEN};
 
 // Armor ------------------------------------------------------------------
 // hp starts at 25, the number next to the name is how much it adds to your health, and the int at the end is your health after addition
