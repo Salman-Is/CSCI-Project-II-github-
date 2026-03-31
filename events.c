@@ -496,7 +496,6 @@ void dialougeBox(char* name, char* color, char* tag)
     pressEnter();
 }
 
-
 void shop(char* items[], int prices[], int shop_count){
     int choice;
     while (1)

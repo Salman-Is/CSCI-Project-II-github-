@@ -184,7 +184,7 @@ int options() {
     StatusType enemyStatus = NONE;
     playerAl();
     printf("\n%sWhat would you like to do?%s\n", BOLD, UNBOLD);
-    printf("\n[ Location: %s%s%s ] [ Progress: %d / %d ] [ %s ]\n", locColor, currentLoc, NORMAL, storyProgress, maxStoryProgress, playerAlignment);
+    printf("\n[ Area: %s%s%s ] [ Progress: %d / %d ] [ %s ]\n", locColor, currentLoc, NORMAL, storyProgress, maxStoryProgress, playerAlignment);
     printf("╔══════════════════════════════════════════════════════════════╗\n");
     printf("║                            EXPLORE                           ║\n");
     printf("║                                                              ║\n");

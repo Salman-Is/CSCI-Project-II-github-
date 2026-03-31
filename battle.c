@@ -162,7 +162,6 @@ void encounter(Monster area[], int count, int tutorial, int special){
 
     currentEnemyALIGNMENT = enemy.alignment;
     
-    printf("A %s [%s%s%s] appears before you!\n", enemy.name, alignmentColor, alignmentText, NORMAL);
     int result;
     if (tutorial != 1)
     {
@@ -322,8 +321,12 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
             if (enemyHP <= 0 || playerHP <= 0){
                 break;
             }
-            
             if (playerTurn == 0){
+                if (canAct(enemyStatus) == 0) {
+                    printf("Enemy couldn't move!\n");
+                    playerTurn = 1;
+                    continue;
+                }
                 // RAGE mechanic (EVIL exclusive ability)
                 if((enemyHP < enemyMaxHP / 2) && currentEnemyALIGNMENT == EVIL){
                     printf("\nThe enemy is filled with %sRage%s...\n", RED, NORMAL);
@@ -362,26 +365,25 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 }
 
                 // ----------------- UI -----------------
-                printUI(enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
+                printUI("enemy", enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
 
                 Sleep(3000);
     
                 printf("\nEnemy prepares an attack!\n");
-                printf("Counter this pattern:\n[ ");
+                printf("Counter this pattern:\n%s[ ", BOLD);
                 printf(RED);
-                printf(BOLD);
                 for(int i=0;i<patternLength;i++) {
                     printf("%c ", pattern[i]);
                 }
                 printf(NORMAL);
-                printf(UNBOLD);
                 printf("]\n");
+                printf(UNBOLD);
 
                 // ----------------- Timer -----------------
                 Sleep(3000);
 
                 system("cls");
-                printUI(enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
+                printUI("enemy", enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
 
                 // ----------------- Player Counter Input -----------------
                 printf("\nEnter counter sequence: ");
@@ -408,6 +410,8 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
 
                 // perfect counter system
                 if (correct == patternLength){
+                    printf("You counter the attack with your %s%s%s%s%s...\n", BLUE, BOLD, currentSword, UNBOLD, NORMAL);
+                    Sleep(1500);
                     printf("%sPERFECT COUNTER!%s\n", BLUE, NORMAL);
                     damageToEnemy = (damageToEnemy*critDamage) + 2;
                 }
@@ -429,13 +433,8 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 // ----------------- Pause -----------------
                 Sleep(3000);  
                 system("cls");
-                if (canAct(enemyStatus) == 1)
-                {
-                    playerTurn = 0;
-                }
-                else {
-                    playerTurn = 1;
-                }
+
+                playerTurn = 1;
             }
             else if (playerTurn == 1){
                 if (tutorial == 1){
@@ -450,7 +449,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                     pressEnter();
                     system("cls");
                 }
-                printPlayerUI(enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
+                printUI("player", enemyName, enemyHP, enemyMaxHP, alignment, playerHP, playerMaxHP);
                 printf("Fire an arrow to deal damage, use an item, or spare the creature?\n");
                 printf("> ");
                 // 1 = fire arrow, 2 = use item 3 = spare
@@ -458,27 +457,18 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
 
                 scanf(" %c", &turnChoice);
                 if (turnChoice == '1') {
+                    printf("\nYou draw your %s%s%s%s%s...\n", BOLD, BLUE, currentBow, UNBOLD, NORMAL);
+                    printf("Your arrow dealt %d damage!\n", maxPlayerTurnDamage);
+                    Sleep(3000);
                     system("cls");
-                    printf("You draw your %s...\n\n", currentBow);
-                    printf("You shot an arrow!\n");
                     enemyHP -= maxPlayerTurnDamage;
-                    if (canAct(enemyStatus) == 1){
-                        playerTurn = 0;
-                    }
-                    else {
-                        playerTurn = 1;
-                    }
+                    playerTurn = 0;
                 }
                 else if (turnChoice == '2') {
                     system("cls");
                     printf("You chose to use an item!\n");
                     openInventory(0, &playerHP, playerMaxHP);
-                    if (canAct(enemyStatus) == 1){
-                        playerTurn = 0;
-                    }
-                    else {
-                        playerTurn = 1;
-                    }
+                    playerTurn = 0;
                 }
                 else if (turnChoice == '3'){
                     system("cls");
@@ -499,7 +489,10 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 }
                 
                 else {
-                    printf("Add this in later lolll\n");
+                    printf("You made an invalid move.\n You gave your enemy a chance to strike...\n\n");
+                    playerHP -= currentEnemyATK;
+                    printf("You took %d damage!\n", currentEnemyATK);
+                    playerTurn = 0;
                 }
             }
             int x;  

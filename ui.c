@@ -16,31 +16,32 @@ char currentLoc[32] = "Forest";
 // probably gonna have to be a future addition lol
 
 // Swords ------------------------------------------------------------------
-Item ironSword[] = {"Iron Sword ( 5 )", "A basic, chipped sword found in a cave.", "Weapon", "Sword", WHITE, 5};
-Item steelSword[] = {"Steel Sword ( 6 )", "A sturdy bow forged with iron and carbon.", "Weapon", "Sword", WHITE, 6};
-Item goldSword[] = {"Gold Sword ( 8 )", "A heavy, oriental sword unfit for battle, though it still works.", "Weapon", "Sword", GREEN, 8};
-Item grassBlade[] = {"Grass Blade ( 10 )", "A strange sword enchanted with natural magic.", "Weapon", "Sword", GREEN, 10};
+Item ironSword = {"Iron Sword ( 5 )", "A basic, chipped sword found in a cave.", "Weapon", "Sword", WHITE, 5};
+Item steelSword = {"Steel Sword ( 6 )", "A sturdy bow forged with iron and carbon.", "Weapon", "Sword", WHITE, 6};
+Item goldSword = {"Gold Sword ( 8 )", "A heavy, oriental sword unfit for battle, though it still works.", "Weapon", "Sword", GREEN, 8};
+Item grassBlade = {"Grass Blade ( 10 )", "A strange sword enchanted with natural magic.", "Weapon", "Sword", GREEN, 10};
 
 // Bows ------------------------------------------------------------------
-Item woodenBow[] = {"Wooden Bow ( 4 )", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4};
-Item steelBow[] = {"Steel Bow ( 5 )", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5};
-Item knightBow[] = {"Knight Bow ( 6 )", "The offical bow used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Bow", GREEN, 6};
-Item rimegrassBow[] = {"Rimegrass Bow ( 6 )", "A strange bow enchanted with natural magic.", "Weapon", "Bow", GREEN, 6};
-Item flameBow[] = {"Flame Bow ( 7 )", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7};
-Item ancientBow[] = {"Ancient Bow ( 14 )", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14};
+Item woodenBow = {"Wooden Bow ( 4 )", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4};
+Item steelBow = {"Steel Bow ( 5 )", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5};
+Item knightBow = {"Knight Bow ( 6 )", "The offical bow used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Bow", GREEN, 6, BLEED};
+Item rimegrassBow = {"Rimegrass Bow ( 6 )", "A strange bow enchanted with natural magic.", "Weapon", "Bow", GREEN, 6, POISON};
+Item flameBow = {"Flame Bow ( 7 )", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7, BURN};
+Item frostBow = {"Frost Bow ( 9 )", "An enchanted bow that freezes the air around an arrow", "Weapon", "Bow", GREEN, 7, FROZEN};
+Item ancientBow = {"Ancient Bow ( 14 )", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14, FEAR};
 
 // Armor ------------------------------------------------------------------
 // hp starts at 25, the number next to the name is how much it adds to your health, and the int at the end is your health after addition
-Item chainArmor[] = {"Chain Armor ( 5 )", "A flimsy set of armor found in a cave.", "Armor", "Armor", WHITE, 25};
-Item steelArmor[] = {"Steel Armor ( 7 )", "A set of armor forged with iron and carbon.", "Armor", "Armor", WHITE, 27};
-Item knightArmor[] = {"Knight Armor ( 9 )", "The offical set of armor used by Knights of NAMEOFTHEKINGDOM.", "Armor", "Armor", GREEN, 29};
+Item chainArmor = {"Chain Armor ( 5 )", "A flimsy set of armor found in a cave.", "Armor", "Armor", WHITE, 25};
+Item steelArmor = {"Steel Armor ( 7 )", "A set of armor forged with iron and carbon.", "Armor", "Armor", WHITE, 27};
+Item knightArmor = {"Knight Armor ( 9 )", "The offical set of armor used by Knights of NAMEOFTHEKINGDOM.", "Armor", "Armor", GREEN, 29};
 
 // Drops ------------------------------------------------------------------
-Item gel[] = {"Gel", "An oozing mass with little use", "Drop", "NULL", WHITE, 0};
-Item lumoraWing[] = {"Lumora Wing", "The fragile wing of a Lumora", "Drop", "NULL", WHITE, 0};
-Item leather[] = {"Leather", "A supple material useful for crafting", "Drop", "NULL", WHITE, 0};
-Item groblinTooth[] = {"Groblin Tooth", "A blunt tooth used for crushing prey", "Drop", "NULL", WHITE, 0};
-Item emberScale[] = {"Ember Scale", "A firey scale with magical properties", "Drop", "NULL", GREEN, 0};
+Item gel = {"Gel", "An oozing mass with little use", "Drop", "NULL", WHITE, 0};
+Item lumoraWing = {"Lumora Wing", "The fragile wing of a Lumora", "Drop", "NULL", WHITE, 0};
+Item leather = {"Leather", "A supple material useful for crafting", "Drop", "NULL", WHITE, 0};
+Item groblinTooth = {"Groblin Tooth", "A blunt tooth used for crushing prey", "Drop", "NULL", WHITE, 0};
+Item emberScale = {"Ember Scale", "A firey scale with magical properties", "Drop", "NULL", GREEN, 0};
 
 Item beastlyTooth[] = {"Beastly Tooth", "A sharp, serated tooth that causes infection", "Drop", "NULL", WHITE, 0};
 Item nimoraWing[] = {"Nimora Wing", "The fragile wing of a Lumora", "Drop", "NULL", WHITE, 0};
@@ -65,61 +66,56 @@ Item berzerkerPotion[] = {"Berzerker Potion", "An unstable potion that draws out
 Item focusCharm[] = {"Focus Charm", "An artifact that brings with it a calming force.", "Charm", "Crit+", CYAN, 2};
 
 /* ================= UI FUNCTIONS ================= */
-void printUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playerHP,int playerMaxHP){
+void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP){
     char* enStatus = statusText(enemyStatus);
     char* statusColor = changeColor(enemyStatus);
     char* locColor = areaColor();
-    printf("It's the %s%s%s's turn...\n\n", RED, enemyName, NORMAL);
-    printf("╔════════════════════════════════════════════════════════════════════╗\n\n");
-    printf("  [ %s%s%s ] [ %s%s%s ] \n  [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL, YELLOW, currentEnemyDrop, NORMAL);
-    printf("  Health: ");
-    healthBar(enemyHP, enemyMaxHP);
-    printf(" Damage: [ %02d ] Status: [ %s%s%s ]\n\n", currentEnemyATK, statusColor, enStatus, NORMAL);
-    printf("╚════════════════════════════════════════════════════════════════════╝\n");
+
+    // Intro/ Turn message thing
+    if (strcmp(turn, "enemy") == 0) {
+        printf("It's the %s%s%s's turn...\n\n", RED, enemyName, NORMAL);
+    }
+    else if (strcmp(turn, "player") == 0) {
+        if (battleStart == 0) {
+            char* alignmentText = (alignment == GOOD) ? "GOOD" : "EVIL";
+            char* alignmentColor = (alignment == GOOD) ? CYAN : RED;
+
+            printf("A %s [ %s%s%s ] stands before you...\n\n", enemyName, alignmentColor, alignmentText, NORMAL);
+            battleStart = 1;
+        } else {
+            printf("Its your turn...\n\n");
+        }
+    }
+    // ENEMY BOX ===================================
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
-    printf("║ [ %sThe Paladin%s ] [ %s%s%s ]                                           ║\n", 
-        BLUE, NORMAL, (playerAlignment == "GOOD" ? CYAN : (playerAlignment == "EVIL" ? RED : NORMAL)) ,(playerAlignment == "GOOD" ? "GOOD" : (playerAlignment == "EVIL" ? "EVIL" : "NEUT")), NORMAL);
-    printf("║                                                                    ║\n");
-    printf("║ Health: [ %02d/%d ] ", playerHP, playerMaxHP);
-    healthBar(playerHP, playerMaxHP);
-    printf(" Arrow: [ %02d ] Sword: [ %02d ]  ║\n", maxPlayerTurnDamage, maxTurnDamage);
-    printf("║                                                                    ║\n");
-    printf("╚════════════════════════════════════════════════════════════════════╝\n");
-}
-
-void printPlayerUI(char* enemyName,int enemyHP,int enemyMaxHP, int alignment,int playerHP,int playerMaxHP){
-    char* enStatus = statusText(enemyStatus);
-    char* statusColor = changeColor(enemyStatus);
-    char* locColor = areaColor();
-    if(battleStart == 0){
-        char* alignmentText = (alignment == GOOD) ? "GOOD" : "EVIL";
-        char* alignmentColor = (alignment == GOOD) ? CYAN : RED;
-
-        printf("You encountered a %s [%s%s%s]\n\n", enemyName, alignmentColor, alignmentText, NORMAL);
-
-        battleStart=1;
-    }
-    else if (battleStart == 1){
-        printf("Its your turn...\n\n");
-    }
-    printf("╔════════════════════════════════════════════════════════════════════╗\n\n");
-    printf("  [ %s%s%s ] [ %s%s%s ] \n  [ %s%s%s ] [ %s%s%s ]\n\n", RED, enemyName, NORMAL, (alignment==GOOD?CYAN:RED), (alignment==GOOD?"GOOD":"EVIL"), NORMAL, locColor, currentLoc, NORMAL, YELLOW, currentEnemyDrop, NORMAL);
-    printf("  Health: ");
+    printf("║  [ %s%s%s ] [ %s%s%s ] %-0s║\n", RED, enemyName, NORMAL,(alignment==GOOD?CYAN:RED),(alignment==GOOD?"GOOD":"EVIL"), NORMAL,"");
+    printf("║  [ %s%s%s ] [ %s%s%s ] %-0s║\n", locColor, currentLoc, NORMAL,YELLOW, currentEnemyDrop, NORMAL,"");
+    printf("║  HP: ");
     healthBar(enemyHP, enemyMaxHP);
-    printf(" Damage: [ %02d ] Status: [ %s%s%s ]\n\n", currentEnemyATK, statusColor, enStatus, NORMAL);
+    printf(" Damage: [ %02d ] Status: [ %s%s%s ]           ║\n", currentEnemyATK, statusColor, enStatus, NORMAL);
+    printf("║                                                                    ║\n");
     printf("╚════════════════════════════════════════════════════════════════════╝\n");
+
+    // PLAYER BOX =====================================================
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
-    printf("║ [ %sThe Paladin%s ] [ %s%s%s ]                                           ║\n", 
-        BLUE, NORMAL, (playerAlignment == "GOOD" ? CYAN : (playerAlignment == "EVIL" ? RED : NORMAL)) ,(playerAlignment == "GOOD" ? "GOOD" : (playerAlignment == "EVIL" ? "EVIL" : "NEUT")), NORMAL);
+    printf("║ [ %sThe Paladin%s ] [ %s%s%s ]                                           ║\n", BLUE, NORMAL,
+           ((strcmp(playerAlignment, "GOOD") ? CYAN :
+            strcmp(playerAlignment, "EVIL") ? RED : NORMAL)),
+           (strcmp(playerAlignment, "GOOD") ? "GOOD" :
+            (playerAlignment == "EVIL" ? "EVIL" : "NEUT")), NORMAL);
     printf("║                                                                    ║\n");
-    printf("║ Health: [ %02d/%d ] ", playerHP, playerMaxHP);
+    printf("║ HP: [ %02d / %d ] ", playerHP, playerMaxHP);
     healthBar(playerHP, playerMaxHP);
-    printf(" Arrow: [ %02d ] Sword: [ %02d ]  ║\n", maxPlayerTurnDamage, maxTurnDamage);
+    printf(" Arrow: [ %02d ] Sword: [ %02d ]    ║\n",maxPlayerTurnDamage, maxTurnDamage);
     printf("║                                                                    ║\n");
-    printf("╠════════════════════════════════════════════════════════════════════╣\n");
-    printf("║ [ 1 | FIRE ARROW ]     [ 2 | USE ITEM ]     [ 3 | SPARE CREATURE ] ║\n");
+
+    // PLAYER ACTION MENU (ONLY ON PLAYER TURN) ==================================
+    if (strcmp(turn, "player") == 0) {
+        printf("╠════════════════════════════════════════════════════════════════════╣\n");
+        printf("║ [ 1 | FIRE ARROW ]     [ 2 | USE ITEM ]     [ 3 | SPARE CREATURE ] ║\n");
+    }
     printf("╚════════════════════════════════════════════════════════════════════╝\n");
 }
 
@@ -342,7 +338,7 @@ void healthBar(int currentHP, int maxHP) {
     else if (cuurentBars < 5){
         currentColor = DEEPRED;
     }
-    printf("HP: [ %d / %d ]", currentHP, maxHP);
+    // printf("HP: [ %d / %d ]", currentHP, maxHP);
     printf("[ ");
     for (int i = 0; i < maxBars; i++) {
         if (i <= cuurentBars)
