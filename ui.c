@@ -65,6 +65,7 @@ Item healthElixer[] = {"Health Potion", "A magical potion made with the blessing
 Item berzerkerPotion[] = {"Berzerker Potion", "An unstable potion that draws out your deep power.", "Potion", "Attack+", GREEN, 2};
 Item focusCharm[] = {"Focus Charm", "An artifact that brings with it a calming force.", "Charm", "Crit+", CYAN, 2};
 
+
 /* ================= UI FUNCTIONS ================= */
 void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP){
     char* enStatus = statusText(enemyStatus);

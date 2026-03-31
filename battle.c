@@ -311,8 +311,6 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
     int spare = 0;
     system("cls");
 
-    randomEffect();
-
     /* =================== BATTLE LOOP =================== */
     while (playerHP > 0 && enemyHP > 0 && spare == 0){
         if (spare == 0){
@@ -387,9 +385,8 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
 
                 // ----------------- Player Counter Input -----------------
                 printf("\nEnter counter sequence: ");
-                printf("%s%s", BOLD, BLUE);
                 scanf(" %s", user_pat);
-                printf("%s%s", UNBOLD, NORMAL);
+
                 int correct = 0;
 
                 for(int i=0;i<patternLength;i++) {
@@ -421,8 +418,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                     damageToEnemy = 2;
                 }
 
-                damageToPlayer = modifyDamage(damageToPlayer, enemyStatus);
-                damageToEnemy = modifyDamage(damageToEnemy, playerStatus);
+                damageToPlayer = modifyDamage(damageToPlayer, playerStatus);
                     
                 enemyHP -= damageToEnemy;
                 playerHP -= damageToPlayer;
@@ -551,11 +547,30 @@ void addCoins(int amount, char message[]) {
     }
 }
 
-int fireArrow(int *enemyHP, int playerTurn) {
+void fireArrow(int* enemyHP, int enemyMaxHP)
+{
+    system("cls");
 
+    printf("You draw your %s...\n", currentBow.name);
+
+    // deal damage
+    int damage = currentBow.value;
+    *enemyHP -= damage;
+
+    printf("You dealt %d damage!\n", damage);
+
+    // apply status effect if it exists
+    if (currentBow.effect != NONE)
+    {
+        printf("The arrow inflicts %s!\n", statusText(currentBow.effect));
+        applyStatus(&enemyStatus, currentBow.effect);
+    }
+
+    // clamp HP
+    if (*enemyHP < 0) *enemyHP = 0;
 }
 
-void randomEffect() {   // TEMPORARY
+void randomEffect() {   //TEMPORARY
     int random;
     printf("Which effect? (this is temporary) (1-5)\n");
     printf("1-Burn, 2-Poison, 3-Frozen, 4-Fear, 5-Bleed\n\n");
@@ -580,7 +595,6 @@ void randomEffect() {   // TEMPORARY
     default:
         break;
     }
-    system("cls");
     return;
 }
 
@@ -600,50 +614,49 @@ After checking that the enemy is still alive AND has a status, this function han
 for poison, and half the effect of bleed and burn. Basically, this handles the "damaging" effects
 */
 void processStatus(StatusType status, int* hp, int maxHP){
-
+    if (*hp <= 0){
+        return;
+    }
     if (status == NONE) {
         return;
     }
     int damage = 0;
 
-    if (*hp > 0) {
-        switch (status){
-            case POISON:
-                damage = (int)(maxHP * 0.07);
-                if (damage < 1) damage = 1;
-                printf("%s%sThe Poison eats away at the enemy... %s%s(-%d HP)\n",BOLD, PURPLE, NORMAL, UNBOLD, damage);
-                *hp -= damage;
-                break;
+    switch (status){
+        case POISON:
+            damage = (int)(maxHP * 0.15);
+            if (damage < 1) damage = 1;
+            printf("The Poison eats away at the enemy... (-%d HP)\n", damage);
+            *hp -= damage;
+            break;
 
-            case BURN:
-                damage = 5;
-                printf("%s%sThe Flames scorch the enemy... %s%s(-%d HP)\n",BOLD, ORANGE, NORMAL, UNBOLD, damage);
-                *hp -= damage;
-                break;
+        case BURN:
+            damage = 5;
+            printf("The Flames scorch the enemy... (-%d HP)\n", damage);
+            *hp -= damage;
+            break;
 
-            case BLEED:
-                damage = (int)(maxHP * 0.25);
-                if (damage < 1) damage = 1;
-                printf("%s%sThe enemies Bleeding doesn't stop... %s%s(-%d HP)\n",BOLD, RED, NORMAL, UNBOLD, damage);
-                *hp -= damage;
-                break;
+        case BLEED:
+            damage = (int)(maxHP * 0.25);
+            if (damage < 1) damage = 1;
+            printf("The enemies Bleeding doesn't stop... (-%d HP)\n", damage);
+            *hp -= damage;
+            break;
 
-            case FEAR:
-                printf("%s%sFear lingers in the heart of your enemy...%s%s\n", BOLD, DARKBLUE, UNBOLD, NORMAL);
-                break;
+        case FEAR:
+            printf("Fear lingers in the heart of your enemy...\n");
+            break;
 
-            case FROZEN:
-                break;
+        case FROZEN:
+            break;
 
-            case NONE:
-            default:
-                break;
-        }
+        case NONE:
+        default:
+            break;
     }
-    
-    if (*hp < 0) {
-        *hp = 0;
-    }
+
+    // clamp HP
+    if (*hp < 0) *hp = 0;
 }
 
 // Right now, this is just for freeze, but maybe later we can add paralyze like Pokemon
@@ -652,7 +665,7 @@ int canAct(StatusType status){
     if (status == FROZEN){
         int chance = rand() % 100;
         if (chance < 50){
-            printf("%s%sThe enemy is Frozen...%s%s\n", CYAN, BOLD, NORMAL, UNBOLD);
+            printf("The enemy is Frozen...\n");
             return 0;
         }
     }
@@ -666,23 +679,14 @@ int modifyDamage(int baseDamage, StatusType status){
     {
         case BURN:
             baseDamage = (int)(baseDamage * 0.75);
-            if (status = enemyStatus){
-                currentEnemyATK = baseDamage;
-            }
             break;
 
         case FEAR:
             baseDamage = baseDamage / 2;
-            if (status = enemyStatus){
-                currentEnemyATK = baseDamage;
-            }
             break;
 
         case BLEED:
             baseDamage = (int)(baseDamage * 1.5);
-            if (status = enemyStatus){
-                currentEnemyATK = baseDamage;
-            }
             break;
 
         default:

@@ -1,3 +1,4 @@
+
 #ifndef MAIN_H
 #define MAIN_H
 
@@ -63,9 +64,9 @@ extern int coins;
 
 extern char playerAlignment[];
 
-extern char currentSword[];
-extern char currentBow[];
-extern char currentArmor[];
+extern Item currentSword;
+extern Item currentBow;
+extern Item currentArmor;
 
 extern Inventory inventory[100];
 extern int inventoryCount;
