@@ -1,29 +1,21 @@
-void upgradeSword(Item newWeapon) {
-    if (newWeapon.value > currentSword.value) {
-        printf("You found a better sword!\n");
-        printf("%s -> %s\n", currentSword.name, newWeapon.name);
+void fireArrow(int* enemyHP)
+{
+    system("cls");
 
-        addItem(currentSword.name, 0); //stores in inventory
+    printf("You draw your %s...\n\n", currentBow.name);
 
-        currentSword = newWeapon;
+    // deal damage
+    int damage = currentBow.value;
+    if (damage < 1) damage = 1;  // just in case
+    *enemyHP -= damage;
+
+    printf("You dealt %d damage!\n", damage);
+
+    // apply status effect if it exists
+    if (currentBow.status != NONE)
+    {
+        printf("The arrow inflicts %s!\n", statusText(currentBow.status));
+        applyStatus(&enemyStatus, currentBow.status);
     }
-    else {
-        printf("The %s is weaker than your current sword.\n", newWeapon.name);
-        addItem(newWeapon.name, 0);
-    }
-}
 
-void upgradeBow(Item newWeapon) {
-    if (newWeapon.value > currentBow.value) {
-        printf("You found a better bow!\n");
-        printf("%s -> %s\n", currentBow.name, newWeapon.name);
-
-        addItem(currentBow.name, 0); // store old one
-
-        currentBow = newWeapon;
-    }
-    else {
-        printf("The %s is weaker than your current bow.\n", newWeapon.name);
-        addItem(newWeapon.name, 0);
-    }
-}
+    if (*enemyHP < 0) *enemyHP = 0;
