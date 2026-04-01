@@ -69,7 +69,9 @@ Item focusCharm[] = {"Focus Charm", "An artifact that brings with it a calming f
 /* ================= UI FUNCTIONS ================= */
 void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP){
     char* enStatus = statusText(enemyStatus);
-    char* statusColor = changeColor(enemyStatus);
+    char* enStatusColor = changeColor(enemyStatus);
+    char* plStatus = statusText(playerStatus);
+    char* plStatusColor = changeColor(playerStatus);
     char* locColor = areaColor();
 
     // Intro/ Turn message thing
@@ -81,7 +83,7 @@ void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int align
             char* alignmentText = (alignment == GOOD) ? "GOOD" : "EVIL";
             char* alignmentColor = (alignment == GOOD) ? CYAN : RED;
 
-            printf("A %s [ %s%s%s ] stands before you...\n\n", enemyName, alignmentColor, alignmentText, NORMAL);
+            printf("A %s%s%s [ %s%s%s ] stands before you...\n\n", BOLD, enemyName, UNBOLD, alignmentColor, alignmentText, NORMAL);
             battleStart = 1;
         } else {
             printf("Its your turn...\n\n");
@@ -89,13 +91,15 @@ void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int align
     }
     // ENEMY BOX ===================================
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
-    printf("║                                                                    ║\n");
-    printf("║  [ %s%s%s ] [ %s%s%s ] %-0s║\n", RED, enemyName, NORMAL,(alignment==GOOD?CYAN:RED),(alignment==GOOD?"GOOD":"EVIL"), NORMAL,"");
-    printf("║  [ %s%s%s ] [ %s%s%s ] %-0s║\n", locColor, currentLoc, NORMAL,YELLOW, currentEnemyDrop, NORMAL,"");
-    printf("║  HP: ");
-    healthBar(enemyHP, enemyMaxHP);
-    printf(" Damage: [ %02d ] Status: [ %s%s%s ]           ║\n", currentEnemyATK, statusColor, enStatus, NORMAL);
-    printf("║                                                                    ║\n");
+    printf("                                                                      \n");
+    printf("  [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL,(alignment==GOOD?CYAN:RED),(alignment==GOOD?"GOOD":"EVIL"), NORMAL);
+    printf("                                                                      \n");
+    printf("  Status: [ %s%s%s ] Drop: [ %s%s%s ]\n",enStatusColor, enStatus, NORMAL, YELLOW, currentEnemyDrop, NORMAL);
+    printf("                                                                      \n");
+    printf("  HP: ");
+    healthBar(enemyHP, enemyMaxHP, "enemy");
+    printf(" Damage: [ %02d ]                           \n", currentEnemyATK);
+    printf("                                                                      \n");
     printf("╚════════════════════════════════════════════════════════════════════╝\n");
 
     // PLAYER BOX =====================================================
@@ -107,8 +111,10 @@ void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int align
            (strcmp(playerAlignment, "GOOD") ? "GOOD" :
             (playerAlignment == "EVIL" ? "EVIL" : "NEUT")), NORMAL);
     printf("║                                                                    ║\n");
+    printf("║ Status: [ %s%s%s ]                                                   ║\n", plStatusColor, plStatus, NORMAL);
+    printf("║                                                                    ║\n");
     printf("║ HP: [ %02d / %d ] ", playerHP, playerMaxHP);
-    healthBar(playerHP, playerMaxHP);
+    healthBar(playerHP, playerMaxHP, "player");
     printf(" Arrow: [ %02d ] Sword: [ %02d ]    ║\n",maxPlayerTurnDamage, maxTurnDamage);
     printf("║                                                                    ║\n");
 
@@ -126,7 +132,7 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2
     if (battleStart == 1)
     {
         printf("╔═════════════════════════════════════╗\n");
-        printf("[#] | INVENTORY                       ║\n");
+        printf("[#] | BATTLE ITEMS                    ║\n");
         printf("╚═════════════════════════════════════╝\n");
         for(int i = 0; i < inventoryCount; i++)
         {
@@ -325,7 +331,7 @@ char* changeColor(StatusType status){
 * we put in the parameters of the function. x is basically the amount of filled bars 
 * that should be printed, aka currentBars.
 */
-void healthBar(int currentHP, int maxHP) {
+void healthBar(int currentHP, int maxHP, char* isEnemy) {
     int maxBars = 15;
     int cuurentBars = (currentHP * maxBars) / maxHP;
 
@@ -339,7 +345,14 @@ void healthBar(int currentHP, int maxHP) {
     else if (cuurentBars < 5){
         currentColor = DEEPRED;
     }
-    // printf("HP: [ %d / %d ]", currentHP, maxHP);
+    if (strcmp(isEnemy, "enemy"))
+    {
+        if (trueSight == 1)
+        {
+            printf("HP: [ %d / %d ] ", currentHP, maxHP);
+        }
+        
+    }
     printf("[ ");
     for (int i = 0; i < maxBars; i++) {
         if (i <= cuurentBars)

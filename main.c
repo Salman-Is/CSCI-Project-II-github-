@@ -10,7 +10,6 @@
 #include "main.h"
 #include "ui.h"
 #include "events.h"
-#include "ui.c"
 
 //MAIN script from which the entire game will be run
 
@@ -64,11 +63,13 @@ int maxPlayerTurnDamage = 4; // Arrow Damage (direct attacks) <-- from choosing 
 int playerMaxHP = 25;
 int coins = 0;
 
+int trueSight = 0;
+
 char playerAlignment[] = "NEUTRAL";
 
-Item currentSword;
-Item currentBow;
-Item currentArmor;
+char currentSword[] = "Iron Sword";
+char currentBow[] = "Wooden Bow";
+char currentArmor[] = "Chain Armor";
 
 Inventory inventory[100];
 int inventoryCount = 0;
@@ -101,20 +102,17 @@ Monster forest[] = {
     {"Lumora", 1, 3, 10, 3, GOOD, "Lumora Wing"},       // Easy, 3-letter pattern 
     {"Deer", 1, 5, 20, 4, GOOD, "Leather"},       // Easy, 5-letter pattern
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"},       // Easy, 5-letter pattern
-    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"},       // Medium, 5-letter pattern
-};
+    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"}};
 Monster quest1GOOD[] = { // help village
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"},
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"}, 
     {"Groblin Shaman", 3, 5, 40, 7, EVIL, "Groblin Staff"},   
-    {"Groblin Chief", 3, 5, 35, 10, EVIL, "Groblin Tusk"}
-};
+    {"Groblin Chief", 3, 5, 35, 10, EVIL, "Groblin Tusk"}};
 Monster quest1EVIL[] = { // pillage village
     {"Adventurer 'Kalen'", 1, 5, 15, 5, GOOD, "Leather"},
     {"Guard 'Eldric'", 3, 5, 20, 4, GOOD, "Scrap Metal"}, 
     {"Guard 'Kaelor'", 3, 5, 20, 4, GOOD, "Scrap Metal"},   
-    {"Knight 'Halor'", 4, 6, 35, 10, GOOD, "Scrap Metal"}
-};
+    {"Knight 'Halor'", 4, 6, 35, 10, GOOD, "Scrap Metal"}};
 Monster quest2GOOD[] = { // assist knights
     {"Juvinile Flagon", 2, 5, 20, 6, EVIL, "Ember Scale"},
     {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"}, 
@@ -132,8 +130,7 @@ Monster plains[] = {
     {"Nimora", 1, 5, 10, 3, EVIL, "Nimora Wing"},
     {"Grass Troll", 2, 5, 30, 5, EVIL, "Troll Leather"},
     {"Mossback", 1, 8, 50, 3, GOOD, "Fossilized Moss"},
-    {"Great Stag", 3, 8, 35, 6, GOOD, "Antlers"}
-};
+    {"Great Stag", 3, 8, 35, 6, GOOD, "Antlers"}};
 Monster quest3EVIL[] = { // pillage village
     {"Crusader 'Lorel'", 4, 6, 35, 10, GOOD, "Berzerker Potion"},
     {"Rouge 'Reric'", 4, 5, 20, 35, GOOD, "Broken Dagger"}, 
@@ -150,10 +147,11 @@ Monster lake[] = {
 // Cave enemy groups
 Monster caves[] = {
     {"Cursed Bat", 2, 5, 15, 5, EVIL, "Echo Fang"},
-    {"Crystal Snake", 2, 4, 25, 6, EVIL, "Poison Vial"},
+    {"Crystal Snake", 2, 4, 25, 6, EVIL, "Crystal Venom"},
+    {"Shardling", 2, 4, 25, 6, GOOD, "Quartz Shard"},
     {"Shifter Fox", 3, 5, 15, 5, EVIL, "Mirror Cloak"},
-    {"Stone Spider", 3, 5, 35, 6, EVIL, "Unbreakable Silk"},
-    {"Ancient Man", 4, 4, 45, 9, GOOD, "Will of Strength"}};
+    {"Stone Spider", 3, 5, 35, 6, EVIL, "Mineral Silk"},
+    {"Ancient Automaton", 4, 4, 45, 9, GOOD, "Gear Charge"}};
 
 // Mountain enemy groups
 Monster mountains[] = {
@@ -319,6 +317,11 @@ int options() {
         return 12;
     }
     // === SUPER SECRET DEBUGGING OPTIONS (shhhh)===
+    else if (choice == 't') {
+        system("cls");
+        trueSight = 1;
+        printf("Enabled True Sight.\n");
+    }
     else if (choice == 'u') { // HEALTH
         playerMaxHP = 999;
         system("cls");
@@ -346,6 +349,7 @@ int options() {
         printf("> DEBUG HELP MENU <\n");
         printf("╔══════════════════════════════════╗\n");
         printf("║                                  ║\n");
+        printf("║  [ t ] > Enable seeing enemy HP  ║\n");
         printf("║  [ u ] > Increase health to 999  ║\n");
         printf("║  [ v ] > Increase damage to 999  ║\n");
         printf("║  [ w ] > Find ANSI code colors   ║\n");
@@ -376,18 +380,6 @@ int main(void) {
     // while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this SHOULD NOT count towards grade
     system("chcp 65001 > nul");
     addItem("Health Potion", 1);
-    // For Testing ONLY
-    addItem("Item", 1);
-    addItem("Berzerker Potion", 1);
-    addItem("Diamond", 1);
-    addItem("Emerald", 1);
-    addItem("Master Sword", 1);
-    addItem("Saffire", 1);
-    addItem("Milk", 1);
-    addItem("Chocolate", 1);
-    addItem("Salt", 1); // < 16 chars is the max
-    addItem("Painting", 1);
-    addItem("Computer", 1);
     // --- Quest Variables ---
     int startQuest1 = 0;
     int startQuest2 = 0;
@@ -400,10 +392,6 @@ int main(void) {
     int quest3Action = 0;
     int quest4Action = 0;
     int quest5Action = 0;
-
-    currentBow = woodenBow;
-    currentSword = ironSword;
-    currentArmor = chainArmor;
 
     srand(time(NULL));
     while (storyProgress == -1){ // Start Menu
@@ -437,6 +425,10 @@ int main(void) {
         else if (start == 3){
             system("cls");
             storyProgress = 1;
+        }
+        else {
+            system("cls");
+            start = 0;
         }
     
     }

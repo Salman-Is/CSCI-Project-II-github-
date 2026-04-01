@@ -62,11 +62,13 @@ extern int maxPlayerTurnDamage; // Arrow Damage (direct attacks) <-- from choosi
 extern int playerMaxHP;
 extern int coins;
 
+extern int trueSight;
+
 extern char playerAlignment[];
 
-extern Item currentSword;
-extern Item currentBow;
-extern Item currentArmor;
+extern char currentSword[];
+extern char currentBow[];
+extern char currentArmor[];
 
 extern Inventory inventory[100];
 extern int inventoryCount;

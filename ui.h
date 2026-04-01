@@ -1,4 +1,3 @@
-
 #ifndef UI_H
 #define UI_H
 #include <windows.h>
@@ -9,7 +8,7 @@ extern char currentLoc[];
 void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP);
 void openInventory(int inBattle, int *playerHP, int playerMaxHP);
 void statsPage();
-void healthBar(int currentHP, int maxHP);
+void healthBar(int currentHP, int maxHP, char* isEnemy);
 char* areaColor();
 
 typedef struct {
@@ -20,7 +19,7 @@ typedef struct {
     char color[16]; // WHITE, GREEN, CYAN, PURPLE, GOLD, YELLOW
     int value; // defense, healing, damage etc. 
     int amount;
-    StatusType status; // additional effects
+    // StatusType status; // additional effects
 } Item;
 
 #endif 
