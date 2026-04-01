@@ -345,13 +345,10 @@ void healthBar(int currentHP, int maxHP, char* isEnemy) {
     else if (cuurentBars < 5){
         currentColor = DEEPRED;
     }
-    if (strcmp(isEnemy, "enemy"))
-    {
-        if (trueSight == 1)
-        {
-            printf("HP: [ %d / %d ] ", currentHP, maxHP);
-        }
-        
+    if (strcmp(isEnemy, "enemy") == 0){
+        if (trueSight == 1){
+            printf("[ %d / %d ] ", currentHP, maxHP);
+        }   
     }
     printf("[ ");
     for (int i = 0; i < maxBars; i++) {
@@ -366,3 +363,4 @@ void healthBar(int currentHP, int maxHP, char* isEnemy) {
 // i found out the sleep() function is better then the time() do while loop for the cpu. and its actually way simpler. 
 // also using millesecods can allow us to use partial seconds. ex 500 milleseconds is .5 seconds. 1000 milleseconds is 1 sec
 // https://www.geeksforgeeks.org/c/sleep-function-in-c/
+

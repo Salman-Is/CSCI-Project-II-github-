@@ -38,6 +38,7 @@
 void codeLookup();
 void fastForward();
 void giveItem();
+void Travel();
 
 /* ================= TRACK PLAYER ================= */ // STORY PROGRESS -1
 // the storyProgress variable tracks where the player is in the story
@@ -82,11 +83,11 @@ int worldState = 1;
 char* quest1RewardsGOOD[32] = {"Steel Armor ( 27 HP )", "Health Elixer", "Health Potion", "Health Potion", "Elderite Gemstone"};
 char* quest1RewardsEVIL[32] = {"Golden Sword ( 8 ATK )", "Health Elixer", "Health Potion", "Berzerker Potion"};
 // Knight Outpost quest
-char* quest2RewardsGOOD[32] = {"Knight Armor ( 28 HP )", "Knight Bow ( 6 ATK )", "Health Potion", "Focus Charm", "Archival Tome"};
+char* quest2RewardsGOOD[32] = {"Knight Armor ( 28 HP )", "Knight Bow ( 6 ATK )", "Health Potion", "Focus Charm", "Kingdom Crest"};
 char* quest2RewardsEVIL[32] = {"Knight Sword ( 9 ATK )", "Knight Armor ( 28 HP )", "Berzerker Potion", "Berzerker Potion"};
 // Plains Map quest
-char* quest3RewardsGOOD[32] = {"", "", "", "", ""};
-char* quest3RewardsEVIL[32] = {"", "", "", ""};
+char* quest3RewardsGOOD[32] = {"Ancient Map"};
+char* quest3RewardsEVIL[32] = {"Ancient Map", "Swordmaster Armor ( 29 HP )", "", ""};
 
 /* ================= AREA/LOCATION NAMES ================= */
 char availableLocations[6][32] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", 
@@ -132,7 +133,7 @@ Monster plains[] = {
     {"Mossback", 1, 8, 50, 3, GOOD, "Fossilized Moss"},
     {"Great Stag", 3, 8, 35, 6, GOOD, "Antlers"}};
 Monster quest3EVIL[] = { // pillage village
-    {"Crusader 'Lorel'", 4, 6, 35, 10, GOOD, "Berzerker Potion"},
+    {"Swordmaster 'Lorel'", 4, 6, 35, 10, GOOD, "Berzerker Potion"},
     {"Rouge 'Reric'", 4, 5, 20, 35, GOOD, "Broken Dagger"}, 
     {"Mage 'Sypha'", 5, 5, 25, 20, GOOD, "Fairy Dust"}};
 // Lake enemy groups
@@ -244,16 +245,7 @@ int options() {
             saveLocation = location;
         }
         int newLocation = 0;
-        printf("╔═════════════════════════════════════╗\n");
-        printf("[#] | LOCATIONS                       ║\n");
-        printf("╚═════════════════════════════════════╝\n");
-        for(int i = 0; i < sizeof(availableLocations)/sizeof(availableLocations[0]); i++)
-        {
-            printf("[%d] %s\n",(i+1), availableLocations[i]);
-        }
-        printf("╔═════════════════════════════════════╗\n");  
-        printf("[0] | < Return to story               ║\n");           				 
-        printf("╚═════════════════════════════════════╝\n\n");
+        Travel();
         printf("> ");
         scanf(" %d", &newLocation);
         if (newLocation != 0 && newLocation <= sizeof(availableLocations)/sizeof(availableLocations[0])){
@@ -388,10 +380,6 @@ int main(void) {
     int startQuest5 = 0;
     // --- Quest Flags ---
     int quest1Action = 0;
-    int quest2Action = 0;
-    int quest3Action = 0;
-    int quest4Action = 0;
-    int quest5Action = 0;
 
     srand(time(NULL));
     while (storyProgress == -1){ // Start Menu
@@ -522,7 +510,6 @@ int main(void) {
                         printf("You defeated every Flagon invading the Outpost...\n");
                         printf("They were no match for you...\n");
                         questRewards(quest2RewardsGOOD, 5, 40);
-                        quest2Action++;
                         storyProgress++;
                     }
                 }
@@ -531,7 +518,6 @@ int main(void) {
                         printf("You defeated every Knight in the Outpost...\n");
                         printf("They were no match for you...\n");
                         questRewards(quest2RewardsEVIL, 4, 50);
-                        quest2Action--;
                         storyProgress++;
                     }
                 }
@@ -554,9 +540,9 @@ int main(void) {
             int speak = dialouge();
             if (speak == 1){
                 system("cls");
-                dialougeBox("Crusader Lorel", GOLD, "LOREL_1");
+                dialougeBox("Swordmaster Lorel", GOLD, "LOREL_1");
                 dialougeBox("Mage Sypha", LILAC, "SYPHA_1");
-                dialougeBox("Crusader Lorel", GOLD, "LOREL_2");
+                dialougeBox("Swordmaster Lorel", GOLD, "LOREL_2");
                 startQuest3++;
             }
             else if (speak == 2){
@@ -569,10 +555,10 @@ int main(void) {
                 if (strcmp(questhoice, "GOOD") == 0){
                     printf("You silently nod.\n");
                     pressEnter();
-                    dialougeBox("Crusader Lorel", GOLD, "LOREL_3");
+                    dialougeBox("Swordmaster Lorel", GOLD, "LOREL_3");
                     dialougeBox("Mage Sypha", LILAC, "SYPHA_2");
                     dialougeBox("Rouge Reric", ORANGE, "RERIC_1");
-                    dialougeBox("Crusader Lorel", GOLD, "LOREL_4");
+                    dialougeBox("Swordmaster Lorel", GOLD, "LOREL_4");
                     dialougeBox("Mage Sypha", LILAC, "SYPHA_3");
                     dialougeBox("Rouge Reric", ORANGE, "RERIC_2");
                 }
@@ -582,7 +568,89 @@ int main(void) {
                         printf("They were no match for you.\n");
                         printf("You take their map and head off to find it's treasure.\n");
                         questRewards(quest2RewardsEVIL, 4, 50);
-                        quest2Action--;
+                        storyProgress++;
+                    }
+                }
+                else {
+                    continue;
+                }
+                pressEnter();
+            }
+             
+        }
+    }
+    while (storyProgress == 4) { // Plains Dungeon [good route]
+        int navigataionChoice = options();
+        if (navigataionChoice == 1){
+            printf("");
+            int speak = dialouge();
+            if (speak == 1){
+                system("cls");
+                
+            }
+            else if (speak == 2){
+                printf("The group continues walking...\n");
+            }
+            if (startQuest3 != 0){
+                printf("You look at the map, and you recognize the language.\n");
+                printf("It's the same one as the record tablet you found in that cave...\n");
+                char* questhoice = questAlignment("Assist the adventurers", "Strike them down for the map");
+                if (strcmp(questhoice, "GOOD") == 0){
+                    printf("You silently nod.\n");
+                    pressEnter();
+                }
+                else if (strcmp(questhoice, "EVIL") == 0){
+                    if (questGauntlet(quest3EVIL, 4, "Adventurer", "the group") == 1) {
+                        questRewards(quest2RewardsEVIL, 4, 50);
+                        storyProgress++;
+                    }
+                }
+                else {
+                    continue;
+                }
+                pressEnter();
+            }
+             
+        }
+    }
+    while (storyProgress == 5) { // Plains Dungeon Alone [evil route]
+        int navigataionChoice = options();
+        if (navigataionChoice == 1){
+            printf("\n", LIME, NORMAL);
+            printf("\n");
+            printf("\n");
+            printf("\n\n");
+            int speak = dialouge();
+            if (speak == 1){
+                system("cls");
+                dialougeBox("Swordmaster Lorel", GOLD, "LOREL_1");
+                dialougeBox("Mage Sypha", LILAC, "SYPHA_1");
+                dialougeBox("Swordmaster Lorel", GOLD, "LOREL_2");
+                startQuest3++;
+            }
+            else if (speak == 2){
+                printf("The group continues walking...\n");
+            }
+            if (startQuest3 != 0){
+                printf("You look at the map, and you recognize the language.\n");
+                printf("It's the same one as the record tablet you found in that cave...\n");
+                char* questhoice = questAlignment("Assist the adventurers", "Strike them down for the map");
+                if (strcmp(questhoice, "GOOD") == 0){
+                    printf("You silently nod.\n");
+                    pressEnter();
+                    dialougeBox("Swordmaster Lorel", GOLD, "LOREL_3");
+                    dialougeBox("Mage Sypha", LILAC, "SYPHA_2");
+                    dialougeBox("Rouge Reric", ORANGE, "RERIC_1");
+                    dialougeBox("Swordmaster Lorel", GOLD, "LOREL_4");
+                    dialougeBox("Mage Sypha", LILAC, "SYPHA_3");
+                    dialougeBox("Rouge Reric", ORANGE, "RERIC_2");
+                }
+                else if (strcmp(questhoice, "EVIL") == 0){
+                    if (questGauntlet(quest3EVIL, 4, "Adventurer", "the group") == 1) {
+                        printf("You defeated every adventurer...\n");
+                        printf("They were no match for you.\n");
+                        printf("You take their map and head off to find it's treasure.\n");
+                        questRewards(quest2RewardsEVIL, 4, 50);
                         storyProgress++;
                     }
                 }
@@ -671,6 +739,47 @@ void giveItem() {
     fgets(item, 64, stdin);
     fgets(item, 64, stdin);
     item[strcspn(item, "\n")] = '\0';
-    addItem(item, 1);
-    printf("You have added a [ %s%s%s ] to your inventory\n", CYAN, item, NORMAL);
+    int amount;
+    printf("How many?\n");
+    printf("> ");
+    scanf(" %d", &amount);
+    for (int i = 0; i < amount; i++)
+    {
+        addItem(item, 1);
+    }
+    printf("You have added %d [ %s%s%s ] to your inventory.\n", amount, CYAN, item, NORMAL);
+}
+
+void Travel() {
+    printf("              [ MAP OF NAMEOFKINGDOM ]\n");
+    printf("╔══════════════════════════════════════════════════╗\n");
+    printf("║                    __.--._        .---,          ║\n");
+    printf("║                 _.'       \\:.,   ;     ;         ║\n");
+    printf("║               ,-'             \\_/       \\        ║\n");
+    printf("║      _.''' `--'        %s▲▲%s     %s▲%s       %s▲▲%s  ;.     ║\n", GRAY, NORMAL, GRAY, NORMAL, GRAY, NORMAL);
+    printf("║     :                     %s▲▲%s    %s5%s           ;    ║\n", GRAY, NORMAL, BOLD, UNBOLD);
+    printf("║     ,'    %s4%s            %s▲%s   %sMountains%s %s▲▲▲%s    ;    ║\n", BOLD, UNBOLD, GRAY, NORMAL, GRAY, NORMAL, GRAY, NORMAL);
+    printf("║    :    %sCaves%s         %s▲▲%s      %s▲▲%s           ,     ║\n", DARKBLUE, NORMAL, GRAY, NORMAL, GRAY, NORMAL);
+    printf("║    :                                      ;      ║\n");
+    printf("║    :       ....                           :      ║\n");
+    printf("║    ;      /  %s3%s  \\                          :     ║\n", BOLD, UNBOLD);
+    printf("║    (     : %sLake%s :        %s2%s                  ;    ║\n", BLUE, NORMAL, BOLD, UNBOLD);
+    printf("║    `-.    \\..../      %sPlains%s      %s1%s       ,'     ║\n", LIME, NORMAL, BOLD, UNBOLD);
+    printf("║      ;                         %sForest%s   :        ║\n", GREEN, NORMAL);
+    printf("║    .'                             .-._,'         ║\n");
+    printf("║    `.                       ---._;               ║\n");
+    printf("║      `-.__          __.--._)                     ║\n");
+    printf("║           `.--.____;                             ║\n");
+    printf("║                                                  ║\n");
+    printf("╚══════════════════════════════════════════════════╝\n");
+
+    printf("\n[ MAP KEY ]\n");
+    printf("╔═════════════════════════════════════╗\n");
+    for(int i = 0; i < sizeof(availableLocations)/sizeof(availableLocations[0]); i++)
+        {
+            printf("[%d] %s\n",(i+1), availableLocations[i]);
+        }
+    printf("╠═════════════════════════════════════╣\n");  
+    printf("[0] | < Return to story               ║\n");           				 
+    printf("╚═════════════════════════════════════╝\n\n");
 }

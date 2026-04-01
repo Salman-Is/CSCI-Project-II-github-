@@ -468,7 +468,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                     arrowDamage = modifyDamage(arrowDamage, playerStatus);
                     enemyHP -= arrowDamage;
                     printf("\nYou draw your %s%s%s%s%s...\n", BOLD, BLUE, currentBow, UNBOLD, NORMAL);
-                    printf("Your arrow dealt %d damage!\n", maxPlayerTurnDamage);
+                    printf("Your arrow dealt %d damage!\n", arrowDamage);
                     Sleep(3000);
                     system("cls");
                     playerTurn = 0;
@@ -717,7 +717,7 @@ void processStatus(StatusType status, int* hp, int maxHP){
 int canAct(StatusType status){
     if (status == FROZEN){
         int chance = rand() % 100;
-        if (chance < 25){
+        if (chance < 33){
             printf("%s%s", BOLD, CYAN);
             printf("%s Frozen...\n\n", (status == playerStatus ? "You are" : "The enemy is"));
             printf("%s%s", UNBOLD, NORMAL);
