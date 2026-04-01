@@ -40,7 +40,7 @@ void genericLoreResponse() {
     printf("%s\n", messages[messagesIndex]);
 }
 
-void riddle(char message[], char correct[], int *search, char reward[]) {
+void riddle(char message[], char correct[], int *search, Item reward) {
     printf("          ╔════════════╗\n");
     printf("         ╔══════════════╗\n");
     printf("       ╔══════════════════╗\n");
@@ -130,14 +130,22 @@ void riddle(char message[], char correct[], int *search, char reward[]) {
         printf("The Shrine accepts your answer...\n");
         printf("It rewarded you with a %s%s%s\n\n", YELLOW, reward, NORMAL);
         (*search)++;
-        addItem(reward, 1);
+        if (strcmp(reward.itemType, "Bow") == 0){
+            upgradeBow(reward);
+        }
+        if (strcmp(reward.itemType, "Sword") == 0){
+            upgradeSword(reward);
+        }
+        else {
+            addItem(reward.name, 1);
+        }
     }
     else {
         printf("The Shrine doesn't accept your answer...\n\n");
     }
 }
 
-void chest(char key[], char item[], char chestType[], char chestColor[], int *search) {
+void chest(char key[], Item item, char chestType[], char chestColor[], int *search) {
     printf("╔══════════════════╗\n");
     printf("╠═════╠══════║═════╣\n");
     printf("║                  ║\n");
@@ -160,7 +168,15 @@ void chest(char key[], char item[], char chestType[], char chestColor[], int *se
     {
         printf("You use your %s%s%s to open the chest...\n\n", chestColor, key, NORMAL);
         (*search)++;
-        addItem(item, 0);
+        if (strcmp(item.itemType, "Bow") == 0){
+            upgradeBow(item);
+        }
+        if (strcmp(item.itemType, "Sword") == 0){
+            upgradeSword(item);
+        }
+        else {
+            addItem(item.name, 1);
+        }
     }
     else {
         printf("Find a %s%s%s to open the chest.\n\n", chestColor, key, NORMAL);
@@ -262,27 +278,17 @@ void searchArea() {
             searchPoints1++;
             break;
         case 3: // third etc.
-            addItem("Steel Sword ( 6 ATK )", 0);
-            if (6 > maxTurnDamage) {
-                maxTurnDamage = 6;
-            }  // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
+            upgradeSword(steelSword);
             searchPoints1++;
             break;
         case 4: 
-            riddle("What has a head, a tail, and no body?", "coin", &searchPoints1, "Ancient Coin");
+            riddle("What has a head, a tail, and no body?", "coin", &searchPoints1, ancientCoin);
             break;
         case 5:
-            chest("Verdent Key", "Grass Blade ( 10 ATK )", "Verdent", LIME, &searchPoints1);
-            if (10 > maxTurnDamage) {
-                maxTurnDamage = 10;
-            } // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
+            chest("Verdent Key", grassBlade, "Verdent", LIME, &searchPoints1);
             break;
         case 6:
-            addItem("Steel Bow ( 5 ATK )", 0);
-            if (maxPlayerTurnDamage < 5) {
-                maxPlayerTurnDamage = 5;
-            } // <- Need a better system than this (cuz then if you come back here and grab this your damage might get lower)
-            searchPoints1++;
+            upgradeSword(steelSword);
             break;
         default:
             loreTablet("Spare no thought for those above.\n Through their grace we are evolved.\n Through their plights we are destroyed.");
@@ -299,16 +305,10 @@ void searchArea() {
             searchPoints2++;
             break;
         case 2:
-            riddle("What grows without life, and consumes air with no breath?", "fire", &searchPoints2, "Flame Bow ( 7 ATK )");
-            if (7 > maxPlayerTurnDamage) {
-                maxPlayerTurnDamage = 7;
-            }
+            riddle("What grows without life, and consumes air with no breath?", "fire", &searchPoints2, flameBow);
             break;
         case 3:
-            addItem("Rimegrass Bow ( 6 ATK )", 0);
-            if (6 > maxPlayerTurnDamage) {
-                maxPlayerTurnDamage = 6;
-            } 
+            upgradeBow(rimegrassBow);
             searchPoints2++;
             break;
         case 4: 
@@ -316,16 +316,10 @@ void searchArea() {
             searchPoints2++;
             break;
         case 5:
-            chest("Frost Key", "Ancient Sword ( 19 ATK )", "Frost", CYAN, &searchPoints2);
-            if (19 > maxTurnDamage) {
-                maxTurnDamage = 19;
-            } 
+            chest("Frost Key", ancientSword, "Frost", CYAN, &searchPoints2);
             break;
         case 6:
-            addItem("Ancient Bow ( 14 ATK )", 0);
-            if (14 > maxPlayerTurnDamage) {
-                maxPlayerTurnDamage = 14;
-            }
+            upgradeBow(ancientBow);
             searchPoints2++;
             break;
         default:
@@ -421,9 +415,6 @@ void dialougeBox(char* name, char* color, char* tag)
         printf("Could not open %s\n", fileName);
         return;
     }
-
-    
-
     char line[256];
     char lines[32][512];
     int count = 0;
@@ -540,5 +531,35 @@ void shop(char* items[], int prices[], int shop_count){
             printf("Not enough coins!\n");
         }
         pressEnter();
+    }
+}
+
+void upgradeSword(Item newWeapon) {
+    if (newWeapon.value > currentSword.value) {
+        printf("You found a better sword!\n");
+        printf("%s -> %s\n", currentSword.name, newWeapon.name);
+
+        addItem(currentSword.name, 1); //stores in inventory
+
+        currentSword = newWeapon;
+    }
+    else {
+        printf("The %s is weaker than your current sword.\n", newWeapon.name);
+        addItem(newWeapon.name, 1);
+    }
+}
+
+void upgradeBow(Item newWeapon) {
+    if (newWeapon.value > currentBow.value) {
+        printf("You found a better bow!\n");
+        printf("%s -> %s\n", currentBow.name, newWeapon.name);
+
+        addItem(currentBow.name, 1); // store old one
+
+        currentBow = newWeapon;
+    }
+    else {
+        printf("The %s is weaker than your current bow.\n", newWeapon.name);
+        addItem(newWeapon.name, 1);
     }
 }

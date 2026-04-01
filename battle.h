@@ -5,18 +5,19 @@
 #include <stdlib.h>
 #include <time.h>
 #include <ctype.h>
+#include "defs.h"
 
 extern int critDamage;
 extern int attackBuff;
 
-typedef enum {
-    NONE, // does nothing
-    POISON, // damaged every turn (-15% hp)
-    BURN, // damaged every turn (-5 hp), attack reduced (-25%)
-    FEAR, // attack is halved
-    FROZEN, // 50% chance to not attack
-    BLEED, // damaged every turn (-25% hp), attack doubled
-} StatusType;
+// typedef enum {
+//     NONE, // does nothing
+//     POISON, // damaged every turn (-15% hp)
+//     BURN, // damaged every turn (-5 hp), attack reduced (-25%)
+//     FEAR, // attack is halved
+//     FROZEN, // 50% chance to not attack
+//     BLEED, // damaged every turn (-25% hp), attack doubled
+// } StatusType;
 
 extern StatusType playerStatus;
 extern StatusType enemyStatus;
@@ -29,15 +30,15 @@ void addCoins(int amount, char message[]);
 /* ================= MONSTERS ================= */
 // Using structs to hold monsters and stats
 // https://www.youtube.com/watch?v=dqa0KMSMx2w
-typedef struct {
-    char name[30];
-    int difficultyLevel;
-    int patternLength;
-    int hp;
-    int atk;
-    int alignment;
-    char drop[30];
-} Monster;
+// typedef struct {
+//     char name[30];
+//     int difficultyLevel;
+//     int patternLength;
+//     int hp;
+//     int atk;
+//     int alignment;
+//     char drop[30];
+// } Monster;
 
 void addItem(char* itemName, int startingItems);
 void removeItem(char* itemName);
@@ -47,7 +48,7 @@ void grantKarma(int addOrSubtract, int amount, char message[]);
 void encounter(Monster area[], int count, int tutorial, int special);
 int questGauntlet(Monster area[], int count, char groupName[], char locationName[]);
 
-int fireArrow(int *enemyHP, int playerTurn);
+void fireArrow(int* enemyHP);
 
 void applyStatus(StatusType* status, StatusType newStatus);
 void processStatus(StatusType status, int* hp, int maxHP);

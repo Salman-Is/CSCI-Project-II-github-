@@ -20,15 +20,16 @@ Item ironSword = {"Iron Sword ( 5 )", "A basic, chipped sword found in a cave.",
 Item steelSword = {"Steel Sword ( 6 )", "A sturdy bow forged with iron and carbon.", "Weapon", "Sword", WHITE, 6};
 Item goldSword = {"Gold Sword ( 8 )", "A heavy, oriental sword unfit for battle, though it still works.", "Weapon", "Sword", GREEN, 8};
 Item grassBlade = {"Grass Blade ( 10 )", "A strange sword enchanted with natural magic.", "Weapon", "Sword", GREEN, 10};
+Item ancientSword = {"Ancient Sword ( 19 )", "A strange sword enchanted with ancient magic.", "Weapon", "Sword", PURPLE, 19};
 
 // Bows ------------------------------------------------------------------
-Item woodenBow = {"Wooden Bow ( 4 )", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4};
+Item woodenBow = {"Wooden Bow ( 4 )", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4, NONE};
 Item steelBow = {"Steel Bow ( 5 )", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5};
 Item knightBow = {"Knight Bow ( 6 )", "The offical bow used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Bow", GREEN, 6, BLEED};
 Item rimegrassBow = {"Rimegrass Bow ( 6 )", "A strange bow enchanted with natural magic.", "Weapon", "Bow", GREEN, 6, POISON};
 Item flameBow = {"Flame Bow ( 7 )", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7, BURN};
 Item frostBow = {"Frost Bow ( 9 )", "An enchanted bow that freezes the air around an arrow", "Weapon", "Bow", GREEN, 7, FROZEN};
-Item ancientBow = {"Ancient Bow ( 14 )", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14, FEAR};
+Item ancientBow = {"Ancient Bow ( 24 )", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14, FEAR};
 
 // Armor ------------------------------------------------------------------
 // hp starts at 25, the number next to the name is how much it adds to your health, and the int at the end is your health after addition
@@ -43,27 +44,28 @@ Item leather = {"Leather", "A supple material useful for crafting", "Drop", "NUL
 Item groblinTooth = {"Groblin Tooth", "A blunt tooth used for crushing prey", "Drop", "NULL", WHITE, 0};
 Item emberScale = {"Ember Scale", "A firey scale with magical properties", "Drop", "NULL", GREEN, 0};
 
-Item beastlyTooth[] = {"Beastly Tooth", "A sharp, serated tooth that causes infection", "Drop", "NULL", WHITE, 0};
-Item nimoraWing[] = {"Nimora Wing", "The fragile wing of a Lumora", "Drop", "NULL", WHITE, 0};
-Item trollLeather[] = {"Troll Leather", "Leather that has been hardened by Troll engineering", "Drop", "NULL", WHITE, 0};
-Item fossilizedMoss[] = {"Fossilized Moss", "Hardened moss from the back of an ancient creature", "Drop", "NULL", GREEN, 0};
-Item greatAntlers[] = {"Great Antlers", "Proof you took down a Great Stag", "Drop", "NULL", WHITE, 0};
+Item beastlyTooth = {"Beastly Tooth", "A sharp, serated tooth that causes infection", "Drop", "NULL", WHITE, 0};
+Item nimoraWing = {"Nimora Wing", "The fragile wing of a Lumora", "Drop", "NULL", WHITE, 0};
+Item trollLeather = {"Troll Leather", "Leather that has been hardened by Troll engineering", "Drop", "NULL", WHITE, 0};
+Item fossilizedMoss = {"Fossilized Moss", "Hardened moss from the back of an ancient creature", "Drop", "NULL", GREEN, 0};
+Item greatAntlers = {"Great Antlers", "Proof you took down a Great Stag", "Drop", "NULL", WHITE, 0};
 
-Item shellShard[] = {"Shell Shard", "A sturdy shard of a Mega Turtle that is the base of Tide Armor", "Drop", "NULL", WHITE, 0};
-Item venomVial[] = {"Venom Vial", "A drop of venom collected from a Lake Serpent", "Drop", "NULL", WHITE, 0};
-Item krakenTentacle[] = {"Kraken Tentacle", "The arm of a Kraken useful for potions", "Drop", "NULL", WHITE, 0};
-Item shinyScale[] = {"Shiny Scale", "A gleaming scale that can be used to craft charms", "Drop", "NULL", WHITE, 0};
-Item gelatinousMass[] = {"Gelatinous Mass", "A large, oozing mass with little use", "Drop", "NULL", WHITE, 0};
+Item shellShard = {"Shell Shard", "A sturdy shard of a Mega Turtle that is the base of Tide Armor", "Drop", "NULL", WHITE, 0};
+Item venomVial = {"Venom Vial", "A drop of venom collected from a Lake Serpent", "Drop", "NULL", WHITE, 0};
+Item krakenTentacle = {"Kraken Tentacle", "The arm of a Kraken useful for potions", "Drop", "NULL", WHITE, 0};
+Item shinyScale = {"Shiny Scale", "A gleaming scale that can be used to craft charms", "Drop", "NULL", WHITE, 0};
+Item gelatinousMass = {"Gelatinous Mass", "A large, oozing mass with little use", "Drop", "NULL", WHITE, 0};
 
 // Special ------------------------------------------------------------------
-Item verdentKey[] = {"Verdent Key", "An emerald key found in the Plains. It has to open something...", "Item", "Key", GREEN, 0};
-Item frostKey[] = {"Frost Key", "A saffire key found in the Caves. It has to open something...", "Item", "Key", CYAN, 0};
+Item verdentKey = {"Verdent Key", "An emerald key found in the Plains. It has to open something...", "Item", "Key", GREEN, 0};
+Item frostKey = {"Frost Key", "A saffire key found in the Caves. It has to open something...", "Item", "Key", CYAN, 0};
+Item ancientCoin = {"Ancient Coin", "", "Item", "NULL", PURPLE, 50};
 
 // Potions/Charms --------------------------------------------------------------
-Item healthPotion[] = {"Health Potion", "A potion that will heal most injuries.", "Potion", "Healing", WHITE, 5};
-Item healthElixer[] = {"Health Potion", "A magical potion made with the blessing of Astra.", "Potion", "Healing", GREEN, 10};
-Item berzerkerPotion[] = {"Berzerker Potion", "An unstable potion that draws out your deep power.", "Potion", "Attack+", GREEN, 2};
-Item focusCharm[] = {"Focus Charm", "An artifact that brings with it a calming force.", "Charm", "Crit+", CYAN, 2};
+Item healthPotion = {"Health Potion", "A potion that will heal most injuries.", "Potion", "Healing", WHITE, 5};
+Item healthElixer = {"Health Potion", "A magical potion made with the blessing of Astra.", "Potion", "Healing", GREEN, 10};
+Item berzerkerPotion = {"Berzerker Potion", "An unstable potion that draws out your deep power.", "Potion", "Attack+", GREEN, 2};
+Item focusCharm = {"Focus Charm", "An artifact that brings with it a calming force.", "Charm", "Crit+", CYAN, 2};
 
 
 /* ================= UI FUNCTIONS ================= */

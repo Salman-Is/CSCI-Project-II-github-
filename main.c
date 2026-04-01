@@ -68,9 +68,9 @@ int trueSight = 0;
 
 char playerAlignment[] = "NEUTRAL";
 
-char currentSword[] = "Iron Sword";
-char currentBow[] = "Wooden Bow";
-char currentArmor[] = "Chain Armor";
+Item currentSword;
+Item currentBow;
+Item currentArmor;
 
 Inventory inventory[100];
 int inventoryCount = 0;
@@ -309,7 +309,7 @@ int options() {
         return 12;
     }
     // === SUPER SECRET DEBUGGING OPTIONS (shhhh)===
-    else if (choice == 't') {
+    else if (choice == 't') { // SEE ENEMY HEALTH
         system("cls");
         trueSight = 1;
         printf("Enabled True Sight.\n");
@@ -380,6 +380,10 @@ int main(void) {
     int startQuest5 = 0;
     // --- Quest Flags ---
     int quest1Action = 0;
+
+    currentBow = woodenBow;
+    currentSword = ironSword;
+    currentArmor = chainArmor;
 
     srand(time(NULL));
     while (storyProgress == -1){ // Start Menu
@@ -773,13 +777,17 @@ void Travel() {
     printf("║                                                  ║\n");
     printf("╚══════════════════════════════════════════════════╝\n");
 
-    printf("\n[ MAP KEY ]\n");
     printf("╔═════════════════════════════════════╗\n");
+    printf("[#] | [ MAP KEY ]                     ║\n");             	  		 
+    printf("╚═════════════════════════════════════╝\n");
+    
+    printf("═══════════════════════════════════════\n");
     for(int i = 0; i < sizeof(availableLocations)/sizeof(availableLocations[0]); i++)
         {
             printf("[%d] %s\n",(i+1), availableLocations[i]);
         }
-    printf("╠═════════════════════════════════════╣\n");  
+    printf("═══════════════════════════════════════\n");
+    printf("╔═════════════════════════════════════╗\n");
     printf("[0] | < Return to story               ║\n");           				 
     printf("╚═════════════════════════════════════╝\n\n");
 }

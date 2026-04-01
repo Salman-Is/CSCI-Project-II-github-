@@ -309,9 +309,6 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
     int enemyHP  = enemyMaxHP;
     int enemyDamagePerLetter = currentEnemyATK / patternLength;
     int spare = 0;
-    system("cls");
-
-    randomEffect();
 
     system("cls");
 
@@ -401,7 +398,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 }
                 // ----------------- Damage Calculation -----------------
                 // changed because of int division rounding bug
-                int damageToEnemy = (correct * maxTurnDamage * attackBuff) / patternLength;                 
+                int damageToEnemy = (correct * currentSword.value * attackBuff) / patternLength;                 
                 int damageToPlayer = ((patternLength - correct) * currentEnemyATK) / patternLength; 
 
                 // juuust in case (idk if this would matter but it might still round to 0)
@@ -464,13 +461,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
 
                 scanf(" %c", &turnChoice);
                 if (turnChoice == '1') {
-                    int arrowDamage = maxPlayerTurnDamage;
-                    arrowDamage = modifyDamage(arrowDamage, playerStatus);
-                    enemyHP -= arrowDamage;
-                    printf("\nYou draw your %s%s%s%s%s...\n", BOLD, BLUE, currentBow, UNBOLD, NORMAL);
-                    printf("Your arrow dealt %d damage!\n", arrowDamage);
-                    Sleep(3000);
-                    system("cls");
+                    fireArrow(&enemyHP);
                     playerTurn = 0;
                 }
                 else if (turnChoice == '2') {
@@ -585,62 +576,26 @@ void fireArrow(int* enemyHP, int enemyMaxHP)
 }
 */
 
-void randomEffect() {   //TEMPORARY
-    int random;
-    int target;
-    printf("Which effect? (this is temporary) (1-5)\n");
-    printf("1-Burn, 2-Poison, 3-Frozen, 4-Fear, 5-Bleed\n\n");
-    scanf(" %d", &random);
-    printf("> ");
-    printf("who is the target?\n");
-    printf("1 -Player, 2-Enemy\n\n");
-    scanf(" %d", &target);
-    printf("> ");
-    switch (target){
-    case 1:
-        switch (random){
-        case 1:
-            applyStatus(&playerStatus, BURN);
-            break;
-        case 2:
-            applyStatus(&playerStatus, POISON);
-            break;
-        case 3:
-            applyStatus(&playerStatus, FROZEN);
-            break;
-        case 4:
-            applyStatus(&playerStatus, FEAR);
-            break;
-        case 5:
-            applyStatus(&playerStatus, BLEED);
-            break;
-        default:
-            break;
-        }
-        break;
-    case 2:
-        switch (target){
-        case 1:
-            applyStatus(&enemyStatus, BURN);
-            break;
-        case 2:
-            applyStatus(&enemyStatus, POISON);
-            break;
-        case 3:
-            applyStatus(&enemyStatus, FROZEN);
-            break;
-        case 4:
-            applyStatus(&enemyStatus, FEAR);
-            break;
-        case 5:
-            applyStatus(&enemyStatus, BLEED);
-            break;
-        default:
-            break;
-        }
-        break;
-    return;
+void fireArrow(int* enemyHP)
+{
+    // deal damage
+    int damage = currentBow.value;
+    damage = modifyDamage(damage, playerStatus);
+    if (damage < 1) damage = 1;  // just in case
+    *enemyHP -= damage;
+
+    printf("\nYou draw your %s%s%s%s%s...\n", BOLD, currentBow.color, currentBow.name, UNBOLD, NORMAL);
+    printf("Your arrow dealt %d damage!\n", damage);
+    Sleep(3000);
+    system("cls");
+
+    // apply status effect if it exists
+    if (currentBow.status != NONE){
+        printf("The arrow inflicts %s%S%s!\n", changeColor(currentBow.status), statusText(currentBow.status), NORMAL);
+        applyStatus(&enemyStatus, currentBow.status);
     }
+
+    if (*enemyHP < 0) *enemyHP = 0;
 }
 
 /* ================= STATUS EFFECT FUNCTIONS ================= */
