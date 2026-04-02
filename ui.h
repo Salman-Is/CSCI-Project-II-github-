@@ -7,7 +7,7 @@ extern char currentLoc[];
 //extern char* statusColor;
 
 void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP);
-void openInventory(int inBattle, int *playerHP, int playerMaxHP);
+void openInventory(int inBattle, int *playerHP);
 void statsPage();
 void healthBar(int currentHP, int maxHP, char* isEnemy);
 char* areaColor();
@@ -29,6 +29,7 @@ char* changeColor(StatusType status);
 extern Item ironSword;
 extern Item steelSword;
 extern Item goldSword;
+extern Item knightSword;
 extern Item grassBlade;
 extern Item ancientSword;
  
@@ -45,7 +46,7 @@ extern Item ancientBow;
 extern Item chainArmor;
 extern Item steelArmor;
 extern Item knightArmor;
- 
+extern Item swordmasterArmor;
 
  // Drops ------------------------------------------------------------------
 extern Item gel;
@@ -70,6 +71,9 @@ extern Item gelatinousMass;
 extern Item verdentKey;
 extern Item frostKey;
 extern Item ancientCoin;
+extern Item elderiteGemstone;
+extern Item kingdomCrest;
+extern Item ancientMap;
  
 // Potions/Charms --------------------------------------------------------------
 extern Item healthPotion;
@@ -77,7 +81,9 @@ extern Item healthElixer;
 extern Item berzerkerPotion;
 extern Item focusCharm;
 
-
-
+// Debugging ---------------------------------------------------------------------
+extern Item ultraSword;
+extern Item ultraBow;
+extern Item ultraArmor;
 
 #endif 

@@ -36,17 +36,6 @@ typedef struct {
     int quantity;
 } Inventory;
 
-
-typedef struct {
-    char name[30];
-    int difficultyLevel;
-    int patternLength;
-    int hp;
-    int atk;
-    int alignment;
-    char drop[30];
-} Monster;
-
 typedef enum {
     NONE, // does nothing
     POISON, // damaged every turn (-15% hp)
@@ -56,7 +45,16 @@ typedef enum {
     BLEED, // damaged every turn (-25% hp), attack doubled
 } StatusType;
 
-
+typedef struct {
+    char name[30];
+    int difficultyLevel;
+    int patternLength;
+    int hp;
+    int atk;
+    int alignment;
+    char drop[30];
+    StatusType status;
+} Monster;
 
 typedef struct Item_struct {
     char name[64];

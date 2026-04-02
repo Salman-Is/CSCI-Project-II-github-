@@ -165,10 +165,10 @@ void encounter(Monster area[], int count, int tutorial, int special){
     int result;
     if (tutorial != 1)
     {
-        result = runBattle(enemy.name, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0, 0);
+        result = runBattle(enemy, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0, 0);
     }
     else if (tutorial == 1) {
-        result = runBattle(enemy.name, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0, 1);
+        result = runBattle(enemy, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0, 1);
     }
     
     
@@ -241,7 +241,7 @@ int questGauntlet(Monster area[], int count, char groupName[], char locationName
         
         printf("A %s [%s%s%s] appears before you!\n", enemy.name, alignmentColor, alignmentText, NORMAL);
 
-        int result = runBattle(enemy.name, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0, 0);
+        int result = runBattle(enemy, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0, 0);
 
         if (result == 1)
         {
@@ -291,12 +291,15 @@ int questGauntlet(Monster area[], int count, char groupName[], char locationName
  * 
  * 
  */
-int runBattle(char* enemyName, int difficultyLevel, int patternLength, int alignment, double sec_to_wait, int tutorial){
+int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignment, double sec_to_wait, int tutorial){
     char pattern[10];       // Enemy's attack pattern
     char user_pat[20];     // Player input
     char letters[14] = {'X','O','A','B','C','D','E','F','G','H', 'I', 'W', 'Y', 'Z'}; // Possible letters for patterns
 
     int enemyMaxHP = currentEnemyHP;
+    int playerMaxHP = currentArmor.value;
+
+    char* enemyName = enemy.name;
 
     // reset buffs
     critDamage = 1.5;
@@ -304,7 +307,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
 
     // 0 if not players turn
     int playerTurn = 1;
-
+    
     int playerHP = playerMaxHP;
     int enemyHP  = enemyMaxHP;
     int enemyDamagePerLetter = currentEnemyATK / patternLength;
@@ -318,6 +321,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
             if (enemyHP <= 0 || playerHP <= 0){
                 break;
             }
+            // ENEMY'S TURN ================================
             if (playerTurn == 0){
                 processStatus(enemyStatus, &enemyHP, enemyMaxHP);
                 if (canAct(enemyStatus) == 0) {
@@ -325,6 +329,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                     playerTurn = 1;
                     continue;
                 }
+                int hasApplied = 0;
                 // RAGE mechanic (EVIL exclusive ability)
                 if((enemyHP < enemyMaxHP / 2) && currentEnemyALIGNMENT == EVIL){
                     printf("\nThe enemy is filled with %sRage%s...\n", RED, NORMAL);
@@ -405,7 +410,6 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 if (correct > 0 && damageToEnemy == 0) {
                     damageToEnemy = 1;
                 }
-
                 // again, this might never happen but I don't want to math it out lol
                 if (correct == patternLength && damageToEnemy == 0) {
                     damageToEnemy = 2;
@@ -413,9 +417,6 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
 
                 damageToPlayer = modifyDamage(damageToPlayer, enemyStatus);
                 damageToEnemy = modifyDamage(damageToEnemy, playerStatus);
-                    
-                enemyHP -= damageToEnemy;
-                playerHP -= damageToPlayer;
 
                 // perfect counter system
                 if (correct == patternLength){
@@ -424,9 +425,27 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                     printf("%sPERFECT COUNTER!%s\n", BLUE, NORMAL);
                     damageToEnemy = (damageToEnemy*critDamage) + 2;
                 }
+                enemyHP -= damageToEnemy;
+                playerHP -= damageToPlayer;
+                if (correct != patternLength) {
+                    int amountWrong = (patternLength - correct);
+                    if (amountWrong > 0 && enemy.status != NONE && playerStatus == NONE && playerHP > 0) {
+                        float chance = (float)amountWrong / patternLength;
+                        int roll = rand() % 100;
+
+                        if (roll < (chance * 100)) {
+                            applyStatus(&playerStatus, enemy.status);
+                            printf("\nThe %s has afflicted you with %s%s%s!\n", enemyName, changeColor(enemy.status), statusText(enemy.status), NORMAL);
+                        }
+                    }
+                }
 
                 printf("\nYou dealt %d damage to the %s!\n", damageToEnemy, enemyName);
                 printf("You took %d damage!\n", damageToPlayer);
+
+                if (hasApplied == 1) {
+                    printf("\nThe %s has afflicted you with %s%s%s!", enemyName, changeColor(enemy.status), statusText(enemy.status), NORMAL);
+                }
 
                 // ----------------- Pause -----------------
                 Sleep(3000);  
@@ -434,6 +453,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
 
                 playerTurn = 1;
             }
+            // PLAYER'S TURN ==============================
             else if (playerTurn == 1){
                 processStatus(playerStatus, &playerHP, playerMaxHP);
                 if (canAct(playerStatus) == 0) {
@@ -467,7 +487,7 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                 else if (turnChoice == '2') {
                     system("cls");
                     printf("You chose to use an item!\n");
-                    openInventory(0, &playerHP, playerMaxHP);
+                    openInventory(0, &playerHP);
                     playerTurn = 0;
                 }
                 else if (turnChoice == '3'){
@@ -487,7 +507,6 @@ int runBattle(char* enemyName, int difficultyLevel, int patternLength, int align
                     }
                     playerTurn = 0;
                 }
-                
                 else {
                     system("cls");
                     printf("You made an invalid move.\nYou gave your enemy a chance to strike...\n\n");

@@ -174,6 +174,9 @@ void chest(char key[], Item item, char chestType[], char chestColor[], int *sear
         if (strcmp(item.itemType, "Sword") == 0){
             upgradeSword(item);
         }
+        if (strcmp(item.itemType, "Armor") == 0) {
+            upgradeArmor(item);
+        }
         else {
             addItem(item.name, 1);
         }
@@ -240,10 +243,18 @@ char* questAlignment(char goodOption[], char evilOption[]) {
 
 }
 
-void questRewards(char* rewards[], int count, int money) {
-    for(int i = 0; i < count; i++)
-    {
-        addItem(rewards[i], 0);
+void questRewards(Item* rewards[], int count, int money) {
+    for(int i = 0; i < count; i++) {
+        Item item = *rewards[i];
+        if (strcmp(item.itemType, "Bow") == 0){
+            upgradeBow(item);
+        } else if (strcmp(item.itemType, "Sword") == 0){
+            upgradeSword(item);
+        } else if (strcmp(item.itemType, "Armor") == 0){
+            upgradeArmor(item);
+        } else {
+            addItem(item.name, 0);
+        }
     }
     addCoins(money, "battle");
 }
@@ -561,5 +572,20 @@ void upgradeBow(Item newWeapon) {
     else {
         printf("The %s is weaker than your current bow.\n", newWeapon.name);
         addItem(newWeapon.name, 1);
+    }
+}
+
+void upgradeArmor(Item newArmor) {
+    if (newArmor.value > currentArmor.value) {
+        printf("You found a better set of armor!\n");
+        printf("%s -> %s\n", currentArmor.name, newArmor.name);
+
+        addItem(currentArmor.name, 1); // store old one
+
+        currentArmor = newArmor;
+    }
+    else {
+        printf("The %s is weaker than your current set of armor.\n", newArmor.name);
+        addItem(newArmor.name, 1);
     }
 }

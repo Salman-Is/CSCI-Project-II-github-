@@ -8,7 +8,7 @@ void riddle(char message[], char correct[], int *search, Item reward);
 void chest(char key[], Item item, char chestType[], char chestColor[], int *search);
 int dice();
 char* questAlignment(char goodOption[], char evilOption[]);
-void questRewards(char* rewards[], int count, int money);
+void questRewards(Item* rewards[], int count, int money);
 
 void dialougeBox(char* name, char* color, char* tag);
 int dialouge();
@@ -17,5 +17,6 @@ void shop(char* items[], int prices[], int shop_count);
 
 void upgradeSword(Item item);
 void upgradeBow(Item item);
+void upgradeArmor(Item newArmor);
 
 #endif

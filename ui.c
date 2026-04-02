@@ -19,8 +19,11 @@ char currentLoc[32] = "Forest";
 Item ironSword = {"Iron Sword ( 5 )", "A basic, chipped sword found in a cave.", "Weapon", "Sword", WHITE, 5};
 Item steelSword = {"Steel Sword ( 6 )", "A sturdy bow forged with iron and carbon.", "Weapon", "Sword", WHITE, 6};
 Item goldSword = {"Gold Sword ( 8 )", "A heavy, oriental sword unfit for battle, though it still works.", "Weapon", "Sword", GREEN, 8};
+Item knightSword = {"Knight Sword ( 8 )", "The offical sword used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Sword", GREEN, 8};
 Item grassBlade = {"Grass Blade ( 10 )", "A strange sword enchanted with natural magic.", "Weapon", "Sword", GREEN, 10};
 Item ancientSword = {"Ancient Sword ( 19 )", "A strange sword enchanted with ancient magic.", "Weapon", "Sword", PURPLE, 19};
+
+Item ultraSword = {"Ultra Sword ( 999 )", "An OP sword used for testing and nothing else", "Weapon", "Sword", RED, 999};
 
 // Bows ------------------------------------------------------------------
 Item woodenBow = {"Wooden Bow ( 4 )", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4, NONE};
@@ -31,11 +34,16 @@ Item flameBow = {"Flame Bow ( 7 )", "An enchanted bow that lights arrows on fire
 Item frostBow = {"Frost Bow ( 9 )", "An enchanted bow that freezes the air around an arrow", "Weapon", "Bow", GREEN, 7, FROZEN};
 Item ancientBow = {"Ancient Bow ( 24 )", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14, FEAR};
 
+Item ultraBow = {"Ultra Bow ( 999 )", "An OP bow used for testing and nothing else", "Weapon", "Bow", RED, 999, FEAR};
+
 // Armor ------------------------------------------------------------------
 // hp starts at 25, the number next to the name is how much it adds to your health, and the int at the end is your health after addition
 Item chainArmor = {"Chain Armor ( 5 )", "A flimsy set of armor found in a cave.", "Armor", "Armor", WHITE, 25};
 Item steelArmor = {"Steel Armor ( 7 )", "A set of armor forged with iron and carbon.", "Armor", "Armor", WHITE, 27};
 Item knightArmor = {"Knight Armor ( 9 )", "The offical set of armor used by Knights of NAMEOFTHEKINGDOM.", "Armor", "Armor", GREEN, 29};
+Item swordmasterArmor = {"Swordmaster Armor ( 12 )", "A set of armor forged by the famous Swordmaster Lorel.", "Armor", "Armor", GREEN, 32};
+
+Item ultraArmor = {"Ultra Armor ( 999 )", "An OP set of armor used for testing and nothing else", "Armor", "Armor", RED, 999, FEAR};
 
 // Drops ------------------------------------------------------------------
 Item gel = {"Gel", "An oozing mass with little use", "Drop", "NULL", WHITE, 0};
@@ -60,6 +68,9 @@ Item gelatinousMass = {"Gelatinous Mass", "A large, oozing mass with little use"
 Item verdentKey = {"Verdent Key", "An emerald key found in the Plains. It has to open something...", "Item", "Key", GREEN, 0};
 Item frostKey = {"Frost Key", "A saffire key found in the Caves. It has to open something...", "Item", "Key", CYAN, 0};
 Item ancientCoin = {"Ancient Coin", "", "Item", "NULL", PURPLE, 50};
+Item elderiteGemstone = {"Elderite Gemstone", "", "Item", "NULL", CYAN, 50};
+Item kingdomCrest = {"Kingdom Crest", "", "Item", "NULL", CYAN, 50};
+Item ancientMap = {"Ancient Map", "", "Item", "NULL", CYAN, 0};
 
 // Potions/Charms --------------------------------------------------------------
 Item healthPotion = {"Health Potion", "A potion that will heal most injuries.", "Potion", "Healing", WHITE, 5};
@@ -117,7 +128,7 @@ void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int align
     printf("║                                                                    ║\n");
     printf("║ HP: [ %02d / %d ] ", playerHP, playerMaxHP);
     healthBar(playerHP, playerMaxHP, "player");
-    printf(" Arrow: [ %02d ] Sword: [ %02d ]    ║\n",maxPlayerTurnDamage, maxTurnDamage);
+    printf(" Arrow: [ %02d ] Sword: [ %02d ]    ║\n",currentBow.value, currentSword.value);
     printf("║                                                                    ║\n");
 
     // PLAYER ACTION MENU (ONLY ON PLAYER TURN) ==================================
@@ -128,7 +139,7 @@ void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int align
     printf("╚════════════════════════════════════════════════════════════════════╝\n");
 }
 
-void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2 inventorys, use 1 for both battle and overworld
+void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 1 for both battle and overworld
 {
     system("cls");
     if (battleStart == 1)
@@ -155,6 +166,8 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2
         printf("╚═════════════════════════════════════╝\n");
         printf("Select item number to use (0 to exit): ");
 
+        system("cls");
+
         int choice;
         scanf("%d", &choice);
         if(choice == 0){
@@ -169,8 +182,8 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2
         {
             system("cls");
             *playerHP += 5;
-            if (*playerHP > playerMaxHP){
-                *playerHP = playerMaxHP;
+            if (*playerHP > currentArmor.value){
+                *playerHP = currentArmor.value;
             }
             return;
         }
@@ -178,8 +191,8 @@ void openInventory(int inBattle, int *playerHP, int playerMaxHP) // instead of 2
             system("cls");
             removeItem("Health Elixer");
             *playerHP += 10;
-            if (*playerHP > playerMaxHP){
-                *playerHP = playerMaxHP;
+            if (*playerHP > currentArmor.value){
+                *playerHP = currentArmor.value;
             }
             return;
         }
@@ -238,42 +251,15 @@ void statsPage() {
     printf("%sKarma:       %d%s\n", karmaColor, karma, NORMAL);
     printf("Coins:       %d\n", coins);
     printf("\n");
-    printf("Sword:       %s\n", currentSword);
-    printf("Bow:         %s\n", currentBow);
-    printf("Armor:       %s\n\n", currentArmor);
-    printf("Alignment:   NEUTRAL\n");
+    printf("Armor:       %s -> x%d health\n", currentArmor.name, currentArmor.value);
+    printf("Sword:       %s -> x%d damage\n", currentSword.name, currentSword.value);
+    printf("Bow:         %s -> x%d damage\n\n", currentBow.name, currentBow.value);
+    printf("Alignment:   %s\n", playerAlignment);
     printf("\n");
     printf("╔═══════════════════════════════════════════╗\n");             				 
     printf("╚═══════════════════════════════════════════╝\n");
     pressEnter();
     system("cls");
-    // Add other stats
-    // Should look like this when done
-    // Karma between 0-33 -> EVIL, 34-66 -> NEUTRAL, 67(lol)-100 -> GOOD;
-    /*
-    <===========================>
-    CHARACTER STATS
-    <===========================>
-
-    Name:        The Paladin
-    Location:    Forest
-    Karma:       65
-    Coins:       100
-
-    Title:       [Something Cool]
-    
-
-    Armor: (name of armor) -> +X health 
-    Sword: (name of sword) -> +X damage
-    Bow: (name of bow) -> +X damage
-
-    Alignment:   NEUTRAL                // <- would be cool to change color (cyan, white, red)
-
-    <===========================>
-
-    Press ENTER to return...
-    
-    */
 }
 
 char* areaColor() {

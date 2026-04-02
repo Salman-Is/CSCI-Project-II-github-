@@ -22,8 +22,7 @@ extern int attackBuff;
 extern StatusType playerStatus;
 extern StatusType enemyStatus;
 
-int runBattle(char* enemyName, int difficultyLevel, int patternLength, int alignment, double sec_to_wait, int tutorial);
-void openInventory(int inBattle, int *playerHP, int playerMaxHP);
+int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignment, double sec_to_wait, int tutorial);
 
 void addCoins(int amount, char message[]);
 

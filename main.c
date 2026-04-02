@@ -61,7 +61,7 @@ char currentEnemyDrop[32] = "";
 int karma = 50;
 int maxTurnDamage = 5;  // Sword Damage (counterattacks) <-- from correct pattern
 int maxPlayerTurnDamage = 4; // Arrow Damage (direct attacks) <-- from choosing to fire arrow
-int playerMaxHP = 25;
+// int playerMaxHP = 25;
 int coins = 0;
 
 int trueSight = 0;
@@ -76,18 +76,21 @@ Inventory inventory[100];
 int inventoryCount = 0;
 
 int worldState = 1;
+#define COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
 
 /* ================= QUEST REWARDS ================= */
 
 // Forest Village quest
-char* quest1RewardsGOOD[32] = {"Steel Armor ( 27 HP )", "Health Elixer", "Health Potion", "Health Potion", "Elderite Gemstone"};
-char* quest1RewardsEVIL[32] = {"Golden Sword ( 8 ATK )", "Health Elixer", "Health Potion", "Berzerker Potion"};
+Item* quest1RewardsGOOD[] = { &steelArmor, &healthElixer, &healthPotion, &healthPotion, &elderiteGemstone };
+Item* quest1RewardsEVIL[]  = { &goldSword, &healthElixer, &healthPotion, &berzerkerPotion };
+
 // Knight Outpost quest
-char* quest2RewardsGOOD[32] = {"Knight Armor ( 28 HP )", "Knight Bow ( 6 ATK )", "Health Potion", "Focus Charm", "Kingdom Crest"};
-char* quest2RewardsEVIL[32] = {"Knight Sword ( 9 ATK )", "Knight Armor ( 28 HP )", "Berzerker Potion", "Berzerker Potion"};
+Item* quest2RewardsGOOD[] = { &knightArmor, &knightBow, &healthPotion, &focusCharm, &kingdomCrest };
+Item* quest2RewardsEVIL[]  = { &knightSword, &knightArmor, &berzerkerPotion, &berzerkerPotion };
+
 // Plains Map quest
-char* quest3RewardsGOOD[32] = {"Ancient Map"};
-char* quest3RewardsEVIL[32] = {"Ancient Map", "Swordmaster Armor ( 29 HP )", "", ""};
+Item* quest3RewardsGOOD[] = { &ancientMap };
+Item* quest3RewardsEVIL[]  = { &ancientMap, &swordmasterArmor };
 
 /* ================= AREA/LOCATION NAMES ================= */
 char availableLocations[6][32] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", 
@@ -97,77 +100,77 @@ char progressKey[32][32] = {"Forest Village", "Outpost", "Plains Map"};
 /* ================= MONSTERS/ENEMIES ================= */
 
 // Name, difficulty, pattern size, HP, ATK, alignment, drop
-Monster tutorial[] = {{"Ooz", 1, 5, 20, 2, EVIL, "Gel"}};
+Monster tutorial[] = {{"Ooz", 1, 5, 20, 2, EVIL, "Gel"}, NONE};
 // Forest enemy groups
 Monster forest[] = {
-    {"Lumora", 1, 3, 10, 3, GOOD, "Lumora Wing"},       // Easy, 3-letter pattern 
-    {"Deer", 1, 5, 20, 4, GOOD, "Leather"},       // Easy, 5-letter pattern
-    {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"},       // Easy, 5-letter pattern
-    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"}};
+    {"Lumora", 1, 3, 10, 3, GOOD, "Lumora Wing", NONE},       // Easy, 3-letter pattern 
+    {"Deer", 1, 5, 20, 4, GOOD, "Leather", NONE},       // Easy, 5-letter pattern
+    {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth", NONE},       // Easy, 5-letter pattern
+    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale", NONE}};
 Monster quest1GOOD[] = { // help village
-    {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"},
-    {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth"}, 
-    {"Groblin Shaman", 3, 5, 40, 7, EVIL, "Groblin Staff"},   
-    {"Groblin Chief", 3, 5, 35, 10, EVIL, "Groblin Tusk"}};
+    {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth", NONE},
+    {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth", NONE}, 
+    {"Groblin Shaman", 3, 5, 40, 7, EVIL, "Groblin Staff", NONE},   
+    {"Groblin Chief", 3, 5, 35, 10, EVIL, "Groblin Tusk", NONE}};
 Monster quest1EVIL[] = { // pillage village
-    {"Adventurer 'Kalen'", 1, 5, 15, 5, GOOD, "Leather"},
-    {"Guard 'Eldric'", 3, 5, 20, 4, GOOD, "Scrap Metal"}, 
-    {"Guard 'Kaelor'", 3, 5, 20, 4, GOOD, "Scrap Metal"},   
-    {"Knight 'Halor'", 4, 6, 35, 10, GOOD, "Scrap Metal"}};
+    {"Adventurer 'Kalen'", 1, 5, 15, 5, GOOD, "Leather", NONE},
+    {"Guard 'Eldric'", 3, 5, 20, 4, GOOD, "Scrap Metal", NONE}, 
+    {"Guard 'Kaelor'", 3, 5, 20, 4, GOOD, "Scrap Metal", NONE},   
+    {"Knight 'Halor'", 4, 6, 35, 10, GOOD, "Scrap Metal", NONE}};
 Monster quest2GOOD[] = { // assist knights
-    {"Juvinile Flagon", 2, 5, 20, 6, EVIL, "Ember Scale"},
-    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"}, 
-    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale"},   
-    {"Elder Flagon", 4, 6, 40, 10, EVIL, "Inferno Scale"}};
+    {"Juvinile Flagon", 2, 5, 20, 6, EVIL, "Ember Scale", NONE},
+    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale", BURN}, 
+    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale", BURN},   
+    {"Elder Flagon", 4, 6, 40, 10, EVIL, "Inferno Scale", BURN}};
 Monster quest2EVIL[] = { // attak knights
-    {"Knight 'Marlo'", 4, 6, 35, 10, GOOD, "Scrap Metal"},
-    {"Knight 'Lysa'", 4, 6, 35, 10, GOOD, "Scrap Metal"}, 
-    {"Knight Captain 'Therin'", 4, 7, 35, 10, GOOD, "Refined Metal"},   
-    {"Royal Knight 'Fenric'", 4, 8, 35, 10, GOOD, "Scrap Metal"}};
+    {"Knight 'Marlo'", 4, 6, 35, 10, GOOD, "Scrap Metal", NONE},
+    {"Knight 'Lysa'", 4, 6, 35, 10, GOOD, "Scrap Metal", NONE}, 
+    {"Knight Captain 'Therin'", 4, 7, 35, 10, GOOD, "Refined Metal", NONE},   
+    {"Royal Knight 'Fenric'", 4, 8, 35, 10, GOOD, "Scrap Metal", BLEED}};
 
 // Plains enemy groups
 Monster plains[] = {
-    {"Snarlbeast", 2, 6, 30, 7, EVIL, "Beastly Tooth"},
-    {"Nimora", 1, 5, 10, 3, EVIL, "Nimora Wing"},
-    {"Grass Troll", 2, 5, 30, 5, EVIL, "Troll Leather"},
-    {"Mossback", 1, 8, 50, 3, GOOD, "Fossilized Moss"},
-    {"Great Stag", 3, 8, 35, 6, GOOD, "Antlers"}};
-Monster quest3EVIL[] = { // pillage village
-    {"Swordmaster 'Lorel'", 4, 6, 35, 10, GOOD, "Berzerker Potion"},
-    {"Rouge 'Reric'", 4, 5, 20, 35, GOOD, "Broken Dagger"}, 
-    {"Mage 'Sypha'", 5, 5, 25, 20, GOOD, "Fairy Dust"}};
+    {"Snarlbeast", 2, 6, 30, 7, EVIL, "Beastly Tooth", POISON},
+    {"Nimora", 1, 5, 10, 3, EVIL, "Nimora Wing", NONE},
+    {"Grass Troll", 2, 5, 30, 5, EVIL, "Troll Leather", NONE},
+    {"Mossback", 1, 8, 50, 3, GOOD, "Fossilized Moss", NONE},
+    {"Great Stag", 2, 8, 35, 6, GOOD, "Antlers", NONE}};
+Monster quest3EVIL[] = { // attack adventurers
+    {"Swordmaster 'Lorel'", 4, 6, 35, 10, GOOD, "Berzerker Potion", BLEED},
+    {"Rouge 'Reric'", 4, 5, 20, 35, GOOD, "Broken Dagger", BURN}, 
+    {"Mage 'Sypha'", 5, 5, 25, 20, GOOD, "Fairy Dust", FROZEN}};
 // Lake enemy groups
 Monster lake[] = {
-    {"Mega Turtle", 1, 5, 40, 5, GOOD, "Shell Shard"},
-    {"Lake Serpent", 2, 5, 25, 10, EVIL, "Venom Vial"},
-    {"Kraken", 3, 5, 35, 10, EVIL, "Kraken Tentacle"},
-    {"Ripplet", 2, 5, 15, 5, GOOD, "Shiny Scale"},
-    {"Glowfin", 3, 5, 15, 7, EVIL, "Luminous Scale"},
-    {"Oozard", 4, 5, 15, 8, EVIL, "Gelatinous Mass"}};
+    {"Mega Turtle", 1, 5, 40, 5, GOOD, "Shell Shard", NONE},
+    {"Lake Serpent", 2, 5, 25, 10, EVIL, "Venom Vial", POISON},
+    {"Kraken", 3, 5, 35, 10, EVIL, "Kraken Tentacle", FEAR},
+    {"Ripplet", 2, 5, 15, 5, GOOD, "Shiny Scale", FROZEN},
+    {"Glowfin", 3, 5, 15, 7, EVIL, "Luminous Scale", NONE},
+    {"Oozard", 4, 5, 15, 8, EVIL, "Gelatinous Mass", NONE}};
 
 // Cave enemy groups
 Monster caves[] = {
-    {"Cursed Bat", 2, 5, 15, 5, EVIL, "Echo Fang"},
-    {"Crystal Snake", 2, 4, 25, 6, EVIL, "Crystal Venom"},
-    {"Shardling", 2, 4, 25, 6, GOOD, "Quartz Shard"},
-    {"Shifter Fox", 3, 5, 15, 5, EVIL, "Mirror Cloak"},
-    {"Stone Spider", 3, 5, 35, 6, EVIL, "Mineral Silk"},
-    {"Ancient Automaton", 4, 4, 45, 9, GOOD, "Gear Charge"}};
+    {"Cursed Bat", 2, 5, 15, 5, EVIL, "Echo Fang", BLEED},
+    {"Crystal Snake", 2, 4, 25, 6, EVIL, "Crystal Venom", POISON},
+    {"Shardling", 2, 4, 25, 6, GOOD, "Quartz Shard", NONE},
+    {"Shifter Fox", 3, 5, 15, 5, EVIL, "Mirror Cloak", NONE},
+    {"Stone Spider", 3, 5, 35, 6, EVIL, "Mineral Silk", NONE},
+    {"Ancient Automaton", 4, 4, 45, 9, GOOD, "Gear Charge", FEAR}};
 
 // Mountain enemy groups
 Monster mountains[] = {
-    {"Peak Eagle", 2, 5, 25, 7, GOOD, "Soaring Feather"},
-    {"Ice Giant", 3, 4, 55, 10, EVIL, "Ionic Ice"},
-    {"Mountain Goat", 2, 6, 30, 16, GOOD, "Durable Horn"},
-    {"Snow Leopard", 3, 4, 30, 20, GOOD, "Gorgeous Leather"},
-    {"Dark Dragon", 4, 6, 65, 25, EVIL, "Demonic Scale"},
-    {"High Dragon", 4, 6, 65, 25, GOOD, "Golden Scale"}};
+    {"Peak Eagle", 2, 5, 25, 7, GOOD, "Soaring Feather", NONE},
+    {"Ice Giant", 3, 4, 55, 10, EVIL, "Ionic Ice", FROZEN},
+    {"Mountain Goat", 2, 6, 30, 16, GOOD, "Durable Horn", NONE},
+    {"Snow Leopard", 3, 4, 30, 20, GOOD, "Gorgeous Leather", BLEED},
+    {"Dark Dragon", 4, 6, 65, 25, EVIL, "Demonic Scale", FEAR},
+    {"High Dragon", 4, 6, 65, 25, GOOD, "Golden Scale", FEAR}};
 
 // Final area bosses
 Monster final[] = { // You will recive a really strong weapon before this guys dw
-    {"Astra, Deity of JUSTICE", 5, 8, 500, 30, GOOD, "A World of Evil"},
-    {"Krya, Deity of MALICE", 5, 8, 500, 30, EVIL, "A World of Good"},
-    {"???, Deity of CHAOS", 7, 9, 750, 40, EVIL, "???"}};
+    {"Astra, Deity of JUSTICE", 5, 8, 500, 30, GOOD, "A World of Evil", NONE},
+    {"Krya, Deity of MALICE", 5, 8, 500, 30, EVIL, "A World of Good", NONE},
+    {"???, Deity of CHAOS", 7, 9, 750, 40, EVIL, "???", NONE}};
 
 /* ================= PLAYER OPTIONS ================= */
 /**
@@ -236,7 +239,7 @@ int options() {
     else if (choice == '4') { // INVENTORY
         system("cls");
         printf("You open your inventory.\n");
-        openInventory(0, &playerMaxHP, playerMaxHP);
+        openInventory(0, &currentArmor.value);
         return 4;
     }
     else if (choice == '5') { // TRAVEL
@@ -315,13 +318,13 @@ int options() {
         printf("Enabled True Sight.\n");
     }
     else if (choice == 'u') { // HEALTH
-        playerMaxHP = 999;
+        upgradeArmor(ultraArmor);
         system("cls");
         printf("Infinite health\n");
     }
     else if (choice == 'v') { // DAMAGE
-        maxTurnDamage = 999;
-        maxPlayerTurnDamage = 999;
+        upgradeBow(ultraBow);
+        upgradeSword(ultraSword);
         system("cls");
         printf("Infinte damage\n");
     }
@@ -688,7 +691,7 @@ void playerAl() {
         printf("%sYou stray further from the natural order...\n%s", RED, NORMAL);
         printf("Even the shadows whisper your name in fear.\n\n");
     }
-    else if (karma <= 66 && strcmp(playerAlignment, "NEUTRAL") != 0){
+    else if (karma <= 66 && karma > 32 && strcmp(playerAlignment, "NEUTRAL") != 0){
         strcpy(playerAlignment, "NEUTRAL");
         printf("%sYou walk the line of chaos and order.%s\n", WHITE, NORMAL);
         printf("The world treats you with cautious respect.\n\n");
