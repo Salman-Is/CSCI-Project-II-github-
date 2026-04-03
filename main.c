@@ -49,6 +49,8 @@ int location = 1; // 1=forest, 2=plains, 3=lake
 int saveLocation = 1;
 int isTravelling = 0; // 1 when travelling, 0 when not
 
+int unlockedAreas = 0; // tracks how many places the player unlocked
+
 int battleStart = 0;
 
 // ik it's lazy to do this but ill do it anyway lol
@@ -64,6 +66,7 @@ int maxPlayerTurnDamage = 4; // Arrow Damage (direct attacks) <-- from choosing 
 int coins = 0;
 
 int trueSight = 0;
+int dialougeSpeed = 0;
 
 char playerAlignment[] = "NEUTRAL";
 
@@ -90,6 +93,9 @@ Item* quest2RewardsEVIL[]  = { &knightSword, &knightArmor, &berzerkerPotion, &be
 // Plains Map quest
 Item* quest3RewardsGOOD[] = { &ancientMap };
 Item* quest3RewardsEVIL[]  = { &ancientMap, &swordmasterArmor, &flameBlade, &frostBow };
+
+// Plains Temple quest
+Item* quest4Rewards[] = { &lichPhial, &staffOfRemnant };
 
 /* ================= AREA/LOCATION NAMES ================= */
 char availableLocations[6][32] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", 
@@ -138,6 +144,7 @@ Monster quest3EVIL[] = { // attack adventurers
     {"Swordmaster 'Lorel'", 4, 6, 35, 10, GOOD, "Berzerker Potion", BLEED},
     {"Rouge 'Reric'", 4, 5, 20, 35, GOOD, "Broken Dagger", BURN}, 
     {"Mage 'Sypha'", 5, 5, 25, 20, GOOD, "Fairy Dust", FROZEN}};
+Monster lichBoss = {"Racher the Lich", 3, 9, 65, 50, GOOD, "True Sight Sigil", FEAR};
 // Lake enemy groups
 Monster lake[] = {
     {"Mega Turtle", 1, 5, 40, 5, GOOD, "Shell Shard", NONE},
@@ -303,6 +310,11 @@ int options() {
         return 12;
     }
     // === SUPER SECRET DEBUGGING OPTIONS (shhhh)===
+    else if (choice == 's') { // speed up dialouge
+        system("cls");
+        dialougeSpeed = 1;
+        printf("Dialouge is instant\n");
+    }
     else if (choice == 't') { // SEE ENEMY HEALTH
         system("cls");
         trueSight = 1;
@@ -335,6 +347,7 @@ int options() {
         printf("> DEBUG HELP MENU <\n");
         printf("╔══════════════════════════════════╗\n");
         printf("║                                  ║\n");
+        printf("║  [ s ] > Speed up all dialouge   ║\n");
         printf("║  [ t ] > Enable seeing enemy HP  ║\n");
         printf("║  [ u ] > Increase health to 999  ║\n");
         printf("║  [ v ] > Increase damage to 999  ║\n");
@@ -433,7 +446,7 @@ int main(void) {
         encounter(tutorial, 1, 1, -1);
         system("cls");
         printf("You look to your right and find a record of some kind...\n");
-        loreTablet("Your creators welcome you to the Kingdom of NAMEOFTHEKINGDOM, Paladin.\n\n- Astra.                                                 - Kyra.");
+        loreTablet("Your creators welcome you to the Kingdom of Aureveil, Paladin.\n\n- Astra.                                                 - Kyra.");
         specialPrintf("\nThose names resonate with something within you...\n");
         specialPrintf("\nYou leave the cave you woke up in and start heading towards the smoke in the distance...\n");
         pressEnter();
@@ -523,6 +536,7 @@ int main(void) {
                     continue;
                 }
                 location = 2;
+                unlockedAreas++;
                 pressEnter();
             }
              
@@ -581,23 +595,26 @@ int main(void) {
     }
     while (storyProgress == 4) { // Plains Dungeon [good route]
         int navigataionChoice = options();
-        int openedDoor = 0;
+        static int openedDoor = 0;
+        static int defeatedLich = 0;
         if (navigataionChoice == 1){
-            specialPrintf("You walk with the group, guiding them silently using the map's guidelines.\n");
-            specialPrintf("The adventurers help you fend off monsters along the way.\n");
-            specialPrintf("At the end of the journey, you find yourselves outside of an ancient temple...\n");
-            specialPrintf("You hear the shrieks of monsters inside...");
-            specialPrintf("Are you ready to venture inside?\n\n");
-            int speak = dialouge();
-            if (speak == 1){
-                dialougeBox("Swordmaster Lorel", GOLD, "LOREL_5");
-                dialougeBox("Rouge Reric", ORANGE, "RERIC_3");
-                dialougeBox("Mage Sypha", LILAC, "SYPHA_4");
-                system("cls");
-                startQuest4++;
-            }
-            else if (speak == 2){
-                printf("The group looks at you expectantly...\n");
+            if (startQuest4 == 0) {
+                specialPrintf("You walk with the group, guiding them silently using the map's guidelines.\n");
+                specialPrintf("The adventurers help you fend off monsters along the way.\n");
+                specialPrintf("At the end of the journey, you find yourselves outside of an ancient temple...\n");
+                specialPrintf("You hear the shrieks of monsters inside...\n");
+                specialPrintf("Are you ready to venture inside?\n\n");
+                int speak = dialouge();
+                if (speak == 1){
+                    dialougeBox("Swordmaster Lorel", GOLD, "LOREL_5");
+                    dialougeBox("Rouge Reric", ORANGE, "RERIC_3");
+                    dialougeBox("Mage Sypha", LILAC, "SYPHA_4");
+                    system("cls");
+                    startQuest4++;
+                }
+                else if (speak == 2){
+                    printf("The group looks at you expectantly...\n");
+                }
             }
             if (startQuest4 != 0){
                 if (openedDoor == 0) {
@@ -615,10 +632,61 @@ int main(void) {
                     dialougeBox("Mage Sypha", LILAC, "SYPHA_6");
                     dialougeBox("Swordmaster Lorel", GOLD, "LOREL_7");
                     dialougeBox("Rouge Reric", ORANGE, "RERIC_5");
-                    pressEnter();
                 }
                 else {
                     specialPrintf("The door did not accept your answers.\n");
+                }
+                if(openedDoor != 0) {
+                    if (defeatedLich == 0) {
+                        specialPrintf("The four of you continue to walk towards where the screaming came from...\n");
+                        specialPrintf("You find a seemingly empty room, and you all walk inside.\n");
+                        specialPrintf("Suddenly, the door behind you slams shut, and hordes of dark monsters flood the room.\n");
+                        specialPrintf("The four of you prepare for battle, yet the mosnters stay still.\n");
+                        specialPrintf("As if they were waiting for a command...\n");
+                        specialPrintf("Everything is made clear when a dark pool of liquid solidifies into the shape.\n");
+                        specialPrintf("Of a grey skinned demonic mage.\n");
+                        pressEnter();
+                        dialougeBox("Mage Sypha", LILAC, "SYPHA_7");
+                        dialougeBox("The Lich", GREEN, "LICH_1");
+                        dialougeBox("Swordmaster Lorel", GOLD, "LOREL_8");
+                        dialougeBox("Racher the Lich", GREEN, "LICH_2");
+                        dialougeBox("Racher the Lich", GREEN, "LICH_3");
+                        dialougeBox("Racher the Lich", GREEN, "LICH_4");
+                        dialougeBox("Swordmaster Lorel", GOLD, "LOREL_9");
+                        dialougeBox("Rouge Reric", ORANGE, "RERIC_6");
+                        dialougeBox("Mage Sypha", LILAC, "SYPHA_8");
+                        dialougeBox("Racher the Lich", GREEN, "LICH_5");
+                        specialPrintf("The group stares at you with astonishment, but their shock is interrupted.\n");
+                        specialPrintf("The hordes of monsters that filled the room suddenly snap awake.\n");
+                        specialPrintf("The group starts attacking them, but they can't let up to attack Racher.\n");
+                        specialPrintf("It is up to you to kill the Lich before he escapes. Prepare yourself.\n");
+                        pressEnter();
+                        if (bossFight(lichBoss) == 1) {
+                            trueSight = 1;
+                            dialougeBox("Racher the Lich", GREEN, "LICH_6");
+                            specialPrintf("You defeated The Lich!\n\n");
+                            specialPrintf("You absorb the power of True Sight...\n");
+                            specialPrintf("You shall know the true health of all monsters you encounter...\n");
+                            questRewards(quest4Rewards, 2, 50);
+                            defeatedLich++;
+                            pressEnter();
+                        }
+                        else {
+                            printf("You were killed by The Lich!\n");
+                        }
+                    }
+                    if (defeatedLich == 1) {
+                        specialPrintf("With the death of the Lich, the temple began to crumble.\n");
+                        specialPrintf("You the group run to the exit, making it just in time to watch the monsters.\n");
+                        specialPrintf("from the temple burn in the sunlight.\n");
+                        specialPrintf("The adventurers turn to look at you, stunned.\n");
+                        pressEnter();
+                        dialougeBox("Swordmaster Lorel", GOLD, "LOREL_10");
+                        dialougeBox("Mage Sypha", LILAC, "SYPHA_9");
+                        dialougeBox("Rouge Reric", ORANGE, "RERIC_7");
+                        dialougeBox("Swordmaster Lorel", GOLD, "LOREL_11");
+                        storyProgress = 6;
+                    }
                 }
                 pressEnter();
             }
@@ -673,6 +741,18 @@ int main(void) {
             }
              
         }
+    }
+    while (storyProgress == 6) { // End for now
+        printf("               ╔══════════════════════════════════════════════╗\n");
+        printf("               ║                                              ║\n");
+        printf("               ║              END OF CHAPTER ONE              ║\n");
+        printf("               ║                                              ║\n");
+        printf("               ║             ||||||||||||||||||||             ║\n");
+        printf("               ║                                              ║\n");
+        printf("               ╚══════════════════════════════════════════════╝\n\n");
+        Sleep(2000);
+        specialPrintf("                         to be continued...\n");
+        Sleep(5000);
     }
     return 0;
 }
@@ -777,7 +857,7 @@ void giveItem() {
 }
 
 void Travel() {
-    printf("              [ MAP OF NAMEOFKINGDOM ]\n");
+    printf("              [ MAP OF Aureveil ]\n");
     printf("╔══════════════════════════════════════════════════╗\n");
     printf("║                    __.--._        .---,          ║\n");
     printf("║                 _.'       \\:.,   ;     ;         ║\n");
@@ -806,7 +886,9 @@ void Travel() {
     printf("═══════════════════════════════════════\n");
     for(int i = 0; i < sizeof(availableLocations)/sizeof(availableLocations[0]); i++)
         {
-            printf("[%d] %s\n",(i+1), availableLocations[i]);
+            if (i <= unlockedAreas) {
+                printf("[%d] %s\n",(i+1), availableLocations[i]);
+            }     
         }
     printf("═══════════════════════════════════════\n");
     printf("╔═════════════════════════════════════╗\n");

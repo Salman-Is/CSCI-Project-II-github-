@@ -159,7 +159,7 @@ int puzzleDoor(char* correct[]) {
     printf("       ║  ═══   ══   ║\n");
     printf("       ╚═════════════╝\n\n");
     char answer[4][99];
-    printf("%sWhat are the answers? (3 symbols)%s\n\n", GREEN, NORMAL);
+    printf("%sWhat are the answers? (3 symbols) (NO SPACES)%s\n\n", GREEN, NORMAL);
 
     char answers[4][99];
     for (int i = 0; i < 3; i++) {
@@ -636,7 +636,12 @@ void dialougeBox(char* name, char* color, char* tag){
 
         printf("╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
 
-        Sleep(1200);
+        if (dialougeSpeed == 0) {
+            Sleep(1200);
+        }
+        else {
+            Sleep(0);
+        }
     }
 
     pressEnter();

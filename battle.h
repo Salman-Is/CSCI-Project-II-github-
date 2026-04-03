@@ -24,6 +24,7 @@ void weaponUpgrade(char weaponName[], int weaponDamage);
 void grantKarma(int addOrSubtract, int amount, char message[]);
 void encounter(Monster area[], int count, int tutorial, int special);
 int questGauntlet(Monster area[], int count, char groupName[], char locationName[]);
+int bossFight(Monster boss);
 
 void fireArrow(int* enemyHP);
 

@@ -33,6 +33,7 @@ extern Item goldSword;
 extern Item knightSword;
 extern Item grassBlade;
 extern Item flameBlade;
+extern Item staffOfRemnant;
 extern Item ancientSword;
  
  // Bows ------------------------------------------------------------------
@@ -63,6 +64,7 @@ extern Item nimoraWing;
 extern Item trollLeather;
 extern Item fossilizedMoss;
 extern Item greatAntlers;
+extern Item lichPhial;
  
 extern Item shellShard;
 extern Item venomVial;

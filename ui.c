@@ -19,17 +19,18 @@ char currentLoc[32] = "Forest";
 Item ironSword = {"Iron Sword", "A basic, chipped sword found in a cave.", "Weapon", "Sword", WHITE, 5, NONE};
 Item steelSword = {"Steel Sword", "A sturdy bow forged with iron and carbon.", "Weapon", "Sword", WHITE, 6, NONE};
 Item goldSword = {"Gold Sword", "A heavy, oriental sword unfit for battle, though it still works.", "Weapon", "Sword", GREEN, 8, NONE};
-Item knightSword = {"Knight Sword", "The offical sword used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Sword", GREEN, 8, BLEED};
+Item knightSword = {"Knight Sword", "The offical sword used by Knights of Aureveil.", "Weapon", "Sword", GREEN, 8, BLEED};
 Item grassBlade = {"Grass Blade", "A strange sword enchanted with natural magic.", "Weapon", "Sword", GREEN, 10, POISON};
 Item flameBlade = {"Grass Blade", "An enchanted sword, lit ablaze.", "Weapon", "Sword", GREEN, 11, BURN};
 Item ancientSword = {"Ancient Sword", "A strange sword enchanted with ancient magic.", "Weapon", "Sword", PURPLE, 19, FEAR};
+Item staffOfRemnant = {"Staff of Kyra's Remnant", "A cursed blade created by Racher the Lich", "Weapon", "Sword", CYAN, 12, FEAR};
 
-Item ultraSword = {"Ultra Sword", "An OP sword used for testing and nothing else", "Weapon", "Sword", RED, 999};
+Item ultraSword = {"Ultra Sword", "An OP sword used for testing and nothing else", "Weapon", "Sword", RED, 999, FEAR};
 
 // Bows ------------------------------------------------------------------
 Item woodenBow = {"Wooden Bow", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4, NONE};
 Item steelBow = {"Steel Bow", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5};
-Item knightBow = {"Knight Bow", "The offical bow used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Bow", GREEN, 6, BLEED};
+Item knightBow = {"Knight Bow", "The offical bow used by Knights of Aureveil.", "Weapon", "Bow", GREEN, 6, BLEED};
 Item rimegrassBow = {"Rimegrass Bow", "A strange bow enchanted with natural magic.", "Weapon", "Bow", GREEN, 6, POISON};
 Item flameBow = {"Flame Bow", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7, BURN};
 Item frostBow = {"Frost Bow", "An enchanted bow that freezes the air around an arrow", "Weapon", "Bow", GREEN, 7, FROZEN};
@@ -41,7 +42,7 @@ Item ultraBow = {"Ultra Bow", "An OP bow used for testing and nothing else", "We
 // hp starts at 25, the number next to the name is how much it adds to your health, and the int at the end is your health after addition
 Item chainArmor = {"Chain Armor", "A flimsy set of armor found in a cave.", "Armor", "Armor", WHITE, 25};
 Item steelArmor = {"Steel Armor", "A set of armor forged with iron and carbon.", "Armor", "Armor", WHITE, 27};
-Item knightArmor = {"Knight Armor", "The offical set of armor used by Knights of NAMEOFTHEKINGDOM.", "Armor", "Armor", GREEN, 29};
+Item knightArmor = {"Knight Armor", "The offical set of armor used by Knights of Aureveil.", "Armor", "Armor", GREEN, 29};
 Item swordmasterArmor = {"Swordmaster Armor", "A set of armor forged by the famous Swordmaster Lorel.", "Armor", "Armor", GREEN, 32};
 
 Item ultraArmor = {"Ultra Armor", "An OP set of armor used for testing and nothing else", "Armor", "Armor", RED, 999};
@@ -58,6 +59,7 @@ Item nimoraWing = {"Nimora Wing", "The fragile wing of a Lumora", "Drop", "NULL"
 Item trollLeather = {"Troll Leather", "Leather that has been hardened by Troll engineering", "Drop", "NULL", WHITE, 0};
 Item fossilizedMoss = {"Fossilized Moss", "Hardened moss from the back of an ancient creature", "Drop", "NULL", GREEN, 0};
 Item greatAntlers = {"Great Antlers", "Proof you took down a Great Stag", "Drop", "NULL", WHITE, 0};
+Item lichPhial = {"Lich's Phial", "Proof you took down a Great Stag", "Drop", "NULL", WHITE, 0};
 
 Item shellShard = {"Shell Shard", "A sturdy shard of a Mega Turtle that is the base of Tide Armor", "Drop", "NULL", WHITE, 0};
 Item venomVial = {"Venom Vial", "A drop of venom collected from a Lake Serpent", "Drop", "NULL", WHITE, 0};
@@ -319,7 +321,12 @@ void specialPrintf(char *text) {
         printf("%c", text[i]);
         fflush(stdout);
     if (text[i] != ' ')
-        Sleep(15);
+        if (dialougeSpeed == 0) {
+            Sleep(12);
+        }
+        else {
+            Sleep(0);
+        }
     }
 }
 

@@ -33,6 +33,7 @@ extern int maxPlayerTurnDamage; // Arrow Damage (direct attacks) <-- from choosi
 extern int coins;
 
 extern int trueSight;
+extern int dialougeSpeed;
 
 extern char playerAlignment[];
 

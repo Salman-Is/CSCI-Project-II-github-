@@ -117,6 +117,83 @@ Let's not keep it waiting.
 The screaming stopped... The wretched thing that made those sounds is aware of our presence.
 Don't fall behind, traveller. A great fight awaits. 
 
+[SPYHA_7]
+That figure, only one being is capable of commanding such things...
+A mage of the undead, a Lich.
+
+[LICH_1]
+Oh. Oh, how wonderful. After all this time... visitors.
+Do you know how long I have sat in this dark? Counting the cracks in the stone.
+Listening to the silence rot.
+And then you arrived. Found this wretched temple. Solved that puzzle. Opened my door.
+The seal that protected Aureveil has now fallen. Racher the Lich has risen once again.
+
+[LOREL_8]
+Racher... You're the Lich that served Kyra...
+
+[LICH_2]
+I served Kyra once. Faithfully. Completely. I gave her everything.
+My name. My life. What remained of my soul.
+And when Astra's forces closed in on this temple... Kyra left.
+No warning. No command. No farewell. She simply... was no longer there.
+And Astra sealed that door behind you.
+
+[LICH_3]
+I have spent an eternity deciding who I hate more.
+Astra, who imprisoned me in this darkness
+Just stone and silence and her light retreating down the corridor.
+Or Kyra, who spent a thousand years weaving grand sermons about loyalty and devotion and purpose...
+and abandoned the greatest among them, who had the misfortune of needing her.
+I have not reached a conclusion, so I settled for hating them both.
+
+[LICH_4]
+And now, all of Aureveil will pay for the crime's of it's architects. 
+A fitting end, don't you think?
+
+[LOREL_9]
+I think not, Lich. You won't leave this temple. To underestimate us will beyour final mistake. 
+I will not be the reason Aureveil falls.
+
+[RERIC_6]
+Indeed. We did not come all this way to be accessories to your escape.
+
+[SYPHA_8]
+The seal can be restored, I felt its architecture when it fractured.
+I understand its construction now, as much as whoever first raised it.
+You made a profound miscalculation letting us through that door.
+Your imprisonment will continue.
+
+[LICH_5]
+Such conviction from you three mortals. Charming, really. You have made my escape entertaining.
+But you, the fourth, I recognize that form. I witnessed you eons ago, unmoving, forged of divine steel.
+They spoke of you, warrior. The Paladin, the Vessel of Fate. 
+Born of the two beings whose names I have been cursing for longer than your civilization has existed.
+Now, you will die, along with the mortal you have brought with you.
+
+[LICH_6]
+ARRRHAGHGHH! ONE THOUSAND YEARS I WAITED! HOW COULD THIS HAPPEN!
+
+[LOREL_10]
+I knew there was something different about you. From the moment we met.
+I'm glad we brought you along. Had we asked a simple historian to decipher the map, we would have been
+utterly outmatched. I doubt we could have contained the Lich alone.
+
+[SYPHA_9]
+The magic I felt when that seal broke... it wasn't the temple reacting to the answers.
+It was reacting to you. It recognized something in that magic that I couldn't name.
+I owe you an apology. For every moment I doubted. I don't give those lightly.
+
+[RERIC_7]
+What the lich said... about Astra and Kyra, I suppose they created you to resolve their differences...
+I have seen that pattern before. In smaller men with smaller ambitions, moving pieces across the board.
+It never ends well for the pawn. I am not telling you to run from what you are.
+I am telling you to be careful, of those whose idea of destiny you decide to carry. That is all.
+
+[LOREL_11]
+I suppose this is where we part ways, traveller. You have a mission. 
+I'm not sure exactly what it is, but I don't think I want to know.
+Stay safe out there, Paladin.
+
 [END OF THE FILE]
 This is the end of the file. We needed that tag there because otherwise it might not
 know when to stop. Maybe it wasn't necessary idk i never checked
