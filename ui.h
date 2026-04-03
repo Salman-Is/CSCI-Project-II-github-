@@ -12,6 +12,7 @@ void statsPage();
 void healthBar(int currentHP, int maxHP, char* isEnemy);
 char* areaColor();
 char* changeColor(StatusType status);
+void specialPrintf(char *text);
 
 
 // typedef struct Item_struct{
@@ -31,6 +32,7 @@ extern Item steelSword;
 extern Item goldSword;
 extern Item knightSword;
 extern Item grassBlade;
+extern Item flameBlade;
 extern Item ancientSword;
  
  // Bows ------------------------------------------------------------------
@@ -39,6 +41,7 @@ extern Item steelBow;
 extern Item knightBow;
 extern Item rimegrassBow;
 extern Item flameBow;
+extern Item frostBow;
 extern Item ancientBow;
 
  // Armor ------------------------------------------------------------------

@@ -44,7 +44,7 @@ void Travel();
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
 int storyProgress = -1;
-int maxStoryProgress = 32;
+int maxStoryProgress = 25;
 int location = 1; // 1=forest, 2=plains, 3=lake 
 int saveLocation = 1;
 int isTravelling = 0; // 1 when travelling, 0 when not
@@ -61,7 +61,6 @@ char currentEnemyDrop[32] = "";
 int karma = 50;
 int maxTurnDamage = 5;  // Sword Damage (counterattacks) <-- from correct pattern
 int maxPlayerTurnDamage = 4; // Arrow Damage (direct attacks) <-- from choosing to fire arrow
-// int playerMaxHP = 25;
 int coins = 0;
 
 int trueSight = 0;
@@ -90,12 +89,12 @@ Item* quest2RewardsEVIL[]  = { &knightSword, &knightArmor, &berzerkerPotion, &be
 
 // Plains Map quest
 Item* quest3RewardsGOOD[] = { &ancientMap };
-Item* quest3RewardsEVIL[]  = { &ancientMap, &swordmasterArmor };
+Item* quest3RewardsEVIL[]  = { &ancientMap, &swordmasterArmor, &flameBlade, &frostBow };
 
 /* ================= AREA/LOCATION NAMES ================= */
 char availableLocations[6][32] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", 
 "The Crystal Caves", "The Celestial Mountains", "Acention"};
-char progressKey[32][32] = {"Forest Village", "Outpost", "Plains Map"};
+char progressKey[32][32] = {"Forest Village", "Outpost", "Plains Map", "Verdent Temple (GOOD)", "Verdent Temple (EVIL)"};
 
 /* ================= MONSTERS/ENEMIES ================= */
 
@@ -106,11 +105,11 @@ Monster forest[] = {
     {"Lumora", 1, 3, 10, 3, GOOD, "Lumora Wing", NONE},       // Easy, 3-letter pattern 
     {"Deer", 1, 5, 20, 4, GOOD, "Leather", NONE},       // Easy, 5-letter pattern
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth", NONE},       // Easy, 5-letter pattern
-    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale", NONE}};
+    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale", BURN}};
 Monster quest1GOOD[] = { // help village
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth", NONE},
     {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth", NONE}, 
-    {"Groblin Shaman", 3, 5, 40, 7, EVIL, "Groblin Staff", NONE},   
+    {"Groblin Shaman", 3, 5, 40, 7, EVIL, "Groblin Staff", POISON},   
     {"Groblin Chief", 3, 5, 35, 10, EVIL, "Groblin Tusk", NONE}};
 Monster quest1EVIL[] = { // pillage village
     {"Adventurer 'Kalen'", 1, 5, 15, 5, GOOD, "Leather", NONE},
@@ -134,7 +133,7 @@ Monster plains[] = {
     {"Nimora", 1, 5, 10, 3, EVIL, "Nimora Wing", NONE},
     {"Grass Troll", 2, 5, 30, 5, EVIL, "Troll Leather", NONE},
     {"Mossback", 1, 8, 50, 3, GOOD, "Fossilized Moss", NONE},
-    {"Great Stag", 2, 8, 35, 6, GOOD, "Antlers", NONE}};
+    {"Great Stag", 2, 8, 35, 6, GOOD, "Antlers", FEAR}};
 Monster quest3EVIL[] = { // attack adventurers
     {"Swordmaster 'Lorel'", 4, 6, 35, 10, GOOD, "Berzerker Potion", BLEED},
     {"Rouge 'Reric'", 4, 5, 20, 35, GOOD, "Broken Dagger", BURN}, 
@@ -146,13 +145,13 @@ Monster lake[] = {
     {"Kraken", 3, 5, 35, 10, EVIL, "Kraken Tentacle", FEAR},
     {"Ripplet", 2, 5, 15, 5, GOOD, "Shiny Scale", FROZEN},
     {"Glowfin", 3, 5, 15, 7, EVIL, "Luminous Scale", NONE},
-    {"Oozard", 4, 5, 15, 8, EVIL, "Gelatinous Mass", NONE}};
+    {"Oozard", 4, 5, 15, 8, EVIL, "Gelatinous Mass", FROZEN}};
 
 // Cave enemy groups
 Monster caves[] = {
     {"Cursed Bat", 2, 5, 15, 5, EVIL, "Echo Fang", BLEED},
     {"Crystal Snake", 2, 4, 25, 6, EVIL, "Crystal Venom", POISON},
-    {"Shardling", 2, 4, 25, 6, GOOD, "Quartz Shard", NONE},
+    {"Shardling", 2, 4, 25, 6, GOOD, "Quartz Shard", FROZEN},
     {"Shifter Fox", 3, 5, 15, 5, EVIL, "Mirror Cloak", NONE},
     {"Stone Spider", 3, 5, 35, 6, EVIL, "Mineral Silk", NONE},
     {"Ancient Automaton", 4, 4, 45, 9, GOOD, "Gear Charge", FEAR}};
@@ -224,15 +223,7 @@ int options() {
         return 2;
     }
     else if (choice == '3') { // ENCOUNTER
-        switch(location){
-            case 1: encounter(forest, FOREST_COUNT, 0, -1); break;
-            case 2: encounter(plains, PLAINS_COUNT, 0, -1); break;
-            case 3: encounter(lake, LAKE_COUNT, 0, -1); break;
-            case 4: encounter(caves, CAVES_COUNT, 0, -1); break;
-            case 5: encounter(mountains, MOUNTAINS_COUNT, 0, -1); break;
-            case 6: encounter(final, FINAL_COUNT, 0, -1); break;
-            default: printf("No monsters here.\n");
-        }
+        randomEncounter();
         system("cls");
         return 3;
     }
@@ -430,10 +421,10 @@ int main(void) {
     while (storyProgress == 0) { // Tutorial
         system("cls");
         printf("══════════════════════════════════════════════════════════════════════════════════════════════════════════════\n");
-        printf("                     You wake up in the middle of a cave. It's dark, and you're alone.                        \n");
-        printf("          You didn't exist until now, and yet you are filled with purpose. You know what you must do.         \n");
-        printf("     You were created for a single purpose. You must make it to the Celestial Mountains to reach Acention...\n\n");
-        printf("                           There, YOU, will decide the fate of this world.                                    \n");
+        specialPrintf("                     You wake up in the middle of a cave. It's dark, and you're alone.                        \n");
+        specialPrintf("          You didn't exist until now, and yet you are filled with purpose. You know what you must do.         \n");
+        specialPrintf("     You were created for a single purpose. You must make it to the Celestial Mountains to reach Acention...\n\n");
+        specialPrintf("                           There, YOU, will decide the fate of this world.                                    \n");
         printf("══════════════════════════════════════════════════════════════════════════════════════════════════════════════\n");
         pressEnter();
         system("cls");
@@ -443,8 +434,8 @@ int main(void) {
         system("cls");
         printf("You look to your right and find a record of some kind...\n");
         loreTablet("Your creators welcome you to the Kingdom of NAMEOFTHEKINGDOM, Paladin.\n\n- Astra.                                                 - Kyra.");
-        printf("\nThose names resonate with something within you...\n");
-        printf("\nYou leave the cave you woke up in and start heading towards the smoke in the distance...\n");
+        specialPrintf("\nThose names resonate with something within you...\n");
+        specialPrintf("\nYou leave the cave you woke up in and start heading towards the smoke in the distance...\n");
         pressEnter();
         system("cls");
         storyProgress = 1;
@@ -452,9 +443,9 @@ int main(void) {
     while (storyProgress == 1) { // Forest Village
         int navigataionChoice = options();
         if (navigataionChoice == 1){
-            printf("Deep within the forest, you find a small village.\n");
-            printf("Though it was quite humble, it looks as if its been damaged.\n");
-            printf("You see a resident nearby, would you like to speak to them?\n\n");
+            specialPrintf("Deep within the forest, you find a small village.\n");
+            specialPrintf("Though it was quite humble, it looks as if its been damaged.\n");
+            specialPrintf("You see a resident nearby, would you like to speak to them?\n\n");
             int speak = dialouge(); // < events.c
             if (speak == 1){
                 system("cls"); // this character comes back stronger later if you choose evil
@@ -497,10 +488,10 @@ int main(void) {
     while (storyProgress == 2) { // Knight Outpost
         int navigataionChoice = options();
         if (navigataionChoice == 1){
-            printf("After walking through the forest, you stumble upon a Knight's Outpost...\n");
-            printf("Behind them is the gate to the %sVerdent Plains%s, a vibrant pasture filled with rare monsters...\n", LIME, NORMAL);
-            printf("The Knights look at you as you walk up to one of them.\n");
-            printf("Only a Knight can give someone access to the Verdent Plains. Would you like to speak to them?\n\n");
+            specialPrintf("After walking through the forest, you stumble upon a Knight's Outpost...\n");
+            specialPrintf("Behind them is the gate to the Verdent Plains, a vibrant pasture filled with rare monsters...\n");
+            specialPrintf("The Knights look at you as you walk up to one of them.\n");
+            specialPrintf("Only a Knight can give someone access to the Verdent Plains. Would you like to speak to them?\n\n");
             int speak = dialouge();
             if (speak == 1){
                 system("cls");
@@ -540,10 +531,10 @@ int main(void) {
     while (storyProgress == 3) { // Plains Map
         int navigataionChoice = options();
         if (navigataionChoice == 1){
-            printf("Walking through the gates to the %sVerdent Plains%s presents you with a glorious sight.\n", LIME, NORMAL);
-            printf("Before you is a beautiful landscape, with beasts lumbering around wildy.\n");
-            printf("You begin to walk around, enjoying the sights, when you stumble across a group of adventurers.\n");
-            printf("They look quite powerful, and they are holding an interesting map... Would you like to speak to them?\n\n");
+            specialPrintf("Walking through the gates to the Verdent Plains presents you with a glorious sight.\n");
+            specialPrintf("Before you is a beautiful landscape, with beasts lumbering around wildy.\n");
+            specialPrintf("You begin to walk around, enjoying the sights, when you stumble across a group of adventurers.\n");
+            specialPrintf("They look quite powerful, and they are holding an interesting map... Would you like to speak to them?\n\n");
             int speak = dialouge();
             if (speak == 1){
                 system("cls");
@@ -556,9 +547,9 @@ int main(void) {
                 printf("The group continues walking...\n");
             }
             if (startQuest3 != 0){
-                printf("You look at the map, and you recognize the language.\n");
-                printf("It's the same one as the record tablet you found in that cave...\n");
-                char* questhoice = questAlignment("Assist the adventurers", "Strike them down for the map");
+                specialPrintf("You look at the map, and you recognize the language.\n");
+                specialPrintf("It's the same script as the record tablet you found in that cave...\n");
+                char* questhoice = questAlignment("Assist the adventurers", "Strike them down for their loot");
                 if (strcmp(questhoice, "GOOD") == 0){
                     printf("You silently nod.\n");
                     pressEnter();
@@ -568,13 +559,15 @@ int main(void) {
                     dialougeBox("Swordmaster Lorel", GOLD, "LOREL_4");
                     dialougeBox("Mage Sypha", LILAC, "SYPHA_3");
                     dialougeBox("Rouge Reric", ORANGE, "RERIC_2");
+                    questRewards(quest3RewardsGOOD, 1, 0);
+                    storyProgress++;
                 }
                 else if (strcmp(questhoice, "EVIL") == 0){
                     if (questGauntlet(quest3EVIL, 4, "Adventurer", "the group") == 1) {
                         printf("You defeated every adventurer...\n");
                         printf("They were no match for you.\n");
-                        printf("You take their map and head off to find it's treasure.\n");
-                        questRewards(quest2RewardsEVIL, 4, 50);
+                        printf("You take their valuables and their map, and head off to find it's treasure.\n");
+                        questRewards(quest3RewardsEVIL, 4, 50);
                         storyProgress++;
                     }
                 }
@@ -588,32 +581,44 @@ int main(void) {
     }
     while (storyProgress == 4) { // Plains Dungeon [good route]
         int navigataionChoice = options();
+        int openedDoor = 0;
         if (navigataionChoice == 1){
-            printf("");
+            specialPrintf("You walk with the group, guiding them silently using the map's guidelines.\n");
+            specialPrintf("The adventurers help you fend off monsters along the way.\n");
+            specialPrintf("At the end of the journey, you find yourselves outside of an ancient temple...\n");
+            specialPrintf("You hear the shrieks of monsters inside...");
+            specialPrintf("Are you ready to venture inside?\n\n");
             int speak = dialouge();
             if (speak == 1){
+                dialougeBox("Swordmaster Lorel", GOLD, "LOREL_5");
+                dialougeBox("Rouge Reric", ORANGE, "RERIC_3");
+                dialougeBox("Mage Sypha", LILAC, "SYPHA_4");
                 system("cls");
-                
+                startQuest4++;
             }
             else if (speak == 2){
-                printf("The group continues walking...\n");
+                printf("The group looks at you expectantly...\n");
             }
-            if (startQuest3 != 0){
-                printf("You look at the map, and you recognize the language.\n");
-                printf("It's the same one as the record tablet you found in that cave...\n");
-                char* questhoice = questAlignment("Assist the adventurers", "Strike them down for the map");
-                if (strcmp(questhoice, "GOOD") == 0){
-                    printf("You silently nod.\n");
+            if (startQuest4 != 0){
+                if (openedDoor == 0) {
+                    specialPrintf("The four of you walk into the temple, carefully watching each other's backs.\n");
+                    specialPrintf("You come across a strange door, with 3 seals.\n");
+                    specialPrintf("You find 3 cooresponding murals on the wall...\n");
+                    pressEnter();
+                    dialougeBox("Swordmaster Lorel", GOLD, "LOREL_6");
+                    dialougeBox("Rouge Reric", ORANGE, "RERIC_4");
+                    dialougeBox("Mage Sypha", LILAC, "SYPHA_5");
+                }
+                char* correct[] = {"moon", "sun", "star"};
+                if (puzzleDoor(correct) == 1) {
+                    openedDoor = 1;
+                    dialougeBox("Mage Sypha", LILAC, "SYPHA_6");
+                    dialougeBox("Swordmaster Lorel", GOLD, "LOREL_7");
+                    dialougeBox("Rouge Reric", ORANGE, "RERIC_5");
                     pressEnter();
                 }
-                else if (strcmp(questhoice, "EVIL") == 0){
-                    if (questGauntlet(quest3EVIL, 4, "Adventurer", "the group") == 1) {
-                        questRewards(quest2RewardsEVIL, 4, 50);
-                        storyProgress++;
-                    }
-                }
                 else {
-                    continue;
+                    specialPrintf("The door did not accept your answers.\n");
                 }
                 pressEnter();
             }
@@ -679,9 +684,11 @@ int main(void) {
 // Technically I did change it up a bit but it's basically the same
 void pressEnter() {
     int enter;
+    fflush(stdout);
     printf("\n▷ Press Enter to Continue");
-    while ((enter = getchar()) != '\n');
+    while ((enter = getchar()) != '\n' && enter != EOF);
     getchar();
+    system("cls");
 }
 
 void playerAl() {
@@ -700,6 +707,18 @@ void playerAl() {
         strcpy(playerAlignment, "GOOD");
         printf("%sYou feel a surge of righteousness fill your heart.%s\n", CYAN, NORMAL);
         printf("The spirits sing your name with reversence.\n\n");
+    }
+}
+
+void randomEncounter() {
+    switch(location){
+        case 1: encounter(forest, FOREST_COUNT, 0, -1); break;
+        case 2: encounter(plains, PLAINS_COUNT, 0, -1); break;
+        case 3: encounter(lake, LAKE_COUNT, 0, -1); break;
+        case 4: encounter(caves, CAVES_COUNT, 0, -1); break;
+        case 5: encounter(mountains, MOUNTAINS_COUNT, 0, -1); break;
+        case 6: encounter(final, FINAL_COUNT, 0, -1); break;
+        default: printf("No monsters here.\n");
     }
 }
 
@@ -794,3 +813,4 @@ void Travel() {
     printf("[0] | < Return to story               ║\n");           				 
     printf("╚═════════════════════════════════════╝\n\n");
 }
+

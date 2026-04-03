@@ -329,7 +329,6 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                     playerTurn = 1;
                     continue;
                 }
-                int hasApplied = 0;
                 // RAGE mechanic (EVIL exclusive ability)
                 if((enemyHP < enemyMaxHP / 2) && currentEnemyALIGNMENT == EVIL){
                     printf("\nThe enemy is filled with %sRage%s...\n", RED, NORMAL);
@@ -417,35 +416,40 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
 
                 damageToPlayer = modifyDamage(damageToPlayer, enemyStatus);
                 damageToEnemy = modifyDamage(damageToEnemy, playerStatus);
-
+                printf("You counter the attack with your %s%s%s%s%s...\n", currentSword.color, BOLD, currentSword, UNBOLD, NORMAL);
+                Sleep(1500);
                 // perfect counter system
                 if (correct == patternLength){
-                    printf("You counter the attack with your %s%s%s%s%s...\n", BLUE, BOLD, currentSword, UNBOLD, NORMAL);
-                    Sleep(1500);
                     printf("%sPERFECT COUNTER!%s\n", BLUE, NORMAL);
                     damageToEnemy = (damageToEnemy*critDamage) + 2;
+                    if (currentSword.status != NONE){
+                        int random = rand() % 100;
+                        if (random < 25 && enemyStatus != NONE) {
+                            applyStatus(&enemyStatus, currentSword.status);
+                            printf("\nYou afflicted the %s with %s%s%s!\n", enemyName, changeColor(currentSword.status), statusText(currentSword.status), NORMAL);
+                        } 
+                    }         
                 }
                 enemyHP -= damageToEnemy;
                 playerHP -= damageToPlayer;
                 if (correct != patternLength) {
+                    // I THINk this works. Calculation should increase chance of status applying the more letters you got wrong
                     int amountWrong = (patternLength - correct);
                     if (amountWrong > 0 && enemy.status != NONE && playerStatus == NONE && playerHP > 0) {
                         float chance = (float)amountWrong / patternLength;
-                        int roll = rand() % 100;
+                        int random = rand() % 100;
 
-                        if (roll < (chance * 100)) {
+                        if (random < (chance * 100)) {
+                            if (enemy.status != NONE){
                             applyStatus(&playerStatus, enemy.status);
                             printf("\nThe %s has afflicted you with %s%s%s!\n", enemyName, changeColor(enemy.status), statusText(enemy.status), NORMAL);
+                            }
                         }
                     }
                 }
 
                 printf("\nYou dealt %d damage to the %s!\n", damageToEnemy, enemyName);
                 printf("You took %d damage!\n", damageToPlayer);
-
-                if (hasApplied == 1) {
-                    printf("\nThe %s has afflicted you with %s%s%s!", enemyName, changeColor(enemy.status), statusText(enemy.status), NORMAL);
-                }
 
                 // ----------------- Pause -----------------
                 Sleep(3000);  
@@ -492,7 +496,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                 }
                 else if (turnChoice == '3'){
                     system("cls");
-                    if (currentEnemyALIGNMENT == EVIL){
+                    if (currentEnemyALIGNMENT == EVIL && enemyStatus != FEAR){
                         int randomValue = (rand() % 100 + 1);
                         // 40% for the run to work, 60% for it to fail
                         if (randomValue >= 60) {
@@ -560,7 +564,7 @@ void grantKarma(int addOrSubtract, int amount, char message[]) { //subtract = 0,
 }
 
 void addCoins(int amount, char message[]) {
-    if (strcmp(message, "battle") == 0)
+    if (strcmp(message, "battle") == 0 && amount != 0)
     {
         printf("You obtained %d %sCoins%s!\n", amount, YELLOW, NORMAL);
         coins += amount;

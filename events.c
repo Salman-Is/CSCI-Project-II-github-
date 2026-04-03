@@ -145,6 +145,143 @@ void riddle(char message[], char correct[], int *search, Item reward) {
     }
 }
 
+int puzzleDoor(char* correct[]) {
+    printf("       ╔═════════════╗\n");
+    printf("       ║             ║\n");
+    printf("       ║ ╔═╗ ╔═╗ ╔═╗ ║\n");
+    printf("       ║ ╚═╝ ╚═╝ ╚═╝ ║\n");
+    printf("       ║             ║\n");
+    printf("       ║             ║\n");
+    printf("       ║             ║\n");
+    printf("       ║             ║\n");
+    printf("       ║             ║\n");
+    printf("       ╠═════════════╣\n");
+    printf("       ║  ═══   ══   ║\n");
+    printf("       ╚═════════════╝\n\n");
+    char answer[4][99];
+    printf("%sWhat are the answers? (3 symbols)%s\n\n", GREEN, NORMAL);
+
+    char answers[4][99];
+    for (int i = 0; i < 3; i++) {
+        printf("Symbol [ %d ]: ", i + 1);
+        scanf(" %98s", answers[i]);
+        // convert to lowercase
+        for (int j = 0; answers[i][j] != '\0'; j++) {
+            answers[i][j] = tolower(answers[i][j]);
+        }
+    }
+
+    system("cls");
+
+    for (int i = 0; i < 2; i++){
+        printf("       ╔═════════════╗\n");
+        printf("       ║             ║\n");
+        printf("       ║ ╔═╗ ╔═╗ ╔═╗ ║\n");
+        printf("       ║ ╚═╝ ╚═╝ ╚═╝ ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ╠═════════════╣\n");
+        printf("       ║  ═══   ══   ║\n");
+        printf("       ╚═════════════╝\n\n");
+
+        printf("The door ponders your answer...\n");
+
+        Sleep(350);
+
+        printf(RESETCURSOR);
+
+        printf("       ╔═════════════╗\n");
+        printf("       ║ ╔═╗     ╔═╗ ║\n");
+        printf("       ║ ╚═╝ ╔═╗ ╚═╝ ║\n");
+        printf("       ║     ╚═╝     ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ╠═════════════╣\n");
+        printf("       ║  ═══   ══   ║\n");
+        printf("       ╚═════════════╝\n\n");
+
+        printf("The door ponders your answer...\n");
+
+        Sleep(350);
+
+        printf(RESETCURSOR);
+
+        printf("       ╔═════════════╗\n");
+        printf("       ║             ║\n");
+        printf("       ║ ╔═╗     ╔═╗ ║\n");
+        printf("       ║ ╚═╝ ╔═╗ ╚═╝ ║\n");
+        printf("       ║     ╚═╝     ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ╠═════════════╣\n");
+        printf("       ║  ═══   ══   ║\n");
+        printf("       ╚═════════════╝\n\n");
+
+        printf("The door ponders your answer...\n");
+
+        Sleep(350);
+
+        printf(RESETCURSOR);
+
+        printf("       ╔═════════════╗\n");
+        printf("       ║             ║\n");
+        printf("       ║ ╔═╗ ╔═╗ ╔═╗ ║\n");
+        printf("       ║ ╚═╝ ╚═╝ ╚═╝ ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ║             ║\n");
+        printf("       ╠═════════════╣\n");
+        printf("       ║  ═══   ══   ║\n");
+        printf("       ╚═════════════╝\n\n");
+
+        printf("The door ponders your answer...\n");
+
+        Sleep(350);
+
+        printf(RESETCURSOR);
+    }
+
+    system("cls");
+
+    printf("       ╔═════════════╗\n");
+    printf("       ║             ║\n");
+    printf("       ║ ╔═════════╗ ║\n");
+    printf("       ║ ╚═════════╝ ║\n");
+    printf("       ║             ║\n");
+    printf("       ║             ║\n");
+    printf("       ║             ║\n");
+    printf("       ║             ║\n");
+    printf("       ║             ║\n");
+    printf("       ╠═════════════╣\n");
+    printf("       ║  ═══   ══   ║\n");
+    printf("       ╚═════════════╝\n\n");
+
+    for (int i = 0; i < 3; i++) {
+        printf("Answer %d was... ", i + 1);
+        Sleep(1000);
+
+        if (strstr(answers[i], correct[i]) != NULL) {
+            printf(GREEN "correct!\n" NORMAL);
+            Sleep(1000);
+        } else {
+            printf(RED "incorrect.\n" NORMAL);
+            Sleep(1000);
+            return 0;
+        }
+    }
+    return 1;
+}
+
 void chest(char key[], Item item, char chestType[], char chestColor[], int *search) {
     printf("╔══════════════════╗\n");
     printf("╠═════╠══════║═════╣\n");
@@ -275,6 +412,14 @@ void questRewards(Item* rewards[], int count, int money) {
  */
 
 void searchArea() {
+    int chanceofMonster = rand() % 100;
+    if (chanceofMonster < 20){
+        printf("You found a monster!\n");
+        printf("You can't avoid it, prepare for battle...\n");
+        Sleep(2500);
+        randomEncounter();
+    }
+    
     switch (location){ // Apparently the scope of a variable created in 1 case is the entire switch case
     case 1:
         (void)0;    
@@ -417,8 +562,7 @@ int dialouge() {
 
 // https://www.reddit.com/r/C_Programming/comments/7p0deg/aligning_outputs_from_printf_make_the_output_look/
 // hours spent looking for a solution and some guy on reddit had the same problem 8 years ago
-void dialougeBox(char* name, char* color, char* tag)
-{
+void dialougeBox(char* name, char* color, char* tag){
     char fileName[] = "dialouge.txt";
     FILE *file = fopen(fileName, "r");
 

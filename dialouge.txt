@@ -20,7 +20,7 @@ We came upon this curious map, yet its markings elude our understanding.
 Is this language familiar to you?
 
 [SYPHA_1]
-You place too much hope in chance encounters, Lorel.
+You place too much hope in chance encounters, Lorel. Your luck has yet to be reliable.
 Why should he know such a script? Even I cannot make sense of it.
 This is no common cipher, it looks to be from an age long forgotten.
 We should bring it to one who studies such things, if any still do.
@@ -30,12 +30,11 @@ Its irresponsible to show such treasures to strangers.
 ...
 Perhaps.
 However, Sypha, there is no harm in asking.
-Sorry for the trouble, traveller, but if you could glean anything
-from this decrepit map, we would be willing to hear.
+Sorry for the trouble, traveller, but if you could glean anything from this decrepit map 
+we would be willing to hear.
 
 [LOREL_3]
-Ahh... I knew it. Did you see that Sypha?
-I told you it was worth an ask.
+Ahh... I knew it. Did you see that Sypha? I told you it was worth an ask.
 
 [SYPHA_2]
 Very well, very well. It's still strange...
@@ -57,7 +56,7 @@ If you wish to seek glory and treasure, you must take risks.
 We didn't get this far by turning away from potential danger.
 
 [SYPHA_3]
-You’re too willing to trust, Lorel.
+You’re too willing to trust, Lorel, even now.
 We have nothing but a stranger’s word and a map we cannot read.
 But your instincts have yet to fail us. I suppose I can trust for now.
 
@@ -67,6 +66,56 @@ Trust, when given too freely, leads to calamity.
 Still... Though he hasn't earned my trust, I will not oppose this.
 Not yet at least...
 
+[LOREL_5]
+At last... So this is the place the map spoke of.
+I've dreamed of a discovery like this. It seem's as if we are the first to stand before this place.
+The stones are older than any kingdom I know of. Its walls are decorated with runes
+similar to the one's on the map. It's clear that the map and temple are of the same era.
+Whatever rests inside... it has been waiting a long time.
+Come. I did not cross half the Verdent Plains to stand at the threshold.
+
+[RERIC_3]
+Tread carefully, Lorel. Do you not hear the screams of the depraved through these halls?
+A living thing, or... something that remembers being one. It is not something I've heard from a monster...
+Whatever once lived here left something of itself behind.
+
+[SYPHA_4]
+I feel something... a deep, undead mana. 
+Something inside that temple is in pain. Or maybe it wants us to think it is.
+A power that great has no reason to scream. Unless it's been twisted by evil magic...
+I will not tell you to turn back. I know you won't listen.
+But do not touch anything that calls to you, evil magic speaks directly to desire.
+I hope for all our sakes that you are capable in a fight, traveller.
+
+[LOREL_6]
+It seems as if we'll have to decipher these murals in order to open that door.
+This mural seems to depcit a tall, dark tower eclipsing the moon...
+But which one is the answer? The moon, or the tower?
+
+[RERIC_4]
+This mural looks to be a depiction of the Fourth Incursion of Kyra, there are monster's everywhere.
+But it seems as if the sun is burning them, I've heard stories of monsters that burn in the sun...
+Though more accurately, burning from the light of Astra. 
+Could she be the answer? Or could it simply be about the sun?
+
+[SYPHA_5]
+This third mural is also depicting the night, but the sky is moonless as well as cloudless.
+The stars are bright and brilliant, as if they were the reason for the mural's creation.
+There's someone standing on a hill, but I can't make anything of it.
+The sky holds the answer. I am certain of that much. But beyond that, I am lost.
+
+[SYPHA_6]
+Hm. It opened.
+I am not sure if that is fortunate or not. The things that want to be found...
+are rarely the things worth finding. But we are here. We press on.
+
+[LOREL_7]
+Whatever is waiting in there has not had a visitor in a very long time.
+Let's not keep it waiting.
+
+[RERIC_5]
+The screaming stopped... The wretched thing that made those sounds is aware of our presence.
+Don't fall behind, traveller. A great fight awaits. 
 
 [END OF THE FILE]
 This is the end of the file. We needed that tag there because otherwise it might not

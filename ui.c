@@ -16,34 +16,35 @@ char currentLoc[32] = "Forest";
 // probably gonna have to be a future addition lol
 
 // Swords ------------------------------------------------------------------
-Item ironSword = {"Iron Sword ( 5 )", "A basic, chipped sword found in a cave.", "Weapon", "Sword", WHITE, 5};
-Item steelSword = {"Steel Sword ( 6 )", "A sturdy bow forged with iron and carbon.", "Weapon", "Sword", WHITE, 6};
-Item goldSword = {"Gold Sword ( 8 )", "A heavy, oriental sword unfit for battle, though it still works.", "Weapon", "Sword", GREEN, 8};
-Item knightSword = {"Knight Sword ( 8 )", "The offical sword used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Sword", GREEN, 8};
-Item grassBlade = {"Grass Blade ( 10 )", "A strange sword enchanted with natural magic.", "Weapon", "Sword", GREEN, 10};
-Item ancientSword = {"Ancient Sword ( 19 )", "A strange sword enchanted with ancient magic.", "Weapon", "Sword", PURPLE, 19};
+Item ironSword = {"Iron Sword", "A basic, chipped sword found in a cave.", "Weapon", "Sword", WHITE, 5, NONE};
+Item steelSword = {"Steel Sword", "A sturdy bow forged with iron and carbon.", "Weapon", "Sword", WHITE, 6, NONE};
+Item goldSword = {"Gold Sword", "A heavy, oriental sword unfit for battle, though it still works.", "Weapon", "Sword", GREEN, 8, NONE};
+Item knightSword = {"Knight Sword", "The offical sword used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Sword", GREEN, 8, BLEED};
+Item grassBlade = {"Grass Blade", "A strange sword enchanted with natural magic.", "Weapon", "Sword", GREEN, 10, POISON};
+Item flameBlade = {"Grass Blade", "An enchanted sword, lit ablaze.", "Weapon", "Sword", GREEN, 11, BURN};
+Item ancientSword = {"Ancient Sword", "A strange sword enchanted with ancient magic.", "Weapon", "Sword", PURPLE, 19, FEAR};
 
-Item ultraSword = {"Ultra Sword ( 999 )", "An OP sword used for testing and nothing else", "Weapon", "Sword", RED, 999};
+Item ultraSword = {"Ultra Sword", "An OP sword used for testing and nothing else", "Weapon", "Sword", RED, 999};
 
 // Bows ------------------------------------------------------------------
-Item woodenBow = {"Wooden Bow ( 4 )", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4, NONE};
-Item steelBow = {"Steel Bow ( 5 )", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5};
-Item knightBow = {"Knight Bow ( 6 )", "The offical bow used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Bow", GREEN, 6, BLEED};
-Item rimegrassBow = {"Rimegrass Bow ( 6 )", "A strange bow enchanted with natural magic.", "Weapon", "Bow", GREEN, 6, POISON};
-Item flameBow = {"Flame Bow ( 7 )", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7, BURN};
-Item frostBow = {"Frost Bow ( 9 )", "An enchanted bow that freezes the air around an arrow", "Weapon", "Bow", GREEN, 7, FROZEN};
-Item ancientBow = {"Ancient Bow ( 24 )", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14, FEAR};
+Item woodenBow = {"Wooden Bow", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4, NONE};
+Item steelBow = {"Steel Bow", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5};
+Item knightBow = {"Knight Bow", "The offical bow used by Knights of NAMEOFTHEKINGDOM.", "Weapon", "Bow", GREEN, 6, BLEED};
+Item rimegrassBow = {"Rimegrass Bow", "A strange bow enchanted with natural magic.", "Weapon", "Bow", GREEN, 6, POISON};
+Item flameBow = {"Flame Bow", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7, BURN};
+Item frostBow = {"Frost Bow", "An enchanted bow that freezes the air around an arrow", "Weapon", "Bow", GREEN, 7, FROZEN};
+Item ancientBow = {"Ancient Bow", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14, FEAR};
 
-Item ultraBow = {"Ultra Bow ( 999 )", "An OP bow used for testing and nothing else", "Weapon", "Bow", RED, 999, FEAR};
+Item ultraBow = {"Ultra Bow", "An OP bow used for testing and nothing else", "Weapon", "Bow", RED, 999, FEAR};
 
 // Armor ------------------------------------------------------------------
 // hp starts at 25, the number next to the name is how much it adds to your health, and the int at the end is your health after addition
-Item chainArmor = {"Chain Armor ( 5 )", "A flimsy set of armor found in a cave.", "Armor", "Armor", WHITE, 25};
-Item steelArmor = {"Steel Armor ( 7 )", "A set of armor forged with iron and carbon.", "Armor", "Armor", WHITE, 27};
-Item knightArmor = {"Knight Armor ( 9 )", "The offical set of armor used by Knights of NAMEOFTHEKINGDOM.", "Armor", "Armor", GREEN, 29};
-Item swordmasterArmor = {"Swordmaster Armor ( 12 )", "A set of armor forged by the famous Swordmaster Lorel.", "Armor", "Armor", GREEN, 32};
+Item chainArmor = {"Chain Armor", "A flimsy set of armor found in a cave.", "Armor", "Armor", WHITE, 25};
+Item steelArmor = {"Steel Armor", "A set of armor forged with iron and carbon.", "Armor", "Armor", WHITE, 27};
+Item knightArmor = {"Knight Armor", "The offical set of armor used by Knights of NAMEOFTHEKINGDOM.", "Armor", "Armor", GREEN, 29};
+Item swordmasterArmor = {"Swordmaster Armor", "A set of armor forged by the famous Swordmaster Lorel.", "Armor", "Armor", GREEN, 32};
 
-Item ultraArmor = {"Ultra Armor ( 999 )", "An OP set of armor used for testing and nothing else", "Armor", "Armor", RED, 999, FEAR};
+Item ultraArmor = {"Ultra Armor", "An OP set of armor used for testing and nothing else", "Armor", "Armor", RED, 999};
 
 // Drops ------------------------------------------------------------------
 Item gel = {"Gel", "An oozing mass with little use", "Drop", "NULL", WHITE, 0};
@@ -309,6 +310,16 @@ char* changeColor(StatusType status){
             return RED;
         default:
             return NORMAL; 
+    }
+}
+
+// cool typewriter effect thing for story intro's
+void specialPrintf(char *text) {
+    for (int i = 0; text[i] != '\0'; i++) {
+        printf("%c", text[i]);
+        fflush(stdout);
+    if (text[i] != ' ')
+        Sleep(15);
     }
 }
 

@@ -10,6 +10,8 @@ int dice();
 char* questAlignment(char goodOption[], char evilOption[]);
 void questRewards(Item* rewards[], int count, int money);
 
+int puzzleDoor(char* correct[]);
+
 void dialougeBox(char* name, char* color, char* tag);
 int dialouge();
 void searchArea();

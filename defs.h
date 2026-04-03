@@ -37,12 +37,15 @@ typedef struct {
 } Inventory;
 
 typedef enum {
-    NONE, // does nothing
-    POISON, // damaged every turn (-15% hp)
-    BURN, // damaged every turn (-5 hp), attack reduced (-25%)
-    FEAR, // attack is halved
-    FROZEN, // 50% chance to not attack
-    BLEED, // damaged every turn (-25% hp), attack doubled
+    NONE, // does nothing (white)
+    POISON, // damaged every turn (-15% hp) (purple)
+    BURN, // damaged every turn (-5 hp), attack reduced (-25%) (orange)
+    FEAR, // attack is halved, will always run when spared (dark blue)
+    FROZEN, // 50% chance to not attack (cyan)
+    BLEED, // damaged every turn (-25% hp), attack doubled (red)
+    // UNIMPLEMENTED
+    BLIGHT, // a bit complex. Increases incoming damage if victim is EVIL and reduces incoming damage if victim is GOOD (gold)
+    BLIND, // enemies have a chance to miss attacks, player can't see some of enemies pattern
 } StatusType;
 
 typedef struct {
