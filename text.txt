@@ -115,8 +115,8 @@ Checklist ====================================================================
 
     - New areas (3 cities, 2 'biomes')
     - Coins and shops 
-    - Item structs
-    - Weapon and Armor structs
+    - Abilities
+        - True Sight -> Lets you see true enemy health
     - More Karma consequences
         - Low Karma -> Guards attack you, more enemies spawn, enemies become stronger, shops get disabled BUT 
                        access to stronger weapons, can enter Black Market shops, high crit damage

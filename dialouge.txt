@@ -122,7 +122,7 @@ That figure, only one being is capable of commanding such things...
 A mage of the undead, a Lich.
 
 [LICH_1]
-Oh. Oh, how wonderful. After all this time... visitors.
+Oh. Oh, how wonderful. After all this time...
 Do you know how long I have sat in this dark? Counting the cracks in the stone.
 Listening to the silence rot.
 And then you arrived. Found this wretched temple. Solved that puzzle. Opened my door.
@@ -168,7 +168,7 @@ Such conviction from you three mortals. Charming, really. You have made my escap
 But you, the fourth, I recognize that form. I witnessed you eons ago, unmoving, forged of divine steel.
 They spoke of you, warrior. The Paladin, the Vessel of Fate. 
 Born of the two beings whose names I have been cursing for longer than your civilization has existed.
-Now, you will die, along with the mortal you have brought with you.
+Now, you will die, along with the mortals you have brought with you.
 
 [LICH_6]
 ARRRHAGHGHH! ONE THOUSAND YEARS I WAITED! HOW COULD THIS HAPPEN!
@@ -193,6 +193,20 @@ I am telling you to be careful, of those whose idea of destiny you decide to car
 I suppose this is where we part ways, traveller. You have a mission. 
 I'm not sure exactly what it is, but I don't think I want to know.
 Stay safe out there, Paladin.
+
+[LICH_7]
+They spoke of you, warrior. The Paladin, the Vessel of Fate. 
+Born of the two beings whose names I have been cursing for longer than this civilization has existed.
+Now, you will die, and along with you, the nation your creators built.
+
+[LICH_8]
+Hm. I see you have dealt with my companions. Centuries I spent crafting them.
+Pulling them from the dark. Whispering purpose back into things that had forgotten they existed.
+They were the only company this place afforded me. And you have unmade them in minutes.
+I restored them from a place mortals shouldn't have a hand in, I suppose it's only natural
+for them to be brought back to their rightful state at the hands of a being forged in that same plane.
+I am not sure if I should be impressed... or simply angry.
+This is where you fall, Paladin.
 
 [END OF THE FILE]
 This is the end of the file. We needed that tag there because otherwise it might not

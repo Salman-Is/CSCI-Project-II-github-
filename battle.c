@@ -667,7 +667,7 @@ void fireArrow(int* enemyHP)
 
     // apply status effect if it exists
     if (currentBow.status != NONE){
-        printf("The arrow inflicts %s%S%s!\n", changeColor(currentBow.status), statusText(currentBow.status), NORMAL);
+        printf("The arrow inflicts %s%s%s!\n", changeColor(currentBow.status), statusText(currentBow.status), NORMAL);
         applyStatus(&enemyStatus, currentBow.status);
     }
 

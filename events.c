@@ -418,6 +418,15 @@ void searchArea() {
         printf("You can't avoid it, prepare for battle...\n");
         Sleep(2500);
         randomEncounter();
+        return;
+    }
+    else {
+        if (chanceofMonster > 85) {        
+            char* shopItems[] = {"Health Potion", "Health Elixer", "Berzerker Potion", "Focus Charm"};
+            int shopPrices[] = {5, 10, 15, 20};
+            shop(shopItems, shopPrices, 4); 
+            return;
+        }
     }
     
     switch (location){ // Apparently the scope of a variable created in 1 case is the entire switch case
@@ -649,11 +658,11 @@ void dialougeBox(char* name, char* color, char* tag){
 
 void shop(char* items[], int prices[], int shop_count){
     int choice;
-    while (1)
-    {
+    while (1){ // temp solution, shops will be more robust later
         system("cls");
+        printf("You found a Traveling Merchant!\n");
         printf("╔══════════════════════════════════╗\n");
-        printf("║ [#] | SHOP                       ║\n");
+        printf("║ [#] | TRAVELING MERCHANT         ║\n");
         printf("╚══════════════════════════════════╝\n\n");
         printf("%sCOINS%s: %d\n\n", YELLOW, NORMAL, coins);
         printf("╔══════════════════════════════════╗\n");
@@ -663,7 +672,7 @@ void shop(char* items[], int prices[], int shop_count){
         }
         printf("╚══════════════════════════════════╝\n\n");
         printf("╔══════════════════════════════════╗\n");
-        printf("║ [0] | EXIT SHOP                  ║\n");
+        printf("║ [0] | EXIT                       ║\n");
         printf("╚══════════════════════════════════╝\n\n");
 
         printf("> ");
