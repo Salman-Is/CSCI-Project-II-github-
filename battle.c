@@ -44,23 +44,21 @@
     - (You guys can create new features if you're up for it)
 */
 
-int critDamage = 1.5;
-int attackBuff = 1;
+float critDamage = 1.5;
+float attackBuff = 1;
 
 void randomEffect();
 
 /* ================= ITEM FUNCTIONS ================= */
 // addItem("ITEM NAME", X); X = 1 if its starting inventory, X = 0 if not
-void newAddItem(Item item, int startingItems) {
 
-}
-
+/**
+ *loop cycles through inventory 
+ *if the new item has the same name as an item thats already in the
+ *inventory, it adds it to the stack of items already there
+ *if the new item was never obtained before it creates a new stack
+ */
 void addItem(char* itemName, int startingItems) {
-    // loop cycles through inventory 
-    // if the new item has the same name as an item thats already in the
-    // inventory, it adds it to the stack of items already there
-    // if the new item was never obtained before it creates a new stack
-
     int found = -1;
 
     // check if item already exists
@@ -96,12 +94,13 @@ void addItem(char* itemName, int startingItems) {
     }
 }
 
+/**
+ * loop cycles through inventory 
+ *if the chosen item has the same name as an item thats already in the
+ *inventory, it removes it from the stack of items already there
+ *if there is onyl one of the chosen item it deletes the stack
+ */
 void removeItem(char* itemName) {
-    // loop cycles through inventory 
-    // if the chosen item has the same name as an item thats already in the
-    // inventory, it removes it from the stack of items already there
-    // if there is onyl one of the chosen item it deletes the stack
-
     int found = -1;
 
     // find the item
@@ -136,11 +135,14 @@ void removeItem(char* itemName) {
     }
 }
 
-void newWeapon(char weaponName[], int weaponDamage) {
-    // check if new weapon damage is more than maxTurnDamage/maxPlayerTurnDamage
-    // Only change maxTurnDamage/maxPlayerTurnDamage to weaponDamage IF its more than maxTurnDamage/maxPlayerTurnDamage
-}
 /* ================= ENCOUNTER FUNCTION ================= */
+/**
+ * Funtion handles the setup for the battle
+ * Chooses an enemy from that area, sets global values to the enemies stats
+ * Checks if you are in a tutorial, and runs the battle
+ * Once the battle ends, it checks what the battle returned and prints 
+ * Different things depending on what happened
+ */
 void encounter(Monster area[], int count, int tutorial, int special){
     // tutorial = 1, make special neg if rand, index of area if specific
     Monster enemy;
@@ -174,6 +176,8 @@ void encounter(Monster area[], int count, int tutorial, int special){
     
     // check if battle won --> check alignment --> check karma -->
     // max karma is 100, min karma is 0
+    printf("[ BATTLE RESULTS ]\n");
+    printf("╔════════════════════════════════════════════════════════════════════╗\n\n");
     if (result == 1)
     {
         printf("You defeated the %s%s%s!\n\n", alignmentColor, enemy.name, NORMAL);
@@ -214,11 +218,15 @@ void encounter(Monster area[], int count, int tutorial, int special){
             grantKarma(1, 10, "This death makes you empathize with those who can't rise again...");
         }
     }
-
+    printf("\n╚════════════════════════════════════════════════════════════════════╝\n");
     printf("Current Karma: %d\n", karma);
     pressEnter();
 }
 
+/**
+ * Basically encounter but multiple times
+ * Sparing doesnt work here
+ */
 int questGauntlet(Monster area[], int count, char groupName[], char locationName[]) {
     printf("A quest gauntlet begins!\n");
     printf("You must defeat every %s in %s...\n\n", groupName, locationName);
@@ -337,7 +345,6 @@ int bossFight(Monster boss) {
     return 1;
 }
 
-
 /* ================= MAIN BATTLE FUNCTION ================= */
 /**
  * Function for battle logic
@@ -350,7 +357,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
     char letters[14] = {'X','O','A','B','C','D','E','F','G','H', 'I', 'W', 'Y', 'Z'}; // Possible letters for patterns
 
     int enemyMaxHP = currentEnemyHP;
-    int playerMaxHP = currentArmor.value;
+    int playerMaxHP = currentArmor.value * karmaHpBoost;
 
     char* enemyName = enemy.name;
 
@@ -398,7 +405,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                         printf("Enemy health +25%%\n\n");
                     }
                     else {
-                        continue;
+                        break;
                     }
                 }
                 // ----------------- Generate Enemy Pattern -----------------
@@ -425,10 +432,23 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                 Sleep(3000);
     
                 printf("\nEnemy prepares an attack!\n");
+                if (playerStatus == BLIND) printf("%s%sYour blindness impairs you...\n%s%s", BOLD, BLACK, UNBOLD, NORMAL);
                 printf("Counter this pattern:\n%s[ ", BOLD);
                 printf(RED);
                 for(int i=0;i<patternLength;i++) {
-                    printf("%c ", pattern[i]);
+                    if (playerStatus == BLIND)
+                    {
+                        int random = rand() % 100;
+                        if (random <= 25) {
+                            printf("■ ");
+                        }
+                        else {
+                            printf("%c ", pattern[i]);
+                        }
+                    }
+                    else {
+                        printf("%c ", pattern[i]);
+                    }            
                 }
                 printf(NORMAL);
                 printf("]\n");
@@ -455,7 +475,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                 }
                 // ----------------- Damage Calculation -----------------
                 // changed because of int division rounding bug
-                int damageToEnemy = (correct * currentSword.value * attackBuff) / patternLength;                 
+                int damageToEnemy = (correct * currentSword.value * attackBuff * karmaAtkBoost) / patternLength;                 
                 int damageToPlayer = ((patternLength - correct) * currentEnemyATK) / patternLength; 
 
                 // juuust in case (idk if this would matter but it might still round to 0)
@@ -469,7 +489,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
 
                 damageToPlayer = modifyDamage(damageToPlayer, enemyStatus);
                 damageToEnemy = modifyDamage(damageToEnemy, playerStatus);
-                printf("You counter the attack with your %s%s%s%s%s...\n", currentSword.color, BOLD, currentSword, UNBOLD, NORMAL);
+                printf("You counter the attack with your %s%s%s%s%s...\n", currentSword.color, BOLD, currentSword.name, UNBOLD, NORMAL);
                 Sleep(1500);
                 // perfect counter system
                 if (correct == patternLength){
@@ -477,25 +497,35 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                     damageToEnemy = (damageToEnemy*critDamage) + 2;
                     if (currentSword.status != NONE){
                         int random = rand() % 100;
-                        if (random < 25 && enemyStatus != NONE) {
+                        if (random <= 25 && enemyStatus != NONE) {
                             applyStatus(&enemyStatus, currentSword.status);
                             printf("\nYou afflicted the %s with %s%s%s!\n", enemyName, changeColor(currentSword.status), statusText(currentSword.status), NORMAL);
                         } 
                     }         
                 }
+                else if (enemyStatus == BLIND){
+                    printf("%s%sThe enemy is impaired by blindness...\n%s%s", BOLD, BLACK, UNBOLD, NORMAL);
+                    int random = rand() % 100;
+                    if (random <= 25) {
+                        printf("The enemy missed!\n");
+                        damageToPlayer = 0;
+                    }
+                }
                 enemyHP -= damageToEnemy;
                 playerHP -= damageToPlayer;
-                if (correct != patternLength) {
+                if (correct != patternLength && damageToPlayer > 0) {
                     // I THINk this works. Calculation should increase chance of status applying the more letters you got wrong
                     int amountWrong = (patternLength - correct);
                     if (amountWrong > 0 && enemy.status != NONE && playerStatus == NONE && playerHP > 0) {
                         float chance = (float)amountWrong / patternLength;
                         int random = rand() % 100;
 
-                        if (random < (chance * 100)) {
+                        if (random < (chance * 100) || correct == 0) {
                             if (enemy.status != NONE){
-                            applyStatus(&playerStatus, enemy.status);
-                            printf("\nThe %s has afflicted you with %s%s%s!\n", enemyName, changeColor(enemy.status), statusText(enemy.status), NORMAL);
+                                applyStatus(&playerStatus, enemy.status);
+                                if (playerStatus != DIVINE) {
+                                    printf("\nThe %s has afflicted you with %s%s%s!\n", enemyName, changeColor(enemy.status), statusText(enemy.status), NORMAL);
+                                }
                             }
                         }
                     }
@@ -652,10 +682,9 @@ void fireArrow(int* enemyHP, int enemyMaxHP)
 }
 */
 
-void fireArrow(int* enemyHP)
-{
+void fireArrow(int* enemyHP){
     // deal damage
-    int damage = currentBow.value;
+    int damage = currentBow.value * karmaAtkBoost;
     damage = modifyDamage(damage, playerStatus);
     if (damage < 1) damage = 1;  // just in case
     *enemyHP -= damage;
@@ -667,8 +696,10 @@ void fireArrow(int* enemyHP)
 
     // apply status effect if it exists
     if (currentBow.status != NONE){
-        printf("The arrow inflicts %s%s%s!\n", changeColor(currentBow.status), statusText(currentBow.status), NORMAL);
         applyStatus(&enemyStatus, currentBow.status);
+        if (enemyStatus != DIVINE) {
+            printf("The arrow inflicts %s%s%s!\n", changeColor(currentBow.status), statusText(currentBow.status), NORMAL);
+        }
     }
 
     if (*enemyHP < 0) *enemyHP = 0;
@@ -682,7 +713,14 @@ void fireArrow(int* enemyHP)
 
 // changes chosen status to new status
 void applyStatus(StatusType* status, StatusType newStatus){
-    *status = newStatus;
+    if (*status != DIVINE) {
+        *status = newStatus;
+    }
+    else if (newStatus != DIVINE){
+        printf("%s%s", BOLD, GOLD);
+        printf("%s Divinity is unassailable...\n\n", (*status == playerStatus ? "Your" : "The enemy's"));
+        printf("%s%s", UNBOLD, NORMAL);
+    } 
 }
 
 /*
@@ -697,7 +735,7 @@ void processStatus(StatusType status, int* hp, int maxHP){
         return;
     }
     int damage = 0;
-
+    int heal = 0;
     switch (status){
         case POISON:
             damage = (int)(maxHP * 0.15);
@@ -731,7 +769,18 @@ void processStatus(StatusType status, int* hp, int maxHP){
             printf("%s%s", UNBOLD, NORMAL);
             break;
 
+        case REGENERATION:
+            heal = (int)(maxHP * 0.15);
+            printf("%s%s", BOLD, PINK);
+            printf("%s a bit of health... (+%d HP)\n\n", (status == playerStatus ? "You regenerate" : "The enemy regenerates") ,heal);
+            printf("%s%s", UNBOLD, NORMAL);
+            *hp += heal;
+            break;
+
         case FROZEN:
+            break;
+
+        case BLIND:
             break;
 
         case NONE:
@@ -793,7 +842,13 @@ char* statusText(StatusType status){
         case FROZEN:
             return "FRZN";
         case BLEED: 
-            return "BLED";
+            return "BLED"; 
+        case BLIND:
+            return "BLND";
+        case REGENERATION:
+            return "REGN";
+        case DIVINE:
+            return "DIVN";
         default:
             return "NONE";
     }

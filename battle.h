@@ -7,8 +7,8 @@
 #include <ctype.h>
 #include "defs.h"
 
-extern int critDamage;
-extern int attackBuff;
+extern float critDamage;
+extern float attackBuff;
 
 extern StatusType playerStatus;
 extern StatusType enemyStatus;

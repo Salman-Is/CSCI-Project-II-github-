@@ -79,10 +79,13 @@ extern Item ancientCoin;
 extern Item elderiteGemstone;
 extern Item kingdomCrest;
 extern Item ancientMap;
+
+extern Item septre;
  
 // Potions/Charms --------------------------------------------------------------
 extern Item healthPotion;
 extern Item healthElixer;
+extern Item mysticSalve;
 extern Item berzerkerPotion;
 extern Item focusCharm;
 

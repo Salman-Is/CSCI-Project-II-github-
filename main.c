@@ -61,9 +61,9 @@ char currentEnemyDrop[32] = "";
 
 /* ================= PLAYER STATS ================= */
 int karma = 50;
-int maxTurnDamage = 5;  // Sword Damage (counterattacks) <-- from correct pattern
-int maxPlayerTurnDamage = 4; // Arrow Damage (direct attacks) <-- from choosing to fire arrow
 int coins = 0;
+int karmaAtkBoost = 1;
+int karmaHpBoost = 1;
 
 int dialougeSpeed = 0;
 int trueSight = 0;
@@ -204,15 +204,15 @@ int options() {
     printf("╔══════════════════════════════════════════════════════════════╗\n");
     printf("║                            EXPLORE                           ║\n");
     printf("║                                                              ║\n");
-    printf("║     [1]    [2]        [3]         [4]       [5]      [6]     ║\n"); // STATS will be changed to "shop" in project 3
-    printf("║   [WALK] [SEARCH] [ENCOUNTER] [INVENTORY] [TRAVEL] [STATS]   ║\n");
+    printf("║     [1]       [2]       [3]         [4]       [5]     [6]    ║\n"); 
+    printf("║  [ADVANCE] [SEARCH] [ENCOUNTER] [INVENTORY]  [MAP]  [GEAR]   ║\n");
     printf("╚══════════════════════════════════════════════════════════════╝\n");
-    // printf("╔══════════════════════════════╗╔══════════════════════════════╗\n");
-    // printf("║            INSPECT           ║║             BUILD            ║\n");
-    // printf("║                              ║║                              ║\n");
-    // printf("║     [A]      [B]    [C]      ║║       [D]     [E]   [F]      ║\n");
-    // printf("║   [STATS]  [CHAT]  [LOG]     ║║     [CRAFT] [BREW] [RUNE]    ║\n");
-    // printf("╚══════════════════════════════╝╚══════════════════════════════╝\n");
+    printf("╔══════════════════════════════╗╔══════════════════════════════╗\n");
+    printf("║            INSPECT           ║║             BUILD            ║\n");
+    printf("║                              ║║                              ║\n");
+    printf("║     [A]      [B]     [C]     ║║       [D]     [E]   [F]      ║\n");
+    printf("║   [STATS]  [SHOP]  [CODEX]   ║║     [CRAFT] [BREW] [RUNE]    ║\n");
+    printf("╚══════════════════════════════╝╚══════════════════════════════╝\n");
 
     char choice;
     printf("> ");
@@ -247,7 +247,7 @@ int options() {
         openInventory(0, &currentArmor.value);
         return 4;
     }
-    else if (choice == '5') { // TRAVEL
+    else if (choice == '5') { // MAP (TRAVEL)
         system("cls");
         if (isTravelling == 0){
             saveLocation = location;
@@ -271,37 +271,36 @@ int options() {
         
         return 5;
     }
-    else if (choice == '6') { // STATS
+    else if (choice == '6') { // GEAR
         system("cls");
-        statsPage();
+        
         return 6;
     }
-    else if (choice == 'a' || choice == 'A') {
+    else if (choice == 'a' || choice == 'A') { // STATS
         system("cls");
-        printf("This feature has not been added yet...\n");
+        statsPage();
         return 7;
     }
-    else if (choice == 'b' || choice == 'B') {
+    else if (choice == 'b' || choice == 'B') { // SHOP
         system("cls");
-        printf("This feature has not been added yet...\n");
         return 8;
     }
-    else if (choice == 'c' || choice == 'C') {
+    else if (choice == 'c' || choice == 'C') { // LOG (Information Page like a PokeDex)
         system("cls");
         printf("This feature has not been added yet...\n");
         return 9;
     }
-    else if (choice == 'd' || choice == 'D') {
+    else if (choice == 'd' || choice == 'D') { // CRAFT
         system("cls");
         printf("This feature has not been added yet...\n");
         return 10;
     }
-    else if (choice == 'e' || choice == 'E') {
+    else if (choice == 'e' || choice == 'E') { // BREW (Potions)
         system("cls");
         printf("This feature has not been added yet...\n");
         return 11;
     }
-    else if (choice == 'f' || choice == 'F') {
+    else if (choice == 'f' || choice == 'F') { // RUNE (Passive Ability)
         system("cls");
         printf("This feature has not been added yet...\n");
         return 12;
@@ -835,16 +834,22 @@ void playerAl() {
         strcpy(playerAlignment, "EVIL");
         printf("%sYou stray further from the natural order...\n%s", RED, NORMAL);
         printf("Even the shadows whisper your name in fear.\n\n");
+        karmaAtkBoost = 1.5;
+        karmaHpBoost = 0.75;
     }
     else if (karma <= 66 && karma > 32 && strcmp(playerAlignment, "NEUTRAL") != 0){
         strcpy(playerAlignment, "NEUTRAL");
         printf("%sYou walk the line of chaos and order.%s\n", WHITE, NORMAL);
         printf("The world treats you with cautious respect.\n\n");
+        karmaAtkBoost = 1;
+        karmaHpBoost = 1;
     }
     else if (karma > 66 && strcmp(playerAlignment, "GOOD") != 0){
         strcpy(playerAlignment, "GOOD");
         printf("%sYou feel a surge of righteousness fill your heart.%s\n", CYAN, NORMAL);
         printf("The spirits sing your name with reversence.\n\n");
+        karmaAtkBoost = 0.75;
+        karmaHpBoost = 1.5;
     }
 }
 

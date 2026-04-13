@@ -22,6 +22,7 @@
 #define PURPLE "\x1b[38;5;141m"
 #define DEEPRED "\x1b[38;5;9m"
 #define PALEYELL "\x1b[38;5;181m"
+#define PINK "\x1b[38;5;211m"
 
 // formatting
 #define BOLD "\x1b[1m"
@@ -43,9 +44,11 @@ typedef enum {
     FEAR, // attack is halved, will always run when spared (dark blue)
     FROZEN, // 50% chance to not attack (cyan)
     BLEED, // damaged every turn (-25% hp), attack doubled (red)
+    REGENERATION, // heals every turn (10% hp) (hot pink)
+    DIVINE, // this status cannot be overwitten (immune to all status effects) (gold)
+    BLIND, // enemies have a chance to miss attacks, player can't see some of enemies pattern (black)
     // UNIMPLEMENTED
-    BLIGHT, // a bit complex. Increases incoming damage if victim is EVIL and reduces incoming damage if victim is GOOD (gold)
-    BLIND, // enemies have a chance to miss attacks, player can't see some of enemies pattern
+    CURSED, // chance to reflect damage when the victim attacks (gray)
 } StatusType;
 
 typedef struct {

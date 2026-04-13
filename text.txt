@@ -4,392 +4,144 @@
    | | | | | |  __/ |  __/ (_| | | (_| | (_| | | | | |
    |_| |_| |_|\___| |_|   \__,_|_|\__,_|\__,_|_|_| |_|
 
+Project Three Plan ========================================================================================
 
-                                                      
-Karma Battle Game (Inspired by Undertale)  
+> Orginizational Additions
 
-Name ======================================================================= 
+    - Each story progress will have it's own function 
 
-My proposal was “The Paladin”, since that's the main character's name, but you guys can feel free to change any of the names I propose if you want. 
-
-Basic Idea ==================================================================== 
-
-The Player starts with 50 “Karma”, and it can go up or down based on what you do. For example, killing a “holy”/” innocent” creature will lower your Karma, and killing a monster will increase your Karma. Max of 100, min of 0. 
-
-There could be optional challenges where if you succeed, you get an item, but if you fail, you can choose to steal the item anyway at the cost of Karma 
-
-Low Karma increases rewards but makes monsters stronger. It also makes normally weak “holy” creatures hurt you because you’re becoming “evil” 
-
-Story ================================================================ 
-
-The setting is basically a fantasy world kind of like Legend of Zelda (idk if you guys played any of the games). 
-
-The world you appear in is called “_____”, and is a world defined by battle. Good and Evil both exist, and the two forces are in constant struggle. 
-After an eternity of strife, The Deities of Good and Evil have grown weary. To bring an end to this turmoil, work together to create you, 
-The Paladin, as a vessel of change. Your actions will dictate which Deity truly deserves to rule.  
-
-Choose to be Good, and the power of Good within you will overpower your Evil, and you will be strong enough to defeat the Deity of Evil. (Karma > 66) 
-
-Choose to be Evil, and the power of Evil within you will overpower your Good, and you will be strong enough to defeat the Deity of Good. (Karma < 33) 
-
-Reject both, and the powers of Good and Evil within you will bind together and weave something new, and you will face both Deities to bring about a new world of Balance. 
-
-Battle ======================================================================= 
-
-The battle system is 90% complete, since it was the whole first project. It’s inspired by Undertale. Its all about dealing damage with counterattacks. 
-On the enemies turn, they will give you a random list of letters, and they get increasingly harder as the story progresses. At the start, it will just be x’s and o’s 
+    - "story.c" file along with a "player.c" file
+        - main.c       -> story flow only, calls chapter functions
+        - story.c/h    -> the chapter functions (forestVillage, knightOutpost etc.)
+        - player.c/h   -> stats, inventory, karma, alignment
+        - enemies.c/h  -> all Monster arrays
+        - items.c/h    -> ALL Item definitions
+        - battle.c/h   -> combat system (already decent)
+        - events.c/h   -> puzzles, dialogue, chests, shops (already decent)
+        - ui.c/h       -> purely rendering stuff: health bars, colors, printUI
+        - defs.h       -> other definitions that rely on each other to work (already done)
 
 
-(console) —--------------------------------------------------------------------------------------------------------- 
+> FOR SURE Additions
 
-[ X O O X O ] 
+    - New areas
+        - Cities
+            - Cities won't let you encounter monsters, but will instead encounter people to talk to
+            - Will have shops and other cool things to do, like black markets and games
+            - Your karma will effect your stay at Cities
+            - Will also have important unlocks
+                - Unlock Crafting in Emerald City
+                - Unlock Potion Brewing in Underground City
+                - Unlock Divine Weapons in Sky City
+        - Biomes
+            - The Tundra will come right before the mountains, and will 
+        - Area Order: Forest, Plains, Emerald City, Lake, Caves, Underground City, Tundra, Mountains, Sky City, Acention (Final Boss Area) 
 
-—---------------------------------------------------------------------------------------------------------------------- 
+    - More Story
+        - Forest -> DONE
+        - Plains -> DONE
+        - Emerald City ->
+        - Lake ->
+        - Caves ->
+        - Underground City ->
+        - Tundra ->
+        - Mountains ->
+        - Sky City ->
+        - Ancention ->
 
-
-and you would have a few seconds to input that exact code in the list in order to counterattack. Each failed letter would decrease your potential damage. 
-For example, if your max damage was 30, and you input “oxxoxx” instead of “oxxoxo”, It would make your damage be 25 instead of 30 since you got a letter wrong, 
-and the 5 that you missed out on will be dealt as damage to the player. 
-
-On your turn, you will have the chance to attack with your bow OR to use an item (just potions for now). 
-Using your bow will require you to play the same memorization minigame to deal damage, but your bow generally isn’t as strong as your sword, which you use to counterattack. 
-
-Gameplay Loop ======================================================= 
-
-This isn’t set in stone, if you guys want to make changes, feel free to 
-
-The gameplay could be like Pokémon, where you run around collecting gear in a region, defeat a boss, and go to the next region. 
-Each region will have its own set of ‘good’ and ‘evil’ monsters. 
-
-In the game I made last semester with my partner, we came up with a system where the player is prompted with various actions anytime there's nothing else to do. Like this: 
-
-
-(console) —--------------------------------------------------------------------------------------------------------- 
-
-What would you like to do? 
-
-[WALK] [SEARCH] [ENCOUNTER] [INVENTORY] [TRAVEL] [CRAFT]  
-
-> 
-—---------------------------------------------------------------------------------------------------------------------- 
-
-
-[WALK] will progress the story by letting you talk to NPCs, start and end quests, and get to key points in the story. 
-[SEARCH] will let you look around for treasure, crafting recipes, gear, and interesting landmarks, but it will also have a chance of encountering monsters. 
-[ENCOUNTER] will always encounter a monster. 
-[INVENTORY] will print the contents of your inventory. 
-[TRAVEL] lets you go back to previous areas. 
-[CRAFT] opens your crafting menu so you can create new gear. (later edition likely)
-
-
-Checklist ==================================================================== 
-
-> Battle System full implementation 
-
-    - This basically means tweaking Type Quest to function as a battle system for this game.
-
-> Items 
-
-    - Swords, which will increase your counterattack damage 
-    - Bows, which will increase your normal damage 
-    - Armor, which will increase health 
-    - Monster Drops, which can be used to craft stuff 
-
-> Inventory 
-
-> Enemies 
-
-    - ‘Good’ and ‘Bad’ enemies 
-    - The game will have various effects based on your Karma, and there are good and bad effects for whatever level you are at 
-    - We can come up with cool enemy names 
-
-> Locations 
-
-    - We can start with 3-4 for now, we don’t even have to finish the whole game for the assignment to get credit. 
-
-> Story (as far as we can go) 
-
-> Bosses  
-
-> FOR SURE Later Editions
-
-    - New areas (3 cities, 2 'biomes')
     - Coins and shops 
+
     - Abilities
         - True Sight -> Lets you see true enemy health
+        
     - More Karma consequences
         - Low Karma -> Guards attack you, more enemies spawn, enemies become stronger, shops get disabled BUT 
                        access to stronger weapons, can enter Black Market shops, high crit damage
         - High Karma -> less enemies, NPCs give you gifts, shops get discounts, nearby GOOD monsters can help you BUT
                         only low damage weapons available, low crit damage 
         - Neutral Karma -> idk
-        - Spells/Magic (equipping a spell gives you a specific buff) 
+
+    - Spells/Magic (equipping a spell gives you a specific buff) 
+
     - Crafting (and maybe cooking too??)
+
     - Leveling Up (after exp hits certain level you can choose upgrade hp, damage or spell)
+
     - Bosses have unique mechanics
+
     - More options (craft, quest log, talk to NPCs etc)
 
-> Later Editions Optional (we 100% can't add them all, choose the best/most feasable ones) 
+> Later Additions - Optional (we 100% can't add them all, choose the best/most feasable ones) 
 
     - Stamina system (so you can't spam attacks)
+
     - Bounties
+
     - More gamemodes (Hard mode (stronger enemies), Hardcore mode (one life), etc)
+
     - Titles/Achivements to collect
+
     - Side quests
+
     - Set bonuses and equipping
+
     - Dice game / blackjack in cities
+
     - Special rare enemies
+
     - Weapon durability
+
     - Lore Codex (reread past lore tablets)
+
     - Quest Log (shows what you chose in previous quests)
+
     - Item descriptions (to tell you what an item does)
+
     - Status effects (probably too hard but we can try)
+
     - Day Night system?? (Day buffs you when youre good and weakens you when youre bad, and vice versa for night)
+
     - Item rarity colors
+
     - More random events when searching (shrines to trade hp and damage, puzzles, exclusive NPCs etc)
+
     - Combo hits (3 perfect patterns -> next is x3 damage)
+
     - More consequences for dying 
+
         - state of the world changes
+
         - 1 death --> ghosts spawn
+
         - 2 deaths --> something else etc idk
+
     - Notebook where you can write down things to remember
 
-Gear List ===================================================================== 
 
- 
+A Flagon [ EVIL ] stands before you...
 
-> Starting Inventory <
+╔════════════════════════════════════════════════════════════════════╗
 
-Iron Sword ( 3 damage ) 
+  [ Flagon ] [ EVIL ]
 
-Wooden Bow ( 2 damage ) 
+  Status: [ REGN ] Drop: [ Ember Scale ]
 
-Chainmail Armor ( +2 HP ) 
+  HP: [ ■■■■■■■■■■■■■■■ ] Damage: [ 07 ]
 
-Health Tonic ( Heal 2 HP ) 
-
-> Area One Items <
-
-Steel Sword ( 4 damage ) 
-
-Knights Armor ( +4 HP ) 
-
-Knights Bow ( 3 damage ) 
-
-Flame Sword Recipe 
-
-Health Tonic ( Heal 2 HP ) 
-
-Heart Container ( Heal 5 HP ) 
-
-> Area Two Items <
-
-Monster List ================================================================== 
- 
-
-UI (Concept art I guess?) ================================================ 
-
-(console) —--------------------------------------------------------------------------------------------------------- 
-
- 
-What would you like to do? 
-
-
-[WALK] [SEARCH] [ENCOUNTER] [INVENTORY] [TRAVEL] [CRAFT]  
-
+╚════════════════════════════════════════════════════════════════════╝
+╔════════════════════════════════════════════════════════════════════╗
+║                                                                    ║
+║ [ The Paladin ] [ GOOD ]                                           ║
+║                                                                    ║
+║ Status: [ NONE ]  Mana: [ ■■■■■■■■■■■■■■■ ]                        ║                       
+║                                                                    ║
+║ HP: [ 25 / 25 ] [ ■■■■■■■■■■■■■■■ ] Arrow: [ 04 ] Sword: [ 05 ]    ║
+║                                                                    ║
+╠════════════════════════════════════════════════════════════════════╣
+║ [ 1 | FIRE ARROW ]     [ 2 | USE ITEM ]     [ 3 | SPARE CREATURE ] ║
+╚════════════════════════════════════════════════════════════════════╝
+Fire an arrow to deal damage, use an item, or spare the creature?
 > 
-
-—---------------------------------------------------------------------------------------------------------------------- 
-
-(console) —--------------------------------------------------------------------------------------------------------- 
-
-
-> Craft 
-
-+------------------------------------------------------------------------+ 
-
-# | Crafting Table						 
-
-+------------------------------------------------------------------------+ 
-
-1 | Fire Sword - [Iron Sword (x1) + Ember (x1)]			 
-
-2 | Elixir - [Potion (x3) + Heart (x1)]               	 						 
-
-3 | Ice Spellbook - [Book (x1) + Ice Fairy (x3)]                          				 
-
-+------------------------------------------------------------------------+ 
-
-Select recipie number or ‘Q’ to quit 
-
-+------------------------------------------------------------------------+ 
-
->  
-
-—---------------------------------------------------------------------------------------------------------------------- 
-
-(console) —--------------------------------------------------------------------------------------------------------- 
-
-> Inventory 
-
-Inventory 
-
-+-----------------------------------------+ 
-
-Sword (x1)                    		  
-
-Potion (x7)                   		  
-
-Monster Drop (x43)            	  
-
-+-----------------------------------------+ 
-
-—---------------------------------------------------------------------------------------------------------------------- 
-
-(console) —--------------------------------------------------------------------------------------------------------- 
-
-> Encounter 
-
-You encountered a ‘Forest Demon’ 
-
-<--------------------------------------------------------------------> 
-
-Forest Demon                   
-
-Health: 25/25 
-
-<--------------------------------------------------------------------> 
-
-The Paladin 
-
-Health: 10/10 
-
-<--------------------------------------------------------------------> 
-
-
-The ‘Forest Demon’ unleashed an attack! 
-
-This is the patten: 
-
-[ X O O X O ] 
-
-
-*clear* 
-
-Recreate the pattern to counterattack! 
-
-> 
-
---------------—---------------------------------------------------------------------------------------------------------
-
- 
-
-(console) —--------------------------------------------------------------------------------------------------------- 
-
- 
-
-You dealt ‘5’ damage! 
-
-You took ‘0’ damage! 
-
-What will you do next? 
-
-<--------------------------------------------------------------------> 
-
-Forest Demon                   
-
-Health: 20/25 [####################               ] 
-
-<--------------------------------------------------------------------> 
-
-The Paladin 
-
-Health: 10/10 [##########] 
-
-<--------------------------------------------------------------------> 
-
-[ 1 | FIRE ARROW ]			[ 2 | USE ITEM ] 
-
-<--------------------------------------------------------------------> 
-
-
-> 1 
-
-Memorize the enemies movement pattern: 
-
-[ X O O X O ] 
-
-
-*clear* 
- 
-Recreate the pattern to hit the shot! 
-
-> 
-
---------------—-------------------------------------------------------------------------------------------------------- 
-
- 
-(console) —--------------------------------------------------------------------------------------------------------- 
-
- 
-┌─────────────────────┐
-│                     │
-│   ┌─────────────┐   │
-│   │             │   │
-│   │  --  -----  │   │
-│   │  ---------  │   │
-│   │  -- ------  │   │
-│   │             │   │
-│   │  - -------  │   │
-│   │  ---  ----  │   │
-│   │  -- ------  │   │
-│   │             │   │
-│   └─────────────┘   │
-│                     │
-└─────────────────────┘
-
-You found a stone tablet!
-
-Its words are thus...
-
-—---------------------------------------------------------------------------------------------------------------------- 
- 
-
-              [ MAP OF AURAVEIL ]
-╔══════════════════════════════════════════════════╗
-║                    __.--._        .---,          ║
-║                 _.'       \:.,   ;     ;         ║
-║               ,-'             \_/       \        ║              
-║      _.''' `--'        ▲▲     ▲       ▲▲  ;.     ║
-║     :                     ▲▲    5           ;    ║
-║     ,'    4            ▲   Mountains ▲▲▲    ;    ║
-║    :    Caves         ▲▲      ▲▲           ,     ║
-║    :                                      ;      ║
-║    :       ....                           :      ║
-║    ;      /  3  \                          :     ║
-║    (     : Lake :        2                  ;    ║
-║    `-.    \..../      Plains      1       ,'     ║
-║      ;                         Forest   :        ║
-║    .'                             .-._,'         ║
-║    `.                       ---._;               ║
-║      `-.__          __.--._)                     ║
-║           `.--.____;                             ║
-║                                                  ║
-╚══════════════════════════════════════════════════╝
-
-[ MAP KEY ]                                     
-╔════════════════════════════════╗
-║  [ 1 ] Forest of Echoes        ║
-║  [ 2 ] Verdent Plains          ║
-║  [ 3 ] Blue Lake               ║
-║  [ 4 ] Crystal Caves           ║
-║  [ 5 ] Celestial Mountains     ║
-╚════════════════════════════════╝                        
-
-
-
-
-
 
 
 

@@ -3,7 +3,6 @@
 #include "ui.h"
 #include "events.h"
 
-
 char* areaColor();
 char* changeColor(StatusType status);
 StatusType enemyStatus = NONE;
@@ -23,13 +22,13 @@ Item knightSword = {"Knight Sword", "The offical sword used by Knights of Aureve
 Item grassBlade = {"Grass Blade", "A strange sword enchanted with natural magic.", "Weapon", "Sword", GREEN, 10, POISON};
 Item flameBlade = {"Grass Blade", "An enchanted sword, lit ablaze.", "Weapon", "Sword", GREEN, 11, BURN};
 Item ancientSword = {"Ancient Sword", "A strange sword enchanted with ancient magic.", "Weapon", "Sword", PURPLE, 19, FEAR};
-Item staffOfRemnant = {"Staff of Kyra's Remnant", "A cursed blade created by Racher the Lich", "Weapon", "Sword", CYAN, 12, FEAR};
+Item staffOfRemnant = {"Staff of Kyra's Remnant", "A cursed spear created by Racher the Lich", "Weapon", "Sword", CYAN, 12, FEAR};
 
 Item ultraSword = {"Ultra Sword", "An OP sword used for testing and nothing else", "Weapon", "Sword", RED, 999, FEAR};
 
 // Bows ------------------------------------------------------------------
 Item woodenBow = {"Wooden Bow", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4, NONE};
-Item steelBow = {"Steel Bow", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5};
+Item steelBow = {"Steel Bow", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5, NONE};
 Item knightBow = {"Knight Bow", "The offical bow used by Knights of Aureveil.", "Weapon", "Bow", GREEN, 6, BLEED};
 Item rimegrassBow = {"Rimegrass Bow", "A strange bow enchanted with natural magic.", "Weapon", "Bow", GREEN, 6, POISON};
 Item flameBow = {"Flame Bow", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7, BURN};
@@ -75,12 +74,14 @@ Item elderiteGemstone = {"Elderite Gemstone", "", "Item", "NULL", CYAN, 50};
 Item kingdomCrest = {"Kingdom Crest", "", "Item", "NULL", CYAN, 50};
 Item ancientMap = {"Ancient Map", "", "Item", "NULL", CYAN, 0};
 
+Item septre = {"Septre", "An artifact that grants the holder Divinity.", "Charm", "Status", GOLD, 0};
+
 // Potions/Charms --------------------------------------------------------------
 Item healthPotion = {"Health Potion", "A potion that will heal most injuries.", "Potion", "Healing", WHITE, 5};
-Item healthElixer = {"Health Potion", "A magical potion made with the blessing of Astra.", "Potion", "Healing", GREEN, 10};
+Item healthElixer = {"Health Elixer", "A magical potion made with the blessing of Astra.", "Potion", "Healing", GREEN, 10};
+Item mysticSalve = {"Mystic Salve", "An oinment imbued with the power of Regeneration.", "Potion", "Status", CYAN, 0};
 Item berzerkerPotion = {"Berzerker Potion", "An unstable potion that draws out your deep power.", "Potion", "Attack+", GREEN, 2};
 Item focusCharm = {"Focus Charm", "An artifact that brings with it a calming force.", "Charm", "Crit+", CYAN, 2};
-
 
 /* ================= UI FUNCTIONS ================= */
 void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP){
@@ -89,6 +90,8 @@ void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int align
     char* plStatus = statusText(playerStatus);
     char* plStatusColor = changeColor(playerStatus);
     char* locColor = areaColor();
+
+    
 
     // Intro/ Turn message thing
     if (strcmp(turn, "enemy") == 0) {
@@ -125,7 +128,7 @@ void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int align
            ((strcmp(playerAlignment, "GOOD") ? CYAN :
             strcmp(playerAlignment, "EVIL") ? RED : NORMAL)),
            (strcmp(playerAlignment, "GOOD") ? "GOOD" :
-            (playerAlignment == "EVIL" ? "EVIL" : "NEUT")), NORMAL);
+            (strcmp(playerAlignment, "EVIL") ? "EVIL" : "NEUT")), NORMAL);
     printf("║                                                                    ║\n");
     printf("║ Status: [ %s%s%s ]                                                   ║\n", plStatusColor, plStatus, NORMAL);
     printf("║                                                                    ║\n");
@@ -137,42 +140,41 @@ void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int align
     // PLAYER ACTION MENU (ONLY ON PLAYER TURN) ==================================
     if (strcmp(turn, "player") == 0) {
         printf("╠════════════════════════════════════════════════════════════════════╣\n");
-        printf("║ [ 1 | FIRE ARROW ]     [ 2 | USE ITEM ]     [ 3 | SPARE CREATURE ] ║\n");
+        printf("║      [ 1 | ATTACK ]        [ 2 | ITEMS ]        [ 3 | SPARE ]      ║\n");
     }
     printf("╚════════════════════════════════════════════════════════════════════╝\n");
 }
 
+/**
+ * Prints out inventory
+ * Handles calculations for when you choose items in battle (for now)
+ */
 void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 1 for both battle and overworld
 {
     system("cls");
-    if (battleStart == 1)
-    {
+    if (battleStart == 1){
         printf("╔═════════════════════════════════════╗\n");
         printf("[#] | BATTLE ITEMS                    ║\n");
         printf("╚═════════════════════════════════════╝\n");
+        char battleItems[32][32] = {"Health Potion", "Health Elixer", "Focus Charm", "Berzerker Potion", "Mystic Salve"};
+        int battleItemCount = sizeof(battleItems) / sizeof(battleItems[0]);
         for(int i = 0; i < inventoryCount; i++)
         {
-            if (strcmp(inventory[i].name, "Health Potion") == 0) {
-                printf("[%02d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
+            for (int j = 0; j < battleItemCount; j++)
+            {
+                if (strcmp(inventory[i].name, battleItems[j]) == 0) {
+                    printf("[%02d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
+                    break;
+                }
             }
-            else if (strcmp(inventory[i].name, "Health Elixer") == 0) {
-                printf("[%02d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
-            }
-            else if (strcmp(inventory[i].name, "Focus Charm") == 0) {
-                printf("[%02d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
-            }
-            if (strcmp(inventory[i].name, "Berzerker Potion") == 0) {
-                printf("[%02d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
-            }
-        }        
+        }              
         printf("╔═════════════════════════════════════╗\n");             				 
         printf("╚═════════════════════════════════════╝\n");
         printf("Select item number to use (0 to exit): ");
 
-        system("cls");
-
         int choice;
         scanf("%d", &choice);
+        system("cls");
         if(choice == 0){
             return;
         }
@@ -197,6 +199,12 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
             if (*playerHP > currentArmor.value){
                 *playerHP = currentArmor.value;
             }
+            return;
+        }
+        if(strcmp(inventory[choice].name, "Mystic Salve") == 0){
+            system("cls");
+            removeItem("Berzerker Potion");
+            applyStatus(&playerStatus, REGENERATION);
             return;
         }
         if(strcmp(inventory[choice].name, "Focus Charm") == 0){
@@ -310,6 +318,12 @@ char* changeColor(StatusType status){
             return CYAN; 
         case BLEED: 
             return RED;
+        case BLIND:
+            return BLACK;
+        case REGENERATION: 
+            return PINK;
+        case DIVINE: 
+            return GOLD;
         default:
             return NORMAL; 
     }
@@ -369,4 +383,3 @@ void healthBar(int currentHP, int maxHP, char* isEnemy) {
 // i found out the sleep() function is better then the time() do while loop for the cpu. and its actually way simpler. 
 // also using millesecods can allow us to use partial seconds. ex 500 milleseconds is .5 seconds. 1000 milleseconds is 1 sec
 // https://www.geeksforgeeks.org/c/sleep-function-in-c/
-

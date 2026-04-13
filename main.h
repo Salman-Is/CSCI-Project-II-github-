@@ -4,8 +4,8 @@
 #include "defs.h"
 
 
-#define GOOD  1
-#define EVIL  -1
+#define GOOD 1
+#define EVIL -1
 
 void pressEnter();
 void playerAl();
@@ -27,10 +27,10 @@ extern char currentEnemyDrop[32];
 
 /* ================= PLAYER STATS ================= */
 extern int karma;
-extern int maxTurnDamage;  // Sword Damage (counterattacks) <-- from correct pattern
-extern int maxPlayerTurnDamage; // Arrow Damage (direct attacks) <-- from choosing to fire arrow
 // extern int playerMaxHP;
 extern int coins;
+extern int karmaAtkBoost;
+extern int karmaHpBoost;
 
 extern int trueSight;
 extern int dialougeSpeed;
