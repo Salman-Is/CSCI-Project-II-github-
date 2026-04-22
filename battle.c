@@ -2,6 +2,8 @@
 #include "main.h"
 #include "ui.h"
 #include "events.h"
+
+
 /*
     BATTLE script 
 
@@ -49,6 +51,7 @@ float attackBuff = 1;
 
 void randomEffect();
 
+
 /* ================= ITEM FUNCTIONS ================= */
 // addItem("ITEM NAME", X); X = 1 if its starting inventory, X = 0 if not
 
@@ -58,13 +61,13 @@ void randomEffect();
  *inventory, it adds it to the stack of items already there
  *if the new item was never obtained before it creates a new stack
  */
-void addItem(char* itemName, int startingItems) {
+void addItem(string itemName, int startingItems) {
     int found = -1;
 
     // check if item already exists
     for(int i = 0; i < inventoryCount; i++)
     {
-        if(strcmp(inventory[i].name, itemName) == 0)
+        if (inventory[i].name == itemName)
         {
             found = i;
             break;
@@ -80,7 +83,7 @@ void addItem(char* itemName, int startingItems) {
     }
     // if not found, create new stack
     else if(inventoryCount < 100){
-        strcpy(inventory[inventoryCount].name, itemName);
+        inventory[inventoryCount].name = itemName;
         inventory[inventoryCount].quantity = 1;
         inventoryCount++;
         if (startingItems == 0)
@@ -100,13 +103,13 @@ void addItem(char* itemName, int startingItems) {
  *inventory, it removes it from the stack of items already there
  *if there is onyl one of the chosen item it deletes the stack
  */
-void removeItem(char* itemName) {
+void removeItem(string itemName) {
     int found = -1;
 
     // find the item
     for(int i = 0; i < inventoryCount; i++)
     {
-        if(strcmp(inventory[i].name, itemName) == 0)
+        if(inventory[i].name == itemName)
         {
             found = i;
             break;
@@ -159,8 +162,8 @@ void encounter(Monster area[], int count, int tutorial, int special){
     strcpy(currentEnemyDrop, enemy.drop);
 
     // Determine alignment text (so sparing makes sense to the player)
-    char* alignmentText = (enemy.alignment == GOOD) ? "GOOD" : "EVIL";
-    char* alignmentColor = (enemy.alignment == GOOD) ? CYAN : RED;
+    string alignmentText = (enemy.alignment == GOOD) ? "GOOD" : "EVIL";
+    string alignmentColor = (enemy.alignment == GOOD) ? CYAN : RED;
 
     currentEnemyALIGNMENT = enemy.alignment;
     
@@ -227,7 +230,7 @@ void encounter(Monster area[], int count, int tutorial, int special){
  * Basically encounter but multiple times
  * Sparing doesnt work here
  */
-int questGauntlet(Monster area[], int count, char groupName[], char locationName[]) {
+int questGauntlet(Monster area[], int count, string groupName, string locationName) {
     printf("A quest gauntlet begins!\n");
     printf("You must defeat every %s in %s...\n\n", groupName, locationName);
 
@@ -242,8 +245,8 @@ int questGauntlet(Monster area[], int count, char groupName[], char locationName
         strcpy(currentEnemyDrop, enemy.drop);
 
         // Determine alignment text (so sparing makes sense to the player)
-        char* alignmentText = (enemy.alignment == GOOD) ? "GOOD" : "EVIL";
-        char* alignmentColor = (enemy.alignment == GOOD) ? CYAN : RED;
+        string alignmentText = (enemy.alignment == GOOD) ? "GOOD" : "EVIL";
+        string alignmentColor = (enemy.alignment == GOOD) ? CYAN : RED;
 
         currentEnemyALIGNMENT = enemy.alignment;
         
@@ -304,8 +307,8 @@ int bossFight(Monster boss) {
     currentEnemyHP = enemy.hp;
     strcpy(currentEnemyDrop, enemy.drop);
 
-    char* alignmentText = (enemy.alignment == GOOD) ? "GOOD" : "EVIL";
-    char* alignmentColor = (enemy.alignment == GOOD) ? CYAN : RED;
+    string alignmentText = (enemy.alignment == GOOD) ? "GOOD" : "EVIL";
+    string alignmentColor = (enemy.alignment == GOOD) ? CYAN : RED;
 
     currentEnemyALIGNMENT = enemy.alignment;
     
@@ -359,7 +362,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
     int enemyMaxHP = currentEnemyHP;
     int playerMaxHP = currentArmor.value * karmaHpBoost;
 
-    char* enemyName = enemy.name;
+    string enemyName = enemy.name;
 
     // reset buffs
     critDamage = 1.5;
@@ -621,7 +624,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
     }
 }
 
-void grantKarma(int addOrSubtract, int amount, char message[]) { //subtract = 0, add = anything else
+void grantKarma(int addOrSubtract, int amount, string message) { //subtract = 0, add = anything else
     if (addOrSubtract == 0){
         karma -= amount;
         if (karma < 0)
@@ -646,8 +649,8 @@ void grantKarma(int addOrSubtract, int amount, char message[]) { //subtract = 0,
     }
 }
 
-void addCoins(int amount, char message[]) {
-    if (strcmp(message, "battle") == 0 && amount != 0)
+void addCoins(int amount, string message) {
+    if (message == "battle" && amount != 0)
     {
         printf("You obtained %d %sCoins%s!\n", amount, YELLOW, NORMAL);
         coins += amount;
@@ -831,7 +834,7 @@ int modifyDamage(int baseDamage, StatusType status){
     return baseDamage;
 }
 
-char* statusText(StatusType status){
+string statusText(StatusType status){
     switch(status){
         case POISON: 
             return "POIS";
