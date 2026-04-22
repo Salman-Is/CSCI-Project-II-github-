@@ -1,10 +1,13 @@
-# include <stdio.h>
-# include <string.h>
+# include <cstdio>
+# include <cstring>
 # include <stdlib.h>
 # include <time.h>
 # include <ctype.h>
 # include <unistd.h>
 # include <windows.h>
+#include <string>
+
+using namespace std;
 
 #include "battle.h"
 #include "main.h"
@@ -68,7 +71,7 @@ int karmaHpBoost = 1;
 int dialougeSpeed = 0;
 int trueSight = 0;
 
-char playerAlignment[] = "NEUTRAL";
+string playerAlignment = "NEUTRAL";
 
 Item currentSword;
 Item currentBow;
@@ -98,9 +101,9 @@ Item* quest3RewardsEVIL[]  = { &ancientMap, &swordmasterArmor, &flameBlade, &fro
 Item* quest4Rewards[] = { &lichPhial, &staffOfRemnant };
 
 /* ================= AREA/LOCATION NAMES ================= */
-char availableLocations[6][32] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", 
+string availableLocations[6] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", 
 "The Crystal Caves", "The Celestial Mountains", "Acention"};
-char progressKey[32][32] = {"Forest Village", "Knight's Outpost", "Plains Map", "Skysealed Temple (Group)", "Skysealed Temple (Alone)"};
+string progressKey[32] = {"Forest Village", "Knight's Outpost", "Plains Map", "Skysealed Temple (Group)", "Skysealed Temple (Alone)"};
 
 /* ================= MONSTERS/ENEMIES ================= */
 
@@ -195,7 +198,7 @@ Monster final[] = { // You will recive a really strong weapon before this guys d
  * is return 1, but I left the others there just in case we need them again
  */
 int options() {
-    char* locColor = areaColor();
+    string locColor = areaColor();
     StatusType playerStatus = NONE;
     StatusType enemyStatus = NONE;
     playerAl();
@@ -465,8 +468,8 @@ int main(void) {
                 printf("The nearby resident see's you staring. She looks away uncomfortably...\n");
             }
             if (startQuest1 != 0){
-                char* questhoice = questAlignment("Help the village", "Pillage them while they're weak");
-                if (strcmp(questhoice, "GOOD") == 0){
+                string questhoice = questAlignment("Help the village", "Pillage them while they're weak");
+                if (questhoice == "GOOD"){
                     if (questGauntlet(helpVillage, 4, "Groblin", "the Forest Village") == 1) {
                         printf("You defeated every remaining Groblin in the village...\n");
                         printf("The villagers erupt in cheers for your victory!\n");
@@ -477,7 +480,7 @@ int main(void) {
                         storyProgress++;
                     }
                 }
-                else if (strcmp(questhoice, "EVIL") == 0){
+                else if (questhoice == "EVIL"){
                     if (questGauntlet(pillageVillage, 4, "Warrior", "the Forest Village") == 1) {
                         printf("You defeated every remaining Warrior in the village...\n");
                         printf("They curse you before they lose consiousness.\n");
@@ -511,8 +514,8 @@ int main(void) {
                 printf("The Knight's stare at you with suspicion...\n");
             }
             if (startQuest2 != 0){
-                char* questhoice = questAlignment("Assist the Knights", "Turn your sword on them for the Key");
-                if (strcmp(questhoice, "GOOD") == 0){
+                string questhoice = questAlignment("Assist the Knights", "Turn your sword on them for the Key");
+                if (questhoice == "GOOD"){
                     if (questGauntlet(assistKnights, 4, "Flagon", "the Outpost") == 1) {
                         printf("You defeated every Flagon invading the Outpost...\n");
                         printf("They were no match for you...\n");
@@ -520,7 +523,7 @@ int main(void) {
                         storyProgress++;
                     }
                 }
-                else if (strcmp(questhoice, "EVIL") == 0){
+                else if (questhoice == "EVIL"){
                     if (questGauntlet(attackKnights, 4, "Knight", "the Outpost") == 1) {
                         printf("You defeated every Knight in the Outpost...\n");
                         printf("They were no match for you...\n");
@@ -559,8 +562,8 @@ int main(void) {
             if (startQuest3 != 0){
                 specialPrintf("You look at the map, and you recognize the language.\n");
                 specialPrintf("It's the same script as the record tablet you found in that cave...\n");
-                char* questhoice = questAlignment("Assist the adventurers", "Strike them down for their loot");
-                if (strcmp(questhoice, "GOOD") == 0){
+                string questhoice = questAlignment("Assist the adventurers", "Strike them down for their loot");
+                if (questhoice == "GOOD"){
                     printf("You silently nod.\n");
                     pressEnter();
                     dialougeBox("Swordmaster Lorel", GOLD, "LOREL_3");
@@ -572,7 +575,7 @@ int main(void) {
                     questRewards(quest3RewardsGOOD, 1, 0);
                     storyProgress++;
                 }
-                else if (strcmp(questhoice, "EVIL") == 0){
+                else if (questhoice == "EVIL"){
                     if (questGauntlet(attackAdventurers, 4, "Adventurer", "the group") == 1) {
                         printf("You defeated every adventurer...\n");
                         printf("They were no match for you.\n");
@@ -830,22 +833,22 @@ void pressEnter() {
 
 void playerAl() {
     // Karma between 0-33 -> EVIL, 34-66 -> NEUTRAL, 67(lol)-100 -> GOOD;
-    if (karma < 33 && strcmp(playerAlignment, "EVIL") != 0){
-        strcpy(playerAlignment, "EVIL");
+    if (karma < 33 && playerAlignment == "EVIL"){
+        playerAlignment == "EVIL";
         printf("%sYou stray further from the natural order...\n%s", RED, NORMAL);
         printf("Even the shadows whisper your name in fear.\n\n");
         karmaAtkBoost = 1.5;
         karmaHpBoost = 0.75;
     }
-    else if (karma <= 66 && karma > 32 && strcmp(playerAlignment, "NEUTRAL") != 0){
-        strcpy(playerAlignment, "NEUTRAL");
+    else if (karma <= 66 && karma > 32 && playerAlignment == "NEUTRAL"){
+        playerAlignment == "NEUTRAL";
         printf("%sYou walk the line of chaos and order.%s\n", WHITE, NORMAL);
         printf("The world treats you with cautious respect.\n\n");
         karmaAtkBoost = 1;
         karmaHpBoost = 1;
     }
-    else if (karma > 66 && strcmp(playerAlignment, "GOOD") != 0){
-        strcpy(playerAlignment, "GOOD");
+    else if (karma > 66 && playerAlignment == "GOOD"){
+        playerAlignment == "GOOD";
         printf("%sYou feel a surge of righteousness fill your heart.%s\n", CYAN, NORMAL);
         printf("The spirits sing your name with reversence.\n\n");
         karmaAtkBoost = 0.75;
@@ -958,4 +961,3 @@ void Travel() {
     printf("[0] | < Return to story               ║\n");           				 
     printf("╚═════════════════════════════════════╝\n\n");
 }
-
