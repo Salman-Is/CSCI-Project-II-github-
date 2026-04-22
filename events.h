@@ -1,6 +1,7 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 #include "defs.h"
+#include <string>
 
 void loreTablet(char text[]);
 void genericLoreResponse();
