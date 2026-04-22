@@ -1,14 +1,17 @@
-
 #include "battle.h"
 #include "main.h" 
 #include "ui.h"
 #include "events.h"
 
+#include <string>
+
+using namespace std;
+
 /*================= EVENT FUNCTIONS ================= */
 
 // In game events found by searching, quests, etc.
 // The ascii art for these were made by chatgpt by the way (except the chest & dice)
-void loreTablet(char text[]) {
+void loreTablet(string text) {
     printf("╔══════════════╗\n");
     printf("║              ║\n");
     printf("║   ═ ══ ═══   ║\n");
@@ -130,10 +133,10 @@ void riddle(char message[], char correct[], int *search, Item reward) {
         printf("The Shrine accepts your answer...\n");
         printf("It rewarded you with a %s%s%s\n\n", YELLOW, reward, NORMAL);
         (*search)++;
-        if (strcmp(reward.itemType, "Bow") == 0){
+        if (reward.itemType == "Bow"){
             upgradeBow(reward);
         }
-        if (strcmp(reward.itemType, "Sword") == 0){
+        if (reward.itemType == "Sword"){
             upgradeSword(reward);
         }
         else {
@@ -305,13 +308,13 @@ void chest(char key[], Item item, char chestType[], char chestColor[], int *sear
     {
         printf("You use your %s%s%s to open the chest...\n\n", chestColor, key, NORMAL);
         (*search)++;
-        if (strcmp(item.itemType, "Bow") == 0){
+        if (item.itemType == "Bow"){
             upgradeBow(item);
         }
-        if (strcmp(item.itemType, "Sword") == 0){
+        if (item.itemType == "Sword"){
             upgradeSword(item);
         }
-        if (strcmp(item.itemType, "Armor") == 0) {
+        if (item.itemType == "Armor"){
             upgradeArmor(item);
         }
         else {
@@ -383,11 +386,11 @@ char* questAlignment(char goodOption[], char evilOption[]) {
 void questRewards(Item* rewards[], int count, int money) {
     for(int i = 0; i < count; i++) {
         Item item = *rewards[i];
-        if (strcmp(item.itemType, "Bow") == 0){
+        if (item.itemType == "Bow"){
             upgradeBow(item);
-        } else if (strcmp(item.itemType, "Sword") == 0){
+        } else if (item.itemType == "Sword"){
             upgradeSword(item);
-        } else if (strcmp(item.itemType, "Armor") == 0){
+        } else if (item.itemType == "Armor"){
             upgradeArmor(item);
         } else {
             addItem(item.name, 0);

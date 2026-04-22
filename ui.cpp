@@ -3,8 +3,8 @@
 #include "ui.h"
 #include "events.h"
 
-char* areaColor();
-char* changeColor(StatusType status);
+string areaColor();
+string changeColor(StatusType status);
 StatusType enemyStatus = NONE;
 StatusType playerStatus = NONE;
 
@@ -84,12 +84,12 @@ Item berzerkerPotion = {"Berzerker Potion", "An unstable potion that draws out y
 Item focusCharm = {"Focus Charm", "An artifact that brings with it a calming force.", "Charm", "Crit+", CYAN, 2};
 
 /* ================= UI FUNCTIONS ================= */
-void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP){
-    char* enStatus = statusText(enemyStatus);
-    char* enStatusColor = changeColor(enemyStatus);
-    char* plStatus = statusText(playerStatus);
-    char* plStatusColor = changeColor(playerStatus);
-    char* locColor = areaColor();
+void printUI(char* turn, string enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP){
+    string enStatus = statusText(enemyStatus);
+    string enStatusColor = changeColor(enemyStatus);
+    string plStatus = statusText(playerStatus);
+    string plStatusColor = changeColor(playerStatus);
+    string locColor = areaColor();
 
     
 
@@ -99,8 +99,8 @@ void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int align
     }
     else if (strcmp(turn, "player") == 0) {
         if (battleStart == 0) {
-            char* alignmentText = (alignment == GOOD) ? "GOOD" : "EVIL";
-            char* alignmentColor = (alignment == GOOD) ? CYAN : RED;
+            string alignmentText = (alignment == GOOD) ? "GOOD" : "EVIL";
+            string alignmentColor = (alignment == GOOD) ? CYAN : RED;
 
             printf("A %s%s%s [ %s%s%s ] stands before you...\n\n", BOLD, enemyName, UNBOLD, alignmentColor, alignmentText, NORMAL);
             battleStart = 1;
@@ -273,7 +273,7 @@ void statsPage() {
     system("cls");
 }
 
-char* areaColor() {
+string areaColor() {
     switch (location)
     {
     case 1:
@@ -306,7 +306,7 @@ char* areaColor() {
     }
 }
 
-char* changeColor(StatusType status){
+string changeColor(StatusType status){
     switch(status){
         case POISON: 
             return PURPLE;

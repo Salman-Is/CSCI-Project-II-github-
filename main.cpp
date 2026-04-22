@@ -1,15 +1,9 @@
-# include <stdio.h>
-# include <string.h>
-# include <stdlib.h>
-# include <time.h>
-# include <ctype.h>
-# include <unistd.h>
-# include <windows.h>
-
 #include "battle.h"
 #include "main.h"
 #include "ui.h"
 #include "events.h"
+
+using namespace std;
 
 //MAIN script from which the entire game will be run
 
@@ -74,7 +68,7 @@ Item currentSword;
 Item currentBow;
 Item currentArmor;
 
-Inventory inventory[100];
+vector<Inventory> inventory;
 int inventoryCount = 0;
 
 int worldState = 1;

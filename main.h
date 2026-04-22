@@ -2,7 +2,18 @@
 #ifndef MAIN_H
 #define MAIN_H
 #include "defs.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+#include <ctype.h>
+#include <unistd.h>
+#include <windows.h>
+#include <vector>
 
+#include <string>
+
+using namespace std;
 
 #define GOOD 1
 #define EVIL -1

@@ -7,6 +7,10 @@
 #include <ctype.h>
 #include "defs.h"
 
+#include <string>
+
+using namespace std;
+
 extern float critDamage;
 extern float attackBuff;
 
@@ -17,13 +21,13 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
 
 void addCoins(int amount, char message[]);
 
-void addItem(char* itemName, int startingItems);
-void removeItem(char* itemName);
-void weaponUpgrade(char weaponName[], int weaponDamage);
+void addItem(string itemName, int startingItems);
+void removeItem(string itemName);
+void weaponUpgrade(string weaponName, int weaponDamage);
 
-void grantKarma(int addOrSubtract, int amount, char message[]);
+void grantKarma(int addOrSubtract, int amount, string message);
 void encounter(Monster area[], int count, int tutorial, int special);
-int questGauntlet(Monster area[], int count, char groupName[], char locationName[]);
+int questGauntlet(Monster area[], int count, string groupName, string locationName);
 int bossFight(Monster boss);
 
 void fireArrow(int* enemyHP);
@@ -32,7 +36,7 @@ void applyStatus(StatusType* status, StatusType newStatus);
 void processStatus(StatusType status, int* hp, int maxHP);
 int canAct(StatusType status);
 int modifyDamage(int baseDamage, StatusType status);
-char* statusText(StatusType status);
+string statusText(StatusType status);
 
 #define FOREST_COUNT sizeof(forest)/sizeof(forest[0])
 #define PLAINS_COUNT sizeof(plains)/sizeof(plains[0])

@@ -1,17 +1,15 @@
 #ifndef UI_H
 #define UI_H
-#include <windows.h>
-#include "defs.h"
 
 extern char currentLoc[];
 //extern char* statusColor;
 
-void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP);
+void printUI(char* turn, string enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP);
 void openInventory(int inBattle, int *playerHP);
 void statsPage();
 void healthBar(int currentHP, int maxHP, char* isEnemy);
-char* areaColor();
-char* changeColor(StatusType status);
+string areaColor();
+string changeColor(StatusType status);
 void specialPrintf(char *text);
 
 

@@ -33,7 +33,7 @@
 
 
 typedef struct {
-    char name[30];
+    string name;
     int quantity;
 } Inventory;
 
@@ -52,22 +52,22 @@ typedef enum {
 } StatusType;
 
 typedef struct {
-    char name[30];
+    string name;
     int difficultyLevel;
     int patternLength;
     int hp;
     int atk;
     int alignment;
-    char drop[30];
+    string drop;
     StatusType status;
 } Monster;
 
 typedef struct Item_struct {
-    char name[64];
-    char description[500];
-    char itemCategory[16]; // weapon, armor, potion etc
-    char itemType[16];     // sword, bow, healing etc
-    char color[16];        // WHITE, GREEN, CYAN, PURPLE, GOLD, YELLOW
+    string name;
+    string description;
+    string itemCategory; // weapon, armor, potion etc
+    string itemType;     // sword, bow, healing etc
+    string color;        // WHITE, GREEN, CYAN, PURPLE, GOLD, YELLOW
     int value;             // defense, healing, damage etc.
     StatusType status;     // additional effects
 } Item;
