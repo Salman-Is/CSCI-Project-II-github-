@@ -159,7 +159,7 @@ void encounter(Monster area[], int count, int tutorial, int special){
     
     currentEnemyATK = enemy.atk;
     currentEnemyHP = enemy.hp;
-    strcpy(currentEnemyDrop, enemy.drop);
+    currentEnemyDrop = enemy.drop;
 
     // Determine alignment text (so sparing makes sense to the player)
     string alignmentText = (enemy.alignment == GOOD) ? "GOOD" : "EVIL";
@@ -242,7 +242,7 @@ int questGauntlet(Monster area[], int count, string groupName, string locationNa
         
         currentEnemyATK = enemy.atk;
         currentEnemyHP = enemy.hp;
-        strcpy(currentEnemyDrop, enemy.drop);
+        currentEnemyDrop = enemy.drop;
 
         // Determine alignment text (so sparing makes sense to the player)
         string alignmentText = (enemy.alignment == GOOD) ? "GOOD" : "EVIL";
@@ -305,7 +305,7 @@ int bossFight(Monster boss) {
     
     currentEnemyATK = enemy.atk;
     currentEnemyHP = enemy.hp;
-    strcpy(currentEnemyDrop, enemy.drop);
+    currentEnemyDrop = enemy.drop;
 
     string alignmentText = (enemy.alignment == GOOD) ? "GOOD" : "EVIL";
     string alignmentColor = (enemy.alignment == GOOD) ? CYAN : RED;
@@ -355,9 +355,9 @@ int bossFight(Monster boss) {
  * 
  */
 int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignment, double sec_to_wait, int tutorial){
-    char pattern[10];       // Enemy's attack pattern
-    char user_pat[20];     // Player input
-    char letters[14] = {'X','O','A','B','C','D','E','F','G','H', 'I', 'W', 'Y', 'Z'}; // Possible letters for patterns
+    string pattern; // Enemy's attack pattern
+    string user_pat; // Player input
+    string letters = {'X','O','A','B','C','D','E','F','G','H', 'I', 'W', 'Y', 'Z'}; // Possible letters for patterns
 
     int enemyMaxHP = currentEnemyHP;
     int playerMaxHP = currentArmor.value * karmaHpBoost;
@@ -660,30 +660,6 @@ void addCoins(int amount, string message) {
         coins += amount;
     }
 }
-/*
-void fireArrow(int* enemyHP, int enemyMaxHP)
-{
-    system("cls");
-
-    printf("You draw your %s...\n", currentBow.name);
-
-    // deal damage
-    int damage = currentBow.value;
-    *enemyHP -= damage;
-
-    printf("You dealt %d damage!\n", damage);
-
-    // apply status effect if it exists
-    if (currentBow.effect != NONE)
-    {
-        printf("The arrow inflicts %s!\n", statusText(currentBow.effect));
-        applyStatus(&enemyStatus, currentBow.effect);
-    }
-
-    // clamp HP
-    if (*enemyHP < 0) *enemyHP = 0;
-}
-*/
 
 void fireArrow(int* enemyHP){
     // deal damage

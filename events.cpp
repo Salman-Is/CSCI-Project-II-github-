@@ -2,10 +2,7 @@
 #include "main.h" 
 #include "ui.h"
 #include "events.h"
-
-#include <string>
-
-using namespace std;
+#include "defs.h"
 
 /*================= EVENT FUNCTIONS ================= */
 
@@ -31,7 +28,7 @@ void loreTablet(string text) {
 // Some lore tablets have specific replies, but most don't
 // This is to save time so I dont have to type responses ever time theres a new tablet
 void genericLoreResponse() {
-    char messages[5][64] = {
+    string messages[5] = {
     "\nYou ponder it's meaning...\n",
     "\nThe words make you think...\n",
     "\nIt makes you question what came before...\n",
@@ -43,7 +40,7 @@ void genericLoreResponse() {
     printf("%s\n", messages[messagesIndex]);
 }
 
-void riddle(char message[], char correct[], int *search, Item reward) {
+void riddle(string message, string correct, int *search, Item reward) {
     printf("          ╔════════════╗\n");
     printf("         ╔══════════════╗\n");
     printf("       ╔══════════════════╗\n");
@@ -59,9 +56,9 @@ void riddle(char message[], char correct[], int *search, Item reward) {
     printf("This is the riddle etched into its surface...\n\n");
     printf("%s%s%s\n", GREEN, message, NORMAL);
     printf("What is your answer?\n> ");
-    char answer[99];
-    fgets(answer, 99, stdin);
-    fgets(answer, 99, stdin);
+    string answer;
+    getline(cin, answer);
+
     // doing fgets twice made it work for some reason????
     // it had some strange behavior where it sent previous inputs as the answer automatically
     // no idea why this works
@@ -128,15 +125,15 @@ void riddle(char message[], char correct[], int *search, Item reward) {
     // https://www.youtube.com/watch?v=V32VSYVd1Ro
     // https://stackoverflow.com/questions/26821468/strstr-null-doesnt-work < THANK YOU to these dudes i was stuck here for 2 hours
 
-    if (strstr(answer, correct) != NULL)
+    if (answer.find(correct) != string::npos)
     {
         printf("The Shrine accepts your answer...\n");
         printf("It rewarded you with a %s%s%s\n\n", YELLOW, reward, NORMAL);
         (*search)++;
-        if (reward.itemType == "Bow"){
+        if (reward.itemType == "Bow") {
             upgradeBow(reward);
         }
-        if (reward.itemType == "Sword"){
+        if (reward.itemType == "Sword") {
             upgradeSword(reward);
         }
         else {
@@ -148,7 +145,7 @@ void riddle(char message[], char correct[], int *search, Item reward) {
     }
 }
 
-int puzzleDoor(char* correct[]) {
+int puzzleDoor(string correct[]) {
     printf("       ╔═════════════╗\n");
     printf("       ║             ║\n");
     printf("       ║ ╔═╗ ╔═╗ ╔═╗ ║\n");
@@ -161,10 +158,10 @@ int puzzleDoor(char* correct[]) {
     printf("       ╠═════════════╣\n");
     printf("       ║  ═══   ══   ║\n");
     printf("       ╚═════════════╝\n\n");
-    char answer[4][99];
+    string answer[4];
     printf("%sWhat are the answers? (3 symbols) (NO SPACES)%s\n\n", GREEN, NORMAL);
 
-    char answers[4][99];
+    string answers[4];
     for (int i = 0; i < 3; i++) {
         printf("Symbol [ %d ]: ", i + 1);
         scanf(" %98s", answers[i]);
@@ -273,7 +270,7 @@ int puzzleDoor(char* correct[]) {
         printf("Answer %d was... ", i + 1);
         Sleep(1000);
 
-        if (strstr(answers[i], correct[i]) != NULL) {
+        if (answers[i].find(correct[i]) != string::npos) {
             printf(GREEN "correct!\n" NORMAL);
             Sleep(1000);
         } else {
@@ -285,7 +282,7 @@ int puzzleDoor(char* correct[]) {
     return 1;
 }
 
-void chest(char key[], Item item, char chestType[], char chestColor[], int *search) {
+void chest(string key, Item item, string chestType, string chestColor, int *search) {
     printf("╔══════════════════╗\n");
     printf("╠═════╠══════║═════╣\n");
     printf("║                  ║\n");
@@ -295,7 +292,7 @@ void chest(char key[], Item item, char chestType[], char chestColor[], int *sear
     printf("You find a %s%s%s chest.\n", chestColor, chestType, NORMAL);
     
     for(int i = 0; i < inventoryCount; i++) {
-        if(strcmp(inventory[i].name, key) == 0) {
+        if(inventory[i].name == key) {
             hasFoundKey = 1;
             break;
         }
@@ -308,13 +305,13 @@ void chest(char key[], Item item, char chestType[], char chestColor[], int *sear
     {
         printf("You use your %s%s%s to open the chest...\n\n", chestColor, key, NORMAL);
         (*search)++;
-        if (item.itemType == "Bow"){
+        if (item.itemType == "Bow") {
             upgradeBow(item);
         }
-        if (item.itemType == "Sword"){
+        if (item.itemType == "Sword") {
             upgradeSword(item);
         }
-        if (item.itemType == "Armor"){
+        if (item.itemType == "Armor") {
             upgradeArmor(item);
         }
         else {
@@ -331,7 +328,7 @@ int dice()
     int roll = rand() % 6 + 1;
     
     // I know it looks strange, but this is an array of dice
-    char faces[6][200] = {
+    string faces[6] = {
         "           ╔═════════╗\n           ║         ║\n           ║    ○    ║\n           ║         ║\n           ╚═════════╝",
         "           ╔═════════╗\n           ║       ● ║\n           ║         ║\n           ║ ●       ║\n           ╚═════════╝",
         "           ╔═════════╗\n           ║       ● ║\n           ║    ○    ║\n           ║ ●       ║\n           ╚═════════╝",
@@ -346,7 +343,7 @@ int dice()
     return roll;
 }
 
-char* questAlignment(char goodOption[], char evilOption[]) {
+string questAlignment(string goodOption, string evilOption) {
     printf("\nAs The Paladin, it is your job to decide the fate of this world.\n");
     printf("In this moment, do you choose to be %sGOOD%s, or %sEVIL%s?\n\n", CYAN, NORMAL, RED, NORMAL);
     printf("[ GOOD | %s ]     [ EVIL | %s ]\n", goodOption, evilOption);
@@ -354,21 +351,21 @@ char* questAlignment(char goodOption[], char evilOption[]) {
     printf("> ");
 
     int chosen = 0;
-    char choice[32] = "";
+    string choice = "";
     scanf(" %s", choice);
 
     for(int i=0;i<(sizeof(choice)/sizeof(choice[0]));i++) {
         choice[i]=toupper(choice[i]);
     }
 
-    if (strcmp(choice, "GOOD") == 0)
+    if (choice == "GOOD")
     {
         system("cls");
         printf("You have chosen the path of %sGOOD%s\n", CYAN, NORMAL);
         int chosen = 1;
         return "GOOD";
     }
-    else if (strcmp(choice, "EVIL") == 0)
+    else if (choice == "EVIL")
     {
         system("cls");
         printf("You have chosen the path of %sEVIL%s\n", RED, NORMAL);
@@ -386,11 +383,11 @@ char* questAlignment(char goodOption[], char evilOption[]) {
 void questRewards(Item* rewards[], int count, int money) {
     for(int i = 0; i < count; i++) {
         Item item = *rewards[i];
-        if (item.itemType == "Bow"){
+        if (item.itemType == "Bow") {
             upgradeBow(item);
-        } else if (item.itemType == "Sword"){
+        } else if (item.itemType == "Sword") {
             upgradeSword(item);
-        } else if (item.itemType == "Armor"){
+        } else if (item.itemType == "Armor") {
             upgradeArmor(item);
         } else {
             addItem(item.name, 0);
@@ -425,7 +422,7 @@ void searchArea() {
     }
     else {
         if (chanceofMonster > 85) {        
-            char* shopItems[] = {"Health Potion", "Health Elixer", "Berzerker Potion", "Focus Charm"};
+            string shopItems[] = {"Health Potion", "Health Elixer", "Berzerker Potion", "Focus Charm"};
             int shopPrices[] = {5, 10, 15, 20};
             shop(shopItems, shopPrices, 4); 
             return;
@@ -555,16 +552,16 @@ void searchArea() {
  */
 int dialouge() {
     // return 1 if yes, return 2 if no
-    char speakChoice[32];
+    string speakChoice;
     while(1) {
         printf("[ 1 | Yes ]     [ 2 | No ]\n");
         printf("> ");
         scanf(" %s", speakChoice);
-        if (strcmp(speakChoice, "1") == 0 || strcmp(speakChoice, "yes") == 0){
+        if (speakChoice == "1" || speakChoice == "yes"){
             system("cls");
             return 1;
         }
-        else if (strcmp(speakChoice, "2") == 0 || strcmp(speakChoice, "no") == 0) {
+        else if (speakChoice == "2" || speakChoice == "no") {
             system("cls");
             return 2;
         }
@@ -574,7 +571,7 @@ int dialouge() {
 
 // https://www.reddit.com/r/C_Programming/comments/7p0deg/aligning_outputs_from_printf_make_the_output_look/
 // hours spent looking for a solution and some guy on reddit had the same problem 8 years ago
-void dialougeBox(char* name, char* color, char* tag){
+void dialougeBox(string name, string color, string tag){
     char fileName[] = "dialouge.txt";
     FILE *file = fopen(fileName, "r");
 
@@ -659,7 +656,7 @@ void dialougeBox(char* name, char* color, char* tag){
     pressEnter();
 }
 
-void shop(char* items[], int prices[], int shop_count){
+void shop(string items[], int prices[], int shop_count){
     int choice;
     while (1){ // temp solution, shops will be more robust later
         system("cls");

@@ -1,15 +1,6 @@
 #ifndef BATTLE_H
 #define BATTLE_H
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
-#include <ctype.h>
 #include "defs.h"
-
-#include <string>
-
-using namespace std;
 
 extern float critDamage;
 extern float attackBuff;
@@ -19,7 +10,7 @@ extern StatusType enemyStatus;
 
 int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignment, double sec_to_wait, int tutorial);
 
-void addCoins(int amount, char message[]);
+void addCoins(int amount, string message);
 
 void addItem(string itemName, int startingItems);
 void removeItem(string itemName);

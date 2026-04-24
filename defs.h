@@ -1,5 +1,17 @@
 #ifndef DEFS_H
 #define DEFS_H
+# include <cstdio>
+# include <cstring>
+# include <stdlib.h>
+# include <time.h>
+# include <ctype.h>
+# include <unistd.h>
+# include <windows.h>
+#include <string>
+#include <iostream>
+#include <vector>
+
+using namespace std;
 
 #define RED "\x1b[31m"
 #define BLACK "\x1b[30m"

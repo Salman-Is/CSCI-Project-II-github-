@@ -5,15 +5,15 @@ void genericLoreResponse();
 void riddle(char message[], char correct[], int *search, Item reward);
 void chest(char key[], Item item, char chestType[], char chestColor[], int *search);
 int dice();
-char* questAlignment(char goodOption[], char evilOption[]);
+string questAlignment(char goodOption[], char evilOption[]);
 void questRewards(Item* rewards[], int count, int money);
 
-int puzzleDoor(char* correct[]);
+int puzzleDoor(string correct[]);
 
-void dialougeBox(char* name, char* color, char* tag);
+void dialougeBox(string name, string color, string tag);
 int dialouge();
 void searchArea();
-void shop(char* items[], int prices[], int shop_count);
+void shop(string items[], int prices[], int shop_count);
 
 void upgradeSword(Item item);
 void upgradeBow(Item item);
@@ -25,8 +25,8 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
 
 void addCoins(int amount, char message[]);
 
-void addItem(char* itemName, int startingItems);
-void removeItem(char* itemName);
+void addItem(string itemName, int startingItems);
+void removeItem(string itemName);
 void weaponUpgrade(char weaponName[], int weaponDamage);
 
 void grantKarma(int addOrSubtract, int amount, char message[]);
@@ -40,7 +40,7 @@ void applyStatus(StatusType* status, StatusType newStatus);
 void processStatus(StatusType status, int* hp, int maxHP);
 int canAct(StatusType status);
 int modifyDamage(int baseDamage, StatusType status);
-char* statusText(StatusType status);
+string statusText(StatusType status);
 
 ========================== Main ==================================
 
@@ -50,10 +50,10 @@ void randomEncounter();
 
 ========================== UI =====================================
 
-void printUI(char* turn, char* enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP);
+void printUI(string turn, string enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP);
 void openInventory(int inBattle, int *playerHP);
 void statsPage();
-void healthBar(int currentHP, int maxHP, char* isEnemy);
-char* areaColor();
-char* changeColor(StatusType status);
+void healthBar(int currentHP, int maxHP, string isEnemy);
+string areaColor();
+string changeColor(StatusType status);
 void specialPrintf(char *text);

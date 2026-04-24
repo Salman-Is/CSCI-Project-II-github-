@@ -2,13 +2,14 @@
 #include "main.h"
 #include "ui.h"
 #include "events.h"
+#include "defs.h"
 
 string areaColor();
 string changeColor(StatusType status);
 StatusType enemyStatus = NONE;
 StatusType playerStatus = NONE;
 
-char currentLoc[32] = "Forest";
+string currentLoc = "Forest";
 /* ================= ITEM DEFINITIONS ================= */
 
 // currently not implimented into the game at all
@@ -84,20 +85,18 @@ Item berzerkerPotion = {"Berzerker Potion", "An unstable potion that draws out y
 Item focusCharm = {"Focus Charm", "An artifact that brings with it a calming force.", "Charm", "Crit+", CYAN, 2};
 
 /* ================= UI FUNCTIONS ================= */
-void printUI(char* turn, string enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP){
+void printUI(string turn, string enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP){
     string enStatus = statusText(enemyStatus);
     string enStatusColor = changeColor(enemyStatus);
     string plStatus = statusText(playerStatus);
     string plStatusColor = changeColor(playerStatus);
     string locColor = areaColor();
 
-    
-
     // Intro/ Turn message thing
-    if (strcmp(turn, "enemy") == 0) {
+    if (turn == "enemy") {
         printf("It's the %s%s%s's turn...\n\n", RED, enemyName, NORMAL);
     }
-    else if (strcmp(turn, "player") == 0) {
+    else if (turn == "player") {
         if (battleStart == 0) {
             string alignmentText = (alignment == GOOD) ? "GOOD" : "EVIL";
             string alignmentColor = (alignment == GOOD) ? CYAN : RED;
@@ -124,11 +123,9 @@ void printUI(char* turn, string enemyName, int enemyHP, int enemyMaxHP, int alig
     // PLAYER BOX =====================================================
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
-    printf("║ [ %sThe Paladin%s ] [ %s%s%s ]                                           ║\n", BLUE, NORMAL,
-           ((strcmp(playerAlignment, "GOOD") ? CYAN :
-            strcmp(playerAlignment, "EVIL") ? RED : NORMAL)),
-           (strcmp(playerAlignment, "GOOD") ? "GOOD" :
-            (strcmp(playerAlignment, "EVIL") ? "EVIL" : "NEUT")), NORMAL);
+    printf("║ [ %sThe Paladin%s ] [ %s%s%s ]                                           ║\n", BLUE, NORMAL, 
+        ((playerAlignment == "GOOD") ? CYAN :(playerAlignment == "EVIL") ? RED : NORMAL), 
+        ((playerAlignment == "GOOD") ? "GOOD" : (playerAlignment == "EVIL") ? "EVIL" : "NEUT"), NORMAL);
     printf("║                                                                    ║\n");
     printf("║ Status: [ %s%s%s ]                                                   ║\n", plStatusColor, plStatus, NORMAL);
     printf("║                                                                    ║\n");
@@ -138,7 +135,7 @@ void printUI(char* turn, string enemyName, int enemyHP, int enemyMaxHP, int alig
     printf("║                                                                    ║\n");
 
     // PLAYER ACTION MENU (ONLY ON PLAYER TURN) ==================================
-    if (strcmp(turn, "player") == 0) {
+    if (turn == "player") {
         printf("╠════════════════════════════════════════════════════════════════════╣\n");
         printf("║      [ 1 | ATTACK ]        [ 2 | ITEMS ]        [ 3 | SPARE ]      ║\n");
     }
@@ -156,13 +153,13 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
         printf("╔═════════════════════════════════════╗\n");
         printf("[#] | BATTLE ITEMS                    ║\n");
         printf("╚═════════════════════════════════════╝\n");
-        char battleItems[32][32] = {"Health Potion", "Health Elixer", "Focus Charm", "Berzerker Potion", "Mystic Salve"};
+        string battleItems[32] = {"Health Potion", "Health Elixer", "Focus Charm", "Berzerker Potion", "Mystic Salve"};
         int battleItemCount = sizeof(battleItems) / sizeof(battleItems[0]);
         for(int i = 0; i < inventoryCount; i++)
         {
             for (int j = 0; j < battleItemCount; j++)
             {
-                if (strcmp(inventory[i].name, battleItems[j]) == 0) {
+                if (inventory[i].name == battleItems[j]) {
                     printf("[%02d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
                     break;
                 }
@@ -183,7 +180,7 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
             printf("Invalid choice.\n");
             return;
         }
-        if(strcmp(inventory[choice].name, "Health Potion") == 0)
+        if(inventory[choice].name == "Health Potion")
         {
             system("cls");
             *playerHP += 5;
@@ -192,7 +189,7 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
             }
             return;
         }
-        if(strcmp(inventory[choice].name, "Health Elixer") == 0){
+        if(inventory[choice].name == "Health Elixer"){
             system("cls");
             removeItem("Health Elixer");
             *playerHP += 10;
@@ -201,19 +198,19 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
             }
             return;
         }
-        if(strcmp(inventory[choice].name, "Mystic Salve") == 0){
+        if(inventory[choice].name == "Mystic Salve"){
             system("cls");
             removeItem("Berzerker Potion");
             applyStatus(&playerStatus, REGENERATION);
             return;
         }
-        if(strcmp(inventory[choice].name, "Focus Charm") == 0){
+        if(inventory[choice].name == "Focus Charm"){
             system("cls");
             removeItem("Focus Charm");
             critDamage = 2;
             return;
         }
-        if(strcmp(inventory[choice].name, "Berzerker Potion") == 0){
+        if(inventory[choice].name == "Berzerker Potion"){
             system("cls");
             removeItem("Berzerker Potion");
             attackBuff = 2;
@@ -245,7 +242,7 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
 }
 
 void statsPage() {
-    char* karmaColor;
+    string karmaColor;
     if (karma == 0) {
         karmaColor = RED;
     }
@@ -277,31 +274,31 @@ string areaColor() {
     switch (location)
     {
     case 1:
-        strcpy(currentLoc, "Forest of Echoes");
+        currentLoc = "Forest of Echoes";
         return GREEN;
 
     case 2:
-        strcpy(currentLoc, "Verdent Plains");
+        currentLoc = "Verdent Plains";
         return LIME;
 
     case 3:
-        strcpy(currentLoc, "Blue Lake");
+        currentLoc = "Blue Lake";
         return CYAN;
 
     case 4:
-        strcpy(currentLoc, "Crystal Caves");
+        currentLoc = "Crystal Caves";
         return DARKBLUE;
 
     case 5:
-        strcpy(currentLoc, "Celestial Mountains");
+        currentLoc = "Celestial Mountains";
         return BLACK;
 
     case 6:
-        strcpy(currentLoc, "Acention");
+        currentLoc = "Acention";
         return LILAC;
 
     default:
-        strcpy(currentLoc, "Unknown");
+        currentLoc = "Unknown";
         return NORMAL;
     }
 }
@@ -330,7 +327,7 @@ string changeColor(StatusType status){
 }
 
 // cool typewriter effect thing for story intro's
-void specialPrintf(char *text) {
+void specialPrintf(string text) {
     for (int i = 0; text[i] != '\0'; i++) {
         printf("%c", text[i]);
         fflush(stdout);
@@ -351,11 +348,11 @@ void specialPrintf(char *text) {
 * we put in the parameters of the function. x is basically the amount of filled bars 
 * that should be printed, aka currentBars.
 */
-void healthBar(int currentHP, int maxHP, char* isEnemy) {
+void healthBar(int currentHP, int maxHP, string isEnemy) {
     int maxBars = 15;
     int cuurentBars = (currentHP * maxBars) / maxHP;
 
-    char* currentColor;
+    string currentColor;
     if (cuurentBars >= 10){
         currentColor = BLUE;
     }
@@ -365,7 +362,7 @@ void healthBar(int currentHP, int maxHP, char* isEnemy) {
     else if (cuurentBars < 5){
         currentColor = DEEPRED;
     }
-    if (strcmp(isEnemy, "enemy") == 0){
+    if (isEnemy == "enemy"){
         if (trueSight == 1){
             printf("[ %d / %d ] ", currentHP, maxHP);
         }   

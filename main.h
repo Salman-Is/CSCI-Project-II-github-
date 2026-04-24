@@ -1,19 +1,7 @@
-
 #ifndef MAIN_H
 #define MAIN_H
 #include "defs.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
-#include <ctype.h>
-#include <unistd.h>
-#include <windows.h>
-#include <vector>
 
-#include <string>
-
-using namespace std;
 
 #define GOOD 1
 #define EVIL -1
@@ -34,7 +22,7 @@ extern int battleStart;
 extern int currentEnemyHP;
 extern int currentEnemyATK;
 extern int currentEnemyALIGNMENT;
-extern char currentEnemyDrop[32];
+extern string currentEnemyDrop;
 
 /* ================= PLAYER STATS ================= */
 extern int karma;
@@ -46,9 +34,9 @@ extern int karmaHpBoost;
 extern int trueSight;
 extern int dialougeSpeed;
 
-extern char playerAlignment[];
+extern string playerAlignment;
 
-extern Inventory inventory[100];
+extern vector<Inventory> inventory;
 extern int inventoryCount;
 
 extern int worldState;
