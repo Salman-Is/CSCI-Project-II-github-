@@ -241,6 +241,10 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
     }
 }
 
+void viewItem(Item item) {
+    
+}
+
 void statsPage() {
     string karmaColor;
     if (karma == 0) {

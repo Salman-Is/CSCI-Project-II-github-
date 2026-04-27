@@ -1,15 +1,17 @@
 #ifndef DEFS_H
 #define DEFS_H
-# include <cstdio>
-# include <cstring>
-# include <stdlib.h>
-# include <time.h>
-# include <ctype.h>
-# include <unistd.h>
-# include <windows.h>
+#include <cstdio>
+#include <cstring>
+#include <stdlib.h>
+#include <time.h>
+#include <ctype.h>
+#include <unistd.h>
+#include <windows.h>
 #include <string>
 #include <iostream>
 #include <vector>
+#include <print>
+
 
 using namespace std;
 
@@ -73,6 +75,7 @@ typedef struct {
     string drop;
     StatusType status;
 } Monster;
+
 
 typedef struct Item_struct {
     string name;
