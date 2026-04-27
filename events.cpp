@@ -23,7 +23,7 @@ void loreTablet(string text) {
     printf("You found a stone tablet!\n");
     printf("Its words are thus...\n\n");
 
-    printf("\"%s%s%s\"\n", ITALIC, text, UNTALIC);
+    cout << "\"" << ITALIC << text << UNTALIC << "\"\n";
 }
 // Some lore tablets have specific replies, but most don't
 // This is to save time so I dont have to type responses ever time theres a new tablet
@@ -37,7 +37,7 @@ void genericLoreResponse() {
     };
 
     int messagesIndex = rand() % 5;
-    printf("%s\n", messages[messagesIndex]);
+    cout << messages[messagesIndex] << endl;
 }
 
 void riddle(string message, string correct, int *search, Item reward) {
@@ -54,7 +54,7 @@ void riddle(string message, string correct, int *search, Item reward) {
     printf("       ╚══════════════════╝\n\n");
     printf("You come across an Ancient Shrine...\n");
     printf("This is the riddle etched into its surface...\n\n");
-    printf("%s%s%s\n", GREEN, message, NORMAL);
+    cout << GREEN << message << NORMAL << endl;
     printf("What is your answer?\n> ");
     string answer;
     getline(cin, answer);
@@ -66,7 +66,8 @@ void riddle(string message, string correct, int *search, Item reward) {
     for (int i = 0; answer[i] != '\0'; i++) {
         answer[i] = tolower(answer[i]);
     }
-    printf("Your answer: %s", answer);
+    
+    cout << "Your answer: " << answer;
 
     system("cls");
 
@@ -128,7 +129,7 @@ void riddle(string message, string correct, int *search, Item reward) {
     if (answer.find(correct) != string::npos)
     {
         printf("The Shrine accepts your answer...\n");
-        printf("It rewarded you with a %s%s%s\n\n", YELLOW, reward, NORMAL);
+        cout << "It rewarded you with a " << YELLOW << reward.name << NORMAL << "\n\n";
         (*search)++;
         if (reward.itemType == "Bow") {
             upgradeBow(reward);
@@ -159,7 +160,7 @@ int puzzleDoor(string correct[]) {
     printf("       ║  ═══   ══   ║\n");
     printf("       ╚═════════════╝\n\n");
     string answer[4];
-    printf("%sWhat are the answers? (3 symbols) (NO SPACES)%s\n\n", GREEN, NORMAL);
+    cout << GREEN << "What are the answers? (3 symbols) (NO SPACES)" << NORMAL << "\n\n";
 
     string answers[4];
     for (int i = 0; i < 3; i++) {
@@ -289,7 +290,7 @@ void chest(string key, Item item, string chestType, string chestColor, int *sear
     printf("║    [        ]    ║\n");
     printf("╚══════════════════╝\n\n");
     int hasFoundKey = -1;
-    printf("You find a %s%s%s chest.\n", chestColor, chestType, NORMAL);
+    cout << "You find a " << chestColor << chestType << NORMAL << "chest.\n";
     
     for(int i = 0; i < (int)inventory.size(); i++) {
         if(inventory.at(i).name == key) {
@@ -303,7 +304,7 @@ void chest(string key, Item item, string chestType, string chestColor, int *sear
 
     if (hasFoundKey == 1)
     {
-        printf("You use your %s%s%s to open the chest...\n\n", chestColor, key, NORMAL);
+        cout << "You use your " << chestColor << key << NORMAL << "to open the chest...\n\n";
         (*search)++;
         if (item.itemType == "Bow") {
             upgradeBow(item);
@@ -319,7 +320,7 @@ void chest(string key, Item item, string chestType, string chestColor, int *sear
         }
     }
     else {
-        printf("Find a %s%s%s to open the chest.\n\n", chestColor, key, NORMAL);
+        cout << "Find a " << chestColor<< key << NORMAL << "to open the chest.\n\n";
     }
 }
 
@@ -338,15 +339,15 @@ int dice()
     };
 
     system("cls");
-    printf("%s\n", faces[roll-1]);
+    cout << faces[roll-1] << endl;
 
     return roll;
 }
 
 string questAlignment(string goodOption, string evilOption) {
     printf("\nAs The Paladin, it is your job to decide the fate of this world.\n");
-    printf("In this moment, do you choose to be %sGOOD%s, or %sEVIL%s?\n\n", CYAN, NORMAL, RED, NORMAL);
-    printf("[ GOOD | %s ]     [ EVIL | %s ]\n", goodOption, evilOption);
+    cout << "In this moment, do you choose to be " << CYAN << "GOOD" << NORMAL << ", or" << RED << "EVIL" << NORMAL << "?\n\n";
+    cout << "[ GOOD | " << goodOption << " ]     [ EVIL | " << evilOption << " ]\n";
     printf("( Type GOOD or EVIL )\n");
     printf("> ");
 
@@ -361,14 +362,14 @@ string questAlignment(string goodOption, string evilOption) {
     if (choice == "GOOD")
     {
         system("cls");
-        printf("You have chosen the path of %sGOOD%s\n", CYAN, NORMAL);
+        cout << "You have chosen the path of " << CYAN << "GOOD" << NORMAL << endl;
         int chosen = 1;
         return "GOOD";
     }
     else if (choice == "EVIL")
     {
         system("cls");
-        printf("You have chosen the path of %sEVIL%s\n", RED, NORMAL);
+        cout << "You have chosen the path of " << RED << "EVIL" << NORMAL << endl;
         int chosen = 1;
         return "EVIL";
     }
@@ -576,7 +577,7 @@ void dialougeBox(string name, string color, string tag){
     FILE *file = fopen(fileName, "r");
 
     if (!file) {
-        printf("Could not open %s\n", fileName);
+        cout << "Could not open " << fileName << endl;
         return;
     }
     char line[256];
@@ -629,18 +630,18 @@ void dialougeBox(string name, string color, string tag){
     fclose(file);
 
     if (!found) {
-        printf("Dialogue tag [%s] not found.\n", tag);
+        cout << "Dialogue tag [" << tag << "] not found.\n";
         return;
     }
     system("cls");
     for (int i = 0; i < count; i++){
         printf(RESETCURSOR);
 
-        printf("[ %s%s%s ]\n", color, name, NORMAL);
+        cout << "[ " << color << name << NORMAL << " ]\n";
         printf("╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
 
         for (int j = 0; j <= i; j++) {
-            printf("║ %-112s ║\n", lines[j]);
+            cout << "║ " << left <<setw(112) << lines[j] << " ║\n";
         }
 
         printf("╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n\n");
@@ -664,11 +665,11 @@ void shop(string items[], int prices[], int shop_count){
         printf("╔══════════════════════════════════╗\n");
         printf("║ [#] | TRAVELING MERCHANT         ║\n");
         printf("╚══════════════════════════════════╝\n\n");
-        printf("%sCOINS%s: %d\n\n", YELLOW, NORMAL, coins);
+        cout << YELLOW << "COINS" << NORMAL << ": " << coins << "\n\n";
         printf("╔══════════════════════════════════╗\n");
         // display items
         for (int i = 0; i < shop_count; i++){
-            printf("║ [%d] %-19s %2d Coins ║\n", i + 1, items[i], prices[i]);
+            cout << "║ [" << (i + 1) << "] " << left << setw(19) << items[i] << right << setw(2) << prices[i] << " Coins ║\n";
         }
         printf("╚══════════════════════════════════╝\n\n");
         printf("╔══════════════════════════════════╗\n");
@@ -693,7 +694,7 @@ void shop(string items[], int prices[], int shop_count){
 
         if (coins >= prices[choice]){
             coins -= prices[choice];
-            printf("You bought %s!\n", items[choice]);
+            cout << "You bought " << items[choice] << "!\n";
             addItem(items[choice], 1);
         }
         else{
@@ -706,14 +707,15 @@ void shop(string items[], int prices[], int shop_count){
 void upgradeSword(Item newWeapon) {
     if (newWeapon.value > currentSword.value) {
         printf("You found a better sword!\n");
-        printf("%s -> %s\n", currentSword.name, newWeapon.name);
+        cout << currentSword.name << " -> " << newWeapon.name << endl;
 
         addItem(currentSword.name, 1); //stores in inventory
 
         currentSword = newWeapon;
     }
     else {
-        printf("The %s is weaker than your current sword.\n", newWeapon.name);
+        cout << "The " << newWeapon.name << " is weaker than your current sword.\n";
+
         addItem(newWeapon.name, 1);
     }
 }
@@ -721,14 +723,14 @@ void upgradeSword(Item newWeapon) {
 void upgradeBow(Item newWeapon) {
     if (newWeapon.value > currentBow.value) {
         printf("You found a better bow!\n");
-        printf("%s -> %s\n", currentBow.name, newWeapon.name);
+        cout << currentBow.name << " -> " << newWeapon.name << endl;
 
         addItem(currentBow.name, 1); // store old one
 
         currentBow = newWeapon;
     }
     else {
-        printf("The %s is weaker than your current bow.\n", newWeapon.name);
+        cout << "The " << newWeapon.name << " is weaker than your current bow.\n";
         addItem(newWeapon.name, 1);
     }
 }
@@ -736,14 +738,14 @@ void upgradeBow(Item newWeapon) {
 void upgradeArmor(Item newArmor) {
     if (newArmor.value > currentArmor.value) {
         printf("You found a better set of armor!\n");
-        printf("%s -> %s\n", currentArmor.name, newArmor.name);
+        cout << currentArmor.name << " -> " << newArmor.name << endl;
 
         addItem(currentArmor.name, 1); // store old one
 
         currentArmor = newArmor;
     }
     else {
-        printf("The %s is weaker than your current set of armor.\n", newArmor.name);
+        cout << "The " << newArmor.name << " is weaker than your current set of armor.\n";
         addItem(newArmor.name, 1);
     }
 }
