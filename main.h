@@ -37,7 +37,7 @@ extern int dialougeSpeed;
 extern string playerAlignment;
 
 extern vector<Inventory> inventory;
-extern int inventoryCount;
+
 
 extern int worldState;
 

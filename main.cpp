@@ -6,28 +6,6 @@
 
 //MAIN script from which the entire game will be run
 
-/*
-    Refactored battle system from memory game
-
-    - Its based on counterattacks
-    - The enemy gives you a pattern
-    - Waits a few seconds then clears the terminal
-    - And asks you to recreate it
-    - You take damage for every wrong letter, and deal damage for every right letter
-    - Details on the text page
-    - Lowkey I was way too confused on how to use multiple scripts soooo it's all on one for now
-*/
-/*
-    >>>>>>>>>>>>>>>> TODO LIST <<<<<<<<<<<<<<<<<
-
-    - Compress other switch cases (Prof Dan's feedback from submission 1)
-    - Story
-    - More regular monsters
-    - Boss monsters
-    - Tutorial (and a way for the player to choose a name)
-    - Better travelling system (only to area you alread went to)
-    - (You guys can create new features if you're up for it)
-*/
 void codeLookup();
 void fastForward();
 void giveItem();
@@ -68,7 +46,6 @@ Item currentBow;
 Item currentArmor;
 
 vector<Inventory> inventory;
-int inventoryCount = 0;
 
 int worldState = 1;
 #define COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
@@ -367,6 +344,7 @@ int main(void) {
     system("cls");
     // while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this SHOULD NOT count towards grade
     system("chcp 65001 > nul");
+
     addItem("Health Potion", 1);
     // --- Quest Variables ---
     int startQuest1 = 0;

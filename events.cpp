@@ -291,8 +291,8 @@ void chest(string key, Item item, string chestType, string chestColor, int *sear
     int hasFoundKey = -1;
     printf("You find a %s%s%s chest.\n", chestColor, chestType, NORMAL);
     
-    for(int i = 0; i < inventoryCount; i++) {
-        if(inventory[i].name == key) {
+    for(int i = 0; i < (int)inventory.size(); i++) {
+        if(inventory.at(i).name == key) {
             hasFoundKey = 1;
             break;
         }

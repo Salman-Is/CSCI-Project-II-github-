@@ -155,12 +155,12 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
         printf("╚═════════════════════════════════════╝\n");
         string battleItems[32] = {"Health Potion", "Health Elixer", "Focus Charm", "Berzerker Potion", "Mystic Salve"};
         int battleItemCount = sizeof(battleItems) / sizeof(battleItems[0]);
-        for(int i = 0; i < inventoryCount; i++)
+        for(int i = 0; i < (int)inventory.size(); i++)
         {
             for (int j = 0; j < battleItemCount; j++)
             {
-                if (inventory[i].name == battleItems[j]) {
-                    printf("[%02d] %s x%d\n", (i + 1), inventory[i].name, inventory[i].quantity);
+                if (inventory.at(i).name == battleItems[j]) {
+                    printf("[%02d] %s x%d\n", (i + 1), inventory.at(i).name, inventory.at(i).quantity);
                     break;
                 }
             }
@@ -176,11 +176,11 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
             return;
         }
         choice--; // < this genuinley took me an hour to figure out
-        if (choice > inventoryCount){
+        if (choice > (int)inventory.size()){
             printf("Invalid choice.\n");
             return;
         }
-        if(inventory[choice].name == "Health Potion")
+        if(inventory[choice - 1].name == "Health Potion")
         {
             system("cls");
             *playerHP += 5;
@@ -189,7 +189,7 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
             }
             return;
         }
-        if(inventory[choice].name == "Health Elixer"){
+        if(inventory[choice - 1].name == "Health Elixer"){
             system("cls");
             removeItem("Health Elixer");
             *playerHP += 10;
@@ -198,19 +198,19 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
             }
             return;
         }
-        if(inventory[choice].name == "Mystic Salve"){
+        if(inventory[choice - 1].name == "Mystic Salve"){
             system("cls");
             removeItem("Berzerker Potion");
             applyStatus(&playerStatus, REGENERATION);
             return;
         }
-        if(inventory[choice].name == "Focus Charm"){
+        if(inventory[choice - 1].name == "Focus Charm"){
             system("cls");
             removeItem("Focus Charm");
             critDamage = 2;
             return;
         }
-        if(inventory[choice].name == "Berzerker Potion"){
+        if(inventory[choice - 1].name == "Berzerker Potion"){
             system("cls");
             removeItem("Berzerker Potion");
             attackBuff = 2;
@@ -222,9 +222,9 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
         printf("[#] | INVENTORY                                                                    ║\n");
         printf("╚══════════════════════════════════════════════════════════════════════════════════╝\n");
         
-        for(int i = 0; i < inventoryCount; i++){
+        for(int i = 0; i < (int)inventory.size(); i++){
             
-            printf("[%02d] %-16s x%d   ", (i + 1), inventory[i].name, inventory[i].quantity);
+            printf("[%02d] %-16s x%d   ", (i + 1), inventory.at(i).name, inventory.at(i).quantity);
             
                 
             if ((i + 1) % 3 == 0) {

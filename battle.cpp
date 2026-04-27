@@ -16,35 +16,8 @@
     - And asks you to recreate it
     - You take damage for every wrong letter, and deal damage for every right letter
     - Details on the text page
-    - Lowkey I was way too confused on how to use multiple scripts soooo it's all on one for now
-*/
-/*
-    >>>>>>>>>>>>>>>> TODO LIST <<<<<<<<<<<<<<<<<
-
-    - Compress other switch cases (Prof Dan's feedback from submission 1)
-    - Take damage if you don't input pattern in time
-    - Real weapon system that upgrades when you find better weapons
-    - Finish STAT screen
-    - Story
-    - SEPARATE SCRIPTS (800 lines already ToT)
-        - battle.c --> runBattle(), encounter(), printUI(), printPlayerUI(), addItem(), removeItem()
-        - enemies.c --> Monster structs
-        - main.c --> openInventory(), loreTablet(), statsPage(), genericLoreResponse()
-    - More regular monsters
-    - Boss monsters
-    - Tutorial (and a way for the player to choose a name)
-    - Consequences of Karma (details on text page)
-    - Better travelling system (only to area you alread went to)
-    - (You guys can create new features if you're up for it)
 */
 
-/*
-    >>>>>>>>>>>>>>>> TODO LIST <<<<<<<<<<<<<<<<<
-
-    - Take damage if you don't input pattern in time
-    - Weapon Upgrade function (checks if your damage would benifit from this new weapon before changing damage)
-    - (You guys can create new features if you're up for it)
-*/
 
 float critDamage = 1.5;
 float attackBuff = 1;
@@ -65,9 +38,9 @@ void addItem(string itemName, int startingItems) {
     int found = -1;
 
     // check if item already exists
-    for(int i = 0; i < inventoryCount; i++)
+    for(int i = 0; i < (int)inventory.size(); i++)
     {
-        if (inventory[i].name == itemName)
+        if (inventory.at(i).name == itemName)
         {
             found = i;
             break;
@@ -82,10 +55,11 @@ void addItem(string itemName, int startingItems) {
         }
     }
     // if not found, create new stack
-    else if(inventoryCount < 100){
-        inventory[inventoryCount].name = itemName;
-        inventory[inventoryCount].quantity = 1;
-        inventoryCount++;
+    else if((int)inventory.size() < 100){
+        Inventory newItem;
+        newItem.name = itemName;
+        newItem.quantity = 1;
+        inventory.push_back(newItem);
         if (startingItems == 0)
         {
             printf("You obtained: %s%s%s!\n", GOLD, itemName, NORMAL);
@@ -107,9 +81,9 @@ void removeItem(string itemName) {
     int found = -1;
 
     // find the item
-    for(int i = 0; i < inventoryCount; i++)
+    for(int i = 0; i < (int)inventory.size(); i++)
     {
-        if(inventory[i].name == itemName)
+        if(inventory.at(i).name == itemName)
         {
             found = i;
             break;
@@ -123,11 +97,11 @@ void removeItem(string itemName) {
         // if stack becomes empty, remove it
         if(inventory[found].quantity <= 0)
         {
-            for(int i = found; i < inventoryCount - 1; i++)
+            for(int i = found; i < (int)inventory.size() - 1; i++)
             {
-                inventory[i] = inventory[i + 1];
+                inventory.at(i) = inventory[i + 1];
             }
-            inventoryCount--;
+            inventory.pop_back();
         }
 
         printf("You used a %s%s%s.\n", YELLOW, itemName, NORMAL);
