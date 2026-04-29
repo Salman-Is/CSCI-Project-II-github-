@@ -333,7 +333,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
     string letters = {'X','O','A','B','C','D','E','F','G','H', 'I', 'W', 'Y', 'Z'}; // Possible letters for patterns
 
     int enemyMaxHP = currentEnemyHP;
-    int playerMaxHP = currentArmor.value * karmaHpBoost;
+    int playerMaxHP = currentArmor.getValue() * karmaHpBoost;
 
     string enemyName = enemy.name;
 
@@ -451,7 +451,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                 }
                 // ----------------- Damage Calculation -----------------
                 // changed because of int division rounding bug
-                int damageToEnemy = (correct * currentSword.value * attackBuff * karmaAtkBoost) / patternLength;                 
+                int damageToEnemy = (correct * currentSword.getValue() * attackBuff * karmaAtkBoost) / patternLength;                 
                 int damageToPlayer = ((patternLength - correct) * currentEnemyATK) / patternLength; 
 
                 // juuust in case (idk if this would matter but it might still round to 0)
@@ -465,17 +465,17 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
 
                 damageToPlayer = modifyDamage(damageToPlayer, enemyStatus);
                 damageToEnemy = modifyDamage(damageToEnemy, playerStatus);
-                cout << "You counter the attack with your " << currentSword.color << BOLD << currentSword.name << UNBOLD << NORMAL << "...\n";
+                cout << "You counter the attack with your " << currentSword.getColor() << BOLD << currentSword.getName() << UNBOLD << NORMAL << "...\n";
                 Sleep(1500);
                 // perfect counter system
                 if (correct == patternLength){
                     printf("%sPERFECT COUNTER!%s\n", BLUE, NORMAL);
                     damageToEnemy = (damageToEnemy*critDamage) + 2;
-                    if (currentSword.status != NONE){
+                    if (currentSword.getStatus() != NONE){
                         int random = rand() % 100;
                         if (random <= 25 && enemyStatus != NONE) {
-                            applyStatus(&enemyStatus, currentSword.status);
-                            cout << "\nYou afflicted the " << enemyName << " with " << changeColor(currentSword.status) << statusText(currentSword.status) << NORMAL << "!\n";
+                            applyStatus(&enemyStatus, currentSword.getStatus());
+                            cout << "\nYou afflicted the " << enemyName << " with " << changeColor(currentSword.getStatus()) << statusText(currentSword.getStatus()) << NORMAL << "!\n";
                         } 
                     }         
                 }
@@ -636,21 +636,21 @@ void addCoins(int amount, string message) {
 
 void fireArrow(int* enemyHP){
     // deal damage
-    int damage = currentBow.value * karmaAtkBoost;
+    int damage = currentBow.getValue() * karmaAtkBoost;
     damage = modifyDamage(damage, playerStatus);
     if (damage < 1) damage = 1;  // just in case
     *enemyHP -= damage;
 
-    cout << "\nYou draw your " << BOLD << currentBow.color << currentBow.name << UNBOLD << NORMAL << "...\n";
+    cout << "\nYou draw your " << BOLD << currentBow.getColor() << currentBow.getName() << UNBOLD << NORMAL << "...\n";
     printf("Your arrow dealt %d damage!\n", damage);
     Sleep(3000);
     system("cls");
 
     // apply status effect if it exists
-    if (currentBow.status != NONE){
-        applyStatus(&enemyStatus, currentBow.status);
+    if (currentBow.getStatus() != NONE){
+        applyStatus(&enemyStatus, currentBow.getStatus());
         if (enemyStatus != DIVINE) {
-            cout << "The arrow inflicts " << changeColor(currentBow.status) << statusText(currentBow.status) << NORMAL << "!\n";
+            cout << "The arrow inflicts " << changeColor(currentBow.getStatus()) << statusText(currentBow.getStatus()) << NORMAL << "!\n";
         }
     }
 
