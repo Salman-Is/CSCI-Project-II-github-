@@ -43,8 +43,6 @@ Project Three Plan =============================================================
         - Emerald City ->
         - Lake ->
         - Caves ->
-        - Underground City ->
-        - Tundra ->
         - Mountains ->
         - Sky City ->
         - Ancention ->

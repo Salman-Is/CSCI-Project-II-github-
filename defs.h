@@ -77,16 +77,51 @@ typedef struct {
     StatusType status;
 } Monster;
 
-
-typedef struct Item_struct {
+class Item{
+private:
     string name;
     string description;
     string itemCategory; // weapon, armor, potion etc
     string itemType;     // sword, bow, healing etc
     string color;        // WHITE, GREEN, CYAN, PURPLE, GOLD, YELLOW
     int value;             // defense, healing, damage etc.
+    
+public:
     StatusType status;     // additional effects
-} Item;
+    string getName();
+    string getDesc();
+    string getCategory();
+    string getType();
+    string getColor();
+    int getValue();
+
+    // void setName(string name);
+    // void Item::setDesc(string newDesc);
+    // void Item::setCategory(string newCat);
+    // void Item::setType(string newType);
+    // void Item::setColor(string newColor);
+    // void Item::setValue(int newVal);
+
+    Item(string newName, string newDesc, string newCat, string newType, string newColor, int newVal, StatusType newStatus = NONE) {
+        name = newName;
+        description = newDesc;
+        itemCategory = newCat;
+        itemType = newType;
+        color = newColor;
+        value = newVal;
+        status = newStatus;
+    }
+};
+
+// typedef struct Item_struct {
+//     string name;
+//     string description;
+//     string itemCategory; // weapon, armor, potion etc
+//     string itemType;     // sword, bow, healing etc
+//     string color;        // WHITE, GREEN, CYAN, PURPLE, GOLD, YELLOW
+//     int value;             // defense, healing, damage etc.
+//     StatusType status;     // additional effects
+// } Item;
 
 
 

@@ -9,6 +9,20 @@ string changeColor(StatusType status);
 StatusType enemyStatus = NONE;
 StatusType playerStatus = NONE;
 
+string Item::getName(){ return name; }
+string Item::getDesc(){ return description; }
+string Item::getCategory(){ return itemCategory; }
+string Item::getType(){ return itemType; }
+string Item::getColor(){ return color; }
+int Item::getValue(){ return value; }
+
+// void Item::setName(string newName){name = newName;}
+// void Item::setDesc(string newDesc){description = newDesc;}
+// void Item::setCategory(string newCat){itemCategory = newCat;}
+// void Item::setType(string newType){itemType = newType;}
+// void Item::setColor(string newColor){color = newColor;}
+// void Item::setValue(int newVal){value = newVal;}
+
 string currentLoc = "Forest";
 /* ================= ITEM DEFINITIONS ================= */
 
@@ -16,73 +30,74 @@ string currentLoc = "Forest";
 // probably gonna have to be a future addition lol
 
 // Swords ------------------------------------------------------------------
-Item ironSword = {"Iron Sword", "A basic, chipped sword found in a cave.", "Weapon", "Sword", WHITE, 5, NONE};
-Item steelSword = {"Steel Sword", "A sturdy bow forged with iron and carbon.", "Weapon", "Sword", WHITE, 6, NONE};
-Item goldSword = {"Gold Sword", "A heavy, oriental sword unfit for battle, though it still works.", "Weapon", "Sword", GREEN, 8, NONE};
-Item knightSword = {"Knight Sword", "The offical sword used by Knights of Aureveil.", "Weapon", "Sword", GREEN, 8, BLEED};
-Item grassBlade = {"Grass Blade", "A strange sword enchanted with natural magic.", "Weapon", "Sword", GREEN, 10, POISON};
-Item flameBlade = {"Grass Blade", "An enchanted sword, lit ablaze.", "Weapon", "Sword", GREEN, 11, BURN};
-Item ancientSword = {"Ancient Sword", "A strange sword enchanted with ancient magic.", "Weapon", "Sword", PURPLE, 19, FEAR};
-Item staffOfRemnant = {"Staff of Kyra's Remnant", "A cursed spear created by Racher the Lich", "Weapon", "Sword", CYAN, 12, FEAR};
+Item ironSword = Item("Iron Sword", "A basic, chipped sword found in a cave.", "Weapon", "Sword", WHITE, 5, NONE);
+Item steelSword = Item("Steel Sword", "A sturdy bow forged with iron and carbon.", "Weapon", "Sword", WHITE, 6, NONE);
+
+Item goldSword = Item("Gold Sword", "A heavy, oriental sword unfit for battle, though it still works.", "Weapon", "Sword", GREEN, 8, NONE);
+Item knightSword = Item("Knight Sword", "The offical sword used by Knights of Aureveil.", "Weapon", "Sword", GREEN, 8, BLEED);
+Item grassBlade = Item("Grass Blade", "A strange sword enchanted with natural magic.", "Weapon", "Sword", GREEN, 10, POISON);
+Item flameBlade = Item("Grass Blade", "An enchanted sword, lit ablaze.", "Weapon", "Sword", GREEN, 11, BURN);
+Item ancientSword = Item("Ancient Sword", "A strange sword enchanted with ancient magic.", "Weapon", "Sword", PURPLE, 19, FEAR);
+Item staffOfRemnant = Item("Staff of Kyra's Remnant", "A cursed spear created by Racher the Lich", "Weapon", "Sword", CYAN, 12, FEAR);
 
 Item ultraSword = {"Ultra Sword", "An OP sword used for testing and nothing else", "Weapon", "Sword", RED, 999, FEAR};
 
 // Bows ------------------------------------------------------------------
-Item woodenBow = {"Wooden Bow", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4, NONE};
-Item steelBow = {"Steel Bow", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5, NONE};
-Item knightBow = {"Knight Bow", "The offical bow used by Knights of Aureveil.", "Weapon", "Bow", GREEN, 6, BLEED};
-Item rimegrassBow = {"Rimegrass Bow", "A strange bow enchanted with natural magic.", "Weapon", "Bow", GREEN, 6, POISON};
-Item flameBow = {"Flame Bow", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7, BURN};
-Item frostBow = {"Frost Bow", "An enchanted bow that freezes the air around an arrow", "Weapon", "Bow", GREEN, 7, FROZEN};
-Item ancientBow = {"Ancient Bow", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14, FEAR};
+Item woodenBow = Item("Wooden Bow", "A simple, useable bow found in a cave.", "Weapon", "Bow", WHITE, 4, NONE);
+Item steelBow = Item("Steel Bow", "A wooden bow reinforced with steel.", "Weapon", "Bow", WHITE, 5, NONE);
+Item knightBow = Item("Knight Bow", "The offical bow used by Knights of Aureveil.", "Weapon", "Bow", GREEN, 6, BLEED);
+Item rimegrassBow = Item("Rimegrass Bow", "A strange bow enchanted with natural magic.", "Weapon", "Bow", GREEN, 6, POISON);
+Item flameBow = Item("Flame Bow", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7, BURN);
+Item frostBow = Item("Frost Bow", "An enchanted bow that freezes the air around an arrow", "Weapon", "Bow", GREEN, 7, FROZEN);
+Item ancientBow = Item("Ancient Bow", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14, FEAR);
 
-Item ultraBow = {"Ultra Bow", "An OP bow used for testing and nothing else", "Weapon", "Bow", RED, 999, FEAR};
+Item ultraBow = Item("Ultra Bow", "An OP bow used for testing and nothing else", "Weapon", "Bow", RED, 999, FEAR);
 
 // Armor ------------------------------------------------------------------
 // hp starts at 25, the number next to the name is how much it adds to your health, and the int at the end is your health after addition
-Item chainArmor = {"Chain Armor", "A flimsy set of armor found in a cave.", "Armor", "Armor", WHITE, 25};
-Item steelArmor = {"Steel Armor", "A set of armor forged with iron and carbon.", "Armor", "Armor", WHITE, 27};
-Item knightArmor = {"Knight Armor", "The offical set of armor used by Knights of Aureveil.", "Armor", "Armor", GREEN, 29};
-Item swordmasterArmor = {"Swordmaster Armor", "A set of armor forged by the famous Swordmaster Lorel.", "Armor", "Armor", GREEN, 32};
+Item chainArmor = Item("Chain Armor", "A flimsy set of armor found in a cave.", "Armor", "Armor", WHITE, 25);
+Item steelArmor = Item("Steel Armor", "A set of armor forged with iron and carbon.", "Armor", "Armor", WHITE, 27);
+Item knightArmor = Item("Knight Armor", "The offical set of armor used by Knights of Aureveil.", "Armor", "Armor", GREEN, 29);
+Item swordmasterArmor = Item("Swordmaster Armor", "A set of armor forged by the famous Swordmaster Lorel.", "Armor", "Armor", GREEN, 32);
 
-Item ultraArmor = {"Ultra Armor", "An OP set of armor used for testing and nothing else", "Armor", "Armor", RED, 999};
+Item ultraArmor = Item("Ultra Armor", "An OP set of armor used for testing and nothing else", "Armor", "Armor", RED, 999);
 
 // Drops ------------------------------------------------------------------
-Item gel = {"Gel", "An oozing mass with little use", "Drop", "NULL", WHITE, 0};
-Item lumoraWing = {"Lumora Wing", "The fragile wing of a Lumora", "Drop", "NULL", WHITE, 0};
-Item leather = {"Leather", "A supple material useful for crafting", "Drop", "NULL", WHITE, 0};
-Item groblinTooth = {"Groblin Tooth", "A blunt tooth used for crushing prey", "Drop", "NULL", WHITE, 0};
-Item emberScale = {"Ember Scale", "A firey scale with magical properties", "Drop", "NULL", GREEN, 0};
+Item gel = Item("Gel", "An oozing mass with little use", "Drop", "NULL", WHITE, 0);
+Item lumoraWing = Item("Lumora Wing", "The fragile wing of a Lumora", "Drop", "NULL", WHITE, 0);
+Item leather = Item("Leather", "A supple material useful for crafting", "Drop", "NULL", WHITE, 0);
+Item groblinTooth = Item("Groblin Tooth", "A blunt tooth used for crushing prey", "Drop", "NULL", WHITE, 0);
+Item emberScale = Item("Ember Scale", "A firey scale with magical properties", "Drop", "NULL", GREEN, 0);
 
-Item beastlyTooth = {"Beastly Tooth", "A sharp, serated tooth that causes infection", "Drop", "NULL", WHITE, 0};
-Item nimoraWing = {"Nimora Wing", "The fragile wing of a Lumora", "Drop", "NULL", WHITE, 0};
-Item trollLeather = {"Troll Leather", "Leather that has been hardened by Troll engineering", "Drop", "NULL", WHITE, 0};
-Item fossilizedMoss = {"Fossilized Moss", "Hardened moss from the back of an ancient creature", "Drop", "NULL", GREEN, 0};
-Item greatAntlers = {"Great Antlers", "Proof you took down a Great Stag", "Drop", "NULL", WHITE, 0};
-Item lichPhial = {"Lich's Phial", "Proof you took down a Great Stag", "Drop", "NULL", WHITE, 0};
+Item beastlyTooth = Item("Beastly Tooth", "A sharp, serated tooth that causes infection", "Drop", "NULL", WHITE, 0);
+Item nimoraWing = Item("Nimora Wing", "The fragile wing of a Lumora", "Drop", "NULL", WHITE, 0);
+Item trollLeather = Item("Troll Leather", "Leather that has been hardened by Troll engineering", "Drop", "NULL", WHITE, 0);
+Item fossilizedMoss = Item("Fossilized Moss", "Hardened moss from the back of an ancient creature", "Drop", "NULL", GREEN, 0);
+Item greatAntlers = Item("Great Antlers", "Proof you took down a Great Stag", "Drop", "NULL", WHITE, 0);
+Item lichPhial = Item("Lich's Phial", "Proof you took down a Great Stag", "Drop", "NULL", WHITE, 0);
 
-Item shellShard = {"Shell Shard", "A sturdy shard of a Mega Turtle that is the base of Tide Armor", "Drop", "NULL", WHITE, 0};
-Item venomVial = {"Venom Vial", "A drop of venom collected from a Lake Serpent", "Drop", "NULL", WHITE, 0};
-Item krakenTentacle = {"Kraken Tentacle", "The arm of a Kraken useful for potions", "Drop", "NULL", WHITE, 0};
-Item shinyScale = {"Shiny Scale", "A gleaming scale that can be used to craft charms", "Drop", "NULL", WHITE, 0};
-Item gelatinousMass = {"Gelatinous Mass", "A large, oozing mass with little use", "Drop", "NULL", WHITE, 0};
+Item shellShard = Item("Shell Shard", "A sturdy shard of a Mega Turtle that is the base of Tide Armor", "Drop", "NULL", WHITE, 0);
+Item venomVial = Item("Venom Vial", "A drop of venom collected from a Lake Serpent", "Drop", "NULL", WHITE, 0);
+Item krakenTentacle = Item("Kraken Tentacle", "The arm of a Kraken useful for potions", "Drop", "NULL", WHITE, 0);
+Item shinyScale = Item("Shiny Scale", "A gleaming scale that can be used to craft charms", "Drop", "NULL", WHITE, 0);
+Item gelatinousMass = Item("Gelatinous Mass", "A large, oozing mass with little use", "Drop", "NULL", WHITE, 0);
 
 // Special ------------------------------------------------------------------
-Item verdentKey = {"Verdent Key", "An emerald key found in the Plains. It has to open something...", "Item", "Key", GREEN, 0};
-Item frostKey = {"Frost Key", "A saffire key found in the Caves. It has to open something...", "Item", "Key", CYAN, 0};
-Item ancientCoin = {"Ancient Coin", "", "Item", "NULL", PURPLE, 50};
-Item elderiteGemstone = {"Elderite Gemstone", "", "Item", "NULL", CYAN, 50};
-Item kingdomCrest = {"Kingdom Crest", "", "Item", "NULL", CYAN, 50};
-Item ancientMap = {"Ancient Map", "", "Item", "NULL", CYAN, 0};
+Item verdentKey = Item("Verdent Key", "An emerald key found in the Plains. It has to open something...", "Item", "Key", GREEN, 0);
+Item frostKey = Item("Frost Key", "A saffire key found in the Caves. It has to open something...", "Item", "Key", CYAN, 0);
+Item ancientCoin = Item("Ancient Coin", "", "Item", "NULL", PURPLE, 50);
+Item elderiteGemstone = Item("Elderite Gemstone", "", "Item", "NULL", CYAN, 50);
+Item kingdomCrest = Item("Kingdom Crest", "", "Item", "NULL", CYAN, 50);
+Item ancientMap = Item("Ancient Map", "", "Item", "NULL", CYAN, 0);
 
-Item septre = {"Septre", "An artifact that grants the holder Divinity.", "Charm", "Status", GOLD, 0};
+Item septre = Item("Septre", "An artifact that grants the holder Divinity.", "Charm", "Status", GOLD, 0);
 
 // Potions/Charms --------------------------------------------------------------
-Item healthPotion = {"Health Potion", "A potion that will heal most injuries.", "Potion", "Healing", WHITE, 5};
-Item healthElixer = {"Health Elixer", "A magical potion made with the blessing of Astra.", "Potion", "Healing", GREEN, 10};
-Item mysticSalve = {"Mystic Salve", "An oinment imbued with the power of Regeneration.", "Potion", "Status", CYAN, 0};
-Item berzerkerPotion = {"Berzerker Potion", "An unstable potion that draws out your deep power.", "Potion", "Attack+", GREEN, 2};
-Item focusCharm = {"Focus Charm", "An artifact that brings with it a calming force.", "Charm", "Crit+", CYAN, 2};
+Item healthPotion = Item("Health Potion", "A potion that will heal most injuries.", "Potion", "Healing", WHITE, 5);
+Item healthElixer = Item("Health Elixer", "A magical potion made with the blessing of Astra.", "Potion", "Healing", GREEN, 10);
+Item mysticSalve = Item("Mystic Salve", "An oinment imbued with the power of Regeneration.", "Potion", "Status", CYAN, 0);
+Item berzerkerPotion = Item("Berzerker Potion", "An unstable potion that draws out your deep power.", "Potion", "Attack+", GREEN, 2);
+Item focusCharm = Item("Focus Charm", "An artifact that brings with it a calming force.", "Charm", "Crit+", CYAN, 2);
 
 /* ================= UI FUNCTIONS ================= */
 void printUI(string turn, string enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP){
@@ -132,7 +147,7 @@ void printUI(string turn, string enemyName, int enemyHP, int enemyMaxHP, int ali
     printf("║                                                                    ║\n");
     printf("║ HP: [ %02d / %d ] ", playerHP, playerMaxHP);
     healthBar(playerHP, playerMaxHP, "player");
-    printf(" Arrow: [ %02d ] Sword: [ %02d ]    ║\n",currentBow.value, currentSword.value);
+    printf(" Arrow: [ %02d ] Sword: [ %02d ]    ║\n",currentBow.getValue(), currentSword.getValue());
     printf("║                                                                    ║\n");
 
     // PLAYER ACTION MENU (ONLY ON PLAYER TURN) ==================================
@@ -185,8 +200,8 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
         {
             system("cls");
             *playerHP += 5;
-            if (*playerHP > currentArmor.value){
-                *playerHP = currentArmor.value;
+            if (*playerHP > currentArmor.getValue()){
+                *playerHP = currentArmor.getValue();
             }
             return;
         }
@@ -194,8 +209,8 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
             system("cls");
             removeItem("Health Elixer");
             *playerHP += 10;
-            if (*playerHP > currentArmor.value){
-                *playerHP = currentArmor.value;
+            if (*playerHP > currentArmor.getValue()){
+                *playerHP = currentArmor.getValue();
             }
             return;
         }
@@ -226,7 +241,6 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
         for(int i = 0; i < (int)inventory.size(); i++){
             
             printf("[%02d] %-16s x%d   ", (i + 1), inventory.at(i).name, inventory.at(i).quantity);
-            
                 
             if ((i + 1) % 3 == 0) {
                 printf("\n");
@@ -241,6 +255,8 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
         system("cls");
     }
 }
+
+
 
 void viewItem(Item item) {
     
@@ -264,9 +280,9 @@ void statsPage() {
     cout << karmaColor << "Karma:       " << karma << NORMAL << "\n";
     cout << "Coins:       " << coins << "\n";
     cout << "\n";
-    cout << "Armor:       " << currentArmor.name << " -> x" << currentArmor.value << " health\n";
-    cout << "Sword:       " << currentSword.name << " -> x" << currentSword.value << " damage\n";
-    cout << "Bow:         " << currentBow.name << " -> x" << currentBow.value << " damage\n\n";
+    cout << "Armor:       " << currentArmor.getName() << " -> x" << currentArmor.getValue() << " health\n";
+    cout << "Sword:       " << currentSword.getName() << " -> x" << currentSword.getValue() << " damage\n";
+    cout << "Bow:         " << currentBow.getName() << " -> x" << currentBow.getValue() << " damage\n\n";
     cout << "Alignment:   " << playerAlignment << "\n";
     cout << "\n";
     printf("╔═══════════════════════════════════════════╗\n");             				 

@@ -4,6 +4,7 @@
 #include "events.h"
 #include "defs.h"
 
+
 /*================= EVENT FUNCTIONS ================= */
 
 // In game events found by searching, quests, etc.
@@ -58,10 +59,7 @@ void riddle(string message, string correct, int *search, Item reward) {
     printf("What is your answer?\n> ");
     string answer;
     getline(cin, answer);
-
-    // doing fgets twice made it work for some reason????
-    // it had some strange behavior where it sent previous inputs as the answer automatically
-    // no idea why this works
+    getline(cin, answer);
 
     for (int i = 0; answer[i] != '\0'; i++) {
         answer[i] = tolower(answer[i]);
@@ -670,7 +668,7 @@ void shop(string items[], int prices[], int shop_count){
         printf("╔══════════════════════════════════╗\n");
         // display items
         for (int i = 0; i < shop_count; i++){
-            cout << "║ [" << (i + 1) << "] " << left << setw(19) << items[i] << right << setw(2) << prices[i] << " Coins ║\n";
+            cout << "║ [" << (i + 1) << "] " << left << setw(19) << items[i] << right << setw(2) << prices[i] << " Coins  ║\n";
         }
         printf("╚══════════════════════════════════╝\n\n");
         printf("╔══════════════════════════════════╗\n");
@@ -722,17 +720,17 @@ void upgradeSword(Item newWeapon) {
 }
 
 void upgradeBow(Item newWeapon) {
-    if (newWeapon.value > currentBow.value) {
+    if (newWeapon.getValue() > currentBow.getValue()) {
         printf("You found a better bow!\n");
-        cout << currentBow.name << " -> " << newWeapon.name << endl;
+        cout << currentBow.getName() << " -> " << newWeapon.getName() << endl;
 
-        addItem(currentBow.name, 1); // store old one
+        addItem(currentBow.getName(), 1); // store old one
 
         currentBow = newWeapon;
     }
     else {
-        cout << "The " << newWeapon.name << " is weaker than your current bow.\n";
-        addItem(newWeapon.name, 1);
+        cout << "The " << newWeapon.getName() << " is weaker than your current bow.\n";
+        addItem(newWeapon.getName(), 1);
     }
 }
 
