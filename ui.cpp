@@ -94,14 +94,14 @@ void printUI(string turn, string enemyName, int enemyHP, int enemyMaxHP, int ali
 
     // Intro/ Turn message thing
     if (turn == "enemy") {
-        printf("It's the %s%s%s's turn...\n\n", RED, enemyName, NORMAL);
+        cout << "It's the " << RED << enemyName << NORMAL << "'s turn...\n\n";
     }
     else if (turn == "player") {
         if (battleStart == 0) {
             string alignmentText = (alignment == GOOD) ? "GOOD" : "EVIL";
             string alignmentColor = (alignment == GOOD) ? CYAN : RED;
 
-            printf("A %s%s%s [ %s%s%s ] stands before you...\n\n", BOLD, enemyName, UNBOLD, alignmentColor, alignmentText, NORMAL);
+           cout << "A " << BOLD << enemyName << UNBOLD << " [ " << alignmentColor << alignmentText << NORMAL << " ] stands before you...\n\n";
             battleStart = 1;
         } else {
             printf("Its your turn...\n\n");
@@ -110,9 +110,9 @@ void printUI(string turn, string enemyName, int enemyHP, int enemyMaxHP, int ali
     // ENEMY BOX ===================================
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("                                                                      \n");
-    printf("  [ %s%s%s ] [ %s%s%s ]\n", RED, enemyName, NORMAL,(alignment==GOOD?CYAN:RED),(alignment==GOOD?"GOOD":"EVIL"), NORMAL);
+    cout << "  [ " << RED << enemyName << NORMAL << " ] [ " << (alignment==GOOD?CYAN:RED) << (alignment==GOOD?"GOOD":"EVIL") << NORMAL << " ]\n";
     printf("                                                                      \n");
-    printf("  Status: [ %s%s%s ] Drop: [ %s%s%s ]\n",enStatusColor, enStatus, NORMAL, YELLOW, currentEnemyDrop, NORMAL);
+    cout << "  Status: [ " << enStatusColor << enStatus << NORMAL << " ] Drop: [ " << YELLOW << currentEnemyDrop << NORMAL << " ]\n";
     printf("                                                                      \n");
     printf("  HP: ");
     healthBar(enemyHP, enemyMaxHP, "enemy");
@@ -123,11 +123,12 @@ void printUI(string turn, string enemyName, int enemyHP, int enemyMaxHP, int ali
     // PLAYER BOX =====================================================
     printf("╔════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                    ║\n");
-    printf("║ [ %sThe Paladin%s ] [ %s%s%s ]                                           ║\n", BLUE, NORMAL, 
-        ((playerAlignment == "GOOD") ? CYAN :(playerAlignment == "EVIL") ? RED : NORMAL), 
-        ((playerAlignment == "GOOD") ? "GOOD" : (playerAlignment == "EVIL") ? "EVIL" : "NEUT"), NORMAL);
+    cout << "║ [ " << BLUE << "The Paladin" << NORMAL << " ] [ " 
+     << ((playerAlignment == "GOOD") ? CYAN : (playerAlignment == "EVIL") ? RED : NORMAL)
+     << ((playerAlignment == "GOOD") ? "GOOD" : (playerAlignment == "EVIL") ? "EVIL" : "NEUT") 
+     << NORMAL << " ]                                           ║\n";
     printf("║                                                                    ║\n");
-    printf("║ Status: [ %s%s%s ]                                                   ║\n", plStatusColor, plStatus, NORMAL);
+    cout << "║ Status: [ " << plStatusColor << plStatus << NORMAL << " ]                                                   ║\n";
     printf("║                                                                    ║\n");
     printf("║ HP: [ %02d / %d ] ", playerHP, playerMaxHP);
     healthBar(playerHP, playerMaxHP, "player");
@@ -160,7 +161,7 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
             for (int j = 0; j < battleItemCount; j++)
             {
                 if (inventory.at(i).name == battleItems[j]) {
-                    printf("[%02d] %s x%d\n", (i + 1), inventory.at(i).name, inventory.at(i).quantity);
+                    cout << "[" << setw(2) << setfill('0') << (i+1) << "] " << inventory.at(i).name << " x" << inventory.at(i).quantity << "\n";
                     break;
                 }
             }
@@ -170,7 +171,7 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
         printf("Select item number to use (0 to exit): ");
 
         int choice;
-        scanf("%d", &choice);
+        cin >> choice;
         system("cls");
         if(choice == 0){
             return;
@@ -236,7 +237,7 @@ void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 
         printf("Select item number to use (0 to exit): ");
 
         int choice;
-        scanf("%d", &choice);
+        cin >> choice;
         system("cls");
     }
 }
@@ -259,15 +260,15 @@ void statsPage() {
     printf("╔═══════════════════════════════════════════╗\n");
     printf("║  CHARACTER STATS                          ║\n");
     printf("╚═══════════════════════════════════════════╝\n");
-    printf("Name:        %sThe Paladin%s\n", BLUE, NORMAL);
-    printf("%sKarma:       %d%s\n", karmaColor, karma, NORMAL);
-    printf("Coins:       %d\n", coins);
-    printf("\n");
-    printf("Armor:       %s -> x%d health\n", currentArmor.name, currentArmor.value);
-    printf("Sword:       %s -> x%d damage\n", currentSword.name, currentSword.value);
-    printf("Bow:         %s -> x%d damage\n\n", currentBow.name, currentBow.value);
-    printf("Alignment:   %s\n", playerAlignment);
-    printf("\n");
+    cout << "Name:        " << BLUE << "The Paladin" << NORMAL << "\n";
+    cout << karmaColor << "Karma:       " << karma << NORMAL << "\n";
+    cout << "Coins:       " << coins << "\n";
+    cout << "\n";
+    cout << "Armor:       " << currentArmor.name << " -> x" << currentArmor.value << " health\n";
+    cout << "Sword:       " << currentSword.name << " -> x" << currentSword.value << " damage\n";
+    cout << "Bow:         " << currentBow.name << " -> x" << currentBow.value << " damage\n\n";
+    cout << "Alignment:   " << playerAlignment << "\n";
+    cout << "\n";
     printf("╔═══════════════════════════════════════════╗\n");             				 
     printf("╚═══════════════════════════════════════════╝\n");
     pressEnter();
@@ -374,7 +375,7 @@ void healthBar(int currentHP, int maxHP, string isEnemy) {
     printf("[ ");
     for (int i = 0; i < maxBars; i++) {
         if (i <= cuurentBars)
-            printf("%s■%s", currentColor, NORMAL);  
+            cout << currentColor << "■" << NORMAL;  
         else
             printf("%s■%s", GRAY, NORMAL);
     }

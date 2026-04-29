@@ -170,7 +170,7 @@ int options() {
     StatusType enemyStatus = NONE;
     playerAl();
     printf("\n%sWhat would you like to do?%s\n", BOLD, UNBOLD);
-    printf("\n[ Area: %s%s%s ] [ Progress: %d / %d ] [ %s ]\n", locColor, currentLoc, NORMAL, storyProgress, maxStoryProgress, playerAlignment);
+    cout << "\n[ Area: " << locColor << currentLoc << NORMAL << " ] [ Progress: " << storyProgress << " / " << maxStoryProgress << " ] [ " << playerAlignment << " ]\n";
     printf("╔══════════════════════════════════════════════════════════════╗\n");
     printf("║                            EXPLORE                           ║\n");
     printf("║                                                              ║\n");
@@ -186,7 +186,7 @@ int options() {
 
     char choice;
     printf("> ");
-    scanf(" %c", &choice);
+    cin >> choice;
     
     if (choice == '1') { // WALK
         if (isTravelling != 0) {
@@ -225,18 +225,18 @@ int options() {
         int newLocation = 0;
         Travel();
         printf("> ");
-        scanf(" %d", &newLocation);
+        cin >> newLocation;
         if (newLocation != 0 && newLocation <= sizeof(availableLocations)/sizeof(availableLocations[0])){
             system("cls");
             location = newLocation;
             isTravelling = 1;
-            printf("You travel to the %s.\n", availableLocations[newLocation-1]);
+            cout << "You travel to the " << availableLocations[newLocation-1] << ".\n";
         }
         else if (newLocation == 0){
             system("cls");
             location = saveLocation;
             isTravelling = 0;
-            printf("You return to the %s.\n", progressKey[storyProgress-1]);
+            cout << "You return to the " << progressKey[storyProgress-1] << ".\n";
         }
         
         return 5;
@@ -342,6 +342,7 @@ int options() {
  */
 int main(void) {
     system("cls");
+ 
     // while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this SHOULD NOT count towards grade
     system("chcp 65001 > nul");
 
@@ -379,7 +380,7 @@ int main(void) {
         printf("║                                                                                ║\n");
         printf("╚════════════════════════════════════════════════════════════════════════════════╝\n\n");
         printf("> ");
-        scanf(" %d", &start);
+        cin >> start;
         if (start == 1){
             printf("Your journey begins...\n\n");
             storyProgress = 0; 
@@ -801,21 +802,21 @@ void pressEnter() {
 
 void playerAl() {
     // Karma between 0-33 -> EVIL, 34-66 -> NEUTRAL, 67(lol)-100 -> GOOD;
-    if (karma < 33 && playerAlignment == "EVIL"){
+    if (karma < 33 && playerAlignment != "EVIL"){
         playerAlignment = "EVIL";
         printf("%sYou stray further from the natural order...\n%s", RED, NORMAL);
         printf("Even the shadows whisper your name in fear.\n\n");
         karmaAtkBoost = 1.5;
         karmaHpBoost = 0.75;
     }
-    else if (karma <= 66 && karma > 32 && playerAlignment == "NEUTRAL"){
+    else if (karma <= 66 && karma > 32 && playerAlignment != "NEUTRAL"){
         playerAlignment = "NEUTRAL";
         printf("%sYou walk the line of chaos and order.%s\n", WHITE, NORMAL);
         printf("The world treats you with cautious respect.\n\n");
         karmaAtkBoost = 1;
         karmaHpBoost = 1;
     }
-    else if (karma > 66 && playerAlignment == "GOOD"){
+    else if (karma > 66 && playerAlignment != "GOOD"){
         playerAlignment = "GOOD";
         printf("%sYou feel a surge of righteousness fill your heart.%s\n", CYAN, NORMAL);
         printf("The spirits sing your name with reversence.\n\n");
@@ -860,13 +861,13 @@ void fastForward() {
     printf("PROGRESS:\n\n");
     for(int i = 0; i < (sizeof(progressKey)/sizeof(progressKey[0])); i++)
     {
-        printf("[%02d] %s\n",(i+1), progressKey[i]);
+        cout << "[" << setw(2) << setfill('0') << (i+1) << "] " << progressKey[i] << "\n";
     }
     printf("> ");
-    scanf(" %d", &newProgress);
+    cin >> newProgress;
     storyProgress = newProgress;
     system("cls");
-    printf("Your story progress is [ %s ].\n", progressKey[newProgress-1]);
+    cout << "Your story progress is [ " << progressKey[newProgress-1] << " ].\n";
 }
 /**
  * Used to hack in an item into your inventory wherever you are
@@ -882,12 +883,12 @@ void giveItem() {
     int amount;
     printf("How many?\n");
     printf("> ");
-    scanf(" %d", &amount);
+    cin >> amount;
     for (int i = 0; i < amount; i++)
     {
         addItem(item, 1);
     }
-    printf("You have added %d [ %s%s%s ] to your inventory.\n", amount, CYAN, item, NORMAL);
+    cout << "You have added " << amount << " [ " << CYAN << item << NORMAL << " ] to your inventory.\n";
 }
 
 void Travel() {
@@ -921,7 +922,7 @@ void Travel() {
     for(int i = 0; i < sizeof(availableLocations)/sizeof(availableLocations[0]); i++)
         {
             if (i <= unlockedAreas) {
-                printf("[%d] %s\n",(i+1), availableLocations[i]);
+                cout << "[" << (i+1) << "] " << availableLocations[i] << "\n";
             }     
         }
     printf("═══════════════════════════════════════\n");

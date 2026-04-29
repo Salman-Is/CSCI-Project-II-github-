@@ -4,10 +4,8 @@
 #include "events.h"
 
 
-
 /*
     BATTLE script 
-
 /*
     Refactored battle system from memory game
 
@@ -52,7 +50,7 @@ void addItem(string itemName, int startingItems) {
     {
         inventory[found].quantity++;
         if (startingItems == 0) {
-            printf("You obtained another %s%s%s!\n", GOLD, itemName, NORMAL);
+            cout << "You obtained another " << GOLD << itemName << NORMAL << "!\n";
         }
     }
     // if not found, create new stack
@@ -63,7 +61,7 @@ void addItem(string itemName, int startingItems) {
         inventory.push_back(newItem);
         if (startingItems == 0)
         {
-            printf("You obtained: %s%s%s!\n", GOLD, itemName, NORMAL);
+            cout << "You obtained: " << GOLD << itemName << NORMAL << "!\n";
         }
     }
     else
@@ -105,7 +103,7 @@ void removeItem(string itemName) {
             inventory.pop_back();
         }
 
-        printf("You used a %s%s%s.\n", YELLOW, itemName, NORMAL);
+        cout << "You used a " << YELLOW << itemName << NORMAL << ".\n";
     }
     else
     {
@@ -155,10 +153,10 @@ void encounter(Monster area[], int count, int tutorial, int special){
     // check if battle won --> check alignment --> check karma -->
     // max karma is 100, min karma is 0
     printf("[ BATTLE RESULTS ]\n");
-    printf("╔════════════════════════════════════════════════════════════════════╗\n\n");
+    printf("════════════════════════════════════════════════════════════════════\n\n");
     if (result == 1)
     {
-        printf("You defeated the %s%s%s!\n\n", alignmentColor, enemy.name, NORMAL);
+        cout << "You defeated the " << alignmentColor << enemy.name << NORMAL << "!\n\n";
         addItem(enemy.drop, 0);
         addCoins(5, "battle");
         printf("\n");
@@ -172,7 +170,7 @@ void encounter(Monster area[], int count, int tutorial, int special){
         }
     } 
     else if (result == 2) {
-        printf("You spared the %s%s%s!\n", alignmentColor, enemy.name, NORMAL);
+        cout << "You spared the " << alignmentColor << enemy.name << NORMAL << "!\n";
 
         if (enemy.alignment == GOOD)
         {
@@ -186,7 +184,7 @@ void encounter(Monster area[], int count, int tutorial, int special){
     }
     else 
     {
-        printf("You were defeated by the %s...\n\n", enemy.name);
+        cout << "You were defeated by the " << enemy.name << "...\n\n";
         if (karma > 60)
         {
             grantKarma(0, 10, "This death angers your soul...");
@@ -196,7 +194,7 @@ void encounter(Monster area[], int count, int tutorial, int special){
             grantKarma(1, 10, "This death makes you empathize with those who can't rise again...");
         }
     }
-    printf("\n╚════════════════════════════════════════════════════════════════════╝\n");
+    printf("\n════════════════════════════════════════════════════════════════════\n");
     printf("Current Karma: %d\n", karma);
     pressEnter();
 }
@@ -207,7 +205,7 @@ void encounter(Monster area[], int count, int tutorial, int special){
  */
 int questGauntlet(Monster area[], int count, string groupName, string locationName) {
     printf("A quest gauntlet begins!\n");
-    printf("You must defeat every %s in %s...\n\n", groupName, locationName);
+    cout << "You must defeat every " << groupName << " in " << locationName << "...\n\n";
 
     Sleep(3000);
 
@@ -225,7 +223,7 @@ int questGauntlet(Monster area[], int count, string groupName, string locationNa
 
         currentEnemyALIGNMENT = enemy.alignment;
         
-        printf("A %s [%s%s%s] appears before you!\n", enemy.name, alignmentColor, alignmentText, NORMAL);
+        cout << "A " << enemy.name << " [" << alignmentColor << alignmentText << NORMAL << "] appears before you!\n";
 
         int result = runBattle(enemy, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0, 0);
 
@@ -233,7 +231,7 @@ int questGauntlet(Monster area[], int count, string groupName, string locationNa
         {
             addItem(enemy.drop, 0);
             addCoins(5, "battle");
-            printf("You defeated the %s%s%s!\n\n", alignmentColor, enemy.name, NORMAL);
+            cout << "You defeated the " << alignmentColor << enemy.name << NORMAL << "!\n\n";
             if (enemy.alignment == GOOD) {
                 printf("You killed a %sGOOD%s creature!\n", CYAN, NORMAL);
                 grantKarma(0, 5, "An immense guilt weighs upon your soul...");
@@ -244,14 +242,14 @@ int questGauntlet(Monster area[], int count, string groupName, string locationNa
             }
         } 
         else if (result == 2) {
-            printf("You spared the %s%s%s!\n", alignmentColor, enemy.name, NORMAL);
+            cout << "You spared the " << alignmentColor << enemy.name << NORMAL << "!\n";
 
             printf("The enemies overrun you. Quest failed...\n\n");
             return 2;
         }
         else 
         {
-            printf("You were defeated by the %s...\n\n", enemy.name);
+            cout << "You were defeated by the " << enemy.name << "...\n\n";
             if (karma > 60)
             {
                 grantKarma(0, 10, "This death angers your soul...");
@@ -287,13 +285,13 @@ int bossFight(Monster boss) {
 
     currentEnemyALIGNMENT = enemy.alignment;
     
-    printf("Defeat %s [%s%s%s]!\n", enemy.name, alignmentColor, alignmentText, NORMAL);
+    cout << "Defeat " << enemy.name << " [" << alignmentColor << alignmentText << NORMAL << "]!\n";
 
     int result = runBattle(enemy, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0, 0);
 
     if (result == 1){
         addItem(enemy.drop, 0);
-        printf("You defeated %s%s%s!\n\n", alignmentColor, enemy.name, NORMAL);
+        cout << "You defeated " << alignmentColor << enemy.name << NORMAL << "!\n\n";
         if (enemy.alignment == GOOD) {
             printf("You killed a %sGOOD%s creature!\n", CYAN, NORMAL);
             grantKarma(0, 5, "An immense guilt weighs upon your soul...");
@@ -304,13 +302,13 @@ int bossFight(Monster boss) {
         }
     } 
     else if (result == 2) {
-        printf("You spared the %s%s%s!\n", alignmentColor, enemy.name, NORMAL);
+        cout << "You spared the " << alignmentColor << enemy.name << NORMAL << "!\n";
         printf("Your hesitation lead to your defeat...\n\n");
         return 2;
     }
     else 
     {
-        printf("You were defeated by %s...\n\n", enemy.name);
+        cout << "You were defeated by the " << enemy.name << "...\n\n";
         if (karma > 60){
             grantKarma(0, 10, "This death angers your soul...");
         }
@@ -330,8 +328,8 @@ int bossFight(Monster boss) {
  * 
  */
 int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignment, double sec_to_wait, int tutorial){
-    string pattern; // Enemy's attack pattern
-    string user_pat; // Player input
+    string pattern(patternLength + 1, '\0'); // Enemy's attack pattern
+    string user_pat(patternLength + 1, '\0'); // Player input
     string letters = {'X','O','A','B','C','D','E','F','G','H', 'I', 'W', 'Y', 'Z'}; // Possible letters for patterns
 
     int enemyMaxHP = currentEnemyHP;
@@ -440,7 +438,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
 
                 // ----------------- Player Counter Input -----------------
                 printf("\nEnter counter sequence: %s%s", BOLD, BLUE);
-                scanf(" %s", user_pat);
+                cin >> user_pat;
                 printf("%s%s", UNBOLD, NORMAL);
 
                 int correct = 0;
@@ -467,7 +465,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
 
                 damageToPlayer = modifyDamage(damageToPlayer, enemyStatus);
                 damageToEnemy = modifyDamage(damageToEnemy, playerStatus);
-                printf("You counter the attack with your %s%s%s%s%s...\n", currentSword.color, BOLD, currentSword.name, UNBOLD, NORMAL);
+                cout << "You counter the attack with your " << currentSword.color << BOLD << currentSword.name << UNBOLD << NORMAL << "...\n";
                 Sleep(1500);
                 // perfect counter system
                 if (correct == patternLength){
@@ -477,7 +475,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                         int random = rand() % 100;
                         if (random <= 25 && enemyStatus != NONE) {
                             applyStatus(&enemyStatus, currentSword.status);
-                            printf("\nYou afflicted the %s with %s%s%s!\n", enemyName, changeColor(currentSword.status), statusText(currentSword.status), NORMAL);
+                            cout << "\nYou afflicted the " << enemyName << " with " << changeColor(currentSword.status) << statusText(currentSword.status) << NORMAL << "!\n";
                         } 
                     }         
                 }
@@ -502,14 +500,14 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                             if (enemy.status != NONE){
                                 applyStatus(&playerStatus, enemy.status);
                                 if (playerStatus != DIVINE) {
-                                    printf("\nThe %s has afflicted you with %s%s%s!\n", enemyName, changeColor(enemy.status), statusText(enemy.status), NORMAL);
+                                    cout << "\nThe " << enemyName << " has afflicted you with " << changeColor(enemy.status) << statusText(enemy.status) << NORMAL << "!\n";
                                 }
                             }
                         }
                     }
                 }
 
-                printf("\nYou dealt %d damage to the %s!\n", damageToEnemy, enemyName);
+                cout << "\nYou dealt " << damageToEnemy << " damage to the " << enemyName << "!\n";
                 printf("You took %d damage!\n", damageToPlayer);
 
                 // ----------------- Pause -----------------
@@ -544,7 +542,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                 // 1 = fire arrow, 2 = use item 3 = spare
                 char turnChoice = '0';
 
-                scanf(" %c", &turnChoice);
+                cin >> turnChoice;
                 if (turnChoice == '1') {
                     fireArrow(&enemyHP);
                     playerTurn = 0;
@@ -564,7 +562,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                             spare = 1;
                         }
                         else {
-                            printf("The %s refused to be spared!\n", enemyName);
+                            cout << "The " << enemyName << " refused to be spared!\n";
                         }
                     }
                     else {
@@ -608,7 +606,7 @@ void grantKarma(int addOrSubtract, int amount, string message) { //subtract = 0,
             printf("The Deity of %sEVIL%s recognizes your cruelty...\n\n", RED, NORMAL);
             addItem("Essence", 0);
         }
-        printf("\n%s\n\n", message);
+        cout << "\n" << message << "\n\n";
         printf("-%d Karma\n", amount);
     }
     else {
@@ -619,7 +617,7 @@ void grantKarma(int addOrSubtract, int amount, string message) { //subtract = 0,
             printf("The Deity of %sGOOD%s presents you with a reward...\n\n", CYAN, NORMAL);
             addItem("Ichor", 0);
         }
-        printf("%s\n\n", message);
+        cout << "\n" << message << "\n\n";
         printf("+%d Karma\n", amount);
     }
 }
@@ -627,11 +625,11 @@ void grantKarma(int addOrSubtract, int amount, string message) { //subtract = 0,
 void addCoins(int amount, string message) {
     if (message == "battle" && amount != 0)
     {
-        printf("You obtained %d %sCoins%s!\n", amount, YELLOW, NORMAL);
+        cout << "You earned " << amount << " " << YELLOW << "Coins" << NORMAL << "!\n";
         coins += amount;
     }
     else {
-        printf("You found %d %sCoins%s!\n", amount, YELLOW, NORMAL);
+        cout << "You found " << amount << " " << YELLOW << "Coins" << NORMAL << "!\n";
         coins += amount;
     }
 }
@@ -643,7 +641,7 @@ void fireArrow(int* enemyHP){
     if (damage < 1) damage = 1;  // just in case
     *enemyHP -= damage;
 
-    printf("\nYou draw your %s%s%s%s%s...\n", BOLD, currentBow.color, currentBow.name, UNBOLD, NORMAL);
+    cout << "\nYou draw your " << BOLD << currentBow.color << currentBow.name << UNBOLD << NORMAL << "...\n";
     printf("Your arrow dealt %d damage!\n", damage);
     Sleep(3000);
     system("cls");
@@ -652,7 +650,7 @@ void fireArrow(int* enemyHP){
     if (currentBow.status != NONE){
         applyStatus(&enemyStatus, currentBow.status);
         if (enemyStatus != DIVINE) {
-            printf("The arrow inflicts %s%s%s!\n", changeColor(currentBow.status), statusText(currentBow.status), NORMAL);
+            cout << "The arrow inflicts " << changeColor(currentBow.status) << statusText(currentBow.status) << NORMAL << "!\n";
         }
     }
 
@@ -672,7 +670,7 @@ void applyStatus(StatusType* status, StatusType newStatus){
     }
     else if (newStatus != DIVINE){
         printf("%s%s", BOLD, GOLD);
-        printf("%s Divinity is unassailable...\n\n", (*status == playerStatus ? "Your" : "The enemy's"));
+        cout << (*status == playerStatus ? "Your" : "The enemy's") << " Divinity is unassailable...\n\n";
         printf("%s%s", UNBOLD, NORMAL);
     } 
 }
@@ -695,7 +693,7 @@ void processStatus(StatusType status, int* hp, int maxHP){
             damage = (int)(maxHP * 0.15);
             if (damage < 1) damage = 1;
             printf("%s%s", BOLD, PURPLE);
-            printf("The Poison eats away at %s... (-%d HP)\n\n",(status == playerStatus ? "you" : "the enemy") ,damage);
+            cout << "The Poison eats away at " << (status == playerStatus ? "you" : "the enemy") << "... (-" << damage << " HP)\n\n";
             *hp -= damage;
             printf("%s%s", UNBOLD, NORMAL);
             break;
@@ -703,7 +701,7 @@ void processStatus(StatusType status, int* hp, int maxHP){
         case BURN:
             damage = (int)(maxHP * 0.10);
             printf("%s%s", BOLD, ORANGE);
-            printf("The Flames scorch %s... (-%d HP)\n\n",(status == playerStatus ? "you" : "the enemy") ,damage);
+            cout << "The Flames scorch " << (status == playerStatus ? "you" : "the enemy") << "... (-" << damage << " HP)\n\n";
             printf("%s%s", UNBOLD, NORMAL);
             *hp -= damage;
             break;
@@ -712,21 +710,21 @@ void processStatus(StatusType status, int* hp, int maxHP){
             damage = (int)(maxHP * 0.25);
             if (damage < 1) damage = 1;
             printf("%s%s", BOLD, RED);
-            printf("%s to Bleed out... (-%d HP)\n\n", (status == playerStatus ? "You continue" : "The enemy continues") ,damage);
+            cout << (status == playerStatus ? "You continue" : "The enemy continues") << " to Bleed out... (-" << damage << " HP)\n\n";
             printf("%s%s", UNBOLD, NORMAL);
             *hp -= damage;
             break;
 
         case FEAR:
             printf("%s%s", BOLD, DARKBLUE);
-            printf("Fear lingers in %s...\n\n", (status == playerStatus ? "your heart" : "the heart of your enemy"));
+            cout << "Fear lingers in " << (status == playerStatus ? "your heart" : "the heart of your enemy") << "...\n\n";
             printf("%s%s", UNBOLD, NORMAL);
             break;
 
         case REGENERATION:
             heal = (int)(maxHP * 0.15);
             printf("%s%s", BOLD, PINK);
-            printf("%s a bit of health... (+%d HP)\n\n", (status == playerStatus ? "You regenerate" : "The enemy regenerates") ,heal);
+            cout << (status == playerStatus ? "You regenerate" : "The enemy regenerates") << " a bit of health... (+" << heal << " HP)\n\n";
             printf("%s%s", UNBOLD, NORMAL);
             *hp += heal;
             break;
@@ -753,7 +751,7 @@ int canAct(StatusType status){
         int chance = rand() % 100;
         if (chance < 33){
             printf("%s%s", BOLD, CYAN);
-            printf("%s Frozen...\n\n", (status == playerStatus ? "You are" : "The enemy is"));
+            cout << (status == playerStatus ? "You are" : "The enemy is") << " Frozen...\n\n";
             printf("%s%s", UNBOLD, NORMAL);
             return 0;
         }
