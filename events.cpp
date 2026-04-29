@@ -127,16 +127,16 @@ void riddle(string message, string correct, int *search, Item reward) {
     if (answer.find(correct) != string::npos)
     {
         printf("The Shrine accepts your answer...\n");
-        cout << "It rewarded you with a " << YELLOW << reward.name << NORMAL << "\n\n";
+        cout << "It rewarded you with a " << YELLOW << reward.getName() << NORMAL << "\n\n";
         (*search)++;
-        if (reward.itemType == "Bow") {
+        if (reward.getType() == "Bow") {
             upgradeBow(reward);
         }
-        if (reward.itemType == "Sword") {
+        if (reward.getType() == "Sword") {
             upgradeSword(reward);
         }
         else {
-            addItem(reward.name, 1);
+            addItem(reward.getName(), 1);
         }
     }
     else {
@@ -304,17 +304,17 @@ void chest(string key, Item item, string chestType, string chestColor, int *sear
     {
         cout << "You use your " << chestColor << key << NORMAL << "to open the chest...\n\n";
         (*search)++;
-        if (item.itemType == "Bow") {
+        if (item.getType() == "Bow") {
             upgradeBow(item);
         }
-        if (item.itemType == "Sword") {
+        if (item.getType() == "Sword") {
             upgradeSword(item);
         }
-        if (item.itemType == "Armor") {
+        if (item.getType() == "Armor") {
             upgradeArmor(item);
         }
         else {
-            addItem(item.name, 1);
+            addItem(item.getName(), 1);
         }
     }
     else {
@@ -382,14 +382,14 @@ string questAlignment(string goodOption, string evilOption) {
 void questRewards(Item* rewards[], int count, int money) {
     for(int i = 0; i < count; i++) {
         Item item = *rewards[i];
-        if (item.itemType == "Bow") {
+        if (item.getType() == "Bow") {
             upgradeBow(item);
-        } else if (item.itemType == "Sword") {
+        } else if (item.getType() == "Sword") {
             upgradeSword(item);
-        } else if (item.itemType == "Armor") {
+        } else if (item.getType() == "Armor") {
             upgradeArmor(item);
         } else {
-            addItem(item.name, 0);
+            addItem(item.getName(), 0);
         }
     }
     addCoins(money, "battle");
@@ -704,18 +704,18 @@ void shop(string items[], int prices[], int shop_count){
 }
 
 void upgradeSword(Item newWeapon) {
-    if (newWeapon.value > currentSword.value) {
+    if (newWeapon.getValue() > currentSword.getValue()) {
         printf("You found a better sword!\n");
-        cout << currentSword.name << " -> " << newWeapon.name << endl;
+        cout << currentSword.getName() << " -> " << newWeapon.getName() << endl;
 
-        addItem(currentSword.name, 1); //stores in inventory
+        addItem(currentSword.getName(), 1); //stores in inventory
 
         currentSword = newWeapon;
     }
     else {
-        cout << "The " << newWeapon.name << " is weaker than your current sword.\n";
+        cout << "The " << newWeapon.getName() << " is weaker than your current sword.\n";
 
-        addItem(newWeapon.name, 1);
+        addItem(newWeapon.getName(), 1);
     }
 }
 
@@ -735,16 +735,16 @@ void upgradeBow(Item newWeapon) {
 }
 
 void upgradeArmor(Item newArmor) {
-    if (newArmor.value > currentArmor.value) {
+    if (newArmor.getValue() > currentArmor.getValue()) {
         printf("You found a better set of armor!\n");
-        cout << currentArmor.name << " -> " << newArmor.name << endl;
+        cout << currentArmor.getName() << " -> " << newArmor.getName() << endl;
 
-        addItem(currentArmor.name, 1); // store old one
+        addItem(currentArmor.getName(), 1); // store old one
 
         currentArmor = newArmor;
     }
     else {
-        cout << "The " << newArmor.name << " is weaker than your current set of armor.\n";
-        addItem(newArmor.name, 1);
+        cout << "The " << newArmor.getName() << " is weaker than your current set of armor.\n";
+        addItem(newArmor.getName(), 1);
     }
 }
