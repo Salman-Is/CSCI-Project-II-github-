@@ -44,6 +44,7 @@ Item knightBow = Item("Knight Bow", "The offical bow used by Knights of Aureveil
 Item rimegrassBow = Item("Rimegrass Bow", "A strange bow enchanted with natural magic.", "Weapon", "Bow", GREEN, 6, POISON);
 Item flameBow = Item("Flame Bow", "An enchanted bow that lights arrows on fire", "Weapon", "Bow", GREEN, 7, BURN);
 Item frostBow = Item("Frost Bow", "An enchanted bow that freezes the air around an arrow", "Weapon", "Bow", GREEN, 7, FROZEN);
+Item emeraldBow = Item("Emerald Bow", "A dazzling bow that blinds opponents with is sparkle", "Weapon", "Bow", GREEN, 8, BLIND);
 Item ancientBow = Item("Ancient Bow", "A bow forged in a age long past, by a civilization long forgotten", "Weapon", "Bow", PURPLE, 14, FEAR);
 
 Item ultraBow = Item("Ultra Bow", "An OP bow used for testing and nothing else", "Weapon", "Bow", RED, 999, FEAR);

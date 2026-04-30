@@ -30,6 +30,7 @@ extern Item knightBow;
 extern Item rimegrassBow;
 extern Item flameBow;
 extern Item frostBow;
+extern Item emeraldBow;
 extern Item ancientBow;
 
  // Armor ------------------------------------------------------------------

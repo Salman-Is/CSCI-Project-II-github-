@@ -208,6 +208,53 @@ for them to be brought back to their rightful state at the hands of a being forg
 I am not sure if I should be impressed... or simply angry.
 This is where you fall, Paladin.
 
+[GUARD_1]
+Halt. State your business in Emerald City.
+...
+You're the one who dealt with the Lich? The whole city has been talking.
+Go on through. The council will want to speak with you.
+
+[SERA_1]
+It's quite the honor to meet you, Paladin. The mortal world has been waiting for your arrival for centries.
+And we now ask for your help. I'll be direct with you. The council is falling apart.
+Half of them think the Lich's defeat at the Skysealed Temple means the danger has passed.
+We can't afford a war right now. We're already struggling to defend the city as it is.
+The Royal Knights need to be restationed at the walls, but the captain has already mobilized them!
+We need someone the city will listen to. Someone who has already faced the dark.
+That's you. Will you help us?
+
+[CORRUPT_1]
+You should have stayed out of this, Paladin.
+The Kingdom has been rotting from the inside for decades.
+We're not starting a war. We're finishing one that was never supposed to end.
+You just made the list.
+
+[CORRUPT_2]
+HOW DARE YOU! You have no right to interfere with the affairs of mortals!
+This is OUR city! OUR fight! This war would have made us STRONG! UNBEATABLE! And you ruined it!
+
+[SERA_2]
+What is the meaning of this, Alder? What is this nonsense you speak of?
+
+[CORRUPT_3]
+Listen to me Sera!
+
+[SERA_3] 
+I think I've heard enough from you, Alder. We will discuss this again during your trial.
+I suspect this means your reports of increased monster activity were fabricated?
+You are under arrest for treason.
+...
+Forgive us Paladin, it seems Alder had ulterior motives for starting this war. 
+If you want direction, the great Blue Lake is west of the city. 
+A few issues have arrised in the Lake, and your help would be of great assistance.
+
+[SERA_4]
+You know none of that was true. I've scouted the area for a week, the monsters you speak of do not exist.
+I don't know what you want from this. Power? Chaos? But I know what a war will cost this kingdom.
+People will die for a lie you told in front of the council.
+I hope whatever you're after is worth that. 
+
+
 [END OF THE FILE]
 This is the end of the file. We needed that tag there because otherwise it might not
 know when to stop. Maybe it wasn't necessary idk i never checked

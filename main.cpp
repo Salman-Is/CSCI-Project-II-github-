@@ -3,6 +3,7 @@
 #include "ui.h"
 #include "events.h"
 #include "defs.h"
+#include "story.h"
 
 //MAIN script from which the entire game will be run
 
@@ -50,27 +51,10 @@ vector<Item> inventory;
 int worldState = 1;
 #define COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
 
-/* ================= QUEST REWARDS ================= */
-
-// Forest Village quest
-Item* quest1RewardsGOOD[] = { &steelArmor, &healthElixer, &healthPotion, &healthPotion, &elderiteGemstone };
-Item* quest1RewardsEVIL[]  = { &goldSword, &healthElixer, &healthPotion, &berzerkerPotion };
-
-// Knight Outpost quest
-Item* quest2RewardsGOOD[] = { &knightArmor, &knightBow, &healthPotion, &focusCharm, &kingdomCrest };
-Item* quest2RewardsEVIL[]  = { &knightSword, &knightArmor, &berzerkerPotion, &berzerkerPotion };
-
-// Plains Map quest
-Item* quest3RewardsGOOD[] = { &ancientMap };
-Item* quest3RewardsEVIL[]  = { &ancientMap, &swordmasterArmor, &flameBlade, &frostBow };
-
-// Plains Temple quest
-Item* quest4Rewards[] = { &lichPhial, &staffOfRemnant };
-
 /* ================= AREA/LOCATION NAMES ================= */
 string availableLocations[6] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", 
 "The Crystal Caves", "The Celestial Mountains", "Acention"};
-string progressKey[32] = {"Forest Village", "Knight's Outpost", "Plains Map", "Skysealed Temple (Group)", "Skysealed Temple (Alone)"};
+string progressKey[32] = {"Forest Village", "Knight's Outpost", "Plains Map", "Skysealed Temple (Group)", "Skysealed Temple (Alone)", "Emerald City"};
 
 /* ================= MONSTERS/ENEMIES ================= */
 
@@ -114,13 +98,14 @@ Monster attackAdventurers[] = { // attack adventurers
     {"Swordmaster 'Lorel'", 4, 6, 35, 10, GOOD, berzerkerPotion, BLEED},
     {"Rouge 'Reric'", 4, 5, 20, 35, GOOD, brokenDagger, BURN}, 
     {"Mage 'Sypha'", 5, 5, 25, 20, GOOD, fairyDust, FROZEN}};
-Monster lichBoss = {"Racher the Lich", 3, 9, 65, 50, GOOD, trueSightSigil, FEAR};
+Monster lichBoss = {"Racher the Lich", 3, 9, 65, 50, EVIL, trueSightSigil, FEAR};
 Monster templeHoard[] = {
     {"Nightmare Wraith", 3, 5, 25, 35, EVIL, vileRemnant, FEAR},
     {"Hollowed Witch", 3, 5, 25, 35, EVIL, vileRemnant, FEAR},
     {"Dark Revenant", 3, 5, 25, 35, EVIL, vileRemnant, FEAR},
     {"Blighted Stalker", 3, 5, 25, 35, EVIL, vileRemnant, FEAR},
     {"Cursed Sentinel", 3, 7, 25, 35, EVIL, vileRemnant, FEAR}};
+Monster corruptCaptain = {"Corrupt Captain", 3, 7, 45, 50, EVIL, refinedMetal, BLIND};
 
 // Lake enemy groups
 Monster lake[] = {
@@ -128,16 +113,16 @@ Monster lake[] = {
     {"Lake Serpent", 2, 5, 25, 10, EVIL, venomVial, POISON},
     {"Kraken", 3, 5, 35, 10, EVIL, krakenTentacle, FEAR},
     {"Ripplet", 2, 5, 15, 5, GOOD, shinyScale, FROZEN},
-    {"Glowfin", 3, 5, 15, 7, EVIL, luminousScale, NONE},
+    {"Glowfin", 3, 5, 15, 7, EVIL, luminousScale, BLIND},
     {"Oozard", 4, 5, 15, 8, EVIL, gelatinousMass, FROZEN}};
 
 // Cave enemy groups
 Monster caves[] = {
-    {"Cursed Bat", 2, 5, 15, 5, EVIL, echoFang, BLEED},
+    {"Cursed Bat", 2, 5, 15, 5, EVIL, echoFang, BLIND},
     {"Crystal Snake", 2, 4, 25, 6, EVIL, crystalVenom, POISON},
     {"Shardling", 2, 4, 25, 6, GOOD, quartzShard, FROZEN},
     {"Shifter Fox", 3, 5, 15, 5, EVIL, mirrorCloak, NONE},
-    {"Stone Spider", 3, 5, 35, 6, EVIL, mineralSilk, NONE},
+    {"Stone Spider", 3, 5, 35, 6, EVIL, mineralSilk, BLEED},
     {"Ancient Automaton", 4, 4, 45, 9, GOOD, gearCharge, FEAR}};
 
 // Mountain enemy groups
@@ -348,14 +333,7 @@ int main(void) {
     system("chcp 65001 > nul");
 
     addItem(healthPotion, 1);
-    // --- Quest Variables ---
-    int startQuest1 = 0;
-    int startQuest2 = 0;
-    int startQuest3 = 0;
-    int startQuest4 = 0;
-    int startQuest5 = 0;
-    // --- Quest Flags ---
-    int quest1Action = 0;
+
 
     currentBow = woodenBow;
     currentSword = ironSword;
@@ -422,401 +400,18 @@ int main(void) {
         system("cls");
         storyProgress = 1;
     }
-    while (storyProgress == 1) { // Forest Village
-        int navigataionChoice = options();
-        if (navigataionChoice == 1){
-            specialPrintf("Deep within the forest, you find a small village.\n");
-            specialPrintf("Though it was quite humble, it looks as if its been damaged.\n");
-            specialPrintf("You see a resident nearby, would you like to speak to them?\n\n");
-            int speak = dialouge(); // < events.c
-            if (speak == 1){
-                system("cls"); // this character comes back stronger later if you choose evil
-                dialougeBox("Adventurer Kalen", GREEN, "KALEN_1");
-                startQuest1++;
-            }
-            else if (speak == 2){
-                printf("The nearby resident see's you staring. She looks away uncomfortably...\n");
-            }
-            if (startQuest1 != 0){
-                string questhoice = questAlignment("Help the village", "Pillage them while they're weak");
-                if (questhoice == "GOOD"){
-                    if (questGauntlet(helpVillage, 4, "Groblin", "the Forest Village") == 1) {
-                        printf("You defeated every remaining Groblin in the village...\n");
-                        printf("The villagers erupt in cheers for your victory!\n");
-                        printf("'May the light of Astra guide your travels!'\n");
-                        printf("They shower you with their most valuable treasures...\n\n");
-                        questRewards(quest1RewardsGOOD, 5, 30);
-                        quest1Action++;
-                        storyProgress++;
-                    }
-                }
-                else if (questhoice == "EVIL"){
-                    if (questGauntlet(pillageVillage, 4, "Warrior", "the Forest Village") == 1) {
-                        printf("You defeated every remaining Warrior in the village...\n");
-                        printf("They curse you before they lose consiousness.\n");
-                        printf("You raid their treasure room and take their loot...\n\n");
-                        questRewards(quest1RewardsEVIL, 4, 20);
-                        quest1Action--;
-                        storyProgress++;
-                    }
-                }
-                else {
-                    continue;
-                }
-                pressEnter();
-            }
+
+    while(1) {
+        switch(storyProgress) {
+            case 1: forestQuest(); break;
+            case 2: outpostQuest(); break;
+            case 3: plainsMapQuest(); break;
+            case 4: plainsTempleGOOD(); break;
+            case 5: plainsTempleEVIL(); break;
+            case 6: emeraldCityQuest(); break;
         }
     }
-    while (storyProgress == 2) { // Knight Outpost
-        int navigataionChoice = options();
-        if (navigataionChoice == 1){
-            specialPrintf("After walking through the forest, you stumble upon a Knight's Outpost...\n");
-            specialPrintf("Behind them is the gate to the Verdent Plains, a vibrant pasture filled with rare monsters...\n");
-            specialPrintf("The Knights look at you as you walk up to one of them.\n");
-            specialPrintf("Only a Knight can give someone access to the Verdent Plains. Would you like to speak to them?\n\n");
-            int speak = dialouge();
-            if (speak == 1){
-                system("cls");
-                dialougeBox("Knight Marlo", DARKBLUE, "MARLO_1");
-                startQuest2++;
-            }
-            else if (speak == 2){
-                printf("The Knight's stare at you with suspicion...\n");
-            }
-            if (startQuest2 != 0){
-                string questhoice = questAlignment("Assist the Knights", "Turn your sword on them for the Key");
-                if (questhoice == "GOOD"){
-                    if (questGauntlet(assistKnights, 4, "Flagon", "the Outpost") == 1) {
-                        printf("You defeated every Flagon invading the Outpost...\n");
-                        printf("They were no match for you...\n");
-                        questRewards(quest2RewardsGOOD, 5, 40);
-                        storyProgress++;
-                    }
-                }
-                else if (questhoice == "EVIL"){
-                    if (questGauntlet(attackKnights, 4, "Knight", "the Outpost") == 1) {
-                        printf("You defeated every Knight in the Outpost...\n");
-                        printf("They were no match for you...\n");
-                        questRewards(quest2RewardsEVIL, 4, 50);
-                        storyProgress++;
-                    }
-                }
-                else {
-                    continue;
-                }
-                location = 2;
-                unlockedAreas++;
-                pressEnter();
-            }
-             
-        }
-    }
-    while (storyProgress == 3) { // Plains Map
-        int navigataionChoice = options();
-        if (navigataionChoice == 1){
-            specialPrintf("Walking through the gates to the Verdent Plains presents you with a glorious sight.\n");
-            specialPrintf("Before you is a beautiful landscape, with beasts lumbering around wildy.\n");
-            specialPrintf("You begin to walk around, enjoying the sights, when you stumble across a group of adventurers.\n");
-            specialPrintf("They look quite powerful, and they are holding an interesting map... Would you like to speak to them?\n\n");
-            int speak = dialouge();
-            if (speak == 1){
-                system("cls");
-                dialougeBox("Swordmaster Lorel", GOLD, "LOREL_1");
-                dialougeBox("Mage Sypha", LILAC, "SYPHA_1");
-                dialougeBox("Swordmaster Lorel", GOLD, "LOREL_2");
-                startQuest3++;
-            }
-            else if (speak == 2){
-                printf("The group continues walking...\n");
-            }
-            if (startQuest3 != 0){
-                specialPrintf("You look at the map, and you recognize the language.\n");
-                specialPrintf("It's the same script as the record tablet you found in that cave...\n");
-                string questhoice = questAlignment("Assist the adventurers", "Strike them down for their loot");
-                if (questhoice == "GOOD"){
-                    printf("You silently nod.\n");
-                    pressEnter();
-                    dialougeBox("Swordmaster Lorel", GOLD, "LOREL_3");
-                    dialougeBox("Mage Sypha", LILAC, "SYPHA_2");
-                    dialougeBox("Rouge Reric", ORANGE, "RERIC_1");
-                    dialougeBox("Swordmaster Lorel", GOLD, "LOREL_4");
-                    dialougeBox("Mage Sypha", LILAC, "SYPHA_3");
-                    dialougeBox("Rouge Reric", ORANGE, "RERIC_2");
-                    questRewards(quest3RewardsGOOD, 1, 0);
-                    storyProgress++;
-                }
-                else if (questhoice == "EVIL"){
-                    if (questGauntlet(attackAdventurers, 4, "Adventurer", "the group") == 1) {
-                        printf("You defeated every adventurer...\n");
-                        printf("They were no match for you.\n");
-                        printf("You take their valuables and their map, and head off to find it's treasure.\n");
-                        questRewards(quest3RewardsEVIL, 4, 50);
-                        storyProgress++;
-                    }
-                }
-                else {
-                    continue;
-                }
-                pressEnter();
-            }
-             
-        }
-    }
-    while (storyProgress == 4) { // Plains Dungeon [good route]
-        int navigataionChoice = options();
-        static int openedDoor = 0;
-        static int defeatedLich = 0;
-        if (navigataionChoice == 1){
-            if (startQuest4 == 0) {
-                specialPrintf("You walk with the group, guiding them silently using the map's guidelines.\n");
-                specialPrintf("The adventurers help you fend off monsters along the way.\n");
-                specialPrintf("At the end of the journey, you find yourselves outside of an ancient temple...\n");
-                specialPrintf("You hear the shrieks of monsters inside...\n");
-                specialPrintf("Are you ready to venture inside?\n\n");
-                int speak = dialouge();
-                if (speak == 1){
-                    dialougeBox("Swordmaster Lorel", GOLD, "LOREL_5");
-                    dialougeBox("Rouge Reric", ORANGE, "RERIC_3");
-                    dialougeBox("Mage Sypha", LILAC, "SYPHA_4");
-                    system("cls");
-                    startQuest4++;
-                }
-                else if (speak == 2){
-                    printf("The group looks at you expectantly...\n");
-                    pressEnter();
-                }
-            }
-            if (startQuest4 != 0){
-                if (openedDoor == 0) {
-                    specialPrintf("The four of you walk into the temple, carefully watching each other's backs.\n");
-                    specialPrintf("You come across a strange door, with 3 seals.\n");
-                    specialPrintf("You find 3 cooresponding murals on the wall...\n");
-                    pressEnter();
-                    dialougeBox("Swordmaster Lorel", GOLD, "LOREL_6");
-                    dialougeBox("Rouge Reric", ORANGE, "RERIC_4");
-                    dialougeBox("Mage Sypha", LILAC, "SYPHA_5");
-                }
-                string correct[] = {"moon", "sun", "star"};
-                if (puzzleDoor(correct) == 1) {
-                    openedDoor = 1;
-                    dialougeBox("Mage Sypha", LILAC, "SYPHA_6");
-                    dialougeBox("Swordmaster Lorel", GOLD, "LOREL_7");
-                    dialougeBox("Rouge Reric", ORANGE, "RERIC_5");
-                }
-                else {
-                    specialPrintf("The door did not accept your answers.\n");
-                    pressEnter();
-                }
-                if(openedDoor != 0) {
-                    if (defeatedLich == 0) {
-                        specialPrintf("The four of you continue to walk towards where the screaming came from...\n");
-                        specialPrintf("You find a seemingly empty room, and you all walk inside.\n");
-                        specialPrintf("Suddenly, the door behind you slams shut, and hordes of dark monsters flood the room.\n");
-                        specialPrintf("The four of you prepare for battle, yet the mosnters stay still.\n");
-                        specialPrintf("As if they were waiting for a command...\n");
-                        specialPrintf("Everything is made clear when a dark pool of liquid solidifies into the shape.\n");
-                        specialPrintf("Of a grey skinned demonic mage.\n");
-                        pressEnter();
-                        dialougeBox("Mage Sypha", LILAC, "SYPHA_7");
-                        dialougeBox("The Lich", GREEN, "LICH_1");
-                        dialougeBox("Swordmaster Lorel", GOLD, "LOREL_8");
-                        dialougeBox("Racher the Lich", GREEN, "LICH_2");
-                        dialougeBox("Racher the Lich", GREEN, "LICH_3");
-                        dialougeBox("Racher the Lich", GREEN, "LICH_4");
-                        dialougeBox("Swordmaster Lorel", GOLD, "LOREL_9");
-                        dialougeBox("Rouge Reric", ORANGE, "RERIC_6");
-                        dialougeBox("Mage Sypha", LILAC, "SYPHA_8");
-                        dialougeBox("Racher the Lich", GREEN, "LICH_5");
-                        specialPrintf("The group stares at you with astonishment, but their shock is interrupted.\n");
-                        specialPrintf("The hordes of monsters that filled the room suddenly snap awake.\n");
-                        specialPrintf("The group starts attacking them, but they can't let up to attack Racher.\n");
-                        specialPrintf("It is up to you to kill the Lich before he escapes. Prepare yourself.\n");
-                        pressEnter();
-                        if (bossFight(lichBoss) == 1) {
-                            trueSight = 1;
-                            dialougeBox("Racher the Lich", GREEN, "LICH_6");
-                            specialPrintf("You defeated The Lich!\n\n");
-                            specialPrintf("You absorb the power of True Sight...\n");
-                            specialPrintf("You shall know the true health of all monsters you encounter...\n");
-                            questRewards(quest4Rewards, 2, 50);
-                            defeatedLich++;
-                            pressEnter();
-                        }
-                        else {
-                            printf("You were killed by The Lich!\n");
-                            pressEnter();
-                        }
-                    }
-                    if (defeatedLich == 1) {
-                        specialPrintf("With the death of the Lich, the temple began to crumble.\n");
-                        specialPrintf("You the group run to the exit, making it just in time to watch the monsters.\n");
-                        specialPrintf("from the temple burn in the sunlight.\n");
-                        specialPrintf("The adventurers turn to look at you, stunned.\n");
-                        pressEnter();
-                        dialougeBox("Swordmaster Lorel", GOLD, "LOREL_10");
-                        dialougeBox("Mage Sypha", LILAC, "SYPHA_9");
-                        dialougeBox("Rouge Reric", ORANGE, "RERIC_7");
-                        dialougeBox("Swordmaster Lorel", GOLD, "LOREL_11");
-                        specialPrintf("As you watch your friends walk away from the temple, you look to the sky.\n");
-                        specialPrintf("It's the next morning. You've been fighting all night. You need rest.\n");
-                        specialPrintf("You return to the main road, and head towards Emerald City...\n");
-                        pressEnter();
-                        storyProgress = 6;
-                    }
-                }
-                pressEnter();
-            }
-             
-        }
-    }
-    while (storyProgress == 5) { // Plains Dungeon Alone [evil route]
-        int navigataionChoice = options();
-        static int openedDoor = 0;
-        static int defeatedLich = 0;
-        if (navigataionChoice == 1){
-            if (startQuest4 == 0) {
-                specialPrintf("You follow the map's directions across the Verdent Plains.\n");
-                specialPrintf("You fend off monsters along the way.\n");
-                specialPrintf("At the end of the journey, you find yourself outside of an ancient temple...\n");
-                specialPrintf("You hear the shrieks of monsters inside...\n");
-                specialPrintf("Are you ready to venture inside?\n\n");
-                int speak = dialouge();
-                if (speak == 1){
-                    system("cls");
-                    startQuest4++;
-                }
-                else if (speak == 2){
-                    printf("You hesitate to enter...\n");
-                }
-            }
-            if (startQuest4 != 0){
-                if (openedDoor == 0) {
-                    specialPrintf("You walk into the dark, grimy temple, carefully watching each step.\n");
-                    specialPrintf("It's an ornate building, decorated with strange runes.\n");
-                    specialPrintf("You come across a strange door, with 3 seals.\n");
-                    specialPrintf("You find 3 cooresponding murals on the wall...\n");
-                    pressEnter();
-                    specialPrintf("The first mural depicts a dark tower before the moon.\n");
-                    specialPrintf("The second mural depicts monsters burning in the sun.\n");
-                    specialPrintf("The third mural depicts a lone traveller staring at the stars\n");
-                    specialPrintf("\nYou must use these clues to open the door.\n");
-                    pressEnter();
-                }
-                string correct[] = {"moon", "sun", "star"};
-                if (puzzleDoor(correct) == 1) {
-                    openedDoor = 1;
-                    specialPrintf("With the opening of the door, the screams cease.\n");
-                    specialPrintf("Whatever lied within has been alerted to your presence.\n");
-                    specialPrintf("\nYou must venture deeper into the temple to discover it's secrets...\n");
-                    pressEnter();
-                }
-                else {
-                    specialPrintf("The door did not accept your answers.\n");
-                    pressEnter();
-                }
-                if(openedDoor != 0) {
-                    if (defeatedLich == 0) {
-                        specialPrintf("You continue to walk towards where the screaming came from...\n");
-                        specialPrintf("You find a seemingly empty room, and you walk inside.\n");
-                        specialPrintf("Suddenly, the door behind you slams shut, and hordes of dark monsters flood the room.\n");
-                        specialPrintf("You assume the position for battle, yet the mosnters stay still.\n");
-                        specialPrintf("As if they were waiting for a command...\n");
-                        specialPrintf("Everything is made clear when a dark pool of liquid solidifies into the shape.\n");
-                        specialPrintf("Of a grey skinned demonic mage.\n");
-                        pressEnter();
-                        dialougeBox("The Lich", GREEN, "LICH_1");
-                        dialougeBox("Racher the Lich", GREEN, "LICH_2");
-                        dialougeBox("Racher the Lich", GREEN, "LICH_3");
-                        dialougeBox("Racher the Lich", GREEN, "LICH_7");
-                        specialPrintf("The hordes of monsters that filled the room suddenly snap awake.\n");
-                        specialPrintf("Defeat the hordes of monsters and kill the Lich.\n");
-                        pressEnter();
-                        if (questGauntlet(templeHoard, 5, "Vile Creature", "the temple") == 1) {
-                            system("cls");
-                            specialPrintf("You cleared the room of the Vile Creatures under the Lich's control.\n");
-                            specialPrintf("You turn to face Racher. A twinge of fear spreads across his face.\n");
-                            pressEnter();
-                            dialougeBox("Racher the Lich", GREEN, "LICH_8");
-                            if (bossFight(lichBoss) == 1) {
-                                trueSight = 1;
-                                dialougeBox("Racher the Lich", GREEN, "LICH_6");
-                                specialPrintf("You defeated The Lich!\n\n");
-                                specialPrintf("You absorb the power of the True Sight...\n\n");
-                                specialPrintf("You shall know the true health of all monsters you encounter...\n");
-                                questRewards(quest4Rewards, 2, 50);
-                                defeatedLich++;
-                                pressEnter();
-                            }
-                            else {
-                                printf("You were killed by The Lich!\n");
-                                pressEnter();
-                            }
-                        }
-                        else {
-                            printf("You were killed by the hoard!\n");
-                            pressEnter();
-                        }
-                    }
-                    if (defeatedLich == 1) {
-                        specialPrintf("With the death of the Lich, the temple began to crumble.\n");
-                        specialPrintf("You run to the exit, making it just in time to watch the monsters\n");
-                        specialPrintf("from the temple burn in the sunlight.\n");
-                        specialPrintf("It's the next morning. You've been fighting all night. You need rest.\n");
-                        specialPrintf("You return to the main road, and head towards Emerald City...\n");
-                        pressEnter();
-                        storyProgress = 6;
-                    }
-                }
-                pressEnter();
-            }
-             
-        }
-    }
-    while (storyProgress == 6) { // Emerald City
-        int navigataionChoice = options();
-        if (navigataionChoice == 1){
-            specialPrintf("Deep within the forest, you find a small village.\n");
-            specialPrintf("Though it was quite humble, it looks as if its been damaged.\n");
-            specialPrintf("You see a resident nearby, would you like to speak to them?\n\n");
-            int speak = dialouge(); // < events.c
-            if (speak == 1){
-                system("cls"); // this character comes back stronger later if you choose evil
-                dialougeBox("Adventurer Kalen", GREEN, "KALEN_1");
-                startQuest1++;
-            }
-            else if (speak == 2){
-                printf("The nearby resident see's you staring. She looks away uncomfortably...\n");
-            }
-            if (startQuest1 != 0){
-                string questhoice = questAlignment("Help the village", "Pillage them while they're weak");
-                if (questhoice == "GOOD"){
-                    if (questGauntlet(helpVillage, 4, "Groblin", "the Forest Village") == 1) {
-                        printf("You defeated every remaining Groblin in the village...\n");
-                        printf("The villagers erupt in cheers for your victory!\n");
-                        printf("'May the light of Astra guide your travels!'\n");
-                        printf("They shower you with their most valuable treasures...\n\n");
-                        questRewards(quest1RewardsGOOD, 5, 30);
-                        quest1Action++;
-                        storyProgress++;
-                    }
-                }
-                else if (questhoice == "EVIL"){
-                    if (questGauntlet(pillageVillage, 4, "Warrior", "the Forest Village") == 1) {
-                        printf("You defeated every remaining Warrior in the village...\n");
-                        printf("They curse you before they lose consiousness.\n");
-                        printf("You raid their treasure room and take their loot...\n\n");
-                        questRewards(quest1RewardsEVIL, 4, 20);
-                        quest1Action--;
-                        storyProgress++;
-                    }
-                }
-                else {
-                    continue;
-                }
-                pressEnter();
-            }
-        }
-    }
+
     while (storyProgress == 26) { // End for now
         printf("               ╔══════════════════════════════════════════════╗\n");
         printf("               ║                                              ║\n");
