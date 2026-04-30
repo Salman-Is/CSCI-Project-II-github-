@@ -771,7 +771,52 @@ int main(void) {
              
         }
     }
-    while (storyProgress == 6) { // End for now
+    while (storyProgress == 6) { // Emerald City
+        int navigataionChoice = options();
+        if (navigataionChoice == 1){
+            specialPrintf("Deep within the forest, you find a small village.\n");
+            specialPrintf("Though it was quite humble, it looks as if its been damaged.\n");
+            specialPrintf("You see a resident nearby, would you like to speak to them?\n\n");
+            int speak = dialouge(); // < events.c
+            if (speak == 1){
+                system("cls"); // this character comes back stronger later if you choose evil
+                dialougeBox("Adventurer Kalen", GREEN, "KALEN_1");
+                startQuest1++;
+            }
+            else if (speak == 2){
+                printf("The nearby resident see's you staring. She looks away uncomfortably...\n");
+            }
+            if (startQuest1 != 0){
+                string questhoice = questAlignment("Help the village", "Pillage them while they're weak");
+                if (questhoice == "GOOD"){
+                    if (questGauntlet(helpVillage, 4, "Groblin", "the Forest Village") == 1) {
+                        printf("You defeated every remaining Groblin in the village...\n");
+                        printf("The villagers erupt in cheers for your victory!\n");
+                        printf("'May the light of Astra guide your travels!'\n");
+                        printf("They shower you with their most valuable treasures...\n\n");
+                        questRewards(quest1RewardsGOOD, 5, 30);
+                        quest1Action++;
+                        storyProgress++;
+                    }
+                }
+                else if (questhoice == "EVIL"){
+                    if (questGauntlet(pillageVillage, 4, "Warrior", "the Forest Village") == 1) {
+                        printf("You defeated every remaining Warrior in the village...\n");
+                        printf("They curse you before they lose consiousness.\n");
+                        printf("You raid their treasure room and take their loot...\n\n");
+                        questRewards(quest1RewardsEVIL, 4, 20);
+                        quest1Action--;
+                        storyProgress++;
+                    }
+                }
+                else {
+                    continue;
+                }
+                pressEnter();
+            }
+        }
+    }
+    while (storyProgress == 26) { // End for now
         printf("               ╔══════════════════════════════════════════════╗\n");
         printf("               ║                                              ║\n");
         printf("               ║              END OF CHAPTER ONE              ║\n");

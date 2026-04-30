@@ -16,12 +16,6 @@ string Item::getType(){ return itemType; }
 string Item::getColor(){ return color; }
 int Item::getValue(){ return value; }
 
-// void Item::setName(string newName){name = newName;}
-// void Item::setDesc(string newDesc){description = newDesc;}
-// void Item::setCategory(string newCat){itemCategory = newCat;}
-// void Item::setType(string newType){itemType = newType;}
-// void Item::setColor(string newColor){color = newColor;}
-// void Item::setValue(int newVal){value = newVal;}
 
 string currentLoc = "Forest";
 /* ================= ITEM DEFINITIONS ================= */
