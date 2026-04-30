@@ -41,9 +41,9 @@ int trueSight = 0;
 
 string playerAlignment = "NEUTRAL";
 
-Item currentSword;
-Item currentBow;
-Item currentArmor;
+Item currentSword = Item("Temp Sword", "Text needed for this to stop yelling at me", "Weapon", "Sword", WHITE, 5, NONE);;
+Item currentBow = Item("Temp Bow", "Im just testing to see if this works", "Weapon", "Bow", WHITE, 5, NONE);;
+Item currentArmor = Item("Temp Armor", "La la la ignore this la", "Armor", "Armor", WHITE, 25);
 
 vector<Inventory> inventory;
 
@@ -214,7 +214,8 @@ int options() {
     else if (choice == '4') { // INVENTORY
         system("cls");
         printf("You open your inventory.\n");
-        openInventory(0, &currentArmor.value);
+        int armorHold = currentArmor.getValue(); // had to add this since cant get reference from getValue(). 
+        openInventory(0, &armorHold);
         return 4;
     }
     else if (choice == '5') { // MAP (TRAVEL)

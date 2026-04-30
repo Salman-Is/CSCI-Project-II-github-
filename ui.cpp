@@ -15,6 +15,7 @@ string Item::getCategory(){ return itemCategory; }
 string Item::getType(){ return itemType; }
 string Item::getColor(){ return color; }
 int Item::getValue(){ return value; }
+StatusType Item::getStatus(){ return status; }
 
 
 string currentLoc = "Forest";
