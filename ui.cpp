@@ -58,12 +58,22 @@ Item swordmasterArmor = Item("Swordmaster Armor", "A set of armor forged by the 
 Item ultraArmor = Item("Ultra Armor", "An OP set of armor used for testing and nothing else", "Armor", "Armor", RED, 999);
 
 // Drops ------------------------------------------------------------------
+
+// Forest ------------------------------------------------------------------
 Item gel = Item("Gel", "An oozing mass with little use", "Drop", "NULL", WHITE, 0);
 Item lumoraWing = Item("Lumora Wing", "The fragile wing of a Lumora", "Drop", "NULL", WHITE, 0);
 Item leather = Item("Leather", "A supple material useful for crafting", "Drop", "NULL", WHITE, 0);
 Item groblinTooth = Item("Groblin Tooth", "A blunt tooth used for crushing prey", "Drop", "NULL", WHITE, 0);
 Item emberScale = Item("Ember Scale", "A firey scale with magical properties", "Drop", "NULL", GREEN, 0);
 
+// Forest Quests ------------------------------------------------------------------
+Item groblinStaff = Item("Groblin Staff", "A crude staff used by Groblin Shamans.", "Drop", "NULL", PURPLE, 0, POISON);
+Item groblinTusk = Item("Groblin Tusk", "A large tusk from a Groblin Chief.", "Drop", "NULL", WHITE, 0);
+Item scrapMetal = Item("Scrap Metal", "Bent and battered metal, barely useful.", "Drop", "NULL", GRAY, 0);
+Item refinedMetal = Item("Refined Metal", "Well-crafted metal stripped from a Knight.", "Drop", "NULL", WHITE, 0);
+Item infernoScale = Item("Inferno Scale", "A blazing scale from an Elder Flagon.", "Drop", "NULL", ORANGE, 0, BURN);
+
+// Plains ------------------------------------------------------------------
 Item beastlyTooth = Item("Beastly Tooth", "A sharp, serated tooth that causes infection", "Drop", "NULL", WHITE, 0);
 Item nimoraWing = Item("Nimora Wing", "The fragile wing of a Lumora", "Drop", "NULL", WHITE, 0);
 Item trollLeather = Item("Troll Leather", "Leather that has been hardened by Troll engineering", "Drop", "NULL", WHITE, 0);
@@ -71,11 +81,36 @@ Item fossilizedMoss = Item("Fossilized Moss", "Hardened moss from the back of an
 Item greatAntlers = Item("Great Antlers", "Proof you took down a Great Stag", "Drop", "NULL", WHITE, 0);
 Item lichPhial = Item("Lich's Phial", "Proof you took down a Great Stag", "Drop", "NULL", WHITE, 0);
 
+// Plains Quests ------------------------------------------------------------------
+Item brokenDagger = Item("Broken Dagger", "A cracked dagger that has seen better days.", "Drop", "NULL", GRAY, 0);
+Item fairyDust = Item("Fairy Dust", "A glittering powder with magical properties.", "Drop", "NULL", CYAN, 0);
+Item vileRemnant = Item("Vile Remnant", "A dark residue left by an undead creature.", "Drop", "NULL", DARKBLUE, 0, FEAR);
+Item trueSightSigil = Item("True Sight Sigil", "A sigil that allows you to see enemy HP.", "Item", "NULL", GOLD, 0);
+
+// Lake ------------------------------------------------------------------
 Item shellShard = Item("Shell Shard", "A sturdy shard of a Mega Turtle that is the base of Tide Armor", "Drop", "NULL", WHITE, 0);
 Item venomVial = Item("Venom Vial", "A drop of venom collected from a Lake Serpent", "Drop", "NULL", WHITE, 0);
 Item krakenTentacle = Item("Kraken Tentacle", "The arm of a Kraken useful for potions", "Drop", "NULL", WHITE, 0);
 Item shinyScale = Item("Shiny Scale", "A gleaming scale that can be used to craft charms", "Drop", "NULL", WHITE, 0);
 Item gelatinousMass = Item("Gelatinous Mass", "A large, oozing mass with little use", "Drop", "NULL", WHITE, 0);
+Item luminousScale = Item("Luminous Scale", "A glowing scale from a Glowfin.", "Drop", "NULL", CYAN, 0);
+
+// Caves ------------------------------------------------------------------
+Item echoFang = Item("Echo Fang", "A hollow fang that hums faintly.", "Drop", "NULL", PURPLE, 0, BLEED);
+Item crystalVenom = Item("Crystal Venom", "A crystallized venom with toxic properties.", "Drop", "NULL", PURPLE, 0, POISON);
+Item quartzShard = Item("Quartz Shard", "A jagged shard of quartz crystal.", "Drop", "NULL", CYAN, 0);
+Item mirrorCloak = Item("Mirror Cloak", "A shimmering cloak that bends light.", "Drop", "NULL", WHITE, 0);
+Item mineralSilk = Item("Mineral Silk", "Incredibly tough silk spun by a Stone Spider.", "Drop", "NULL", GRAY, 0);
+Item gearCharge = Item("Gear Charge", "A charged gear harvested from an Automaton.", "Drop", "NULL", GOLD, 0);
+
+// Mountains ------------------------------------------------------------------
+Item soaringFeather = Item("Soaring Feather", "A large feather from a Peak Eagle.", "Drop", "NULL", WHITE, 0);
+Item ionicIce = Item("Ionic Ice", "A shard of magical ice that never melts.", "Drop", "NULL", CYAN, 0, FROZEN);
+Item durableHorn = Item("Durable Horn", "An incredibly tough horn from a Mountain Goat.", "Drop", "NULL", WHITE, 0);
+Item gorgeousLeather = Item("Gorgeous Leather", "Soft, luxurious leather from a Snow Leopard.", "Drop", "NULL", WHITE, 0);
+Item demonicScale = Item("Demonic Scale", "A dark scale radiating with evil energy.", "Drop", "NULL", RED, 0, FEAR);
+Item goldenScale = Item("Golden Scale", "A brilliant scale radiating with divine energy.", "Drop", "NULL", GOLD, 0);
+
 
 // Special ------------------------------------------------------------------
 Item verdentKey = Item("Verdent Key", "An emerald key found in the Plains. It has to open something...", "Item", "Key", GREEN, 0);
@@ -84,6 +119,9 @@ Item ancientCoin = Item("Ancient Coin", "", "Item", "NULL", PURPLE, 50);
 Item elderiteGemstone = Item("Elderite Gemstone", "", "Item", "NULL", CYAN, 50);
 Item kingdomCrest = Item("Kingdom Crest", "", "Item", "NULL", CYAN, 50);
 Item ancientMap = Item("Ancient Map", "", "Item", "NULL", CYAN, 0);
+
+Item essence = Item("Essence", "A gift from the Deity of Evil.", "Drop", "NULL", RED, 0);
+Item ichor = Item("Ichor", "A gift from the Deity of Good.", "Drop", "NULL", CYAN, 0);
 
 Item septre = Item("Septre", "An artifact that grants the holder Divinity.", "Charm", "Status", GOLD, 0);
 
@@ -122,7 +160,7 @@ void printUI(string turn, string enemyName, int enemyHP, int enemyMaxHP, int ali
     printf("                                                                      \n");
     cout << "  [ " << RED << enemyName << NORMAL << " ] [ " << (alignment==GOOD?CYAN:RED) << (alignment==GOOD?"GOOD":"EVIL") << NORMAL << " ]\n";
     printf("                                                                      \n");
-    cout << "  Status: [ " << enStatusColor << enStatus << NORMAL << " ] Drop: [ " << YELLOW << currentEnemyDrop << NORMAL << " ]\n";
+    cout << "  Status: [ " << enStatusColor << enStatus << NORMAL << " ] Drop: [ " << YELLOW << currentEnemyDrop.getName() << NORMAL << " ]\n";
     printf("                                                                      \n");
     printf("  HP: ");
     healthBar(enemyHP, enemyMaxHP, "enemy");
@@ -157,104 +195,115 @@ void printUI(string turn, string enemyName, int enemyHP, int enemyMaxHP, int ali
  * Prints out inventory
  * Handles calculations for when you choose items in battle (for now)
  */
-void openInventory(int inBattle, int *playerHP) // instead of 2 inventorys, use 1 for both battle and overworld
-{
+void openInventory(int *playerHP){
     system("cls");
-    if (battleStart == 1){
+    if (battleStart == 1) {
         printf("╔═════════════════════════════════════╗\n");
         printf("[#] | BATTLE ITEMS                    ║\n");
         printf("╚═════════════════════════════════════╝\n");
-        string battleItems[32] = {"Health Potion", "Health Elixer", "Focus Charm", "Berzerker Potion", "Mystic Salve"};
+        string battleItems[] = {"Health Potion", "Health Elixer", "Focus Charm", "Berzerker Potion", "Mystic Salve"};
         int battleItemCount = sizeof(battleItems) / sizeof(battleItems[0]);
-        for(int i = 0; i < (int)inventory.size(); i++)
-        {
-            for (int j = 0; j < battleItemCount; j++)
-            {
-                if (inventory.at(i).name == battleItems[j]) {
-                    cout << "[" << setw(2) << setfill('0') << (i+1) << "] " << inventory.at(i).name << " x" << inventory.at(i).quantity << "\n";
+        for (int i = 0; i < (int)inventory.size(); i++) {
+            for (int j = 0; j < battleItemCount; j++) {
+                if (inventory.at(i).getName() == battleItems[j]) {
+                    cout << "[" << setw(2) << setfill('0') << (i+1) << "] "
+                         << inventory.at(i).getName() << " x" << inventory.at(i).quantity << "\n";
                     break;
                 }
             }
-        }              
-        printf("╔═════════════════════════════════════╗\n");             				 
+        }
+        printf("╔═════════════════════════════════════╗\n");
         printf("╚═════════════════════════════════════╝\n");
         printf("Select item number to use (0 to exit): ");
 
         int choice;
         cin >> choice;
         system("cls");
-        if(choice == 0){
-            return;
-        }
-        choice--; // < this genuinley took me an hour to figure out
-        if (choice > (int)inventory.size()){
+        if (choice == 0) return;
+        choice--;
+        if (choice < 0 || choice >= (int)inventory.size()) {
             printf("Invalid choice.\n");
             return;
         }
-        if(inventory[choice - 1].name == "Health Potion")
-        {
-            system("cls");
+        if (inventory[choice].getName() == "Health Potion") {
+            removeItem(healthPotion);
             *playerHP += 5;
-            if (*playerHP > currentArmor.getValue()){
-                *playerHP = currentArmor.getValue();
-            }
+            if (*playerHP > currentArmor.getValue()) *playerHP = currentArmor.getValue();
             return;
         }
-        if(inventory[choice - 1].name == "Health Elixer"){
-            system("cls");
-            removeItem("Health Elixer");
+        if (inventory[choice].getName() == "Health Elixer") {
+            removeItem(healthElixer);
             *playerHP += 10;
-            if (*playerHP > currentArmor.getValue()){
-                *playerHP = currentArmor.getValue();
-            }
+            if (*playerHP > currentArmor.getValue()) *playerHP = currentArmor.getValue();
             return;
         }
-        if(inventory[choice - 1].name == "Mystic Salve"){
-            system("cls");
-            removeItem("Berzerker Potion");
+        if (inventory[choice].getName() == "Mystic Salve") {
+            removeItem(mysticSalve);
             applyStatus(&playerStatus, REGENERATION);
             return;
         }
-        if(inventory[choice - 1].name == "Focus Charm"){
-            system("cls");
-            removeItem("Focus Charm");
+        if (inventory[choice].getName() == "Focus Charm") {
+            removeItem(focusCharm);
             critDamage = 2;
             return;
         }
-        if(inventory[choice - 1].name == "Berzerker Potion"){
-            system("cls");
-            removeItem("Berzerker Potion");
+        if (inventory[choice].getName() == "Berzerker Potion") {
+            removeItem(berzerkerPotion);
             attackBuff = 2;
             return;
         }
     }
     else {
-        printf("╔══════════════════════════════════════════════════════════════════════════════════╗\n");
-        printf("[#] | INVENTORY                                                                    ║\n");
-        printf("╚══════════════════════════════════════════════════════════════════════════════════╝\n");
-        
-        for(int i = 0; i < (int)inventory.size(); i++){
-            
-            printf("[%02d] %-16s x%d   ", (i + 1), inventory.at(i).name, inventory.at(i).quantity);
-                
-            if ((i + 1) % 3 == 0) {
-                printf("\n");
-            }      
-        }                     				 
-        printf("\n╔══════════════════════════════════════════════════════════════════════════════════╗");             				 
-        printf("\n╚══════════════════════════════════════════════════════════════════════════════════╝\n");
-        printf("Select item number to use (0 to exit): ");
-
         int choice;
-        cin >> choice;
-        system("cls");
+        while (1) {
+            system("cls");
+            printf("╔══════════════════════════════════════════════════════════════════════════════════╗\n");
+            printf("[#] | INVENTORY                                                                    ║\n");
+            printf("╚══════════════════════════════════════════════════════════════════════════════════╝\n");
+
+            for (int i = 0; i < (int)inventory.size(); i++) {
+                printf("[%02d] %-16s x%d   ", (i+1), inventory.at(i).getName().c_str(), inventory.at(i).quantity);
+                if ((i + 1) % 3 == 0) printf("\n");
+            }
+
+            printf("\n╔══════════════════════════════════════════════════════════════════════════════════╗");
+            printf("\n╚══════════════════════════════════════════════════════════════════════════════════╝\n");
+            printf("Select item to inspect (0 to exit): ");
+
+            cin >> choice;
+            system("cls");
+
+            if (choice == 0) return;
+            choice--;
+
+            if (choice < 0 || choice >= (int)inventory.size()) {
+                printf("Invalid choice.\n");
+                pressEnter();
+                continue;
+            }
+
+            viewItem(inventory[choice]);
+            pressEnter();
+        }
     }
 }
 
 
-
 void viewItem(Item item) {
-    
+    system("cls");
+    cout << "════════════════════════════════════════════════════\n";
+    cout << " " << item.getColor() << item.getName() << NORMAL << "\n";
+    cout << "════════════════════════════════════════════════════\n";
+    cout << " Category : " << item.getCategory() << "\n";
+    cout << " Type     : " << item.getType()     << "\n";
+    cout << " Value    : " << item.getValue()    << "\n";
+    if (item.getStatus() != NONE) {
+        cout << " Status   : " << changeColor(item.getStatus())
+             << left << setw(27) << statusText(item.getStatus()) << NORMAL << "║\n";
+    }
+    cout << "════════════════════════════════════════════════════\n";
+    cout << item.getDesc() << "\n";
+    cout << "════════════════════════════════════════════════════\n\n";
 }
 
 void statsPage() {

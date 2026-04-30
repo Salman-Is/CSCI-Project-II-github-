@@ -33,39 +33,29 @@ void randomEffect();
  *inventory, it adds it to the stack of items already there
  *if the new item was never obtained before it creates a new stack
  */
-void addItem(string itemName, int startingItems) {
+void addItem(Item item, int startingItems) {
     int found = -1;
 
-    // check if item already exists
-    for(int i = 0; i < (int)inventory.size(); i++)
-    {
-        if (inventory.at(i).name == itemName)
-        {
+    for(int i = 0; i < (int)inventory.size(); i++) {
+        if (inventory.at(i).getName() == item.getName()) {
             found = i;
             break;
         }
     }
-    // if found, increase quantity
-    if(found != -1)
-    {
+    if(found != -1) {
         inventory[found].quantity++;
         if (startingItems == 0) {
-            cout << "You obtained another " << GOLD << itemName << NORMAL << "!\n";
+            cout << "You obtained another " << GOLD << item.getName() << NORMAL << "!\n";
         }
     }
-    // if not found, create new stack
-    else if((int)inventory.size() < 100){
-        Inventory newItem;
-        newItem.name = itemName;
-        newItem.quantity = 1;
-        inventory.push_back(newItem);
-        if (startingItems == 0)
-        {
-            cout << "You obtained: " << GOLD << itemName << NORMAL << "!\n";
+    else if((int)inventory.size() < 100) {
+        item.quantity = 1;
+        inventory.push_back(item);
+        if (startingItems == 0) {
+            cout << "You obtained: " << GOLD << item.getName() << NORMAL << "!\n";
         }
     }
-    else
-    {
+    else {
         printf("Inventory full!\n");
     }
 }
@@ -76,37 +66,25 @@ void addItem(string itemName, int startingItems) {
  *inventory, it removes it from the stack of items already there
  *if there is onyl one of the chosen item it deletes the stack
  */
-void removeItem(string itemName) {
+void removeItem(Item item) {
     int found = -1;
-
-    // find the item
-    for(int i = 0; i < (int)inventory.size(); i++)
-    {
-        if(inventory.at(i).name == itemName)
-        {
+    for(int i = 0; i < (int)inventory.size(); i++) {
+        if(inventory.at(i).getName() == item.getName()) {
             found = i;
             break;
         }
     }
-
-    if(found != -1)
-    {
+    if(found != -1) {
         inventory[found].quantity--;
-
-        // if stack becomes empty, remove it
-        if(inventory[found].quantity <= 0)
-        {
-            for(int i = found; i < (int)inventory.size() - 1; i++)
-            {
+        if(inventory[found].quantity <= 0) {
+            for(int i = found; i < (int)inventory.size() - 1; i++) {
                 inventory.at(i) = inventory[i + 1];
             }
             inventory.pop_back();
         }
-
-        cout << "You used a " << YELLOW << itemName << NORMAL << ".\n";
+        cout << "You used a " << YELLOW << item.getName() << NORMAL << ".\n";
     }
-    else
-    {
+    else {
         printf("Item not found in inventory.\n");
     }
 }
@@ -470,7 +448,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                 // perfect counter system
                 if (correct == patternLength){
                     printf("%sPERFECT COUNTER!%s\n", BLUE, NORMAL);
-                    damageToEnemy = (damageToEnemy*critDamage) + 2;
+                    damageToEnemy = (int)(damageToEnemy*critDamage);
                     if (currentSword.getStatus() != NONE){
                         int random = rand() % 100;
                         if (random <= 25 && enemyStatus != NONE) {
@@ -550,7 +528,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                 else if (turnChoice == '2') {
                     system("cls");
                     printf("You chose to use an item!\n");
-                    openInventory(0, &playerHP);
+                    openInventory(&playerHP);
                     playerTurn = 0;
                 }
                 else if (turnChoice == '3'){
@@ -604,7 +582,7 @@ void grantKarma(int addOrSubtract, int amount, string message) { //subtract = 0,
         {
             karma = 0;
             printf("The Deity of %sEVIL%s recognizes your cruelty...\n\n", RED, NORMAL);
-            addItem("Essence", 0);
+            addItem(essence, 0);
         }
         cout << "\n" << message << "\n\n";
         printf("-%d Karma\n", amount);
@@ -615,7 +593,7 @@ void grantKarma(int addOrSubtract, int amount, string message) { //subtract = 0,
         {
             karma = 100;
             printf("The Deity of %sGOOD%s presents you with a reward...\n\n", CYAN, NORMAL);
-            addItem("Ichor", 0);
+            addItem(ichor, 0);
         }
         cout << "\n" << message << "\n\n";
         printf("+%d Karma\n", amount);

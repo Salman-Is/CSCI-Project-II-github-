@@ -22,7 +22,7 @@ extern int battleStart;
 extern int currentEnemyHP;
 extern int currentEnemyATK;
 extern int currentEnemyALIGNMENT;
-extern string currentEnemyDrop;
+extern Item currentEnemyDrop;
 
 /* ================= PLAYER STATS ================= */
 extern int karma;
@@ -36,7 +36,7 @@ extern int dialougeSpeed;
 
 extern string playerAlignment;
 
-extern vector<Inventory> inventory;
+extern vector<Item> inventory;
 
 
 extern int worldState;

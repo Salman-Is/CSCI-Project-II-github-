@@ -16,7 +16,7 @@ int puzzleDoor(string correct[]);
 void dialougeBox(string name, string color, string tag);
 int dialouge();
 void searchArea();
-void shop(string items[], int prices[], int shop_count);
+void shop(Item items[], int prices[], int shop_count);
 
 void upgradeSword(Item item);
 void upgradeBow(Item item);

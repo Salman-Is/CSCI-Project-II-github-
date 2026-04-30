@@ -28,7 +28,7 @@ int battleStart = 0;
 int currentEnemyHP = 25;
 int currentEnemyATK = 5;
 int currentEnemyALIGNMENT = 0;
-string currentEnemyDrop = "";
+Item currentEnemyDrop = Item("", "", "", "", WHITE, 0);
 
 /* ================= PLAYER STATS ================= */
 int karma = 50;
@@ -45,7 +45,7 @@ Item currentSword = Item("Temp Sword", "Text needed for this to stop yelling at 
 Item currentBow = Item("Temp Bow", "Im just testing to see if this works", "Weapon", "Bow", WHITE, 5, NONE);;
 Item currentArmor = Item("Temp Armor", "La la la ignore this la", "Armor", "Armor", WHITE, 25);
 
-vector<Inventory> inventory;
+vector<Item> inventory;
 
 int worldState = 1;
 #define COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
@@ -75,85 +75,85 @@ string progressKey[32] = {"Forest Village", "Knight's Outpost", "Plains Map", "S
 /* ================= MONSTERS/ENEMIES ================= */
 
 // Name, difficulty, pattern size, HP, ATK, alignment, drop
-Monster tutorial[] = {{"Ooz", 1, 5, 20, 2, EVIL, "Gel", NONE}};
+Monster tutorial[] = {{"Ooz", 1, 5, 20, 2, EVIL, gel, NONE}};
 // Forest enemy groups
 Monster forest[] = {
-    {"Lumora", 1, 3, 10, 3, GOOD, "Lumora Wing", NONE},       // Easy, 3-letter pattern 
-    {"Deer", 1, 5, 20, 4, GOOD, "Leather", NONE},       // Easy, 5-letter pattern
-    {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth", NONE},       // Easy, 5-letter pattern
-    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale", BURN}};
+    {"Lumora", 1, 3, 10, 3, GOOD, lumoraWing, NONE},       // Easy, 3-letter pattern 
+    {"Deer", 1, 5, 20, 4, GOOD, leather, NONE},       // Easy, 5-letter pattern
+    {"Groblin", 1, 5, 25, 5, EVIL, groblinTooth, NONE},       // Easy, 5-letter pattern
+    {"Flagon", 2, 6, 25, 7, EVIL, emberScale, BURN}};
 Monster helpVillage[] = {
-    {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth", NONE},
-    {"Groblin", 1, 5, 25, 5, EVIL, "Groblin Tooth", NONE}, 
-    {"Groblin Shaman", 3, 5, 40, 7, EVIL, "Groblin Staff", POISON},   
-    {"Groblin Chief", 3, 5, 35, 10, EVIL, "Groblin Tusk", NONE}};
+    {"Groblin", 1, 5, 25, 5, EVIL, groblinTooth, NONE},
+    {"Groblin", 1, 5, 25, 5, EVIL, groblinTooth, NONE}, 
+    {"Groblin Shaman", 3, 5, 40, 7, EVIL, groblinStaff, POISON},   
+    {"Groblin Chief", 3, 5, 35, 10, EVIL, groblinTusk, NONE}};
 Monster pillageVillage[] = {
-    {"Adventurer 'Kalen'", 1, 5, 15, 5, GOOD, "Leather", NONE},
-    {"Guard 'Eldric'", 3, 5, 20, 4, GOOD, "Scrap Metal", NONE}, 
-    {"Guard 'Kaelor'", 3, 5, 20, 4, GOOD, "Scrap Metal", NONE},   
-    {"Knight 'Halor'", 4, 6, 35, 10, GOOD, "Scrap Metal", NONE}};
+    {"Adventurer 'Kalen'", 1, 5, 15, 5, GOOD, leather, NONE},
+    {"Guard 'Eldric'", 3, 5, 20, 4, GOOD, scrapMetal, NONE}, 
+    {"Guard 'Kaelor'", 3, 5, 20, 4, GOOD, scrapMetal, NONE},   
+    {"Knight 'Halor'", 4, 6, 35, 10, GOOD, scrapMetal, NONE}};
 Monster assistKnights[] = { 
-    {"Juvinile Flagon", 2, 5, 20, 6, EVIL, "Ember Scale", NONE},
-    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale", BURN}, 
-    {"Flagon", 2, 6, 25, 7, EVIL, "Ember Scale", BURN},   
-    {"Elder Flagon", 4, 6, 40, 10, EVIL, "Inferno Scale", BURN}};
+    {"Juvinile Flagon", 2, 5, 20, 6, EVIL, emberScale, NONE},
+    {"Flagon", 2, 6, 25, 7, EVIL, emberScale, BURN}, 
+    {"Flagon", 2, 6, 25, 7, EVIL, emberScale, BURN},   
+    {"Elder Flagon", 4, 6, 40, 10, EVIL, infernoScale, BURN}};
 Monster attackKnights[] = {
-    {"Knight 'Marlo'", 4, 6, 35, 10, GOOD, "Scrap Metal", NONE},
-    {"Knight 'Lysa'", 4, 6, 35, 10, GOOD, "Scrap Metal", NONE}, 
-    {"Knight Captain 'Therin'", 4, 7, 35, 10, GOOD, "Refined Metal", NONE},   
-    {"Royal Knight 'Fenric'", 4, 8, 35, 10, GOOD, "Scrap Metal", BLEED}};
+    {"Knight 'Marlo'", 4, 6, 35, 10, GOOD, scrapMetal, NONE},
+    {"Knight 'Lysa'", 4, 6, 35, 10, GOOD, scrapMetal, NONE}, 
+    {"Knight Captain 'Therin'", 4, 7, 35, 10, GOOD, refinedMetal, NONE},   
+    {"Royal Knight 'Fenric'", 4, 8, 35, 10, GOOD, scrapMetal, BLEED}};
 
 // Plains enemy groups
 Monster plains[] = {
-    {"Snarlbeast", 2, 6, 30, 7, EVIL, "Beastly Tooth", POISON},
-    {"Nimora", 1, 5, 10, 3, EVIL, "Nimora Wing", NONE},
-    {"Grass Troll", 2, 5, 30, 5, EVIL, "Troll Leather", NONE},
-    {"Mossback", 1, 8, 50, 3, GOOD, "Fossilized Moss", NONE},
-    {"Great Stag", 2, 8, 35, 6, GOOD, "Antlers", FEAR}};
+    {"Snarlbeast", 2, 6, 30, 7, EVIL, beastlyTooth, POISON},
+    {"Nimora", 1, 5, 10, 3, EVIL, nimoraWing, NONE},
+    {"Grass Troll", 2, 5, 30, 5, EVIL, trollLeather, NONE},
+    {"Mossback", 1, 8, 50, 3, GOOD, fossilizedMoss, NONE},
+    {"Great Stag", 2, 8, 35, 6, GOOD, greatAntlers, FEAR}};
 Monster attackAdventurers[] = { // attack adventurers
-    {"Swordmaster 'Lorel'", 4, 6, 35, 10, GOOD, "Berzerker Potion", BLEED},
-    {"Rouge 'Reric'", 4, 5, 20, 35, GOOD, "Broken Dagger", BURN}, 
-    {"Mage 'Sypha'", 5, 5, 25, 20, GOOD, "Fairy Dust", FROZEN}};
-Monster lichBoss = {"Racher the Lich", 3, 9, 65, 50, GOOD, "True Sight Sigil", FEAR};
+    {"Swordmaster 'Lorel'", 4, 6, 35, 10, GOOD, berzerkerPotion, BLEED},
+    {"Rouge 'Reric'", 4, 5, 20, 35, GOOD, brokenDagger, BURN}, 
+    {"Mage 'Sypha'", 5, 5, 25, 20, GOOD, fairyDust, FROZEN}};
+Monster lichBoss = {"Racher the Lich", 3, 9, 65, 50, GOOD, trueSightSigil, FEAR};
 Monster templeHoard[] = {
-    {"Nightmare Wraith", 3, 5, 25, 35, EVIL, "Vile Remnant", FEAR},
-    {"Hollowed Witch", 3, 5, 25, 35, EVIL, "Vile Remnant", FEAR},
-    {"Dark Revenant", 3, 5, 25, 35, EVIL, "Vile Remnant", FEAR},
-    {"Blighted Stalker", 3, 5, 25, 35, EVIL, "Vile Remnant", FEAR},
-    {"Cursed Sentinel", 3, 7, 25, 35, EVIL, "Vile Remnant", FEAR}};
+    {"Nightmare Wraith", 3, 5, 25, 35, EVIL, vileRemnant, FEAR},
+    {"Hollowed Witch", 3, 5, 25, 35, EVIL, vileRemnant, FEAR},
+    {"Dark Revenant", 3, 5, 25, 35, EVIL, vileRemnant, FEAR},
+    {"Blighted Stalker", 3, 5, 25, 35, EVIL, vileRemnant, FEAR},
+    {"Cursed Sentinel", 3, 7, 25, 35, EVIL, vileRemnant, FEAR}};
 
 // Lake enemy groups
 Monster lake[] = {
-    {"Mega Turtle", 1, 5, 40, 5, GOOD, "Shell Shard", NONE},
-    {"Lake Serpent", 2, 5, 25, 10, EVIL, "Venom Vial", POISON},
-    {"Kraken", 3, 5, 35, 10, EVIL, "Kraken Tentacle", FEAR},
-    {"Ripplet", 2, 5, 15, 5, GOOD, "Shiny Scale", FROZEN},
-    {"Glowfin", 3, 5, 15, 7, EVIL, "Luminous Scale", NONE},
-    {"Oozard", 4, 5, 15, 8, EVIL, "Gelatinous Mass", FROZEN}};
+    {"Mega Turtle", 1, 5, 40, 5, GOOD, shellShard, NONE},
+    {"Lake Serpent", 2, 5, 25, 10, EVIL, venomVial, POISON},
+    {"Kraken", 3, 5, 35, 10, EVIL, krakenTentacle, FEAR},
+    {"Ripplet", 2, 5, 15, 5, GOOD, shinyScale, FROZEN},
+    {"Glowfin", 3, 5, 15, 7, EVIL, luminousScale, NONE},
+    {"Oozard", 4, 5, 15, 8, EVIL, gelatinousMass, FROZEN}};
 
 // Cave enemy groups
 Monster caves[] = {
-    {"Cursed Bat", 2, 5, 15, 5, EVIL, "Echo Fang", BLEED},
-    {"Crystal Snake", 2, 4, 25, 6, EVIL, "Crystal Venom", POISON},
-    {"Shardling", 2, 4, 25, 6, GOOD, "Quartz Shard", FROZEN},
-    {"Shifter Fox", 3, 5, 15, 5, EVIL, "Mirror Cloak", NONE},
-    {"Stone Spider", 3, 5, 35, 6, EVIL, "Mineral Silk", NONE},
-    {"Ancient Automaton", 4, 4, 45, 9, GOOD, "Gear Charge", FEAR}};
+    {"Cursed Bat", 2, 5, 15, 5, EVIL, echoFang, BLEED},
+    {"Crystal Snake", 2, 4, 25, 6, EVIL, crystalVenom, POISON},
+    {"Shardling", 2, 4, 25, 6, GOOD, quartzShard, FROZEN},
+    {"Shifter Fox", 3, 5, 15, 5, EVIL, mirrorCloak, NONE},
+    {"Stone Spider", 3, 5, 35, 6, EVIL, mineralSilk, NONE},
+    {"Ancient Automaton", 4, 4, 45, 9, GOOD, gearCharge, FEAR}};
 
 // Mountain enemy groups
 Monster mountains[] = {
-    {"Peak Eagle", 2, 5, 25, 7, GOOD, "Soaring Feather", NONE},
-    {"Ice Giant", 3, 4, 55, 10, EVIL, "Ionic Ice", FROZEN},
-    {"Mountain Goat", 2, 6, 30, 16, GOOD, "Durable Horn", NONE},
-    {"Snow Leopard", 3, 4, 30, 20, GOOD, "Gorgeous Leather", BLEED},
-    {"Dark Dragon", 4, 6, 65, 25, EVIL, "Demonic Scale", FEAR},
-    {"High Dragon", 4, 6, 65, 25, GOOD, "Golden Scale", FEAR}};
+    {"Peak Eagle", 2, 5, 25, 7, GOOD, soaringFeather, NONE},
+    {"Ice Giant", 3, 4, 55, 10, EVIL, ionicIce, FROZEN},
+    {"Mountain Goat", 2, 6, 30, 16, GOOD, durableHorn, NONE},
+    {"Snow Leopard", 3, 4, 30, 20, GOOD, gorgeousLeather, BLEED},
+    {"Dark Dragon", 4, 6, 65, 25, EVIL, demonicScale, FEAR},
+    {"High Dragon", 4, 6, 65, 25, GOOD, goldenScale, FEAR}};
 
 // Final area bosses
 Monster final[] = { // You will recive a really strong weapon before this guys dw
-    {"Astra, Deity of JUSTICE", 5, 8, 500, 30, GOOD, "A World of Evil", NONE},
-    {"Krya, Deity of MALICE", 5, 8, 500, 30, EVIL, "A World of Good", NONE},
-    {"???, Deity of CHAOS", 7, 9, 750, 40, EVIL, "???", NONE}};
+    {"Astra, Deity of JUSTICE", 5, 8, 500, 30, GOOD, septre, NONE},
+    {"Krya, Deity of MALICE", 5, 8, 500, 30, EVIL, septre, NONE},
+    {"???, Deity of CHAOS", 7, 9, 750, 40, EVIL, septre, NONE}};
 
 /* ================= PLAYER OPTIONS ================= */
 /**
@@ -215,7 +215,7 @@ int options() {
         system("cls");
         printf("You open your inventory.\n");
         int armorHold = currentArmor.getValue(); // had to add this since cant get reference from getValue(). 
-        openInventory(0, &armorHold);
+        openInventory(&armorHold);
         return 4;
     }
     else if (choice == '5') { // MAP (TRAVEL)
@@ -347,7 +347,7 @@ int main(void) {
     // while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this SHOULD NOT count towards grade
     system("chcp 65001 > nul");
 
-    addItem("Health Potion", 1);
+    addItem(healthPotion, 1);
     // --- Quest Variables ---
     int startQuest1 = 0;
     int startQuest2 = 0;
@@ -922,19 +922,19 @@ void fastForward() {
 void giveItem() {
     printf("What item do you want to add to your inventory?\n");
     printf("> ");
-    char item[64];
-    fgets(item, 64, stdin);
-    fgets(item, 64, stdin);
-    item[strcspn(item, "\n")] = '\0';
-    int amount;
-    printf("How many?\n");
-    printf("> ");
-    cin >> amount;
-    for (int i = 0; i < amount; i++)
-    {
-        addItem(item, 1);
-    }
-    cout << "You have added " << amount << " [ " << CYAN << item << NORMAL << " ] to your inventory.\n";
+    // char item[64];
+    // fgets(item, 64, stdin);
+    // fgets(item, 64, stdin);
+    // item[strcspn(item, "\n")] = '\0';
+    // int amount;
+    // printf("How many?\n");
+    // printf("> ");
+    // cin >> amount;
+    // for (int i = 0; i < amount; i++)
+    // {
+    //     addItem(item, 1);
+    // }
+    // cout << "You have added " << amount << " [ " << CYAN << item << NORMAL << " ] to your inventory.\n";
 }
 
 void Travel() {

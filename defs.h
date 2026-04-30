@@ -66,41 +66,29 @@ typedef enum {
     CURSED, // chance to reflect damage when the victim attacks (gray)
 } StatusType;
 
-typedef struct {
-    string name;
-    int difficultyLevel;
-    int patternLength;
-    int hp;
-    int atk;
-    int alignment;
-    string drop;
-    StatusType status;
-} Monster;
 
-class Item{
+class Item {
 private:
     string name;
     string description;
-    string itemCategory; // weapon, armor, potion etc
-    string itemType;     // sword, bow, healing etc
-    string color;        // WHITE, GREEN, CYAN, PURPLE, GOLD, YELLOW
-    int value;             // defense, healing, damage etc.
-    
+    string itemCategory;
+    string itemType;
+    string color;
+    int value;
+
 public:
-    StatusType status;     // additional effects
+    StatusType status;
+    int quantity;
+
     string getName();
     string getDesc();
     string getCategory();
     string getType();
     string getColor();
     int getValue();
+    StatusType getStatus();
 
-    // void setName(string name);
-    // void Item::setDesc(string newDesc);
-    // void Item::setCategory(string newCat);
-    // void Item::setType(string newType);
-    // void Item::setColor(string newColor);
-    // void Item::setValue(int newVal);
+    Item() : name(""), description(""), itemCategory(""), itemType(""), color(WHITE), value(0), status(NONE), quantity(0) {}
 
     Item(string newName, string newDesc, string newCat, string newType, string newColor, int newVal, StatusType newStatus = NONE) {
         name = newName;
@@ -110,8 +98,20 @@ public:
         color = newColor;
         value = newVal;
         status = newStatus;
+        quantity = 0;
     }
 };
+
+typedef struct {
+    string name;
+    int difficultyLevel;
+    int patternLength;
+    int hp;
+    int atk;
+    int alignment;
+    Item drop;
+    StatusType status;
+} Monster;
 
 // typedef struct Item_struct {
 //     string name;

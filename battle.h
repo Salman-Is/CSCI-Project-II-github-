@@ -12,8 +12,8 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
 
 void addCoins(int amount, string message);
 
-void addItem(string itemName, int startingItems);
-void removeItem(string itemName);
+void addItem(Item itemName, int startingItems);
+void removeItem(Item itemName);
 void weaponUpgrade(string weaponName, int weaponDamage);
 
 void grantKarma(int addOrSubtract, int amount, string message);
