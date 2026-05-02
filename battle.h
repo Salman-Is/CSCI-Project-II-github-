@@ -14,6 +14,7 @@ void addCoins(int amount, string message);
 
 void addItem(Item itemName, int startingItems);
 void removeItem(Item itemName);
+bool hasItem(Item item);
 void weaponUpgrade(string weaponName, int weaponDamage);
 
 void grantKarma(int addOrSubtract, int amount, string message);

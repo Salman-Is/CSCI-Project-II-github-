@@ -54,7 +54,8 @@ int worldState = 1;
 /* ================= AREA/LOCATION NAMES ================= */
 string availableLocations[6] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", 
 "The Crystal Caves", "The Celestial Mountains", "Acention"};
-string progressKey[32] = {"Forest Village", "Knight's Outpost", "Plains Map", "Skysealed Temple (Group)", "Skysealed Temple (Alone)", "Emerald City"};
+string progressKey[32] = {"Forest Village", "Knight's Outpost", "Plains Map", "Skysealed Temple (Group)", "Skysealed Temple (Alone)", "Emerald City",
+     "Infected Lake"};
 
 /* ================= MONSTERS/ENEMIES ================= */
 
@@ -115,7 +116,8 @@ Monster lake[] = {
     {"Ripplet", 2, 5, 15, 5, GOOD, shinyScale, FROZEN},
     {"Glowfin", 3, 5, 15, 7, EVIL, luminousScale, BLIND},
     {"Oozard", 4, 5, 15, 8, EVIL, gelatinousMass, FROZEN}};
-
+Monster vael = {"Vael, the Drowned", 5, 7, 75, 50, EVIL, demonicScale, BLEED};
+Monster lirien = {"Lirien, Spirit of the Lake", 5, 7, 75, 50, GOOD, regenerationCrystal, FROZEN};
 // Cave enemy groups
 Monster caves[] = {
     {"Cursed Bat", 2, 5, 15, 5, EVIL, echoFang, BLIND},
@@ -409,6 +411,7 @@ int main(void) {
             case 4: plainsTempleGOOD(); break;
             case 5: plainsTempleEVIL(); break;
             case 6: emeraldCityQuest(); break;
+            case 7: storyLake(); break;
         }
     }
 

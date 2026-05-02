@@ -58,7 +58,8 @@ extern Monster templeHoard[];
 extern Monster corruptCaptain;
 
 extern Monster lake[];
-
+extern Monster vael;
+extern Monster lirien;
 
 extern Monster caves[];
 

@@ -55,6 +55,7 @@ Item chainArmor = Item("Chain Armor", "A flimsy set of armor found in a cave.", 
 Item steelArmor = Item("Steel Armor", "A set of armor forged with iron and carbon.", "Armor", "Armor", WHITE, 27);
 Item knightArmor = Item("Knight Armor", "The offical set of armor used by Knights of Aureveil.", "Armor", "Armor", GREEN, 29);
 Item swordmasterArmor = Item("Swordmaster Armor", "A set of armor forged by the famous Swordmaster Lorel.", "Armor", "Armor", GREEN, 32);
+Item tidebreakerArmor = Item("Tidebreaker Armor", "The personal set of armor used by Lirien of the Blue Lake.", "Armor", "Armor", CYAN, 40);
 
 Item ultraArmor = Item("Ultra Armor", "An OP set of armor used for testing and nothing else", "Armor", "Armor", RED, 999);
 
@@ -80,7 +81,7 @@ Item nimoraWing = Item("Nimora Wing", "The fragile wing of a Lumora", "Drop", "N
 Item trollLeather = Item("Troll Leather", "Leather that has been hardened by Troll engineering", "Drop", "NULL", WHITE, 0);
 Item fossilizedMoss = Item("Fossilized Moss", "Hardened moss from the back of an ancient creature", "Drop", "NULL", GREEN, 0);
 Item greatAntlers = Item("Great Antlers", "Proof you took down a Great Stag", "Drop", "NULL", WHITE, 0);
-Item lichPhial = Item("Lich's Phial", "Proof you took down a Great Stag", "Drop", "NULL", WHITE, 0);
+Item lichPhial = Item("Lich's Phial", "All that remains of The Lich", "Drop", "NULL", CYAN, 0);
 
 // Plains Quests ------------------------------------------------------------------
 Item brokenDagger = Item("Broken Dagger", "A cracked dagger that has seen better days.", "Drop", "NULL", GRAY, 0);
@@ -125,6 +126,7 @@ Item essence = Item("Essence", "A gift from the Deity of Evil.", "Drop", "NULL",
 Item ichor = Item("Ichor", "A gift from the Deity of Good.", "Drop", "NULL", CYAN, 0);
 
 Item septre = Item("Septre", "An artifact that grants the holder Divinity.", "Charm", "Status", GOLD, 0);
+Item regenerationCrystal = Item("Regeneration Crystal", "An artifact that grants the holder Regeneration.", "Charm", "Status", GOLD, 0);
 
 // Potions/Charms --------------------------------------------------------------
 Item healthPotion = Item("Health Potion", "A potion that will heal most injuries.", "Potion", "Healing", WHITE, 5);

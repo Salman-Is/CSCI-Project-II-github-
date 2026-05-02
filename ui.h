@@ -39,6 +39,7 @@ extern Item chainArmor;
 extern Item steelArmor;
 extern Item knightArmor;
 extern Item swordmasterArmor;
+extern Item tidebreakerArmor;
 
  // Drops ------------------------------------------------------------------
 extern Item gel;
@@ -100,6 +101,7 @@ extern Item ichor;
 extern Item essence;
 
 extern Item septre;
+extern Item regenerationCrystal;
  
 // Potions/Charms --------------------------------------------------------------
 extern Item healthPotion;

@@ -14,6 +14,6 @@ void plainsTempleEVIL();
 
 void emeraldCityQuest();
 
-
+void storyLake();
 
 #endif

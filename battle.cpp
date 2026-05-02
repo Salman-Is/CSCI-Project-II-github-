@@ -89,6 +89,13 @@ void removeItem(Item item) {
     }
 }
 
+bool hasItem(Item item) {
+    for (int i = 0; i < (int)inventory.size(); i++) {
+        if (inventory[i].getName() == item.getName()) return true;
+    }
+    return false;
+}
+
 /* ================= ENCOUNTER FUNCTION ================= */
 /**
  * Funtion handles the setup for the battle
@@ -328,6 +335,9 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
     int spare = 0;
 
     system("cls");
+
+    if (hasItem(regenerationCrystal)){applyStatus(&playerStatus, REGENERATION);}
+    
 
     /* =================== BATTLE LOOP =================== */
     while (playerHP > 0 && enemyHP > 0 && spare == 0){

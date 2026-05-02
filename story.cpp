@@ -23,6 +23,9 @@ Item* quest4Rewards[] = { &lichPhial, &staffOfRemnant };
 // Emerald City quest
 Item* quest5Rewards[] =  { &emeraldBow, &focusCharm, &elderiteGemstone, &berzerkerPotion };
 
+// Infected Lake quest
+Item* quest6RewardsGOOD[] = { &tidebreakerArmor, &shellShard, &healthElixer, &mysticSalve };
+
 // --- Quest Variables ---
 int startQuest1 = 0;
 int startQuest2 = 0;
@@ -35,6 +38,7 @@ int startQuest8 = 0;
 // --- Quest Flags ---
 int quest1Action = 0;
 int quest5Action = 0;
+int quest6Action = 0;
 
 void forestQuest() {
     while (storyProgress == 1){
@@ -483,3 +487,129 @@ void emeraldCityQuest() {
         }
     }
 }
+
+void storyLake() {
+    while (storyProgress == 7) {
+        int navigationChoice = options();
+        if (navigationChoice == 1) {
+            specialPrintf("You leave Emerald City behind and follow the road west.\n");
+            specialPrintf("The air grows humid as the trees give way to a vast shoreline.\n");
+            specialPrintf("The Blue Lake stretches out before you, dark and churning.\n");
+            specialPrintf("It shouldn't be. The sky is clear. There is no wind.\n");
+            specialPrintf("A small fishing village sits at the water's edge, abandoned.\n");
+            specialPrintf("Every door is shut. Every window is dark.\n\n");
+            
+            specialPrintf("The exception is the door closest to you. Do you want to knock?\n\n");
+            
+            int speak = dialouge();
+            specialPrintf("You knock on the nearest door. A long silence. Then it opens a crack.\n\n");
+            pressEnter();
+            if (speak == 1) {
+                system("cls");
+                dialougeBox("Fisherman Edric", CYAN, "EDRIC_1");
+                startQuest6++;
+            }
+            else if (speak == 2) {
+                printf("You turn away for now.\n");
+            }
+
+            if (startQuest6 != 0) {
+                dialougeBox("Fisherman Edric", CYAN, "EDRIC_2");
+                dialougeBox("Fisherman Edric", CYAN, "EDRIC_3");
+
+                specialPrintf("You take the old diving bell from the village storehouse.\n");
+                specialPrintf("The water is black around you as you descend.\n");
+                specialPrintf("You can feel something wrong in it. Something that shouldn't be here.\n");
+                specialPrintf("The deeper you go, the louder the silence gets.\n\n");
+                pressEnter();
+
+                specialPrintf("At the bottom, you find him.\n");
+                specialPrintf("The spirit is bound to the lakebed by chains of dark energy.\n");
+                specialPrintf("He is barely conscious. The infection is spreading from him outward.\n");
+                specialPrintf("And standing over him is the thing responsible.\n\n");
+                pressEnter();
+
+                dialougeBox("Vael, the Drowned", DEEPRED, "VAEL_1");
+
+                specialPrintf("The demon turns to face you fully.\n");
+                specialPrintf("The water around it warps and darkens.\n\n");
+                pressEnter();
+
+                string questChoice = questAlignment("Fight Vael and free the spirit", "Strike a deal with Vael and leave the spirit to his fate");
+
+                if (questChoice == "GOOD") {
+                    specialPrintf("You draw your weapon. The water resistance is immense.\n");
+                    specialPrintf("Vael doesn't move. It watches you approach.\n");
+                    specialPrintf("Then it smiles, and the lake erupts around you.\n\n");
+                    pressEnter();
+
+                    if (bossFight(vael) == 1) {
+                        system("cls");
+                        dialougeBox("Vael, the Drowned", DEEPRED, "VAEL_2");
+                        specialPrintf("Vael fractures. The dark energy holding it together scatters into the water.\n");
+                        specialPrintf("The chains binding the spirit dissolve.\n");
+                        specialPrintf("The lake shudders. Then goes still.\n\n");
+                        pressEnter();
+
+                        dialougeBox("Lirien, Spirit of the Lake", CYAN, "LIRIEN_1");
+                        dialougeBox("Lirien, Spirit of the Lake", CYAN, "LIRIEN_2");
+
+                        specialPrintf("The water begins to clear around you as you ascend.\n");
+                        specialPrintf("By the time you surface, the lake is blue again.\n");
+                        specialPrintf("The whole village is standing at the dock.\n\n");
+                        pressEnter();
+
+                        dialougeBox("Fisherman Edric", CYAN, "EDRIC_4");
+
+                        questRewards(quest6RewardsGOOD, 4, 60);
+                        quest6Action++;
+                        storyProgress++;
+                    }
+                    else {
+                        printf("Vael dragged you into the dark...\n");
+                        pressEnter();
+                    }
+                }
+                else if (questChoice == "EVIL") {
+                    specialPrintf("You stop. You look at the demon. Then at the spirit.\n");
+                    specialPrintf("This deal draws your intrest...\n");
+                    specialPrintf("You signal to Vael that you want to talk.\n\n");
+                    pressEnter();
+
+                    dialougeBox("Vael, the Drowned", DEEPRED, "VAEL_3");
+                    dialougeBox("Lirien, Spirit of the Lake", CYAN, "LIRIEN_3");
+                    dialougeBox("Vael, the Drowned", DEEPRED, "VAEL_4");
+                    dialougeBox("Lirien, Spirit of the Lake", CYAN, "LIRIEN_4");
+
+                    specialPrintf("Lirien breaks free from Vael's chains, and grabs his trident.\n");
+                    specialPrintf("You take a breath and exit the diving bell. Vael assumes a battle stance.\n");
+                    specialPrintf("Though weakened, Lirien easily overpowers Vael, and turns to you.\n");
+                    pressEnter();
+
+                    if (bossFight(lirien) == 1) {               
+
+                        dialougeBox("Lirien, Spirit of the Lake", CYAN, "LIRIEN_5");
+                        dialougeBox("Vael, the Drowned", DEEPRED, "VAEL_5");
+
+                        specialPrintf("You surface to find Edric waiting at the dock, hopeful.\n");
+                        specialPrintf("You tell him there was nothing you could do.\n");
+                        specialPrintf("The look on his face will stay with you longer than you'd like.\n\n");
+                        pressEnter();
+
+                        quest6Action--;
+                        storyProgress++;
+                    }
+                    else {
+                        printf("You were sealed by Lirien under the Lake...\n");
+                        pressEnter();
+                    }
+                }
+                else {
+                    continue;
+                }
+                pressEnter();
+            }
+        }
+    }
+}
+

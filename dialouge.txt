@@ -254,6 +254,91 @@ I don't know what you want from this. Power? Chaos? But I know what a war will c
 People will die for a lie you told in front of the council.
 I hope whatever you're after is worth that. 
 
+[EDRIC_1]
+...You're not from here.
+That's either very good or very bad right now, depending on who you are. Come inside. Quickly.
+The things in the water have been coming onto the shore at night.
+We stopped going outside after dark three weeks ago.
+Something has infected the lake. The creatures that live in it have been driven mad.
+And beneath all of it, something is keeping them that way.
+
+[EDRIC_2]
+It happened all at once.
+One night the lake just... changed. The color. The smell. Everything.
+The fish started dying. Then the creatures started coming up from the deep.
+Not like they usually do. Frenzied. Vile. Like something had gotten inside them 
+and turned everything that made them alive into something that just wants to destroy.
+
+[EDRIC_3]
+There's a spirit who lives at the bottom of the lake.
+Lirien. My grandfather called him the reason this village exists.
+He kept the water clean. Kept the creatures calm.
+We left offerings at the dock every harvest. He would defend the village in return.
+He hasn't surfaced for the offerings three weeks, and hasn't turned up to defend us from this attack.
+If something has happened to him... that would explain everything.
+...
+There's an old diving bell in the storehouse. It hasn't been used in years but it holds.
+You look put together. I won't ask you to go down there. But I think he needs help.
+
+[EDRIC_4]
+I watched the water from the dock.
+When it started turning blue again I thought I was imagining it.
+Three weeks of that darkness and I'd half forgotten what the lake was supposed to look like.
+Thank you. I mean that. Whatever is down there, thank you for facing it.
+
+
+[VAEL_1]
+Another one. They keep sending things down here to find him.
+Knights. Mages. Monsters. None of them make it back up. You feel different though.
+...
+There's something in you that doesn't belong to this world entirely.
+It might give me some trouble, but why bother with trouble? I can sense an inbalance about you.
+Perhaps we aren't so different. We don't HAVE to fight. I have plans for this spirit.
+Maybe you can take part in the spoils, instead of dying by my hand.
+
+[VAEL_2]
+Why? We could have been... unstoppable... we...
+
+[LIRIEN_1]
+I felt you coming before you reached the bottom. Something in the water recognized you.
+The chains held me for three weeks. I watched it poison everything I spent centuries protecting.
+There are no words for what you have done for this lake. For what you have done for me.
+You are a true warrior. Take this. It is the least of what I owe you. 
+
+[LIRIEN_2]
+It is my personal set of Tidebreaker Armor. Wear it well. You've earned it's grace.
+I will need time to heal what was done to this water. But I will heal it.
+I doubt this rickety old diving bell will make the return. Let me give you some help.
+
+[VAEL_3]
+You stopped. That's unexpected.
+This spirit holds a deep power. A crystal that grants Regeneration to anyone who wields it!
+I only need it to heal the wounds I sustained during the Third Incursion. Nothing more.
+Once I am done with it, it is yours to do with as you please.
+You can trust me. As vicious as we are, a demon always hold's up their end of the deal. 
+
+[LIRIEN_3]
+Don't! Those wounds are all that keeps him from regaining his power!
+
+[VAEL_4]
+SILENCE! How dare you! It was YOU who gave me these wounds, and you prevent me still from even healing them?
+Are you a servent of Astra in name only, for you to be torturing beings for crimes commited millenia ago?
+
+[LIRIEN_4]
+I'll best you again Vael! As I have countless times! 
+And YOU, Paladin, you choose to go down the pat of Kyra? For the sake of this planet, I'll kill you too!
+
+[LIRIEN_5]
+...
+Whatever you're becoming... I hope it was worth this...
+
+[VAEL_5]
+Excellent! There's the crystal! 
+...
+My wounds have finally been healed! I must thank you Paladin, I would never have expected divine 
+help, after 2000 years of silence from Kyra. Perhaps she really does reward all of her subjects.
+As promised, you can keep the crystal. I will be off now. I have plans...
+
 
 [END OF THE FILE]
 This is the end of the file. We needed that tag there because otherwise it might not
