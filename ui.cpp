@@ -580,21 +580,16 @@ void gearMenu() {
         if (confirm == 2) { continue; }
 
         // display matching items
-        printf("╔══════════════════════════════════════════════════════════════════════════════════╗\n");
-        cout << "║  Select a " << targetType << " to equip:";
-        printf("                                                           ║\n");
-        printf("╠══════════════════════════════════════════════════════════════════════════════════╣\n");
+        cout << "Select a " << targetType << " to equip:\n\n";
         for (int i = 0; i < (int)matches.size(); i++) {
             Item& item = inventory[matches[i]];
-            printf("║  [%d] ", i+1);
+            printf("[%d] ", i+1);
             cout << item.getColor() << BOLD << item.getName() << UNBOLD << NORMAL;
-            printf("%*s VAL: %3d  Status: ", (int)(20 - item.getName().size()), "");
-            cout << changeColor(item.getStatus()) << statusText(item.getStatus()) << NORMAL;
-            printf("%*s║\n", (int)(10 - statusText(item.getStatus()).size()), "");
+            printf("  Atk/Def: %d  Status: ", item.getValue());
+            cout << changeColor(item.getStatus()) << statusText(item.getStatus()) << NORMAL << "\n";
         }
-        printf("╠══════════════════════════════════════════════════════════════════════════════════╣\n");
-        printf("║  [0] Cancel                                                                      ║\n");
-        printf("╚══════════════════════════════════════════════════════════════════════════════════╝\n");
+        printf("\n[0] Cancel\n\n");
+        
         printf("> ");
 
         int swapChoice;
