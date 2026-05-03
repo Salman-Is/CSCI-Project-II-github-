@@ -288,7 +288,7 @@ void chest(string key, Item item, string chestType, string chestColor, int *sear
     printf("║    [        ]    ║\n");
     printf("╚══════════════════╝\n\n");
     int hasFoundKey = -1;
-    cout << "You find a " << chestColor << chestType << NORMAL << "chest.\n";
+    cout << "You find a " << chestColor << chestType << NORMAL << " chest.\n";
     
     for(int i = 0; i < (int)inventory.size(); i++) {
         if(inventory.at(i).getName() == key) {
@@ -302,7 +302,7 @@ void chest(string key, Item item, string chestType, string chestColor, int *sear
 
     if (hasFoundKey == 1)
     {
-        cout << "You use your " << chestColor << key << NORMAL << "to open the chest...\n\n";
+        cout << "You use your " << chestColor << key << NORMAL << " to open the chest...\n\n";
         (*search)++;
         if (item.getType() == "Bow") {
             upgradeBow(item);
@@ -318,7 +318,7 @@ void chest(string key, Item item, string chestType, string chestColor, int *sear
         }
     }
     else {
-        cout << "Find a " << chestColor<< key << NORMAL << "to open the chest.\n\n";
+        cout << "Find a " << chestColor << key << NORMAL << " to open the chest.\n\n";
     }
 }
 
@@ -677,9 +677,9 @@ void shop(Item items[], int prices[], int shop_count, string message){
     int choice;
     while (1){ // temp solution, shops will be more robust later
         system("cls");
-        cout << message;
+        cout << message << "\n";
         printf("╔══════════════════════════════════╗\n");
-        printf("║ [#] | TRAVELING MERCHANT         ║\n");
+        printf("║ [#] | SHOP                       ║\n");
         printf("╚══════════════════════════════════╝\n\n");
         cout << YELLOW << "COINS" << NORMAL << ": " << coins << "\n\n";
         printf("╔══════════════════════════════════╗\n");
@@ -688,9 +688,9 @@ void shop(Item items[], int prices[], int shop_count, string message){
             cout << "║ [" << (i + 1) << "] " << left << setw(19) << items[i].getName() << right << setw(2) << prices[i] << " Coins  ║\n";
         }
         printf("╚══════════════════════════════════╝\n\n");
-        printf("╔══════════════════════════════════╗\n");
-        printf("║ [0] | EXIT                       ║\n");
-        printf("╚══════════════════════════════════╝\n\n");
+        printf("╔═════════════════╦════════════════╗\n");
+        printf("║ [0] | EXIT      ║ [9] | SELL     ║\n");
+        printf("╚═════════════════╩════════════════╝\n\n");
 
         printf("> ");
         cin >> choice;
@@ -699,9 +699,69 @@ void shop(Item items[], int prices[], int shop_count, string message){
             system("cls");
             return;
         }
+        
+        if (choice == 9) {
+            // SELL MENU
+            while (1) {
+                system("cls");
+                printf("╔═══════════════════════════════════════════════════════════════╗\n");
+                printf("║ [#] | SELL ITEMS                                              ║\n");
+                printf("╚═══════════════════════════════════════════════════════════════╝\n");
+
+                // collect sellable items (only "Drop" category)
+                vector<int> sellable;
+                cout << left << setfill(' ');
+                for (int i = 0; i < (int)inventory.size(); i++) {
+                    if (inventory[i].getCategory() == "Drop") {
+                        sellable.push_back(i);
+                    }
+                }
+
+                if (sellable.empty()) {
+                    printf("You have nothing to sell.\n");
+                }
+                else {
+                    for (int i = 0; i < (int)sellable.size(); i++) {
+                        Item& item = inventory[sellable[i]];
+                        printf("[%02d] ", (i+1));
+                        cout << item.getColor() << setfill(' ') << setw(20) << item.getName() << NORMAL
+                             << " x" << left << setfill(' ') << setw(3) << item.quantity
+                             << " - " << YELLOW << item.getValue() << " Coins" << NORMAL << "\n";
+                    }
+                }
+
+                printf("╔═══════════════════════════════════════════════════════════════╗\n");
+                printf("║ [0] Back                                                      ║\n");
+                printf("╚═══════════════════════════════════════════════════════════════╝\n");
+                cout << YELLOW << "Coins: " << coins << NORMAL << "\n";
+                printf("> ");
+
+                int sellChoice;
+                cin >> sellChoice;
+
+                if (sellChoice == 0) break;
+
+                sellChoice--;
+
+                if (sellChoice < 0 || sellChoice >= (int)sellable.size()) {
+                    printf("Invalid choice.\n");
+                    pressEnter();
+                    continue;
+                }
+
+                // find sell value
+                Item& item = inventory[sellable[sellChoice]];
+                int sellValue = item.getValue();
+                cout << "You sold " << item.getColor() << item.getName() << NORMAL
+                     << " for " << YELLOW << sellValue << " Coins" << NORMAL << ".\n";
+                coins += sellValue;
+                removeItem(item);
+                Sleep(1000);
+            }
+            continue;
+        }
 
         choice--; // adjust index
-
         if (choice < 0 || choice >= shop_count){
             printf("Invalid choice. Try again.\n");
             pressEnter();

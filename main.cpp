@@ -16,7 +16,7 @@ void Travel();
 // the storyProgress variable tracks where the player is in the story
 // storyProgress = 0 means you are at the tutorial area, 1 means you are in area 1 etc.
 int storyProgress = -1;
-int maxStoryProgress = 25;
+int maxStoryProgress = 16;
 int location = 1; // 1=forest, 2=plains, 3=lake 
 int saveLocation = 1;
 int isTravelling = 0; // 1 when travelling, 0 when not
@@ -56,7 +56,7 @@ int worldState = 1;
 /* ================= AREA/LOCATION NAMES ================= */
 string availableLocations[6] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", 
 "The Crystal Caves", "The Celestial Mountains", "Acention"};
-string progressKey[32] = {"Forest Village", "Knight's Outpost", "Plains Map", "Skysealed Temple (Group)", "Skysealed Temple (Alone)", "Emerald City",
+string progressKey[15] = {"Forest Village", "Knight's Outpost", "Plains Map", "Skysealed Temple (Group)", "Skysealed Temple (Alone)", "Emerald City",
      "Infected Lake", "Lake Interlude", "Crystal Heart", "Crystal Dragon"};
 
 /* ================= MONSTERS/ENEMIES ================= */
@@ -276,10 +276,10 @@ int options() {
     }
     else if (choice == 'f' || choice == 'F') { // SHOP
         system("cls");
-        if(storyProgress != 6 || storyProgress != 1 || storyProgress != 9) {
+        if(storyProgress != 6 && storyProgress != 1 && storyProgress != 9) {
             printf("You can only shop in a town.");
         }
-        else {
+        else{
             switch (storyProgress) {
                 case 1: {
                     Item shopItems[] = {healthPotion, healthElixer, bezoar};
@@ -370,6 +370,23 @@ int options() {
  */
 int main(void) {
     system("cls");
+
+    addItem(gel, 1);
+addItem(lumoraWing, 1);
+addItem(leather, 1);
+addItem(groblinTooth, 1);
+addItem(emberScale, 1);
+addItem(beastlyTooth, 1);
+addItem(nimoraWing, 1);
+addItem(trollLeather, 1);
+addItem(fossilizedMoss, 1);
+addItem(greatAntlers, 1);
+addItem(lichPhial, 1);
+addItem(shellShard, 1);
+addItem(venomVial, 1);
+addItem(krakenTentacle, 1);
+addItem(shinyScale, 1);
+addItem(gelatinousMass, 1);
  
     // while getting ASCI art from chatgpt it told me to do this or it wouldn't work, so this SHOULD NOT count towards grade
     system("chcp 65001 > nul");

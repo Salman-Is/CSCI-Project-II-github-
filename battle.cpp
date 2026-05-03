@@ -214,6 +214,11 @@ int questGauntlet(Monster area[], int count, string groupName, string locationNa
 
         int result = runBattle(enemy, enemy.difficultyLevel, enemy.patternLength, enemy.alignment, 3.0, 0);
 
+        printf("[ BATTLE RESULTS ]\n");
+        printf("════════════════════════════════════════════════════════════════════\n\n");
+
+        printf("Enemy %d/%d\n\n", i+1, count);
+
         if (result == 1)
         {
             addItem(enemy.drop, 0);
@@ -247,7 +252,7 @@ int questGauntlet(Monster area[], int count, string groupName, string locationNa
             }
             return 0;
         }
-
+        printf("\n════════════════════════════════════════════════════════════════════\n");
         printf("\nPrepare for the next enemy...\n");
         pressEnter();
         system("cls");
@@ -467,7 +472,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                     damageToEnemy = (int)(damageToEnemy*critDamage);
                     if (currentSword.getStatus() != NONE){
                         int random = rand() % 100;
-                        if (random <= 25 && enemyStatus != NONE) {
+                        if (random <= 25 && enemyStatus != DIVINE && enemyStatus != currentSword.getStatus()) {
                             applyStatus(&enemyStatus, currentSword.getStatus());
                             cout << "\nYou afflicted the " << enemyName << " with " << changeColor(currentSword.getStatus()) << statusText(currentSword.getStatus()) << NORMAL << "!\n";
                         } 
@@ -648,7 +653,7 @@ void fireArrow(int* enemyHP){
     // apply status effect if it exists
     if (currentBow.getStatus() != NONE){
         applyStatus(&enemyStatus, currentBow.getStatus());
-        if (enemyStatus != DIVINE) {
+        if (enemyStatus != DIVINE && enemyStatus != currentBow.getStatus()) {
             cout << "The arrow inflicts " << changeColor(currentBow.getStatus()) << statusText(currentBow.getStatus()) << NORMAL << "!\n";
         }
     }

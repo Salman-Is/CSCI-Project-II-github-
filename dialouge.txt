@@ -442,6 +442,48 @@ We will always remember your generocity, Paladin.
 ...of the one...who...
 ...
 
+[ALEXANDRITE_1]
+I felt them go quiet.
+Every single one.
+Three thousand years of thought, extinguished in an afternoon.
+And thou led the stone-shapers to them.
+The Heart called thee voice. Called thee the one who listens.
+Thou listened. And then thou chose anyway.
+I have been patient with this world for a very long time, Paladin.
+I am done being patient.
+
+[ALEXANDRITE_2]
+...Thou art stronger than I expected.
+It matters not.
+What thou took from this cave cannot be returned.
+Leave.
+And know that the mountains remember what was lost here.
+They shall not forget.
+Neither shall I.
+
+[ALEXANDRITE_3]
+The Heart spoke of thee.
+It said thou listened. That thou spoke for them when thou had no reason to.
+I have heard such words before. Words are easy things.
+If thou wishest to pass through my cavern, Paladin, thou shalt show me something harder than words.
+The Heart may have trusted thee. I do not trust so easily.
+Survive what I send, and we shall speak.
+
+[ALEXANDRITE_4]
+...
+Thou art still standing.
+I have sent that trial against knights, mages, and kings. None made it past them all. 
+The Heart chose well. I shall not apologize for the trial. Thou understandest why it was necessary.
+But I will acknowledge what thou art.
+Thou art what this world was supposed to produce, and rarely does. Take what I offer. Thou hast earned it.
+
+[ALEXANDRITE_5]
+The mountains ahead are not kind.
+Something stirs up there that I have felt through the stone for decades.
+Dragons. True Dragons. Not the imitation that stands before you.
+But they hath been watching this cave for a long time. Watching me.
+Be careful, Paladin. Whatever awaits thee up there... it already knoweth thou art coming.
+
 [END OF THE FILE]
 This is the end of the file. We needed that tag there because otherwise it might not
 know when to stop. Maybe it wasn't necessary idk i never checked
