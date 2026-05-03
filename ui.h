@@ -14,6 +14,7 @@ string changeColor(StatusType status);
 void specialPrintf(string text);
 void viewItem(Item item);
 void runeMenu();
+void gearMenu();
 
 extern Item ironSword;
 extern Item steelSword;
