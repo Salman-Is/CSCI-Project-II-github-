@@ -5,7 +5,7 @@ Guideline:
 - Make sure you add comments while you are making changes (easier that way)
 
 - compile like this:
-- gcc .\main.c .\main.h .\battle.c .\battle.h .\ui.c .\ui.h .\events.c .\events.h .\defs.h
+- g++ .\main.cpp .\main.h .\battle.cpp .\battle.h .\ui.cpp .\ui.h .\events.cpp .\events.h .\defs.h .\story.cpp
 
 - for the github: (kind of a long process to get to this point tho)
 - git commit -am "describe what you changed"

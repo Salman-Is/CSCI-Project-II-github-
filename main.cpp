@@ -257,6 +257,7 @@ int options() {
     }
     else if (choice == 'b' || choice == 'B') { // LORE
         system("cls");
+        printf("This feature has not been added yet...\n");
         return 8;
     }
     else if (choice == 'c' || choice == 'C') { // RUNES
