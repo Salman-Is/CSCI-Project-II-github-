@@ -66,6 +66,7 @@ extern Monster escapedMonsters[];
 
 extern Monster caves[];
 extern Monster crystalGuardians[];
+extern Monster alexandrite;
 
 extern Monster mountains[];
 

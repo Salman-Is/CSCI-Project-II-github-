@@ -20,4 +20,6 @@ void lakeInterlude();
 
 void crystalHeartQuest();
 
+void crystalDragonQuest();
+
 #endif

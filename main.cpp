@@ -57,7 +57,7 @@ int worldState = 1;
 string availableLocations[6] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", 
 "The Crystal Caves", "The Celestial Mountains", "Acention"};
 string progressKey[32] = {"Forest Village", "Knight's Outpost", "Plains Map", "Skysealed Temple (Group)", "Skysealed Temple (Alone)", "Emerald City",
-     "Infected Lake", "Lake Interlude", "Crystal Heart"};
+     "Infected Lake", "Lake Interlude", "Crystal Heart", "Crystal Dragon"};
 
 /* ================= MONSTERS/ENEMIES ================= */
 
@@ -141,7 +141,7 @@ Monster crystalGuardians[] = {
     {"Crystal Sentry", 4, 6, 30, 10, GOOD, quartzShard, BLIND},
     {"Crystal Colossus", 5, 8, 50, 18, GOOD, quartzShard, BLIND},
 };
-
+Monster alexandrite = {"Alexandrite, the Crystal Dragon", 5, 7, 120, 60, GOOD, alexandriteScale, BLIND};
 
 // Mountain enemy groups
 Monster mountains[] = {
@@ -276,7 +276,31 @@ int options() {
     }
     else if (choice == 'f' || choice == 'F') { // SHOP
         system("cls");
-        printf("This feature has not been added yet...\n");
+        if(storyProgress != 6 || storyProgress != 1 || storyProgress != 9) {
+            printf("You can only shop in a town.");
+        }
+        else {
+            switch (storyProgress) {
+                case 1: {
+                    Item shopItems[] = {healthPotion, healthElixer, bezoar};
+                    int shopPrices[] = {5, 10, 20};
+                    shop(shopItems, shopPrices, 3, "Welcome to the Village Bazaar!");
+                    break;
+                }
+                case 6: {
+                    Item shopItems[] = {berzerkerPotion, focusCharm, bezoar, burnOintment,};
+                    int shopPrices[] = {10, 15, 20, 25};
+                    shop(shopItems, shopPrices, 4, "Welcome to the Emerald Emporium!");
+                    break;
+                }
+                case 9: {
+                    Item shopItems[] = {berzerkerPotion, focusCharm, bezoar, burnOintment, warmthCrystal};
+                    int shopPrices[] = {10, 15, 20, 25, 25};
+                    shop(shopItems, shopPrices, 5, "Welcome to the Cavern Market!");
+                    break;
+                }
+            }
+        }
         return 12;
     }
     // === SUPER SECRET DEBUGGING OPTIONS (shhhh)===
@@ -430,6 +454,7 @@ int main(void) {
             case 7: lakeQuest(); break;
             case 8: lakeInterlude(); break;
             case 9: crystalHeartQuest(); break;
+            case 10: crystalDragonQuest(); break;
         }
     }
 

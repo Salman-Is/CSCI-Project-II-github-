@@ -91,8 +91,7 @@ Item lichPhial = Item("Lich's Phial", "All that remains of The Lich", "Drop", "N
 // Plains Quests ------------------------------------------------------------------
 Item brokenDagger = Item("Broken Dagger", "A cracked dagger that has seen better days.", "Drop", "NULL", GRAY, 0);
 Item fairyDust = Item("Fairy Dust", "A glittering powder with magical properties.", "Drop", "NULL", CYAN, 0);
-Item vileRemnant = Item("Vile Remnant", "A dark residue left by an undead creature.", "Drop", "NULL", DARKBLUE, 0, FEAR);
-Item trueSightSigil = Item("True Sight Sigil", "A sigil that allows you to see enemy HP.", "Item", "NULL", GOLD, 0);
+Item vileRemnant = Item("Vile Remnant", "A dark residue left by an undead creature.", "Drop", "NULL", DARKBLUE, 0, FEAR);;
 
 // Lake ------------------------------------------------------------------
 Item shellShard = Item("Shell Shard", "A sturdy shard of a Mega Turtle that is the base of Tide Armor", "Drop", "NULL", WHITE, 0);
@@ -110,6 +109,12 @@ Item mirrorCloak = Item("Mirror Cloak", "A shimmering cloak that bends light.", 
 Item mineralSilk = Item("Mineral Silk", "Incredibly tough silk spun by a Stone Spider.", "Drop", "NULL", GRAY, 0);
 Item gearCharge = Item("Gear Charge", "A charged gear harvested from an Automaton.", "Drop", "NULL", GOLD, 0);
 
+Item diamond = Item("Diamond", "A flawless diamond from the Crystal Dragon's cavern.", "Drop", "NULL", PURPLE, 100);
+Item sapphire = Item("Sapphire", "A deep blue sapphire found in the depths of the caves.", "Drop", "NULL", PURPLE, 80);
+Item topaz = Item("Topaz", "A warm golden topaz plucked from the cave wall.", "Drop", "NULL", PURPLE, 60);
+Item ruby = Item("Ruby", "A brilliant red ruby radiating with heat.", "Drop", "NULL", PURPLE, 70);
+Item emerald = Item("Emerald", "A vivid green emerald with an unusual shimmer.", "Drop", "NULL", PURPLE, 75);
+
 // Mountains ------------------------------------------------------------------
 Item soaringFeather = Item("Soaring Feather", "A large feather from a Peak Eagle.", "Drop", "NULL", WHITE, 0);
 Item ionicIce = Item("Ionic Ice", "A shard of magical ice that never melts.", "Drop", "NULL", CYAN, 0, FROZEN);
@@ -121,7 +126,7 @@ Item goldenScale = Item("Golden Scale", "A brilliant scale radiating with divine
 
 // Special ------------------------------------------------------------------
 Item verdentKey = Item("Verdent Key", "An emerald key found in the Plains. It has to open something...", "Item", "Key", GREEN, 0);
-Item frostKey = Item("Frost Key", "A saffire key found in the Caves. It has to open something...", "Item", "Key", CYAN, 0);
+Item frostKey = Item("Frost Key", "A sapphire key found in the Caves. It has to open something...", "Item", "Key", CYAN, 0);
 Item ancientCoin = Item("Ancient Coin", "", "Item", "NULL", PURPLE, 50);
 Item elderiteGemstone = Item("Elderite Gemstone", "", "Item", "NULL", CYAN, 50);
 Item kingdomCrest = Item("Kingdom Crest", "", "Item", "NULL", CYAN, 50);
@@ -131,7 +136,10 @@ Item essence = Item("Essence", "A gift from the Deity of Evil.", "Drop", "NULL",
 Item ichor = Item("Ichor", "A gift from the Deity of Good.", "Drop", "NULL", CYAN, 0);
 
 Item septre = Item("Septre", "An artifact that grants the holder Divinity.", "Charm", "Status", GOLD, 0);
+
+Item trueSightSigil = Item("True Sight Sigil", "A sigil that allows you to see enemy HP.", "Item", "NULL", GOLD, 0);
 Item regenerationCrystal = Item("Regeneration Crystal", "An artifact that grants the holder Regeneration.", "Charm", "Status", GOLD, 0);
+Item alexandriteScale = Item("Alexandrite Scale", "An artifact that shields you from the first strike in battle.", "Charm", "Status", GOLD, 0);
 
 // Potions/Charms --------------------------------------------------------------
 Item healthPotion = Item("Health Potion", "A potion that will heal most injuries.", "Potion", "Healing", WHITE, 5);
@@ -139,6 +147,10 @@ Item healthElixer = Item("Health Elixer", "A magical potion made with the blessi
 Item mysticSalve = Item("Mystic Salve", "An oinment imbued with the power of Regeneration.", "Potion", "Status", CYAN, 0);
 Item berzerkerPotion = Item("Berzerker Potion", "An unstable potion that draws out your deep power.", "Potion", "Attack+", GREEN, 2);
 Item focusCharm = Item("Focus Charm", "An artifact that brings with it a calming force.", "Charm", "Crit+", CYAN, 2);
+
+Item burnOintment = Item("Burn Ointment", "An oinment that can cure BURN.", "Potion", "Status", WHITE, 0);
+Item bezoar = Item("Bezoar", "A stone that cures POISON. Don't ask where it comes from.", "Potion", "Status", WHITE, 0);
+Item warmthCrystal = Item("Warmth Crystal", "A gemstone that produces heat. It cures FROZEN.", "Potion", "Status", WHITE, 0);
 
 /* ================= UI FUNCTIONS ================= */
 void printUI(string turn, string enemyName, int enemyHP, int enemyMaxHP, int alignment, int playerHP, int playerMaxHP){

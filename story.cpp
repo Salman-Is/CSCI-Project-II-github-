@@ -30,6 +30,9 @@ Item* quest6RewardsGOOD[] = { &tidebreakerArmor, &shellShard, &healthElixer, &my
 Item* quest8RewardsGOOD[] = { &healthElixer, &mysticSalve, &crystalArmor};
 Item* quest8RewardsEVIL[]  = { &crystalSpear };
 
+// Crystal Cave Dragon quest
+Item* quest9Rewards[] = { &diamond, &sapphire, &topaz, &ruby, &emerald };
+
 // --- Quest Variables ---
 int startQuest1 = 0;
 int startQuest2 = 0;
@@ -725,7 +728,7 @@ void crystalHeartQuest() {
                     dialougeBox("Dwarf Elder Bronn", GRAY, "BRONN_4");
 
                     specialPrintf("The crystals guide you to the mineral deposits.\n");
-                    specialPrintf("Emerald. Saffire. Deposits the dwarves haven't seen in decades.\n");
+                    specialPrintf("Emerald. Sapphire. Deposits the dwarves haven't seen in decades.\n");
                     specialPrintf("Bronn doesn't say much on the walk back.\n");
                     specialPrintf("But before you leave, he presses something into your hands.\n");
                     specialPrintf("The Crystal Heart adds its own gift from the other side of the cave.\n\n");
@@ -787,6 +790,86 @@ void crystalHeartQuest() {
                 }
                 else {
                     continue;
+                }
+            }
+        }
+    }
+}
+
+void crystalDragonQuest() {
+    while (storyProgress == 10) {
+        int navigationChoice = options();
+        if (navigationChoice == 1) {
+            specialPrintf("The cave narrows as you press deeper.\n");
+            specialPrintf("The crystal formations grow larger the further you go.\n");
+            specialPrintf("Some of them are taller than buildings. Older than anything you've seen.\n");
+            specialPrintf("Then the tunnel opens into a cavern so large you can't see the ceiling.\n");
+            specialPrintf("And in the center of it, coiled around a formation of crystals the size of a hill...\n");
+            specialPrintf("Something opens its eyes.\n\n");
+            pressEnter();
+
+            if (quest8Action < 0) {
+                // EVIL PATH - dragon is furious
+                dialougeBox("Alexandrite, the Crystal Dragon", CYAN, "ALEXANDRITE_1");
+
+                specialPrintf("The cavern shakes. Crystal shards rain from the ceiling.\n");
+                specialPrintf("It isn't going to listen. It already knows what you did.\n\n");
+                pressEnter();
+
+                if (bossFight(alexandrite) == 1) {
+                    system("cls");
+                    specialPrintf("The dragon crashes to the cavern floor.\n");
+                    specialPrintf("The impact tears a crack in the far wall.\n");
+                    specialPrintf("Light bleeds through it. Daylight. The surface.\n");
+                    specialPrintf("The dragon looks at you one last time before its eyes close.\n\n");
+                    pressEnter();
+
+                    dialougeBox("Alexandrite, the Crystal Dragon", CYAN, "ALEXANDRITE_2");
+
+                    specialPrintf("The crack widens on its own, as if the cave itself wants you gone.\n");
+                    specialPrintf("You gather some of the precious gemstones in the area and walk away\n");
+                    specialPrintf("You step through into the cold mountain air.\n\n");
+                    pressEnter();
+
+                    questRewards(quest9Rewards, 5, 50);
+
+                    storyProgress++;
+                }
+                else {
+                    printf("Alexandrite overwhelmed you...\n");
+                }
+            }
+            else {
+                // GOOD PATH - dragon is skeptical, gives you a trial
+                dialougeBox("Alexandrite, the Crystal Dragon", CYAN, "ALEXANDRITE_3");
+
+                specialPrintf("The dragon settles back onto its coil and watches you.\n");
+                specialPrintf("It isn't attacking. But it isn't welcoming you either.\n");
+                specialPrintf("The cave around you begins to stir.\n\n");
+                pressEnter();
+
+                if (questGauntlet(crystalGuardians, 5, "Crystal Guardian", "the Dragon's Cavern") == 1) {
+                    system("cls");
+                    specialPrintf("The last guardian dissolves back into the cave wall.\n");
+                    specialPrintf("Silence.\n");
+                    specialPrintf("Then the dragon speaks again.\n\n");
+                    pressEnter();
+
+                    dialougeBox("Alexandrite, the Crystal Dragon", CYAN, "ALEXANDRITE_4");
+
+                    specialPrintf("The dragon lowers its head and breathes onto the cave wall.\n");
+                    specialPrintf("The stone dissolves. Beyond it is open sky.\n");
+                    specialPrintf("The mountains. The surface.\n\n");
+                    pressEnter();
+
+                    dialougeBox("Alexandrite, the Crystal Dragon", CYAN, "ALEXANDRITE_5");
+
+                    addItem(alexandriteScale, 0);
+                    questRewards(quest9Rewards, 5, 50);
+                    storyProgress++;
+                }
+                else {
+                    printf("The crystal guardians overwhelmed you...\n");
                 }
             }
         }

@@ -86,6 +86,12 @@ extern Item mirrorCloak;
 extern Item mineralSilk;
 extern Item gearCharge;
 
+extern Item diamond;
+extern Item sapphire;
+extern Item topaz;
+extern Item ruby;
+extern Item emerald;
+
 extern Item soaringFeather;
 extern Item ionicIce;
 extern Item durableHorn;
@@ -108,6 +114,7 @@ extern Item essence;
 
 extern Item septre;
 extern Item regenerationCrystal;
+extern Item alexandriteScale;
  
 // Potions/Charms --------------------------------------------------------------
 extern Item healthPotion;
@@ -115,6 +122,10 @@ extern Item healthElixer;
 extern Item mysticSalve;
 extern Item berzerkerPotion;
 extern Item focusCharm;
+
+extern Item burnOintment;
+extern Item bezoar;
+extern Item warmthCrystal;
 
 // Debugging ---------------------------------------------------------------------
 extern Item ultraSword;

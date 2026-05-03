@@ -21,6 +21,8 @@
 float critDamage = 1.5;
 float attackBuff = 1;
 
+int shield = 0;
+
 void randomEffect();
 
 
@@ -325,6 +327,7 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
     // reset buffs
     critDamage = 1.5;
     attackBuff = 1;
+    shield = 0;
 
     if (activeRune != nullptr) {
         activeRune->effect();
@@ -477,6 +480,11 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                         printf("The enemy missed!\n");
                         damageToPlayer = 0;
                     }
+                }
+                if (shield == 1 && damageToPlayer > 0) {
+                    printf("The %sAlexandrite Scale%s absorbs the hit!\n", PURPLE, NORMAL);
+                    damageToPlayer = 0;
+                    shield = 0;
                 }
                 enemyHP -= damageToEnemy;
                 playerHP -= damageToPlayer;
@@ -650,6 +658,10 @@ void fireArrow(int* enemyHP){
 
 /* ========================== RUNES ================================= */
 
+void scaleEffect() {
+    shield = 1;
+}
+
 void trueSightEffect() {
     trueSight = 1;
 }
@@ -663,6 +675,7 @@ void regenerationEffect() {
 
 Rune trueSightRune = {"True Sight", "See the true HP of all enemies.", GOLD, trueSightEffect};
 Rune regenerationRune = {"Regeneration Crystal", "Slowly regenerate health each turn in battle.", PINK, regenerationEffect};
+Rune alexandriteRune = {"Alexandrite Scale", "Shields you from the first strike in battle.", PURPLE, scaleEffect};
 
 void unlockRune(Rune rune) {
     // check if already unlocked

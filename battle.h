@@ -21,6 +21,7 @@ void unlockRune(Rune rune);
 
 extern Rune trueSightRune;
 extern Rune regenerationRune;
+extern Rune alexandriteRune;
 
 void grantKarma(int addOrSubtract, int amount, string message);
 void encounter(Monster area[], int count, int tutorial, int special);

@@ -423,7 +423,7 @@ void searchArea() {
         if (chanceofMonster > 85) {        
             Item shopItems[] = {healthPotion, healthElixer, berzerkerPotion, focusCharm};
             int shopPrices[] = {5, 10, 15, 20};
-            shop(shopItems, shopPrices, 4); 
+            shop(shopItems, shopPrices, 4, "You found a Traveling Merchant!"); 
             return;
         }
     }
@@ -673,11 +673,11 @@ void dialougeBox(string name, string color, string tag){
     pressEnter();
 }
 
-void shop(Item items[], int prices[], int shop_count){
+void shop(Item items[], int prices[], int shop_count, string message){
     int choice;
     while (1){ // temp solution, shops will be more robust later
         system("cls");
-        printf("You found a Traveling Merchant!\n");
+        cout << message;
         printf("╔══════════════════════════════════╗\n");
         printf("║ [#] | TRAVELING MERCHANT         ║\n");
         printf("╚══════════════════════════════════╝\n\n");
