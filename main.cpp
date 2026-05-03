@@ -247,7 +247,7 @@ int options() {
     }
     else if (choice == '6') { // GEAR
         system("cls");
-        
+        gearMenu();
         return 6;
     }
     else if (choice == 'a' || choice == 'A') { // STATS
