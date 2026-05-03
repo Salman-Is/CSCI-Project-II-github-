@@ -326,6 +326,10 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
     critDamage = 1.5;
     attackBuff = 1;
 
+    if (activeRune != nullptr) {
+        activeRune->effect();
+    }
+
     // 0 if not players turn
     int playerTurn = 1;
     
@@ -367,9 +371,6 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
                         printf("\nThe enemy recives a %sBlessing%s!\n", CYAN, NORMAL);
                         enemyHP += (enemyHP/2);
                         printf("Enemy health +25%%\n\n");
-                    }
-                    else {
-                        break;
                     }
                 }
                 // ----------------- Generate Enemy Pattern -----------------
@@ -431,11 +432,13 @@ int runBattle(Monster enemy, int difficultyLevel, int patternLength, int alignme
 
                 int correct = 0;
 
-                for(int i=0;i<patternLength;i++) {
-                    user_pat[i]=toupper(user_pat[i]);
+                for(int i = 0; i < patternLength; i++) {
+                    if (i < (int)user_pat.size()) {
+                        user_pat[i] = toupper(user_pat[i]);
+                    }
                 }
-                for(int i=0;i<patternLength;i++) {
-                    if(user_pat[i]==pattern[i]) correct++;
+                for(int i = 0; i < patternLength; i++) {
+                    if (i < (int)user_pat.size() && user_pat[i] == pattern[i]) correct++;
                 }
                 // ----------------- Damage Calculation -----------------
                 // changed because of int division rounding bug
@@ -643,6 +646,34 @@ void fireArrow(int* enemyHP){
     }
 
     if (*enemyHP < 0) *enemyHP = 0;
+}
+
+/* ========================== RUNES ================================= */
+
+void trueSightEffect() {
+    trueSight = 1;
+}
+
+void regenerationEffect() {
+    // gets called at the start of each battle turn
+    // processStatus handles this already so just set the status
+    applyStatus(&playerStatus, REGENERATION);
+    trueSight = 0;
+}
+
+Rune trueSightRune = {"True Sight", "See the true HP of all enemies.", GOLD, trueSightEffect};
+Rune regenerationRune = {"Regeneration Crystal", "Slowly regenerate health each turn in battle.", PINK, regenerationEffect};
+
+void unlockRune(Rune rune) {
+    // check if already unlocked
+    for (int i = 0; i < (int)unlockedRunes.size(); i++) {
+        if (unlockedRunes[i].name == rune.name) {
+            printf("You already have the %s rune.\n", rune.name.c_str());
+            return;
+        }
+    }
+    unlockedRunes.push_back(rune);
+    cout << "You unlocked the " << rune.color << rune.name << NORMAL << " rune!\n";
 }
 
 /* ================= STATUS EFFECT FUNCTIONS ================= */

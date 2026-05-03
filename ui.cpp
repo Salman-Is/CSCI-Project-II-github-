@@ -32,8 +32,12 @@ Item goldSword = Item("Gold Sword", "A heavy, oriental sword unfit for battle, t
 Item knightSword = Item("Knight Sword", "The offical sword used by Knights of Aureveil.", "Weapon", "Sword", GREEN, 8, BLEED);
 Item grassBlade = Item("Grass Blade", "A strange sword enchanted with natural magic.", "Weapon", "Sword", GREEN, 10, POISON);
 Item flameBlade = Item("Grass Blade", "An enchanted sword, lit ablaze.", "Weapon", "Sword", GREEN, 11, BURN);
-Item ancientSword = Item("Ancient Sword", "A strange sword enchanted with ancient magic.", "Weapon", "Sword", PURPLE, 19, FEAR);
 Item staffOfRemnant = Item("Staff of Kyra's Remnant", "A cursed spear created by Racher the Lich", "Weapon", "Sword", CYAN, 12, FEAR);
+Item iceSword = Item("Ice Sword", "A blade enchanted with the cold of the north", "Weapon", "Sword", CYAN, 12, FROZEN);
+Item tideSword = Item("Tide Sword", "A sword forged from the depths of the Blue Lake, blessed by Lirien.", "Weapon", "Sword", CYAN, 20);
+Item emeraldSword = Item("Emerald Sword", "A dazzling sword that blinds opponents with is sparkle.", "Weapon", "Sword", CYAN, 21, BLIND);
+Item ancientSword = Item("Ancient Sword", "A strange sword enchanted with ancient magic.", "Weapon", "Sword", PURPLE, 19, FEAR);
+Item crystalSpear = Item("Crystal Spear", "A spear carved from the Crystal Heart by the Dwarf Clan. Cold to the touch.", "Weapon", "Sword", CYAN, 25, FROZEN);
 
 Item ultraSword = {"Ultra Sword", "An OP sword used for testing and nothing else", "Weapon", "Sword", RED, 999, FEAR};
 
@@ -55,7 +59,8 @@ Item chainArmor = Item("Chain Armor", "A flimsy set of armor found in a cave.", 
 Item steelArmor = Item("Steel Armor", "A set of armor forged with iron and carbon.", "Armor", "Armor", WHITE, 27);
 Item knightArmor = Item("Knight Armor", "The offical set of armor used by Knights of Aureveil.", "Armor", "Armor", GREEN, 29);
 Item swordmasterArmor = Item("Swordmaster Armor", "A set of armor forged by the famous Swordmaster Lorel.", "Armor", "Armor", GREEN, 32);
-Item tidebreakerArmor = Item("Tidebreaker Armor", "The personal set of armor used by Lirien of the Blue Lake.", "Armor", "Armor", CYAN, 40);
+Item tidebreakerArmor = Item("Tidebreaker Armor", "The personal set of armor used by Lirien of the Blue Lake.", "Armor", "Armor", CYAN, 37);
+Item crystalArmor = Item("Crystal Armor", "Armor gifted by the Crystal Heart and the Dwarf Clan. Impossibly light.", "Armor", "Armor", CYAN, 42);
 
 Item ultraArmor = Item("Ultra Armor", "An OP set of armor used for testing and nothing else", "Armor", "Armor", RED, 999);
 
@@ -209,7 +214,7 @@ void openInventory(int *playerHP){
         for (int i = 0; i < (int)inventory.size(); i++) {
             for (int j = 0; j < battleItemCount; j++) {
                 if (inventory.at(i).getName() == battleItems[j]) {
-                    cout << "[" << setw(2) << setfill('0') << (i+1) << "] "
+                    cout << "[" << (i+1) << "] "
                          << inventory.at(i).getName() << " x" << inventory.at(i).quantity << "\n";
                     break;
                 }
@@ -291,6 +296,50 @@ void openInventory(int *playerHP){
     }
 }
 
+void runeMenu() {
+    if (unlockedRunes.empty()) {
+        system("cls");
+        printf("You have not unlocked any runes yet.\n");
+        pressEnter();
+        return;
+    }
+    int choice;
+    while (1) {
+        system("cls");
+        printf("╔══════════════════════════════════════════════════════════╗\n");
+        printf("║ RUNES                                                    ║\n");
+        printf("╠══════════════════════════════════════════════════════════╣\n");
+        if (activeRune != nullptr) {
+            cout << "║ Active: " << activeRune->color << left << setfill(' ') << setw(49) << activeRune->name << NORMAL << "║\n";
+        } else {
+            printf("║ Active: %-49s ║\n", "None");
+        }
+        printf("╠══════════════════════════════════════════════════════════╣\n");
+        for (int i = 0; i < (int)unlockedRunes.size(); i++) {
+            cout << "║ [" << (i+1) << "] " << unlockedRunes[i].color << left << setfill(' ') << setw(51) << unlockedRunes[i].name << NORMAL << "║\n";
+            cout << "║     " << left << setfill(' ') << setw(53) << unlockedRunes[i].description << "║\n";
+        }
+        printf("╠══════════════════════════════════════════════════════════╣\n");
+        printf("║ [0] Back                                                 ║\n");
+        printf("╚══════════════════════════════════════════════════════════╝\n");
+        printf("> ");
+        cin >> choice;
+        system("cls");
+
+        if (choice == 0) return;
+        choice--;
+
+        if (choice < 0 || choice >= (int)unlockedRunes.size()) {
+            printf("Invalid choice.\n");
+            pressEnter();
+            continue;
+        }
+
+        activeRune = &unlockedRunes[choice];
+        cout << "You equipped the " << activeRune->color << activeRune->name << NORMAL << " rune.\n";
+        pressEnter();
+    }
+}
 
 void viewItem(Item item) {
     system("cls");

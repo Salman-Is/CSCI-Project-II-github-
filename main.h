@@ -40,6 +40,8 @@ extern int dialougeSpeed;
 extern string playerAlignment;
 
 extern vector<Item> inventory;
+extern vector<Rune> unlockedRunes;
+extern Rune* activeRune;
 
 
 extern int worldState;
@@ -60,9 +62,10 @@ extern Monster corruptCaptain;
 extern Monster lake[];
 extern Monster vael;
 extern Monster lirien;
+extern Monster escapedMonsters[];
 
 extern Monster caves[];
-
+extern Monster crystalGuardians[];
 
 extern Monster mountains[];
 

@@ -497,42 +497,59 @@ void searchArea() {
         static int searchPoints3 = 1; 
         switch (searchPoints3){
         case 1:
+            addItem(mysticSalve, 0);
+            searchPoints3++;
             break;
         case 2:
+            addCoins(25,"no");
+            searchPoints3++;
             break;
         case 3:
+            riddle("What lives in winter, dies in summer, and grows with the cold?", "ice", &searchPoints3, iceSword);
             break;
         case 4: 
+            chest("Crystal Key", tideSword, "Frost", CYAN, &searchPoints3);
             break;
         case 5:
-            break;
-        case 6:
+            addItem(focusCharm, 0);
+            searchPoints3++;
             break;
         default:
-            loreTablet("Creation, Paladin.\n You will relay the state of the world.\n Our planet will be one.");
-            printf("This ancient message is addressed to you...");
+            loreTablet("The greater minds of crystal dream of peace.\n Beyond this lake are where they lie.\n They're whispers must not lead you astray.");
+            genericLoreResponse();
             break;
         }
         break;
     case 4:
-        (void)0;    
-        static int searchPoints4 = 1; 
+        (void)0;
+        static int searchPoints4 = 1;
         switch (searchPoints4){
         case 1:
+            addItem(healthElixer, 0);
+            searchPoints4++;
             break;
         case 2:
+            addCoins(30, "no");
+            searchPoints4++;
             break;
         case 3:
+            addItem(berzerkerPotion, 0);
+            searchPoints4++;
             break;
-        case 4: 
+        case 4:
+            riddle("Born of stone, yet clear as air, I catch the light and hold it fair. What am I?", "crystal", &searchPoints4, emeraldSword);
             break;
         case 5:
+            addCoins(30, "no");
+            searchPoints4++;
             break;
         case 6:
+            addItem(berzerkerPotion, 0);
+            searchPoints4++;
             break;
         default:
-            loreTablet("Creation, Paladin.\n You will relay the state of the world.\n Our planet will be one.");
-            printf("This ancient message is addressed to you...");
+            loreTablet("These caves have not always been dark.\n Something down here remembers the light.\n It has not forgiven whoever took it away.");
+            genericLoreResponse();
             break;
         }
         break;

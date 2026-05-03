@@ -13,6 +13,7 @@ string areaColor();
 string changeColor(StatusType status);
 void specialPrintf(string text);
 void viewItem(Item item);
+void runeMenu();
 
 extern Item ironSword;
 extern Item steelSword;
@@ -21,7 +22,11 @@ extern Item knightSword;
 extern Item grassBlade;
 extern Item flameBlade;
 extern Item staffOfRemnant;
+extern Item iceSword;
+extern Item tideSword;
+extern Item emeraldSword;
 extern Item ancientSword;
+extern Item crystalSpear;
  
  // Bows ------------------------------------------------------------------
 extern Item woodenBow;
@@ -40,6 +45,7 @@ extern Item steelArmor;
 extern Item knightArmor;
 extern Item swordmasterArmor;
 extern Item tidebreakerArmor;
+extern Item crystalArmor;
 
  // Drops ------------------------------------------------------------------
 extern Item gel;

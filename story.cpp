@@ -26,6 +26,10 @@ Item* quest5Rewards[] =  { &emeraldBow, &focusCharm, &elderiteGemstone, &berzerk
 // Infected Lake quest
 Item* quest6RewardsGOOD[] = { &tidebreakerArmor, &shellShard, &healthElixer, &mysticSalve };
 
+// Crystal Cave Hive quest
+Item* quest8RewardsGOOD[] = { &healthElixer, &mysticSalve, &crystalArmor};
+Item* quest8RewardsEVIL[]  = { &crystalSpear };
+
 // --- Quest Variables ---
 int startQuest1 = 0;
 int startQuest2 = 0;
@@ -39,6 +43,7 @@ int startQuest8 = 0;
 int quest1Action = 0;
 int quest5Action = 0;
 int quest6Action = 0;
+int quest8Action = 0;
 
 void forestQuest() {
     while (storyProgress == 1){
@@ -261,7 +266,7 @@ void plainsTempleGOOD() {
                         specialPrintf("It is up to you to kill the Lich before he escapes. Prepare yourself.\n");
                         pressEnter();
                         if (bossFight(lichBoss) == 1) {
-                            trueSight = 1;
+                            unlockRune(trueSightRune);
                             dialougeBox("Racher the Lich", GREEN, "LICH_6");
                             specialPrintf("You defeated The Lich!\n\n");
                             specialPrintf("You absorb the power of True Sight...\n");
@@ -369,7 +374,7 @@ void plainsTempleEVIL() {
                             pressEnter();
                             dialougeBox("Racher the Lich", GREEN, "LICH_8");
                             if (bossFight(lichBoss) == 1) {
-                                trueSight = 1;
+                                unlockRune(trueSightRune);
                                 dialougeBox("Racher the Lich", GREEN, "LICH_6");
                                 specialPrintf("You defeated The Lich!\n\n");
                                 specialPrintf("You absorb the power of the True Sight...\n\n");
@@ -466,6 +471,8 @@ void emeraldCityQuest() {
                         printf("You were killed by The Captain!\n");
                         pressEnter();
                     }
+                    quest5Action++;
+                    storyProgress++;
                 }
                 else if (questChoice == "EVIL") {
                     specialPrintf("You tell the council the threat is worse than ever. You fought the Lich, after all.\n");
@@ -477,7 +484,8 @@ void emeraldCityQuest() {
                     pressEnter();
                     specialPrintf("As you were walking down the front steps of the council building, you are stopped by Sera.\n");
                     dialougeBox("Royal Advisor Sera", GOLD, "SERA_4");
-                    quest5Action = 1;
+                    quest5Action--;
+                    storyProgress++;
                 }
                 else {
                     continue;
@@ -488,7 +496,7 @@ void emeraldCityQuest() {
     }
 }
 
-void storyLake() {
+void lakeQuest() {
     while (storyProgress == 7) {
         int navigationChoice = options();
         if (navigationChoice == 1) {
@@ -553,6 +561,8 @@ void storyLake() {
 
                         dialougeBox("Lirien, Spirit of the Lake", CYAN, "LIRIEN_1");
                         dialougeBox("Lirien, Spirit of the Lake", CYAN, "LIRIEN_2");
+                        addItem(regenerationCrystal, 1);
+                        unlockRune(regenerationRune);
 
                         specialPrintf("The water begins to clear around you as you ascend.\n");
                         specialPrintf("By the time you surface, the lake is blue again.\n");
@@ -587,7 +597,7 @@ void storyLake() {
                     pressEnter();
 
                     if (bossFight(lirien) == 1) {               
-
+                        unlockRune(regenerationRune);
                         dialougeBox("Lirien, Spirit of the Lake", CYAN, "LIRIEN_5");
                         dialougeBox("Vael, the Drowned", DEEPRED, "VAEL_5");
 
@@ -613,3 +623,172 @@ void storyLake() {
     }
 }
 
+void lakeInterlude() {
+    while (storyProgress == 8) {
+        int navigationChoice = options();
+        if (navigationChoice == 1) {
+            if (quest5Action < 0) {
+                // EVIL ROUTE - war pushed monsters to cave entrance
+                specialPrintf("The road to the Caves is blocked.\n");
+                specialPrintf("The war you helped start has driven monster populations out of the Plains.\n");
+                specialPrintf("They've flooded the cave entrance in droves.\n");
+                specialPrintf("You made this problem. Now you have to walk through it.\n\n");
+                pressEnter();
+
+                if (questGauntlet(escapedMonsters, 5, "Escaped Monster", "the Cave Entrance") == 1) {
+                    printf("You carved a path through the chaos you helped create.\n");
+                    printf("The cave entrance is clear. For now.\n\n");
+                    pressEnter();
+                    storyProgress++;
+                }
+            }
+            else {
+                // GOOD ROUTE - find a cool item on the road
+                static int foundItem = 0;
+                if (foundItem == 0) {
+                    specialPrintf("On the road to the Caves, the path dips into a shallow ravine.\n");
+                    specialPrintf("The stone walls are old. Older than the road itself.\n");
+                    specialPrintf("Someone carved something into the rock face a long time ago.\n");
+                    specialPrintf("Not words. A shape. A circle with a sword through it.\n");
+                    specialPrintf("At the base of the carving, half buried in the dirt, is a small chest.\n\n");
+                    pressEnter();
+
+                    addItem(frostKey, 0);
+
+                    specialPrintf("You pocket the key and keep moving. The Caves aren't far now.\n\n");
+                    pressEnter();
+                }
+                storyProgress++;
+            }
+        }
+    }
+}
+
+void crystalHeartQuest() {
+    while (storyProgress == 9) {
+        int navigationChoice = options();
+        if (navigationChoice == 1) {
+            specialPrintf("The cave entrance opens into a vast underground corridor.\n");
+            specialPrintf("The walls are lined with crystals. They catch your torch light and scatter it.\n");
+            specialPrintf("It's beautiful. Quietly, impossibly beautiful.\n");
+            specialPrintf("The dwarves have set up camp near the entrance.\n");
+            specialPrintf("Their equipment is worn. Their faces are tired.\n");
+            specialPrintf("A dwarf with a grey beard and heavy eyes approaches you. Do you want to speak to him?\n\n");
+
+            int speak = dialouge();
+            if (speak == 1) {
+                system("cls");
+                dialougeBox("Dwarf Elder Bronn", GRAY, "BRONN_1");
+                dialougeBox("Dwarf Elder Bronn", GRAY, "BRONN_2");
+                startQuest8++;
+            }
+            else if (speak == 2) {
+                printf("The dwarf watches you pass with a cautious expression...\n");
+                pressEnter();
+            }
+
+            if (startQuest8 != 0) {
+                specialPrintf("You move deeper into the cave alone.\n");
+                specialPrintf("The deeper you go, the brighter the crystals become.\n");
+                specialPrintf("Not from your torch. From themselves.\n");
+                specialPrintf("Then it starts.\n");
+                specialPrintf("Not a sound. Not a voice. Something behind your eyes.\n");
+                specialPrintf("Like a memory that isn't yours.\n\n");
+                pressEnter();
+
+                dialougeBox("The Crystal Heart", CYAN, "CRYSTAL_1");
+
+                specialPrintf("The pressure behind your eyes intensifies, then releases.\n");
+                specialPrintf("They are waiting for your answer.\n\n");
+
+                string questChoice = questAlignment(
+                    "Negotiate between the crystals and the dwarves",
+                    "Lead the dwarves to the Crystal Heart"
+                );
+
+                if (questChoice == "GOOD") {
+                    specialPrintf("You return to Bronn and tell him what you heard.\n");
+                    specialPrintf("He stares at you for a long time before speaking.\n\n");
+                    pressEnter();
+                    dialougeBox("Dwarf Elder Bronn", GRAY, "BRONN_3");
+
+                    specialPrintf("Bronn agrees to follow you back into the cave.\n");
+                    specialPrintf("You stand between the dwarves and the Crystal Heart.\n");
+                    specialPrintf("The crystals speak again. This time you relay every word.\n\n");
+                    pressEnter();
+
+                    dialougeBox("The Crystal Heart", CYAN, "CRYSTAL_2");
+
+                    specialPrintf("Bronn removes his helmet. He looks older suddenly.\n\n");
+                    pressEnter();
+
+                    dialougeBox("Dwarf Elder Bronn", GRAY, "BRONN_4");
+
+                    specialPrintf("The crystals guide you to the mineral deposits.\n");
+                    specialPrintf("Emerald. Saffire. Deposits the dwarves haven't seen in decades.\n");
+                    specialPrintf("Bronn doesn't say much on the walk back.\n");
+                    specialPrintf("But before you leave, he presses something into your hands.\n");
+                    specialPrintf("The Crystal Heart adds its own gift from the other side of the cave.\n\n");
+                    pressEnter();
+
+                    dialougeBox("The Crystal Heart", CYAN, "CRYSTAL_3");
+                    upgradeArmor(crystalArmor);
+                    questRewards(quest8RewardsGOOD, 2, 40);
+                    quest8Action++;
+                    storyProgress++;
+                    pressEnter();
+                }
+                else if (questChoice == "EVIL") {
+                    specialPrintf("You walk back to Bronn's camp.\n");
+                    specialPrintf("You tell him you found something. Something worth seeing.\n\n");
+                    pressEnter();
+
+                    dialougeBox("Dwarf Elder Bronn", GRAY, "BRONN_5");
+
+                    specialPrintf("You lead the dwarves deeper into the cave.\n");
+                    specialPrintf("The crystals realize what is happening before you arrive.\n\n");
+                    pressEnter();
+
+                    dialougeBox("The Crystal Heart", CYAN, "CRYSTAL_4");
+
+                    specialPrintf("The cave erupts.\n");
+                    specialPrintf("Crystal formations splinter from the walls.\n");
+                    specialPrintf("They take shape. The hive mind has no choice.\n");
+                    specialPrintf("The dwarves fall back. You are the only one left standing between them.\n\n");
+                    pressEnter();
+
+                    if (questGauntlet(crystalGuardians, 5, "Crystal Guardian", "the Crystal Heart") == 1) {
+                        system("cls");
+                        specialPrintf("The last crystal guardian shatters.\n");
+                        specialPrintf("The cave goes quiet.\n");
+                        specialPrintf("The light in the walls begins to dim.\n");
+                        specialPrintf("The dwarves move toward you in celebration, and get to work.\n\n");
+                        pressEnter();
+
+                        dialougeBox("The Crystal Heart", CYAN, "CRYSTAL_5");
+
+                        specialPrintf("The light goes out completely.\n");
+                        specialPrintf("The cave is just a cave now.\n");
+                        specialPrintf("Bronn hands you what he promised, unaware of your atrocity.\n\n");
+                        pressEnter();
+
+                        dialougeBox("Dwarf Elder Bronn", GRAY, "BRONN_6");
+                        pressEnter();
+
+                        questRewards(quest8RewardsEVIL, 1, 60);
+                        quest8Action--;
+                        storyProgress++;
+                        pressEnter();
+                    }
+                    else {
+                        printf("The crystal guardians overwhelmed you...\n");
+                        pressEnter();
+                    }
+                }
+                else {
+                    continue;
+                }
+            }
+        }
+    }
+}

@@ -17,6 +17,11 @@ void removeItem(Item itemName);
 bool hasItem(Item item);
 void weaponUpgrade(string weaponName, int weaponDamage);
 
+void unlockRune(Rune rune);
+
+extern Rune trueSightRune;
+extern Rune regenerationRune;
+
 void grantKarma(int addOrSubtract, int amount, string message);
 void encounter(Monster area[], int count, int tutorial, int special);
 int questGauntlet(Monster area[], int count, string groupName, string locationName);

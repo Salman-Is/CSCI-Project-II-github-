@@ -66,6 +66,12 @@ typedef enum {
     CURSED, // chance to reflect damage when the victim attacks (gray)
 } StatusType;
 
+typedef struct {
+    string name;
+    string description;
+    string color;
+    void (*effect)();
+} Rune;
 
 class Item {
 private:

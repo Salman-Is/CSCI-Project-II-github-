@@ -14,6 +14,10 @@ void plainsTempleEVIL();
 
 void emeraldCityQuest();
 
-void storyLake();
+void lakeQuest();
+
+void lakeInterlude();
+
+void crystalHeartQuest();
 
 #endif

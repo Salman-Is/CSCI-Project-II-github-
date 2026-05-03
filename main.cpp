@@ -47,6 +47,8 @@ Item currentBow = Item("Temp Bow", "Im just testing to see if this works", "Weap
 Item currentArmor = Item("Temp Armor", "La la la ignore this la", "Armor", "Armor", WHITE, 25);
 
 vector<Item> inventory;
+vector<Rune> unlockedRunes;
+Rune* activeRune = nullptr;
 
 int worldState = 1;
 #define COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
@@ -55,7 +57,7 @@ int worldState = 1;
 string availableLocations[6] = {"The Forest of Echoes", "The Verdent Plains", "The Blue Lake", 
 "The Crystal Caves", "The Celestial Mountains", "Acention"};
 string progressKey[32] = {"Forest Village", "Knight's Outpost", "Plains Map", "Skysealed Temple (Group)", "Skysealed Temple (Alone)", "Emerald City",
-     "Infected Lake"};
+     "Infected Lake", "Lake Interlude", "Crystal Heart"};
 
 /* ================= MONSTERS/ENEMIES ================= */
 
@@ -118,14 +120,28 @@ Monster lake[] = {
     {"Oozard", 4, 5, 15, 8, EVIL, gelatinousMass, FROZEN}};
 Monster vael = {"Vael, the Drowned", 5, 7, 75, 50, EVIL, demonicScale, BLEED};
 Monster lirien = {"Lirien, Spirit of the Lake", 5, 7, 75, 50, GOOD, regenerationCrystal, FROZEN};
+Monster escapedMonsters[] = {
+    {"Snarlbeast", 2, 6, 30, 7, EVIL, beastlyTooth, POISON},
+    {"Snarlbeast", 2, 6, 30, 7, EVIL, beastlyTooth, POISON},
+    {"Nimora", 1, 5, 10, 3, EVIL, nimoraWing, NONE},
+    {"Grass Troll", 2, 5, 30, 5, EVIL, trollLeather, NONE},
+    {"Grass Troll", 2, 5, 30, 5, EVIL, trollLeather, NONE}};
 // Cave enemy groups
 Monster caves[] = {
     {"Cursed Bat", 2, 5, 15, 5, EVIL, echoFang, BLIND},
     {"Crystal Snake", 2, 4, 25, 6, EVIL, crystalVenom, POISON},
-    {"Shardling", 2, 4, 25, 6, GOOD, quartzShard, FROZEN},
+    {"Shardling", 2, 4, 25, 6, GOOD, quartzShard, BLIND},
     {"Shifter Fox", 3, 5, 15, 5, EVIL, mirrorCloak, NONE},
     {"Stone Spider", 3, 5, 35, 6, EVIL, mineralSilk, BLEED},
     {"Ancient Automaton", 4, 4, 45, 9, GOOD, gearCharge, FEAR}};
+Monster crystalGuardians[] = {
+    {"Crystal Snake", 4, 6, 30, 10, GOOD, quartzShard, BLIND},
+    {"Crystal Sentry", 4, 6, 30, 10, GOOD, quartzShard, BLIND},
+    {"Crystal Golem", 5, 7, 35, 14, GOOD, quartzShard, BLIND},
+    {"Crystal Sentry", 4, 6, 30, 10, GOOD, quartzShard, BLIND},
+    {"Crystal Colossus", 5, 8, 50, 18, GOOD, quartzShard, BLIND},
+};
+
 
 // Mountain enemy groups
 Monster mountains[] = {
@@ -168,7 +184,7 @@ int options() {
     printf("║            INSPECT           ║║             BUILD            ║\n");
     printf("║                              ║║                              ║\n");
     printf("║     [A]      [B]     [C]     ║║       [D]     [E]   [F]      ║\n");
-    printf("║   [STATS]  [SHOP]  [CODEX]   ║║     [CRAFT] [BREW] [RUNE]    ║\n");
+    printf("║   [STATS]  [LORE]  [RUNES]   ║║     [CRAFT] [BREW] [SHOP]    ║\n");
     printf("╚══════════════════════════════╝╚══════════════════════════════╝\n");
 
     char choice;
@@ -239,13 +255,13 @@ int options() {
         statsPage();
         return 7;
     }
-    else if (choice == 'b' || choice == 'B') { // SHOP
+    else if (choice == 'b' || choice == 'B') { // LORE
         system("cls");
         return 8;
     }
-    else if (choice == 'c' || choice == 'C') { // LOG (Information Page like a PokeDex)
+    else if (choice == 'c' || choice == 'C') { // RUNES
         system("cls");
-        printf("This feature has not been added yet...\n");
+        runeMenu();
         return 9;
     }
     else if (choice == 'd' || choice == 'D') { // CRAFT
@@ -258,7 +274,7 @@ int options() {
         printf("This feature has not been added yet...\n");
         return 11;
     }
-    else if (choice == 'f' || choice == 'F') { // RUNE (Passive Ability)
+    else if (choice == 'f' || choice == 'F') { // SHOP
         system("cls");
         printf("This feature has not been added yet...\n");
         return 12;
@@ -411,7 +427,9 @@ int main(void) {
             case 4: plainsTempleGOOD(); break;
             case 5: plainsTempleEVIL(); break;
             case 6: emeraldCityQuest(); break;
-            case 7: storyLake(); break;
+            case 7: lakeQuest(); break;
+            case 8: lakeInterlude(); break;
+            case 9: crystalHeartQuest(); break;
         }
     }
 
@@ -451,7 +469,7 @@ void playerAl() {
         printf("%sYou stray further from the natural order...\n%s", RED, NORMAL);
         printf("Even the shadows whisper your name in fear.\n\n");
         karmaAtkBoost = 1.5;
-        karmaHpBoost = 0.75;
+        karmaHpBoost = 1;
     }
     else if (karma <= 66 && karma > 32 && playerAlignment != "NEUTRAL"){
         playerAlignment = "NEUTRAL";
@@ -464,7 +482,7 @@ void playerAl() {
         playerAlignment = "GOOD";
         printf("%sYou feel a surge of righteousness fill your heart.%s\n", CYAN, NORMAL);
         printf("The spirits sing your name with reversence.\n\n");
-        karmaAtkBoost = 0.75;
+        karmaAtkBoost = 1;
         karmaHpBoost = 1.5;
     }
 }
@@ -505,7 +523,7 @@ void fastForward() {
     printf("PROGRESS:\n\n");
     for(int i = 0; i < (sizeof(progressKey)/sizeof(progressKey[0])); i++)
     {
-        cout << "[" << setw(2) << setfill('0') << (i+1) << "] " << progressKey[i] << "\n";
+        cout << "[" << (i+1) << "] " << progressKey[i] << "\n";
     }
     printf("> ");
     cin >> newProgress;
