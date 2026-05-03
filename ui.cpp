@@ -509,3 +509,123 @@ void healthBar(int currentHP, int maxHP, string isEnemy) {
 // i found out the sleep() function is better then the time() do while loop for the cpu. and its actually way simpler. 
 // also using millesecods can allow us to use partial seconds. ex 500 milleseconds is .5 seconds. 1000 milleseconds is 1 sec
 // https://www.geeksforgeeks.org/c/sleep-function-in-c/
+
+void gearMenu() {
+    int choice;
+    while (1) {
+        system("cls");
+        printf("╔══════════════════════════════════════════════════════════════════════════════════╗\n");
+        printf("║  GEAR                                                                            ║\n");
+        printf("╠══════════════════════════════════════════════════════════════════════════════════╣\n");
+        printf("║  Select a slot to switch, or press 0 to go back.                                 ║\n");
+        printf("╚══════════════════════════════════════════════════════════════════════════════════╝\n");
+
+        printf("\n");
+        printf("[1] Sword  : ");
+        cout << currentSword.getColor() << BOLD << currentSword.getName() << UNBOLD << NORMAL;
+        printf("  ATK: %d  Status: ", currentSword.getValue());
+        cout << changeColor(currentSword.getStatus()) << statusText(currentSword.getStatus()) << NORMAL << "\n";
+
+        printf("[2] Bow    : ");
+        cout << currentBow.getColor() << BOLD << currentBow.getName() << UNBOLD << NORMAL;
+        printf("  ATK: %d  Status: ", currentBow.getValue());
+        cout << changeColor(currentBow.getStatus()) << statusText(currentBow.getStatus()) << NORMAL << "\n";
+
+        printf("[3] Armor  : ");
+        cout << currentArmor.getColor() << BOLD << currentArmor.getName() << UNBOLD << NORMAL;
+        printf("  DEF: %d\n", currentArmor.getValue());
+
+        printf("\n");
+        printf("[0] Back\n\n");
+        printf("> ");
+        
+        
+        cin >> choice;
+
+        if (choice == 0) return;
+
+        system("cls");
+
+        // figure out what slot they picked
+        string targetType = "";
+        if (choice == 1) targetType = "Sword";
+        else if (choice == 2) targetType = "Bow";
+        else if (choice == 3) targetType = "Armor";
+        else {
+            printf("Invalid choice.\n");
+            pressEnter();
+            continue;
+        }
+
+        // collect matching items from inventory
+        vector<int> matches;
+        for (int i = 0; i < (int)inventory.size(); i++) {
+            if (inventory[i].getType() == targetType) {
+                matches.push_back(i);
+            }
+        }
+
+        if (matches.empty()) {
+            printf("You have no other %s in your inventory.\n", targetType.c_str());
+            pressEnter();
+            continue;
+        }
+        cout << "Your current " << targetType << " is " << BOLD;
+        if (choice == 1) { cout << currentSword.getColor() << currentSword.getName(); 
+        } else if (choice == 2)  { cout << currentBow.getColor() << currentBow.getName();
+        } else if (choice == 3) { cout << currentArmor.getColor() << currentArmor.getName();
+        }
+        cout << UNBOLD << NORMAL << ". Would you like to switch?\n\n";
+        int confirm = dialouge();
+        if (confirm == 2) { continue; }
+
+        // display matching items
+        printf("╔══════════════════════════════════════════════════════════════════════════════════╗\n");
+        cout << "║  Select a " << targetType << " to equip:";
+        printf("                                                           ║\n");
+        printf("╠══════════════════════════════════════════════════════════════════════════════════╣\n");
+        for (int i = 0; i < (int)matches.size(); i++) {
+            Item& item = inventory[matches[i]];
+            printf("║  [%d] ", i+1);
+            cout << item.getColor() << BOLD << item.getName() << UNBOLD << NORMAL;
+            printf("%*s VAL: %3d  Status: ", (int)(20 - item.getName().size()), "");
+            cout << changeColor(item.getStatus()) << statusText(item.getStatus()) << NORMAL;
+            printf("%*s║\n", (int)(10 - statusText(item.getStatus()).size()), "");
+        }
+        printf("╠══════════════════════════════════════════════════════════════════════════════════╣\n");
+        printf("║  [0] Cancel                                                                      ║\n");
+        printf("╚══════════════════════════════════════════════════════════════════════════════════╝\n");
+        printf("> ");
+
+        int swapChoice;
+        cin >> swapChoice;
+
+        if (swapChoice == 0) continue;
+        swapChoice--;
+
+        if (swapChoice < 0 || swapChoice >= (int)matches.size()) {
+            printf("Invalid choice.\n");
+            pressEnter();
+            continue;
+        }
+
+        // swap
+        Item newItem = inventory[matches[swapChoice]];
+        removeItem(newItem);
+
+        if (choice == 1) {
+            addItem(currentSword, 1);
+            currentSword = newItem;
+            cout << "Equipped " << currentSword.getColor() << BOLD << currentSword.getName() << UNBOLD << NORMAL << "!\n";
+        } else if (choice == 2) {
+            addItem(currentBow, 1);
+            currentBow = newItem;
+            cout << "Equipped " << currentBow.getColor() << BOLD << currentBow.getName() << UNBOLD << NORMAL << "!\n";
+        } else if (choice == 3) {
+            addItem(currentArmor, 1);
+            currentArmor = newItem;
+            cout << "Equipped " << currentArmor.getColor() << BOLD << currentArmor.getName() << UNBOLD << NORMAL << "!\n";
+        }
+        pressEnter();
+    }
+}
